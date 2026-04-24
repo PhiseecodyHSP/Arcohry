@@ -17,9 +17,11 @@ public class StoryButton extends StackPane {
     public static final int SIDE_LENGTH = 100;
     public static final int BORDER_WIDTH = 2;
     public static final int DIAGONAL_LENGTH = Util.nextEven(SIDE_LENGTH * Math.sqrt(2));
+    public static final double ARC_SIZE = 10.0;
 
     private static final int IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
     private static final double MASK_HIGHEST_OPACITY = 0.25;
+    public static final double BUTTON_LOWEST_OPACITY = 1 - MASK_HIGHEST_OPACITY;
     private static final double FT_TIME = 0.25;
     private static final Font font = new Font(Resources.Futura_LT_Light_FONT,
             Util.px2FontSize(Util.nextEven(DIAGONAL_LENGTH / 4.0)));
@@ -27,12 +29,13 @@ public class StoryButton extends StackPane {
     private boolean enabled = false;
     private boolean unlocked = false;
     private final Label label;
-    private final Rectangle mask = new Rectangle(IMAGE_SIZE, IMAGE_SIZE);
     private final ImageView lock = new ImageView(Resources.Init_ILLUSTRATION);
+    private final StoryUnlockConditionView condition;
     private final Story story;
 
     public StoryButton(String title, String path, StoryUnlockConditionView condition, Story story)  {
         this.story = story;
+        this.condition = condition;
         label = new Label(title);
         label.setFont(font);
         label.setTextFill(Color.WHITE);
@@ -40,8 +43,11 @@ public class StoryButton extends StackPane {
 
         Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH);
         border.setFill(Color.WHITE);
+        border.setArcWidth(ARC_SIZE);
+        border.setArcHeight(ARC_SIZE);
+        Rectangle mask = new Rectangle(IMAGE_SIZE, IMAGE_SIZE);
         mask.setFill(Color.BLACK);
-        mask.setOpacity(MASK_HIGHEST_OPACITY);
+        mask.setOpacity(0);
         Polygon lockBG = new Polygon(
                 -IMAGE_SIZE / 2.0, IMAGE_SIZE / 4.0,
                 -IMAGE_SIZE / 2.0, IMAGE_SIZE / 2.0,
@@ -78,12 +84,10 @@ public class StoryButton extends StackPane {
             onExited.playFromStart();
         });
 
-        if (condition != null) {
-            setOnMouseClicked(_ -> condition.show(getParentStoryPane()));
-        }
+        setOpacity(BUTTON_LOWEST_OPACITY);
         setMaxSize(SIDE_LENGTH, SIDE_LENGTH);
         setRotate(45);
-        setMouseTransparent(true);
+        setMouseTransparent(false);
         setBackground(null);
         getChildren().addAll(border, view, mask, lockBG, lock);
     }
@@ -93,13 +97,13 @@ public class StoryButton extends StackPane {
     }
 
     private StoryPane getParentStoryPane() {
-        return Util.getDesignatedParent(this.getParentStoryButtonPane(), StoryPane.class);
+        return Util.getDesignatedParent(getParentStoryButtonPane(), StoryPane.class);
     }
 
     public void enable() {
         if (!enabled) {
-            mask.setOpacity(0);
-            setMouseTransparent(false);
+            setOpacity(1);
+            setOnMouseClicked(_ -> condition.show(getParentStoryPane()));
             enabled = true;
         }
     }

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 public class TestApplication extends Application {
     public void start(Stage stage) {
         StoryUnlockConditionView condition = new StoryUnlockConditionView("", null);
+        TransitionAnimation anima = new TransitionAnimation(TransitionAnimation.Type.NORMAL);
 
         StoryButton button1 = new StoryButton("1.1", null, null, null);
         StoryButton button2 = new StoryButton("1.2", null, condition, null);
@@ -32,8 +33,10 @@ public class TestApplication extends Application {
 
         StoryPane pane = new StoryPane(null);
         pane.add(bPane1, bPane2, bPane3);
+        Root root = new Root();
+        root.getChildren().add(pane);
 
-        Scene scene = new Scene(pane);
+        Scene scene = new Scene(root);
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.F11) {
                 stage.setFullScreen(!stage.isFullScreen());

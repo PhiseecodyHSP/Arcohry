@@ -8,14 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StoryButtonPane extends StackPane {
-    private final Rectangle line = new Rectangle();
+    private final Rectangle lightLine = new Rectangle();
+    private final Rectangle darkLine = new Rectangle();
     public final List<StoryButton> buttonList = new ArrayList<>();
 
     public StoryButtonPane() {
-        line.setFill(Color.WHITE);
-        line.setHeight(StoryButton.BORDER_WIDTH);
+        lightLine.setFill(Color.WHITE);
+        lightLine.setHeight(StoryButton.BORDER_WIDTH);
+        darkLine.setFill(Color.WHITE);
+        darkLine.setOpacity(StoryButton.BUTTON_LOWEST_OPACITY);
+        darkLine.setHeight(StoryButton.BORDER_WIDTH);
 
-        getChildren().add(line);
+        getChildren().addAll(lightLine, darkLine);
     }
 
     public void add(StoryButton... storyButtons) {
@@ -24,7 +28,7 @@ public class StoryButtonPane extends StackPane {
 
         int s = buttonList.size();
         int d = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
-        line.setWidth((s - 1) * d);
+        lightLine.setWidth((s - 1) * d);
         setMaxSize(s * d - StoryButton.SIDE_LENGTH, StoryButton.DIAGONAL_LENGTH);
 
         for (int i = 0; i < s; i++) {

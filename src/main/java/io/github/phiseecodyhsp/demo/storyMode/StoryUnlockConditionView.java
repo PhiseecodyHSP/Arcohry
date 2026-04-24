@@ -5,7 +5,6 @@ import io.github.phiseecodyhsp.demo.Util;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,21 +12,18 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
 import javafx.util.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
 public class StoryUnlockConditionView extends StackPane {
-    private static final double T_TIME = 0.3;
-    private static final double LOWEST_SCALE_RATIO = 0.5;
+    private static final double T_TIME = 0.25;
+    private static final double LOWEST_SCALE_RATIO = 0.75;
 
     private final Label condition = new Label();
-    private final StackPane innerPane = new StackPane();
-    private final StackPane outerPane = new StackPane();
+    private final StackPane pane = new StackPane();
     private final ImageView bg = new ImageView(Resources.SUCV_BG0);
-    private final ScaleTransition onAddedST = new ScaleTransition(Duration.seconds(T_TIME), innerPane);
-    private final ScaleTransition onRemovedST = new ScaleTransition(Duration.seconds(T_TIME), innerPane);
-    private final FadeTransition onAddedContentFT = new FadeTransition(Duration.seconds(T_TIME), innerPane);
-    private final FadeTransition onRemovedContentFT = new FadeTransition(Duration.seconds(T_TIME), innerPane);
+    private final ScaleTransition onAddedST = new ScaleTransition(Duration.seconds(T_TIME), pane);
+    private final ScaleTransition onRemovedST = new ScaleTransition(Duration.seconds(T_TIME), pane);
+    private final FadeTransition onAddedContentFT = new FadeTransition(Duration.seconds(T_TIME), pane);
+    private final FadeTransition onRemovedContentFT = new FadeTransition(Duration.seconds(T_TIME), pane);
 
     public StoryUnlockConditionView(String song, String path) {
         condition.setText("通关“" + song + "”以解锁此故事。");
@@ -40,13 +36,12 @@ public class StoryUnlockConditionView extends StackPane {
         illustration.setFitWidth(100);
         illustration.setPreserveRatio(true);
 
-        innerPane.setMaxSize(bg.getFitWidth(), bg.getFitHeight());
-        innerPane.getChildren().addAll(bg, condition, illustration);
-        innerPane.setOpacity(0);
-        innerPane.setScaleX(LOWEST_SCALE_RATIO);
-        innerPane.setScaleY(LOWEST_SCALE_RATIO);
-        outerPane.setMaxSize(bg.getFitWidth(), bg.getFitHeight());
-        outerPane.getChildren().addAll(innerPane);
+        pane.setMaxSize(bg.getFitWidth(), bg.getFitHeight());
+        pane.getChildren().addAll(bg, condition, illustration);
+        pane.setOpacity(0);
+        pane.setScaleX(LOWEST_SCALE_RATIO);
+        pane.setScaleY(LOWEST_SCALE_RATIO);
+        pane.setMaxSize(bg.getFitWidth(), bg.getFitHeight());
 
         onAddedST.setToX(1);
         onAddedST.setToY(1);
@@ -64,7 +59,6 @@ public class StoryUnlockConditionView extends StackPane {
                 return v * v * v;
             }
         });
-        onRemovedST.setOnFinished(_ -> getParentStoryPane().getChildren().remove(this));
         onAddedContentFT.setToValue(1);
         onRemovedContentFT.setToValue(0);
 
@@ -77,20 +71,7 @@ public class StoryUnlockConditionView extends StackPane {
             onRemovedST.playFromStart();
         });
 
-        List<Scene> oldScenes = new ArrayList<>();
-        sceneProperty().addListener((_, _, scene) -> {
-            if (scene != null) {
-                updateScale(scene);
-                if (!oldScenes.contains(scene)) {
-                    oldScenes.add(scene);
-                    scene.widthProperty().addListener(
-                            (_, _, _) -> updateScale(scene));
-                    scene.heightProperty().addListener(
-                            (_, _, _) -> updateScale(scene));
-                }
-            }
-        });
-        getChildren().addAll(mask, outerPane);
+        getChildren().addAll(mask, pane);
     }
 
     public StoryUnlockConditionView(String song, String partner, String sPath, String pPath) {
@@ -102,24 +83,12 @@ public class StoryUnlockConditionView extends StackPane {
         try {
             partnerView.setImage(new Image(pPath));
         } catch (NullPointerException | IllegalArgumentException _) {}
-        innerPane.getChildren().add(partnerView);
+        pane.getChildren().add(partnerView);
     }
 
-    private StoryPane getParentStoryPane() {
-        return Util.getDesignatedParent(this, StoryPane.class);
-    }
-
-    private void updateScale(Scene scene) {
-        double scale = Math.min(scene.getWidth() / Util.getScreenWidth(),
-                scene.getHeight() / (Util.getScreenHeight()));
-        outerPane.setScaleX(scale);
-        outerPane.setScaleY(scale);
-        System.out.println(scale);
-        System.out.println(Util.getDpi());
-    }
-
-    public void show(StoryPane storyPane) {
-        storyPane.getChildren().add(this);
+    public void show(StoryPane parent) {
+        parent.getChildren().add(this);
+        onRemovedST.setOnFinished(_ -> parent.getChildren().remove(this));
         onRemovedContentFT.stop();
         onRemovedST.stop();
         onAddedContentFT.playFromStart();

@@ -1,7 +1,9 @@
 package io.github.phiseecodyhsp.demo.storyMode;
 
 import io.github.phiseecodyhsp.demo.Resources;
+import io.github.phiseecodyhsp.demo.Util;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
@@ -11,21 +13,14 @@ public class StoryPane extends StackPane {
     private final List<StoryButtonPane> buttonPaneList = new ArrayList<>();
 
     public StoryPane(String path) {
-        Image image = new Image(Resources.Beyond_BACKGROUND);
+        ImageView bg = new ImageView(Resources.Beyond_BACKGROUND);
         try {
-            image = new Image(path);
+            bg.setImage(new Image(path));
         } catch (NullPointerException | IllegalArgumentException _) {}
+        bg.setPreserveRatio(true);
+        bg.setFitWidth(Util.getScreenWidth());
 
-        setBackground(new Background(new BackgroundImage(
-                image,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                new BackgroundSize(
-                        BackgroundSize.AUTO,
-                        BackgroundSize.AUTO,
-                        false, false, true, true
-                ))));
+        getChildren().add(bg);
     }
 
     public void add(StoryButtonPane... buttonPanes) {

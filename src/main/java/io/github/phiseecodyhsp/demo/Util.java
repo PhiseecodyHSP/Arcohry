@@ -1,7 +1,6 @@
 package io.github.phiseecodyhsp.demo;
 
 import javafx.application.Platform;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.stage.Screen;
 
@@ -39,7 +38,7 @@ public final class Util {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Parent> T getDesignatedParent(Node child, Class<T> target) {
+    public static <T extends Parent> T getDesignatedParent(Parent child, Class<T> target) {
         Parent parent = child.getParent();
         if (parent != null && parent.getClass() == target) {
             return (T) parent;
