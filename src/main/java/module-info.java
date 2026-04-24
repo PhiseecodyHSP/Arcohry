@@ -5,6 +5,7 @@ module io.github.phiseecodyhsp.demo {
     requires javafx.base;
     requires java.desktop;
     requires jdk.unsupported.desktop;
+    requires org.jetbrains.annotations;
 
     opens io.github.phiseecodyhsp.demo to javafx.fxml;
     exports io.github.phiseecodyhsp.demo;

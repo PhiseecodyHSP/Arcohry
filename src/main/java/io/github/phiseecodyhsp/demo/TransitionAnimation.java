@@ -32,10 +32,9 @@ public class TransitionAnimation extends StackPane {
         getChildren().addAll(l, r);
     }
 
-    public void play(Root root, StackPane pane) {
+    public void play(Root root) {
         root.getChildren().add(this);
         onLAdded.setOnFinished(_ -> {
-            root.getChildren().set(0, pane);
             onLAdded.stop();
             onRAdded.stop();
             onLRemoved.playFromStart();

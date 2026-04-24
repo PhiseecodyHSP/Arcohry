@@ -29,4 +29,9 @@ public class Root extends StackPane {
         setScaleX(scale);
         setScaleY(scale);
     }
+
+    public void switchScreen(TransitionAnimation anima, StackPane newScreen) {
+        anima.play(this);
+        getChildren().set(0, newScreen);
+    }
 }

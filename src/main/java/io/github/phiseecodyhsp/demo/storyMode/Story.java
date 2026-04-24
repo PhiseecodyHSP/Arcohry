@@ -3,7 +3,11 @@ package io.github.phiseecodyhsp.demo.storyMode;
 import javafx.scene.layout.StackPane;
 
 public class Story extends StackPane {
-    public Story(String story) {
+    public Story(String path) {
+
+    }
+
+    public Story(String path, String... cgPaths) {
 
     }
 

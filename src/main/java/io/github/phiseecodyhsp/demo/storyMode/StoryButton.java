@@ -17,7 +17,7 @@ public class StoryButton extends StackPane {
     public static final int SIDE_LENGTH = 100;
     public static final int BORDER_WIDTH = 2;
     public static final int DIAGONAL_LENGTH = Util.nextEven(SIDE_LENGTH * Math.sqrt(2));
-    public static final double ARC_SIZE = 10.0;
+    public static final double ARC_SIZE = 5;
 
     private static final int IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
     private static final double MASK_HIGHEST_OPACITY = 0.25;
@@ -31,11 +31,14 @@ public class StoryButton extends StackPane {
     private final Label label;
     private final ImageView lock = new ImageView(Resources.Init_ILLUSTRATION);
     private final StoryUnlockConditionView condition;
-    private final Story story;
+    private final StoryButtonPane parent;
 
-    public StoryButton(String title, String path, StoryUnlockConditionView condition, Story story)  {
-        this.story = story;
+    private Story story = null;
+    private AVGStory avgStory = null;
+
+    private StoryButton(StoryButtonPane parent, String title, String path, StoryUnlockConditionView condition) {
         this.condition = condition;
+        this.parent = parent;
         label = new Label(title);
         label.setFont(font);
         label.setTextFill(Color.WHITE);
@@ -84,6 +87,11 @@ public class StoryButton extends StackPane {
             onExited.playFromStart();
         });
 
+        parentProperty().addListener((_, _, p) -> {
+            if (p != null && p != parent) {
+                throw new IllegalStateException(getClass().getSimpleName() + "的父容器必须与实例化其时传入的父容器相同");
+            }
+        });
         setOpacity(BUTTON_LOWEST_OPACITY);
         setMaxSize(SIDE_LENGTH, SIDE_LENGTH);
         setRotate(45);
@@ -92,29 +100,48 @@ public class StoryButton extends StackPane {
         getChildren().addAll(border, view, mask, lockBG, lock);
     }
 
-    private StoryButtonPane getParentStoryButtonPane() {
-        return Util.getDesignatedParent(this, StoryButtonPane.class);
+    public StoryButton(StoryButtonPane parent, String title, String path, StoryUnlockConditionView condition, Story story)  {
+        this(parent, title, path, condition);
+        this.story = story;
     }
 
-    private StoryPane getParentStoryPane() {
-        return Util.getDesignatedParent(getParentStoryButtonPane(), StoryPane.class);
+    public StoryButton(StoryButtonPane parent, String title, String path, StoryUnlockConditionView condition, AVGStory story) {
+        this(parent, title, path, condition);
+        avgStory = story;
     }
 
-    public void enable() {
+    public String toString() {
+        return label.getText();
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void enable(StoryPane parent) {
         if (!enabled) {
             setOpacity(1);
-            setOnMouseClicked(_ -> condition.show(getParentStoryPane()));
+            setOnMouseClicked(_ -> condition.show(parent));
             enabled = true;
         }
     }
 
-    public void unlock() {
+    public void unlock(StoryPane parent) {
         if (!unlocked) {
-            enable();
-            setOnMouseClicked(_ -> story.play(getParentStoryPane()));
+            enable(parent);
+            setOnMouseClicked(_ -> {
+                if (story != null) {
+                    story.play(parent);
+                }
+                if (avgStory != null) {
+                    avgStory.play();
+                }
+            });
             getChildren().remove(lock);
             getChildren().add(label);
-            getParentStoryButtonPane().buttonList.get(getParentStoryButtonPane().buttonList.indexOf(this) + 1).enable();
+            try {
+                this.parent.buttonList.get(this.parent.buttonList.indexOf(this) + 1).enable(parent);
+            } catch (IndexOutOfBoundsException _) {}
             unlocked = true;
         }
     }
