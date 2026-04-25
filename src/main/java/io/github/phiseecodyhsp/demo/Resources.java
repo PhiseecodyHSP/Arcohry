@@ -4,6 +4,7 @@ public final class Resources {
     private Resources() {}
 
     public static final String Futura_LT_Light_FONT;
+    public static final String Noto_Sans_FONT;
     public static final String Tutorial_ILLUSTRTION;
     public static final String Beyond_BACKGROUND;
     public static final String Init_ILLUSTRATION;
@@ -17,6 +18,7 @@ public final class Resources {
 
     static {
         Futura_LT_Light_FONT = "Futura LT Light";
+        Noto_Sans_FONT = "Noto Sans";
         Tutorial_ILLUSTRTION = of("images/Songs_tutorial.jpg");
         Beyond_BACKGROUND = of("images/Background_beyond.jpg");
         Init_ILLUSTRATION = of("images/Songs_init.jpg");

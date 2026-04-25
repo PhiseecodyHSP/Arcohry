@@ -12,8 +12,9 @@ import java.util.List;
 public class StoryButtonPane extends StackPane {
     private final Rectangle lightLine = new Rectangle();
     private final StoryPane parent;
-    private final List<Rectangle> darkLines = new ArrayList<>();
     public final List<StoryButton> storyButtons = new ArrayList<>();
+
+    private int darkLineQuantity;
 
     public StoryButtonPane(@NotNull StoryPane parent) {
         this.parent = parent;
@@ -53,19 +54,19 @@ public class StoryButtonPane extends StackPane {
         lightLine.setWidth(l * (e - 1));
         lightLine.setTranslateX(Util.nextEven(l * (e - s) / 2.0));
 
-        while (darkLines.size() < d) {
+        while (darkLineQuantity < d) {
+            darkLineQuantity++;
             Rectangle darkLine = new Rectangle(StoryButton.SIDE_LENGTH + 7, StoryButton.BORDER_WIDTH);
             darkLine.setOpacity(StoryButton.LOWEST_OPACITY);
             darkLine.setFill(Color.WHITE);
-            darkLines.add(darkLine);
             getChildren().addFirst(darkLine);
         }
-        while (darkLines.size() > d) {
-            darkLines.removeLast();
+        while (darkLineQuantity > d) {
+            darkLineQuantity--;
             getChildren().removeFirst();
         }
-        for (int i = 0; i < darkLines.size(); i++) {
-            darkLines.get(i).setTranslateX(Util.nextEven(l * (e + i - s / 2.0)));
+        for (int i = 0; i < darkLineQuantity; i++) {
+            getChildren().get(i).setTranslateX(Util.nextEven(l * (e + i - s / 2.0)));
         }
     }
 }

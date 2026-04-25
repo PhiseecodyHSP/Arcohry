@@ -6,16 +6,24 @@ import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 public class StoryUnlockConditionView extends StackPane {
     private static final double T_TIME = 0.25;
     private static final double LOWEST_SCALE_RATIO = 0.75;
+    private static final int ILLUSTRATION_WIDTH = StoryButton.SIDE_LENGTH * 2;
+    private static final int BG_HEIGHT = Util.nextEven(ILLUSTRATION_WIDTH * 8 / 3.0);
+    private static final Font FONT = new Font
+            (Resources.Noto_Sans_FONT, Util.px2FontSize(Util.nextEven(ILLUSTRATION_WIDTH / 7.5)));
 
     private final Label condition = new Label();
     private final StackPane pane = new StackPane();
@@ -27,13 +35,19 @@ public class StoryUnlockConditionView extends StackPane {
 
     public StoryUnlockConditionView(String song, String path) {
         condition.setText("通关“" + song + "”以解锁此故事。");
+        condition.setTextFill(Color.WHITE);
+        condition.setFont(FONT);
+        condition.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH / 2.0);
+
         ImageView illustration = new ImageView(Resources.Tutorial_ILLUSTRTION);
         try {
             illustration.setImage(new Image(path));
         } catch (NullPointerException | IllegalArgumentException _) {}
-        bg.setFitWidth(Util.getScreenWidth());
+        illustration.setEffect(new DropShadow(StoryButton.OUTER_GLOW_INTENSITY, Color.WHITE));
+        illustration.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 3 / 2.0);
+        bg.setFitHeight(BG_HEIGHT);
         bg.setPreserveRatio(true);
-        illustration.setFitWidth(100);
+        illustration.setFitWidth(ILLUSTRATION_WIDTH);
         illustration.setPreserveRatio(true);
 
         pane.setMaxSize(bg.getFitWidth(), bg.getFitHeight());
@@ -74,16 +88,27 @@ public class StoryUnlockConditionView extends StackPane {
         getChildren().addAll(mask, pane);
     }
 
-    public StoryUnlockConditionView(String song, String partner, String sPath, String pPath) {
-        this(song, sPath);
-        condition.setText("使用搭档“" + partner + "”通关“" + song + "”以解锁此故事。");
+    //TODO: 排版
+    public StoryUnlockConditionView(String songPath, String partnerPath, String sPath, String pPath) {
+        this(songPath, sPath);
+        condition.setText("使用搭档“" + partnerPath + "”通关“" + songPath + "”以解锁此故事。");
         bg.setImage(new Image(Resources.SUCV_BG1));
 
-        ImageView partnerView = new ImageView(Resources.DOROC_AVATAR);
+        Polygon arrow = new Polygon();
+
+        Rectangle border = new Rectangle(Util.nextEven(ILLUSTRATION_WIDTH / 3.0),
+                Util.nextEven(ILLUSTRATION_WIDTH / 3.0), Color.WHITE);
+        border.setRotate(45);
+
+        ImageView partner = new ImageView(Resources.DOROC_AVATAR);
         try {
-            partnerView.setImage(new Image(pPath));
+            partner.setImage(new Image(pPath));
         } catch (NullPointerException | IllegalArgumentException _) {}
-        pane.getChildren().add(partnerView);
+        partner.setFitWidth(Util.nextEven(ILLUSTRATION_WIDTH / 3.0) - StoryButton.BORDER_WIDTH * 2);
+        partner.setEffect(new DropShadow(StoryButton.OUTER_GLOW_INTENSITY, Color.WHITE));
+        partner.setPreserveRatio(true);
+
+        pane.getChildren().addAll(border, partner);
     }
 
     public void show(StoryPane parent) {

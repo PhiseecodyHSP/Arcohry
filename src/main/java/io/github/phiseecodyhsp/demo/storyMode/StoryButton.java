@@ -4,6 +4,7 @@ import io.github.phiseecodyhsp.demo.Util;
 import io.github.phiseecodyhsp.demo.Resources;
 import javafx.animation.FadeTransition;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -21,9 +22,11 @@ public class StoryButton extends StackPane {
     private static final int IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
     private static final double MASK_HIGHEST_OPACITY = 0.25;
     public static final double LOWEST_OPACITY = 1 - MASK_HIGHEST_OPACITY;
+    public static final double OUTER_GLOW_INTENSITY = 10;
+    public static final double OUTER_GLOW_OFFSET = 10;
     private static final double FT_TIME = 0.25;
-    private static final Font font = new Font(Resources.Futura_LT_Light_FONT,
-            Util.px2FontSize(Util.nextEven(DIAGONAL_LENGTH / 4.0)));
+    private static final Font FONT = new Font
+            (Resources.Futura_LT_Light_FONT, Util.px2FontSize(Util.nextEven(DIAGONAL_LENGTH / 4.0)));
 
     private boolean enabled = false;
     private boolean unlocked = false;
@@ -35,11 +38,12 @@ public class StoryButton extends StackPane {
     private Story story = null;
     private AVGStory avgStory = null;
 
-    private StoryButton(StoryButtonPane parent, String title, String path, StoryUnlockConditionView condition) {
+    private StoryButton(StoryButtonPane parent, String title, String path,
+                        StoryUnlockConditionView condition) {
         this.condition = condition;
         this.parent = parent;
         label = new Label(title);
-        label.setFont(font);
+        label.setFont(FONT);
         label.setTextFill(Color.WHITE);
         label.setRotate(-45);
 
@@ -47,6 +51,8 @@ public class StoryButton extends StackPane {
         border.setFill(Color.WHITE);
         border.setArcWidth(ARC_SIZE);
         border.setArcHeight(ARC_SIZE);
+        border.setEffect(new DropShadow
+                (OUTER_GLOW_INTENSITY, OUTER_GLOW_OFFSET, OUTER_GLOW_OFFSET, new Color(0, 0, 0, 0.5)));
         Rectangle mask = new Rectangle(IMAGE_SIZE, IMAGE_SIZE);
         mask.setFill(Color.BLACK);
         mask.setOpacity(0);
@@ -99,12 +105,14 @@ public class StoryButton extends StackPane {
         getChildren().addAll(border, view, mask, lockBG, lock);
     }
 
-    public StoryButton(StoryButtonPane parent, String title, String path, StoryUnlockConditionView condition, Story story)  {
+    public StoryButton(StoryButtonPane parent, String title, String path,
+                       StoryUnlockConditionView condition, Story story)  {
         this(parent, title, path, condition);
         this.story = story;
     }
 
-    public StoryButton(StoryButtonPane parent, String title, String path, StoryUnlockConditionView condition, AVGStory story) {
+    public StoryButton(StoryButtonPane parent, String title, String path,
+                       StoryUnlockConditionView condition, AVGStory story) {
         this(parent, title, path, condition);
         avgStory = story;
     }
