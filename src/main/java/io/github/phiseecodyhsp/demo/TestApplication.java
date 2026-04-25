@@ -7,11 +7,8 @@ import javafx.stage.Stage;
 public class TestApplication extends Application {
     public void start(Stage stage) {
         StoryUnlockConditionView condition = new StoryUnlockConditionView("", null);
-        TransitionAnimation anima = new TransitionAnimation(TransitionAnimation.Type.NORMAL);
 
         StoryPane pane = new StoryPane(null);
-        Root root = new Root();
-        root.getChildren().add(pane);
 
         StoryButtonPane bPane1 = new StoryButtonPane(pane);
         StoryButtonPane bPane2 = new StoryButtonPane(pane);
@@ -31,7 +28,7 @@ public class TestApplication extends Application {
         bPane2.add(button3, button4, button5, button6);
         bPane3.add(button7, button8, button9);
 
-        SetStage setStage = new SetStage();
-        setStage.root.getChildren().add(pane);
+        SetStage setStage = new SetStage(pane);
+        setStage.switchPane(SetStage.TransAnimaType.NORMAL, pane);
     }
 }
