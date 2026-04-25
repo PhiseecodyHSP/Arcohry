@@ -18,10 +18,9 @@ public class StoryButton extends StackPane {
     public static final int BORDER_WIDTH = 2;
     public static final int DIAGONAL_LENGTH = Util.nextEven(SIDE_LENGTH * Math.sqrt(2));
     public static final double ARC_SIZE = 5;
-
     private static final int IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
     private static final double MASK_HIGHEST_OPACITY = 0.25;
-    public static final double BUTTON_LOWEST_OPACITY = 1 - MASK_HIGHEST_OPACITY;
+    public static final double LOWEST_OPACITY = 1 - MASK_HIGHEST_OPACITY;
     private static final double FT_TIME = 0.25;
     private static final Font font = new Font(Resources.Futura_LT_Light_FONT,
             Util.px2FontSize(Util.nextEven(DIAGONAL_LENGTH / 4.0)));
@@ -92,7 +91,7 @@ public class StoryButton extends StackPane {
                 throw new IllegalStateException(getClass().getSimpleName() + "的父容器必须与实例化其时传入的父容器相同");
             }
         });
-        setOpacity(BUTTON_LOWEST_OPACITY);
+        setOpacity(LOWEST_OPACITY);
         setMaxSize(SIDE_LENGTH, SIDE_LENGTH);
         setRotate(45);
         setMouseTransparent(false);
@@ -123,6 +122,7 @@ public class StoryButton extends StackPane {
             setOpacity(1);
             setOnMouseClicked(_ -> condition.show(parent));
             enabled = true;
+            this.parent.updateLine();
         }
     }
 
@@ -130,17 +130,16 @@ public class StoryButton extends StackPane {
         if (!unlocked) {
             enable(parent);
             setOnMouseClicked(_ -> {
-                if (story != null) {
-                    story.play(parent);
-                }
-                if (avgStory != null) {
+                if (story == null) {
                     avgStory.play();
+                } else {
+                    story.play(parent);
                 }
             });
             getChildren().remove(lock);
             getChildren().add(label);
             try {
-                this.parent.buttonList.get(this.parent.buttonList.indexOf(this) + 1).enable(parent);
+                this.parent.storyButtons.get(this.parent.storyButtons.indexOf(this) + 1).enable(parent);
             } catch (IndexOutOfBoundsException _) {}
             unlocked = true;
         }

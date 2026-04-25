@@ -27,8 +27,8 @@ public class TestApplication extends Application {
         bPane1.add(button1, button2);
         bPane2.add(button3, button4, button5, button6);
         bPane3.add(button7, button8, button9);
+        pane.add(bPane1, bPane2, bPane3);
 
         SetStage setStage = new SetStage(pane);
-        setStage.switchPane(SetStage.TransAnimaType.NORMAL, pane);
     }
 }
