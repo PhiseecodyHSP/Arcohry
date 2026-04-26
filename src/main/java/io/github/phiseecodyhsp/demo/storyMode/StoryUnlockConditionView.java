@@ -89,26 +89,33 @@ public class StoryUnlockConditionView extends StackPane {
     }
 
     //TODO: 排版
-    public StoryUnlockConditionView(String songPath, String partnerPath, String sPath, String pPath) {
-        this(songPath, sPath);
-        condition.setText("使用搭档“" + partnerPath + "”通关“" + songPath + "”以解锁此故事。");
+    public StoryUnlockConditionView(String song, String partner, String iPath, String pPath) {
+        this(song, iPath);
+        condition.setText("使用搭档“" + partner + "”通关“" + song + "”以解锁此故事。");
         bg.setImage(new Image(Resources.SUCV_BG1));
 
-        Polygon arrow = new Polygon();
+        Polygon arrow = new Polygon(
+                0, -ILLUSTRATION_WIDTH / 15.0 / Math.sqrt(3),
+                ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Math.sqrt(3),
+                -ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Math.sqrt(3));
+        arrow.setFill(Color.WHITE);
+        arrow.setTranslateY(100);
+        arrow.setEffect(new DropShadow(StoryButton.OUTER_GLOW_INTENSITY, Color.WHITE));
 
         Rectangle border = new Rectangle(Util.nextEven(ILLUSTRATION_WIDTH / 3.0),
                 Util.nextEven(ILLUSTRATION_WIDTH / 3.0), Color.WHITE);
+        border.setEffect(new DropShadow(StoryButton.OUTER_GLOW_INTENSITY, Color.WHITE));
         border.setRotate(45);
 
-        ImageView partner = new ImageView(Resources.DOROC_AVATAR);
+        ImageView partnerView = new ImageView(Resources.DOROC_AVATAR);
         try {
-            partner.setImage(new Image(pPath));
+            partnerView.setImage(new Image(pPath));
         } catch (NullPointerException | IllegalArgumentException _) {}
-        partner.setFitWidth(Util.nextEven(ILLUSTRATION_WIDTH / 3.0) - StoryButton.BORDER_WIDTH * 2);
-        partner.setEffect(new DropShadow(StoryButton.OUTER_GLOW_INTENSITY, Color.WHITE));
-        partner.setPreserveRatio(true);
+        partnerView.setFitWidth(
+                Util.nextEven(ILLUSTRATION_WIDTH / 3.0 * Math.sqrt(2)) - StoryButton.BORDER_WIDTH * 2);
+        partnerView.setPreserveRatio(true);
 
-        pane.getChildren().addAll(border, partner);
+        pane.getChildren().addAll(arrow, border, partnerView);
     }
 
     public void show(StoryPane parent) {
