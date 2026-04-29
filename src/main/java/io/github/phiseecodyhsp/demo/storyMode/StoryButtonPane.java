@@ -14,7 +14,7 @@ public class StoryButtonPane extends StackPane {
     private final StoryPane parent;
     public final List<StoryButton> storyButtons = new ArrayList<>();
 
-    private int darkLineQuantity;
+    private int darkLineCount;
 
     public StoryButtonPane(@NotNull StoryPane parent) {
         this.parent = parent;
@@ -54,18 +54,18 @@ public class StoryButtonPane extends StackPane {
         lightLine.setWidth(l * (e - 1));
         lightLine.setTranslateX(Util.nextEven(l * (e - s) / 2.0));
 
-        while (darkLineQuantity < d) {
-            darkLineQuantity++;
+        while (darkLineCount < d) {
+            darkLineCount++;
             Rectangle darkLine = new Rectangle(StoryButton.SIDE_LENGTH + 7, StoryButton.BORDER_WIDTH);
             darkLine.setOpacity(StoryButton.LOWEST_OPACITY);
             darkLine.setFill(Color.WHITE);
             getChildren().addFirst(darkLine);
         }
-        while (darkLineQuantity > d) {
-            darkLineQuantity--;
+        while (darkLineCount > d) {
+            darkLineCount--;
             getChildren().removeFirst();
         }
-        for (int i = 0; i < darkLineQuantity; i++) {
+        for (int i = 0; i < darkLineCount; i++) {
             getChildren().get(i).setTranslateX(Util.nextEven(l * (e + i - s / 2.0)));
         }
     }

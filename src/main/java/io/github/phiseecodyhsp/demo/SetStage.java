@@ -2,13 +2,16 @@ package io.github.phiseecodyhsp.demo;
 
 import javafx.animation.TranslateTransition;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class SetStage extends Stage {
     private static final int WIDTH = 640;
@@ -32,7 +35,6 @@ public class SetStage extends Stage {
         setWidth(WIDTH);
         setHeight(HEIGHT);
         setScene(scene);
-        show();
     }
 
     private void updateScale() {
@@ -50,24 +52,36 @@ public class SetStage extends Stage {
     private class TransitionAnimation extends StackPane {
         private static final double TT_TIME = 3;
 
-        private final ImageView l = new ImageView();
-        private final ImageView r = new ImageView();
-        private final TranslateTransition onLAdded = new TranslateTransition(Duration.seconds(TT_TIME), l);
-        private final TranslateTransition onRAdded = new TranslateTransition(Duration.seconds(TT_TIME), r);
-        private final TranslateTransition onLRemoved = new TranslateTransition(Duration.seconds(TT_TIME), l);
-        private final TranslateTransition onRRemoved = new TranslateTransition(Duration.seconds(TT_TIME), r);
+        private final ImageView left = new ImageView();
+        private final ImageView right = new ImageView();
+        private final ImageView illustrationView = new ImageView();
+        private final Label music = new Label("Music");
+        private final Label composer = new Label();
+        private final Label illustration = new Label("Illustration");
+        private final Label illustrator = new Label();
+        private final Label noteDesign = new Label("Note Design");
+        private final Label noteDesigner = new Label();
+        private final Label song = new Label();
+
+        private final TranslateTransition onLAdded = new TranslateTransition(Duration.seconds(TT_TIME), left);
+        private final TranslateTransition onRAdded = new TranslateTransition(Duration.seconds(TT_TIME), right);
+        private final TranslateTransition onLRemoved = new TranslateTransition(Duration.seconds(TT_TIME), left);
+        private final TranslateTransition onRRemoved = new TranslateTransition(Duration.seconds(TT_TIME), right);
 
         private TransitionAnimation() {
-            getChildren().addAll(l, r);
+            getChildren().addAll(left, right);
         }
 
         private void play(@NotNull SetStage.TransAnimaType type) {
-            switch (type) {
-                case NORMAL -> {
-                    l.setImage(new Image(Resources.TrAnL));
-                    r.setImage(new Image(Resources.TrAnR));
-                }
-            }
+            left.setImage(new Image(type.l));
+            right.setImage(new Image(type.r));
+            music.setTextFill(Color.WHITE);
+            composer.setTextFill(Color.WHITE);
+            illustrator.setTextFill(Color.WHITE);
+            illustration.setTextFill(Color.WHITE);
+            noteDesign.setTextFill(Color.WHITE);
+            noteDesigner.setTextFill(Color.WHITE);
+            song.setTextFill(Color.WHITE);
 
             root.getChildren().add(this);
             onLAdded.setOnFinished(_ -> {
@@ -82,15 +96,38 @@ public class SetStage extends Stage {
             onLAdded.playFromStart();
             onRAdded.playFromStart();
         }
+
+        //TODO
+        private void play(@NotNull SetStage.TransAnimaType type,
+                          @NotNull String song,
+                          String illustrator,
+                          @NotNull String composer,
+                          @NotNull String noteDesigner) {
+            this.song.setText(song);
+            this.illustrator.setText(illustrator);
+            this.composer.setText(composer);
+            this.noteDesigner.setText(noteDesigner);
+
+            play(type);
+        }
     }
 
+    //TODO: 素材替换
     public enum TransAnimaType {
-        NORMAL,
-        GRIEVOUS,
-        FRACTURE,
-        FINAL,
-        ARGHENA,
-        ALTER,
-        DESIGNANT
+        NORMAL(Resources.TrAnL, Resources.TrAnR),
+        GRIEVOUS(Resources.TrAnL, Resources.TrAnR),
+        FRACTURE(Resources.TrAnL, Resources.TrAnR),
+        FINAL(Resources.TrAnL, Resources.TrAnR),
+        ARGHENA(Resources.TrAnL, Resources.TrAnR),
+        ALTER(Resources.TrAnL, Resources.TrAnR),
+        DESIGNANT(Resources.TrAnL, Resources.TrAnR);
+
+        private final String l;
+        private final String r;
+
+        TransAnimaType(String l, String r) {
+            this.l = l;
+            this.r = r;
+        }
     }
 }

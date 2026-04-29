@@ -13,6 +13,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+import org.jetbrains.annotations.NotNull;
 
 public class StoryButton extends StackPane {
     public static final int SIDE_LENGTH = 100;
@@ -38,8 +39,10 @@ public class StoryButton extends StackPane {
     private Story story = null;
     private AVGStory avgStory = null;
 
-    private StoryButton(
-            StoryButtonPane parent, String title, String path, StoryUnlockConditionView condition) {
+    private StoryButton(@NotNull StoryButtonPane parent,
+                        String title,
+                        @NotNull String imagePath,
+                        StoryUnlockConditionView condition) {
         this.condition = condition;
         this.parent = parent;
         label = new Label(title);
@@ -69,8 +72,8 @@ public class StoryButton extends StackPane {
 
         ImageView view = new ImageView(Resources.Tutorial_ILLUSTRTION);
         try {
-            view.setImage(new Image(path));
-        } catch (NullPointerException | IllegalArgumentException _) {}
+            view.setImage(new Image(imagePath));
+        } catch (IllegalArgumentException _) {}
 
         view.setFitWidth(IMAGE_SIZE);
         view.setPreserveRatio(true);
@@ -93,7 +96,7 @@ public class StoryButton extends StackPane {
         });
 
         parentProperty().addListener((_, _, p) -> {
-            if (p != null && p != parent) {
+            if (p != parent) {
                 throw new IllegalStateException(getClass().getSimpleName() + "的父容器必须与实例化其时传入的父容器相同");
             }
         });
@@ -101,19 +104,24 @@ public class StoryButton extends StackPane {
         setMaxSize(SIDE_LENGTH, SIDE_LENGTH);
         setRotate(45);
         setMouseTransparent(false);
-        setBackground(null);
         getChildren().addAll(border, view, mask, lockBG, lock);
     }
 
-    public StoryButton(
-            StoryButtonPane parent, String title, String path, StoryUnlockConditionView condition, Story story)  {
-        this(parent, title, path, condition);
+    public StoryButton(StoryButtonPane parent,
+                       String title,
+                       String imagePath,
+                       StoryUnlockConditionView condition,
+                       Story story)  {
+        this(parent, title, imagePath, condition);
         this.story = story;
     }
 
-    public StoryButton(
-            StoryButtonPane parent, String title, String path, StoryUnlockConditionView condition, AVGStory story) {
-        this(parent, title, path, condition);
+    public StoryButton(StoryButtonPane parent,
+                       String title,
+                       String imagePath,
+                       StoryUnlockConditionView condition,
+                       AVGStory story) {
+        this(parent, title, imagePath, condition);
         avgStory = story;
     }
 

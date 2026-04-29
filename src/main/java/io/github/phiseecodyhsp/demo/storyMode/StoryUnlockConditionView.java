@@ -1,7 +1,6 @@
 package io.github.phiseecodyhsp.demo.storyMode;
 
-import io.github.phiseecodyhsp.demo.Resources;
-import io.github.phiseecodyhsp.demo.Util;
+import io.github.phiseecodyhsp.demo.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
@@ -40,9 +39,11 @@ public class StoryUnlockConditionView extends StackPane {
         condition.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH / 2.0);
 
         ImageView illustration = new ImageView(Resources.Tutorial_ILLUSTRTION);
-        try {
-            illustration.setImage(new Image(path));
-        } catch (NullPointerException | IllegalArgumentException _) {}
+        if (path != null) {
+            try {
+                illustration.setImage(new Image(path));
+            } catch (IllegalArgumentException _) {}
+        }
         illustration.setEffect(new DropShadow(StoryButton.OUTER_GLOW_INTENSITY, Color.WHITE));
         illustration.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 3 / 2.0);
         bg.setFitHeight(BG_HEIGHT);
@@ -89,7 +90,7 @@ public class StoryUnlockConditionView extends StackPane {
     }
 
     //TODO: 排版
-    public StoryUnlockConditionView(String song, String partner, String iPath, String pPath) {
+    public StoryUnlockConditionView(String song, String iPath, String partner, String pPath) {
         this(song, iPath);
         condition.setText("使用搭档“" + partner + "”通关“" + song + "”以解锁此故事。");
         bg.setImage(new Image(Resources.SUCV_BG1));
@@ -108,14 +109,28 @@ public class StoryUnlockConditionView extends StackPane {
         border.setRotate(45);
 
         ImageView partnerView = new ImageView(Resources.DOROC_AVATAR);
-        try {
-            partnerView.setImage(new Image(pPath));
-        } catch (NullPointerException | IllegalArgumentException _) {}
+        if (pPath != null) {
+            try {
+                partnerView.setImage(new Image(pPath));
+            } catch (IllegalArgumentException _) {}
+        }
         partnerView.setFitWidth(
                 Util.nextEven(ILLUSTRATION_WIDTH / 3.0 * Math.sqrt(2)) - StoryButton.BORDER_WIDTH * 2);
         partnerView.setPreserveRatio(true);
 
         pane.getChildren().addAll(arrow, border, partnerView);
+    }
+
+    public StoryUnlockConditionView(Chart chart, String partner, String pPath) {
+        this(chart.music, chart.illustrationPath, partner, pPath);
+    }
+
+    public StoryUnlockConditionView(String song, String iPath, Partner partner) {
+        this(song, iPath, partner.name(), partner.avatarPath());
+    }
+
+    public StoryUnlockConditionView(Chart chart, Partner partner) {
+        this(chart.music, chart.illustrationPath, partner.name(), partner.avatarPath());
     }
 
     public void show(StoryPane parent) {
