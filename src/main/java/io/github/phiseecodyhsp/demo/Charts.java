@@ -15,6 +15,7 @@ public final class Charts {
                 1,
                 Resources.Tutorial_ILLUSTRTION,
                 null,
-                null);
+                null,
+                Chart.Paradigms.LIGHT);
     }
 }

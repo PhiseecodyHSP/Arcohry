@@ -1,5 +1,7 @@
 package io.github.phiseecodyhsp.demo;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -8,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
@@ -50,11 +53,17 @@ public class SetStage extends Stage {
 
     //TODO
     private class TransitionAnimation extends StackPane {
-        private static final double TT_TIME = 3;
+        private static final double T_TIME = 3;
+        private static final double LOWEST_PANE_OPACITY = 0.5;
+        private static final int DISPLACEMENT = 0;
+        private static final double HIGHEST_ILLUSTRATION_SCALE = 0;
 
         private final ImageView left = new ImageView();
         private final ImageView right = new ImageView();
         private final ImageView illustrationView = new ImageView();
+        private final ImageView musicNameShadow = new ImageView();
+        private final Rectangle shadow = new Rectangle();
+        private final Rectangle paradigms = new Rectangle();
         private final Label musicName = new Label();
         private final Label music = new Label("Music");
         private final Label composer = new Label();
@@ -62,13 +71,26 @@ public class SetStage extends Stage {
         private final Label illustrator = new Label();
         private final Label noteDesign = new Label("Note Design");
         private final Label noteDesigner = new Label();
+        private final StackPane labelPane =
+                new StackPane(musicName, music, composer, illustration, illustrator, noteDesign, noteDesigner);
+        private final StackPane pane = new StackPane(labelPane, illustrationView, musicNameShadow, shadow, paradigms);
 
-        private final TranslateTransition onLAdded = new TranslateTransition(Duration.seconds(TT_TIME), left);
-        private final TranslateTransition onRAdded = new TranslateTransition(Duration.seconds(TT_TIME), right);
-        private final TranslateTransition onLRemoved = new TranslateTransition(Duration.seconds(TT_TIME), left);
-        private final TranslateTransition onRRemoved = new TranslateTransition(Duration.seconds(TT_TIME), right);
+        private final TranslateTransition onLAdded = new TranslateTransition(Duration.seconds(T_TIME), left);
+        private final TranslateTransition onRAdded = new TranslateTransition(Duration.seconds(T_TIME), right);
+        private final TranslateTransition onLRemoved = new TranslateTransition(Duration.seconds(T_TIME), left);
+        private final TranslateTransition onRRemoved = new TranslateTransition(Duration.seconds(T_TIME), right);
+        private final TranslateTransition onLabelPaneAdded =
+                new TranslateTransition(Duration.seconds(T_TIME), labelPane);
+        private final ScaleTransition onIllustrationAdded =
+                new ScaleTransition(Duration.seconds(T_TIME), illustrationView);
+        private final ScaleTransition onIllustrationRemoved =
+                new ScaleTransition(Duration.seconds(T_TIME), illustrationView);
+        private final FadeTransition onPaneAdded = new FadeTransition(Duration.seconds(T_TIME), pane);
+        private final FadeTransition onPaneRemoved = new FadeTransition(Duration.seconds(T_TIME), pane);
+
 
         private TransitionAnimation() {
+            shadow.setFill(Color.BLACK);
             musicName.setTextFill(Color.WHITE);
             composer.setTextFill(Color.WHITE);
             illustrator.setTextFill(Color.WHITE);
@@ -102,13 +124,44 @@ public class SetStage extends Stage {
                           @NotNull String musicName,
                           @NotNull String composer,
                           String illustrator,
-                          @NotNull String noteDesigner) {
+                          @NotNull String noteDesigner,
+                          @NotNull Chart.Paradigms paradigms) {
+            type.setImage(this);
+
             this.musicName.setText(musicName);
             this.composer.setText(composer);
+            paradigms.setParadigms(this.paradigms);
+
+            root.getChildren().add(this);
+            onLAdded.setOnFinished(_ -> {
+                onLAdded.stop();
+                onRAdded.stop();
+                onLabelPaneAdded.stop();
+                onIllustrationAdded.stop();
+                onPaneAdded.stop();
+                onLRemoved.playFromStart();
+                onRRemoved.playFromStart();
+                onIllustrationRemoved.playFromStart();
+                onPaneRemoved.playFromStart();
+            });
+            onLRemoved.setOnFinished(_ -> root.getChildren().remove(this));
+            onLRemoved.stop();
+            onRRemoved.stop();
+            onIllustrationRemoved.stop();
+            onPaneRemoved.stop();
+            onLAdded.playFromStart();
+            onRAdded.playFromStart();
+            onLabelPaneAdded.playFromStart();
+            onIllustrationAdded.playFromStart();
+            onPaneAdded.playFromStart();
+
             getChildren().clear();
             getChildren().addAll
                     (left,
                             right,
+                            shadow,
+                            musicNameShadow,
+                            this.paradigms,
                             illustrationView,
                             this.musicName,
                             music,
@@ -120,11 +173,10 @@ public class SetStage extends Stage {
                 this.illustrator.setText(illustrator);
                 getChildren().addAll(illustration, this.illustrator);
             }
-            play(type);
         }
 
         private void play(@NotNull SetStage.TransAnimaType type, @NotNull Chart chart) {
-            play(type, chart.music, chart.composer, chart.illustrator, chart.noteDesigner);
+            play(type, chart.music, chart.composer, chart.illustrator, chart.noteDesigner, chart.paradigms);
         }
     }
 
