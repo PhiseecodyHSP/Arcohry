@@ -145,11 +145,7 @@ public class StoryButton extends StackPane {
             enable(parent);
             setOnMouseClicked(_ -> {
                 if (story == null) {
-                    if (getScene().getWindow() instanceof SetStage stage) {
-                        avgStory.play(stage);
-                    } else {
-                        throw new IllegalStateException("A StoryButton's Window must be SetStage");
-                    }
+                    avgStory.play(Util.getSetStage(this));
                 } else {
                     story.play(parent);
                 }
