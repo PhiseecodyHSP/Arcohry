@@ -11,7 +11,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class SetStage extends Stage {
     private static final int WIDTH = 640;
@@ -49,19 +48,20 @@ public class SetStage extends Stage {
         root.getChildren().set(0, newPane);
     }
 
+    //TODO
     private class TransitionAnimation extends StackPane {
         private static final double TT_TIME = 3;
 
         private final ImageView left = new ImageView();
         private final ImageView right = new ImageView();
         private final ImageView illustrationView = new ImageView();
+        private final Label musicName = new Label();
         private final Label music = new Label("Music");
         private final Label composer = new Label();
         private final Label illustration = new Label("Illustration");
         private final Label illustrator = new Label();
         private final Label noteDesign = new Label("Note Design");
         private final Label noteDesigner = new Label();
-        private final Label song = new Label();
 
         private final TranslateTransition onLAdded = new TranslateTransition(Duration.seconds(TT_TIME), left);
         private final TranslateTransition onRAdded = new TranslateTransition(Duration.seconds(TT_TIME), right);
@@ -69,19 +69,17 @@ public class SetStage extends Stage {
         private final TranslateTransition onRRemoved = new TranslateTransition(Duration.seconds(TT_TIME), right);
 
         private TransitionAnimation() {
-            getChildren().addAll(left, right);
-        }
-
-        private void play(@NotNull SetStage.TransAnimaType type) {
-            left.setImage(new Image(type.l));
-            right.setImage(new Image(type.r));
-            music.setTextFill(Color.WHITE);
+            musicName.setTextFill(Color.WHITE);
             composer.setTextFill(Color.WHITE);
             illustrator.setTextFill(Color.WHITE);
             illustration.setTextFill(Color.WHITE);
             noteDesign.setTextFill(Color.WHITE);
             noteDesigner.setTextFill(Color.WHITE);
-            song.setTextFill(Color.WHITE);
+            musicName.setTextFill(Color.WHITE);
+        }
+
+        private void play(@NotNull SetStage.TransAnimaType type) {
+            type.setImage(this);
 
             root.getChildren().add(this);
             onLAdded.setOnFinished(_ -> {
@@ -95,20 +93,38 @@ public class SetStage extends Stage {
             onRRemoved.stop();
             onLAdded.playFromStart();
             onRAdded.playFromStart();
+
+            getChildren().clear();
+            getChildren().addAll(left, right);
         }
 
-        //TODO
         private void play(@NotNull SetStage.TransAnimaType type,
-                          @NotNull String song,
-                          String illustrator,
+                          @NotNull String musicName,
                           @NotNull String composer,
+                          String illustrator,
                           @NotNull String noteDesigner) {
-            this.song.setText(song);
-            this.illustrator.setText(illustrator);
+            this.musicName.setText(musicName);
             this.composer.setText(composer);
+            getChildren().clear();
+            getChildren().addAll
+                    (left,
+                            right,
+                            illustrationView,
+                            this.musicName,
+                            music,
+                            this.composer,
+                            noteDesign,
+                            this.noteDesigner);
             this.noteDesigner.setText(noteDesigner);
-
+            if (illustrator != null) {
+                this.illustrator.setText(illustrator);
+                getChildren().addAll(illustration, this.illustrator);
+            }
             play(type);
+        }
+
+        private void play(@NotNull SetStage.TransAnimaType type, @NotNull Chart chart) {
+            play(type, chart.music, chart.composer, chart.illustrator, chart.noteDesigner);
         }
     }
 
@@ -122,12 +138,17 @@ public class SetStage extends Stage {
         ALTER(Resources.TrAnL, Resources.TrAnR),
         DESIGNANT(Resources.TrAnL, Resources.TrAnR);
 
-        private final String l;
-        private final String r;
+        private final String leftImagePath;
+        private final String rightImagePath;
 
         TransAnimaType(String l, String r) {
-            this.l = l;
-            this.r = r;
+            leftImagePath = l;
+            rightImagePath = r;
+        }
+
+        private void setImage(TransitionAnimation anima) {
+            anima.left.setImage(new Image(leftImagePath));
+            anima.right.setImage(new Image(rightImagePath));
         }
     }
 }

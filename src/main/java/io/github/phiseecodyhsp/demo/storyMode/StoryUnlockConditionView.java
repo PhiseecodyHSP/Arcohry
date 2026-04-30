@@ -32,16 +32,16 @@ public class StoryUnlockConditionView extends StackPane {
     private final FadeTransition onAddedContentFT = new FadeTransition(Duration.seconds(T_TIME), pane);
     private final FadeTransition onRemovedContentFT = new FadeTransition(Duration.seconds(T_TIME), pane);
 
-    public StoryUnlockConditionView(String song, String path) {
-        condition.setText("通关“" + song + "”以解锁此故事。");
+    public StoryUnlockConditionView(String music, String illustrationPath) {
+        condition.setText("通关“" + music + "”以解锁此故事。");
         condition.setTextFill(Color.WHITE);
         condition.setFont(FONT);
         condition.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH / 2.0);
 
         ImageView illustration = new ImageView(Resources.Tutorial_ILLUSTRTION);
-        if (path != null) {
+        if (illustrationPath != null) {
             try {
-                illustration.setImage(new Image(path));
+                illustration.setImage(new Image(illustrationPath));
             } catch (IllegalArgumentException _) {}
         }
         illustration.setEffect(new DropShadow(StoryButton.OUTER_GLOW_INTENSITY, Color.WHITE));
@@ -77,22 +77,22 @@ public class StoryUnlockConditionView extends StackPane {
         onAddedContentFT.setToValue(1);
         onRemovedContentFT.setToValue(0);
 
-        Rectangle mask = new Rectangle(Util.getScreenWidth(), Util.getScreenHeight());
-        mask.setOpacity(0);
-        mask.setOnMouseClicked(_ -> {
+        Rectangle shadow = new Rectangle(Util.getScreenWidth(), Util.getScreenHeight());
+        shadow.setOpacity(0);
+        shadow.setOnMouseClicked(_ -> {
             onAddedContentFT.stop();
             onAddedST.stop();
             onRemovedContentFT.playFromStart();
             onRemovedST.playFromStart();
         });
 
-        getChildren().addAll(mask, pane);
+        getChildren().addAll(shadow, pane);
     }
 
     //TODO: 排版
-    public StoryUnlockConditionView(String song, String iPath, String partner, String pPath) {
-        this(song, iPath);
-        condition.setText("使用搭档“" + partner + "”通关“" + song + "”以解锁此故事。");
+    public StoryUnlockConditionView(String music, String illustrationPath, String partner, String partnerPath) {
+        this(music, illustrationPath);
+        condition.setText("使用搭档“" + partner + "”通关“" + music + "”以解锁此故事。");
         bg.setImage(new Image(Resources.SUCV_BG1));
 
         Polygon arrow = new Polygon(
@@ -109,9 +109,9 @@ public class StoryUnlockConditionView extends StackPane {
         border.setRotate(45);
 
         ImageView partnerView = new ImageView(Resources.DOROC_AVATAR);
-        if (pPath != null) {
+        if (partnerPath != null) {
             try {
-                partnerView.setImage(new Image(pPath));
+                partnerView.setImage(new Image(partnerPath));
             } catch (IllegalArgumentException _) {}
         }
         partnerView.setFitWidth(
@@ -121,12 +121,12 @@ public class StoryUnlockConditionView extends StackPane {
         pane.getChildren().addAll(arrow, border, partnerView);
     }
 
-    public StoryUnlockConditionView(Chart chart, String partner, String pPath) {
-        this(chart.music, chart.illustrationPath, partner, pPath);
+    public StoryUnlockConditionView(Chart chart, String partner, String partnerPath) {
+        this(chart.music, chart.illustrationPath, partner, partnerPath);
     }
 
-    public StoryUnlockConditionView(String song, String iPath, Partner partner) {
-        this(song, iPath, partner.name(), partner.avatarPath());
+    public StoryUnlockConditionView(String music, String illustrationPath, Partner partner) {
+        this(music, illustrationPath, partner.name(), partner.avatarPath());
     }
 
     public StoryUnlockConditionView(Chart chart, Partner partner) {

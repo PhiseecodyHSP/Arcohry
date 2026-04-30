@@ -6,7 +6,15 @@ public final class Charts {
     public static final Chart Tutorial_PST;
 
     static {
-        Tutorial_PST = new Chart("Tutorial", null, "ak+q", 128, 128,
-                Chart.Difficulty.PST, 1, Resources.Tutorial_ILLUSTRTION, null, null);
+        Tutorial_PST = new Chart(
+                "Tutorial",
+                null,
+                "ak+q",
+                128, 128,
+                Chart.Difficulty.PST,
+                1,
+                Resources.Tutorial_ILLUSTRTION,
+                null,
+                null);
     }
 }

@@ -1,11 +1,11 @@
 package io.github.phiseecodyhsp.demo.storyMode;
 
+import io.github.phiseecodyhsp.demo.SetStage;
 import io.github.phiseecodyhsp.demo.Util;
 import io.github.phiseecodyhsp.demo.Resources;
 import javafx.animation.FadeTransition;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -41,7 +41,7 @@ public class StoryButton extends StackPane {
 
     private StoryButton(@NotNull StoryButtonPane parent,
                         String title,
-                        @NotNull String imagePath,
+                        @NotNull String illustrationPath,
                         StoryUnlockConditionView condition) {
         this.condition = condition;
         this.parent = parent;
@@ -70,10 +70,8 @@ public class StoryButton extends StackPane {
         lockBG.setOpacity(0.5);
 
 
-        ImageView view = new ImageView(Resources.Tutorial_ILLUSTRTION);
-        try {
-            view.setImage(new Image(imagePath));
-        } catch (IllegalArgumentException _) {}
+        ImageView view;
+        view = new ImageView(illustrationPath);
 
         view.setFitWidth(IMAGE_SIZE);
         view.setPreserveRatio(true);
@@ -109,19 +107,19 @@ public class StoryButton extends StackPane {
 
     public StoryButton(StoryButtonPane parent,
                        String title,
-                       String imagePath,
+                       String illustrationPath,
                        StoryUnlockConditionView condition,
                        Story story)  {
-        this(parent, title, imagePath, condition);
+        this(parent, title, illustrationPath, condition);
         this.story = story;
     }
 
     public StoryButton(StoryButtonPane parent,
                        String title,
-                       String imagePath,
+                       String illustrationPath,
                        StoryUnlockConditionView condition,
                        AVGStory story) {
-        this(parent, title, imagePath, condition);
+        this(parent, title, illustrationPath, condition);
         avgStory = story;
     }
 
@@ -147,7 +145,11 @@ public class StoryButton extends StackPane {
             enable(parent);
             setOnMouseClicked(_ -> {
                 if (story == null) {
-                    avgStory.play();
+                    if (getScene().getWindow() instanceof SetStage stage) {
+                        avgStory.play(stage);
+                    } else {
+                        throw new IllegalStateException("A StoryButton's Window must be SetStage");
+                    }
                 } else {
                     story.play(parent);
                 }

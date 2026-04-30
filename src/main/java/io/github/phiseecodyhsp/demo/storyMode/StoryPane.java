@@ -1,8 +1,6 @@
 package io.github.phiseecodyhsp.demo.storyMode;
 
-import io.github.phiseecodyhsp.demo.Resources;
 import io.github.phiseecodyhsp.demo.Util;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.jetbrains.annotations.NotNull;
@@ -14,10 +12,8 @@ public class StoryPane extends StackPane {
     private final List<StoryButtonPane> storyButtonPanes = new ArrayList<>();
 
     public StoryPane(@NotNull String bgPath) {
-        ImageView bg = new ImageView(Resources.Beyond_BACKGROUND);
-        try {
-            bg.setImage(new Image(bgPath));
-        } catch (IllegalArgumentException _) {}
+        ImageView bg;
+        bg = new ImageView(bgPath);
         bg.setPreserveRatio(true);
         bg.setFitWidth(Util.getScreenWidth());
 

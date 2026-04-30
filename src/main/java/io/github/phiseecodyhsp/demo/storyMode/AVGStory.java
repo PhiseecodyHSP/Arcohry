@@ -1,10 +1,14 @@
 package io.github.phiseecodyhsp.demo.storyMode;
 
+import io.github.phiseecodyhsp.demo.SetStage;
 import javafx.scene.layout.StackPane;
 
-import java.util.List;
-
+//TODO
 public class AVGStory extends StackPane {
-    public void play() {
+    public AVGStory() {
+    }
+
+    public void play(SetStage stage) {
+        stage.switchPane(SetStage.TransAnimaType.NORMAL, this);
     }
 }
