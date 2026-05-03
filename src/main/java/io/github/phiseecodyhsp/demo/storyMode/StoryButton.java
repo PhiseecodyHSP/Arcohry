@@ -1,6 +1,5 @@
 package io.github.phiseecodyhsp.demo.storyMode;
 
-import io.github.phiseecodyhsp.demo.SetStage;
 import io.github.phiseecodyhsp.demo.Util;
 import io.github.phiseecodyhsp.demo.Resources;
 import javafx.animation.FadeTransition;
@@ -18,16 +17,16 @@ import org.jetbrains.annotations.NotNull;
 public class StoryButton extends StackPane {
     public static final int SIDE_LENGTH = 100;
     public static final int BORDER_WIDTH = 2;
-    public static final int DIAGONAL_LENGTH = Util.nextEven(SIDE_LENGTH * Math.sqrt(2));
-    public static final double ARC_SIZE = 5;
+    public static final double DIAGONAL_LENGTH = SIDE_LENGTH * Math.sqrt(2);
+    public static final int ARC_SIZE = 5;
     private static final int IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
     private static final double MASK_HIGHEST_OPACITY = 0.25;
     public static final double LOWEST_OPACITY = 1 - MASK_HIGHEST_OPACITY;
-    public static final double OUTER_GLOW_INTENSITY = 10;
-    public static final double OUTER_GLOW_OFFSET = 10;
-    private static final double FT_TIME = 0.25;
+    public static final int OUTER_GLOW_INTENSITY = 10;
+    public static final int OUTER_GLOW_OFFSET = 10;
+    private static final double FADETRANS_TIME = 0.25;
     private static final Font FONT = new Font(
-            Resources.Futura_LT_Light_FONT, Util.px2FontSize(Util.nextEven(DIAGONAL_LENGTH / 4.0)));
+            Resources.Futura_LT_Light_FONT, Util.px2FontSize(DIAGONAL_LENGTH / 4.0));
 
     private boolean enabled = false;
     private boolean unlocked = false;
@@ -80,8 +79,8 @@ public class StoryButton extends StackPane {
         lock.setPreserveRatio(true);
 
 
-        FadeTransition onEntered = new FadeTransition(Duration.seconds(FT_TIME), mask);
-        FadeTransition onExited = new FadeTransition(Duration.seconds(FT_TIME), mask);
+        FadeTransition onEntered = new FadeTransition(Duration.seconds(FADETRANS_TIME), mask);
+        FadeTransition onExited = new FadeTransition(Duration.seconds(FADETRANS_TIME), mask);
         onEntered.setToValue(MASK_HIGHEST_OPACITY);
         onExited.setToValue(0);
         setOnMouseEntered(_ -> {

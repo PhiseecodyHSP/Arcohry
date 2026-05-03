@@ -11,8 +11,8 @@ public final class Resources {
     public static final String DOROC_AVATAR;
     public static final String SUCV_BG0;
     public static final String SUCV_BG1;
-    public static final String TrAnL;
-    public static final String TrAnR;
+    public static final String NORMAL_TRANSANIMA_L;
+    public static final String NORMAL_TRANSANIMA_R;
 
     public static final String STORYMODE_BGM;
 
@@ -25,8 +25,8 @@ public final class Resources {
         DOROC_AVATAR = of("images/143px-Partner_doroc_awaken_icon.png");
         SUCV_BG0 = of("images/未标题-1.png");
         SUCV_BG1 = of("images/未标题-1.png");
-        TrAnL = of("images/TransAnimaL_resized.png");
-        TrAnR = of("images/TransAnimaR_resized.png");
+        NORMAL_TRANSANIMA_L = of("images/TransAnimaL_resized.png");
+        NORMAL_TRANSANIMA_R = of("images/TransAnimaR_resized.png");
 
         STORYMODE_BGM = of("audios/故事菜单音乐.wav");
     }

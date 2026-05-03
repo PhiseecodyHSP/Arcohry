@@ -25,8 +25,8 @@ public class StoryPane extends StackPane {
         storyButtonPanes.addAll(List.of(buttonPanes));
 
         int s = storyButtonPanes.size();
-        int d = StoryButton.DIAGONAL_LENGTH;
-        for (int i = 0; i < storyButtonPanes.size(); i++) {
+        double d = StoryButton.DIAGONAL_LENGTH;
+        for (int i = 0; i < s; i++) {
             storyButtonPanes.get(i).setTranslateY((2 * i - s + 1) * d);
         }
     }

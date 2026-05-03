@@ -19,16 +19,8 @@ public final class Util {
         return Screen.getPrimary().getBounds().getHeight();
     }
 
-    public static int nextEven(double d) {
-        int i = (int) d + 1;
-        if (i % 2 == 0) {
-            return i;
-        }
-        return i + 1;
-    }
-
-    public static int px2FontSize(int px) {
-        return (int) (px * 72.0 / getDpi()) + 1;
+    public static double px2FontSize(double px) {
+        return (px * 72.0 / getDpi()) + 1;
     }
 
     public static SetStage getSetStage(Scene scene) {

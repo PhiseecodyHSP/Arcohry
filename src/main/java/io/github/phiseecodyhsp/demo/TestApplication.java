@@ -6,9 +6,8 @@ import javafx.stage.Stage;
 
 public class TestApplication extends Application {
     public void start(Stage stage) {
-        StoryUnlockConditionView condition1 = new StoryUnlockConditionView("Uminaoshi", null);
-        StoryUnlockConditionView condition2 = new StoryUnlockConditionView
-                (Charts.Tutorial_PST, Partners.DORO_C);
+        StoryUnlockConditionView condition1 = new StoryUnlockConditionView(Charts.Tutorial_PST);
+        StoryUnlockConditionView condition2 = new StoryUnlockConditionView(Charts.Tutorial_PST, Partners.DORO_C);
 
         StoryPane pane = new StoryPane(Resources.Beyond_BACKGROUND);
 

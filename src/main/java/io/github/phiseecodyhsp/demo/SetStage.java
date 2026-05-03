@@ -53,10 +53,11 @@ public class SetStage extends Stage {
 
     //TODO
     private class TransitionAnimation extends StackPane {
-        private static final double T_TIME = 3;
+        private static final double TRANS_TIME = 3;
         private static final double LOWEST_PANE_OPACITY = 0.5;
-        private static final int DISPLACEMENT = 0;
+        private static final int LABEL_DISPLACEMENT = 0;
         private static final double HIGHEST_ILLUSTRATION_SCALE = 0;
+        private static final double PARADIGMS_OPACITY = 0.5;
 
         private final ImageView left = new ImageView();
         private final ImageView right = new ImageView();
@@ -75,18 +76,18 @@ public class SetStage extends Stage {
                 new StackPane(musicName, music, composer, illustration, illustrator, noteDesign, noteDesigner);
         private final StackPane pane = new StackPane(labelPane, illustrationView, musicNameShadow, shadow, paradigms);
 
-        private final TranslateTransition onLAdded = new TranslateTransition(Duration.seconds(T_TIME), left);
-        private final TranslateTransition onRAdded = new TranslateTransition(Duration.seconds(T_TIME), right);
-        private final TranslateTransition onLRemoved = new TranslateTransition(Duration.seconds(T_TIME), left);
-        private final TranslateTransition onRRemoved = new TranslateTransition(Duration.seconds(T_TIME), right);
+        private final TranslateTransition onLAdded = new TranslateTransition(Duration.seconds(TRANS_TIME), left);
+        private final TranslateTransition onRAdded = new TranslateTransition(Duration.seconds(TRANS_TIME), right);
+        private final TranslateTransition onLRemoved = new TranslateTransition(Duration.seconds(TRANS_TIME), left);
+        private final TranslateTransition onRRemoved = new TranslateTransition(Duration.seconds(TRANS_TIME), right);
         private final TranslateTransition onLabelPaneAdded =
-                new TranslateTransition(Duration.seconds(T_TIME), labelPane);
+                new TranslateTransition(Duration.seconds(TRANS_TIME), labelPane);
         private final ScaleTransition onIllustrationAdded =
-                new ScaleTransition(Duration.seconds(T_TIME), illustrationView);
+                new ScaleTransition(Duration.seconds(TRANS_TIME), illustrationView);
         private final ScaleTransition onIllustrationRemoved =
-                new ScaleTransition(Duration.seconds(T_TIME), illustrationView);
-        private final FadeTransition onPaneAdded = new FadeTransition(Duration.seconds(T_TIME), pane);
-        private final FadeTransition onPaneRemoved = new FadeTransition(Duration.seconds(T_TIME), pane);
+                new ScaleTransition(Duration.seconds(TRANS_TIME), illustrationView);
+        private final FadeTransition onPaneAdded = new FadeTransition(Duration.seconds(TRANS_TIME), pane);
+        private final FadeTransition onPaneRemoved = new FadeTransition(Duration.seconds(TRANS_TIME), pane);
 
 
         private TransitionAnimation() {
@@ -156,18 +157,18 @@ public class SetStage extends Stage {
             onPaneAdded.playFromStart();
 
             getChildren().clear();
-            getChildren().addAll
-                    (left,
-                            right,
-                            shadow,
-                            musicNameShadow,
-                            this.paradigms,
-                            illustrationView,
-                            this.musicName,
-                            music,
-                            this.composer,
-                            noteDesign,
-                            this.noteDesigner);
+            getChildren().addAll(
+                    left,
+                    right,
+                    shadow,
+                    musicNameShadow,
+                    this.paradigms,
+                    illustrationView,
+                    this.musicName,
+                    music,
+                    this.composer,
+                    noteDesign,
+                    this.noteDesigner);
             this.noteDesigner.setText(noteDesigner);
             if (illustrator != null) {
                 this.illustrator.setText(illustrator);
@@ -182,13 +183,13 @@ public class SetStage extends Stage {
 
     //TODO: 素材替换
     public enum TransAnimaType {
-        NORMAL(Resources.TrAnL, Resources.TrAnR),
-        GRIEVOUS(Resources.TrAnL, Resources.TrAnR),
-        FRACTURE(Resources.TrAnL, Resources.TrAnR),
-        FINAL(Resources.TrAnL, Resources.TrAnR),
-        ARGHENA(Resources.TrAnL, Resources.TrAnR),
-        ALTER(Resources.TrAnL, Resources.TrAnR),
-        DESIGNANT(Resources.TrAnL, Resources.TrAnR);
+        NORMAL(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+        GRIEVOUS(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+        FRACTURE(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+        FINAL(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+        ARGHENA(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+        ALTER(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+        DESIGNANT(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R);
 
         private final String leftImagePath;
         private final String rightImagePath;

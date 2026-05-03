@@ -36,10 +36,10 @@ public class StoryButtonPane extends StackPane {
         this.storyButtons.getFirst().unlock(parent);
 
         int s = this.storyButtons.size();
-        int l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
+        double l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
 
         for (int i = 0; i < s; i++) {
-            this.storyButtons.get(i).setTranslateX(Util.nextEven(l * (i + (1 - s) / 2.0)));
+            this.storyButtons.get(i).setTranslateX(l * (i + (1 - s) / 2.0));
         }
 
         setMaxSize(s * l - StoryButton.SIDE_LENGTH, StoryButton.DIAGONAL_LENGTH);
@@ -48,11 +48,11 @@ public class StoryButtonPane extends StackPane {
     public void updateLine() {
         int e = (int) storyButtons.stream().filter(StoryButton::isEnabled).count();
         int s = storyButtons.size();
-        int l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
+        double l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
         int d = s - e;
 
         lightLine.setWidth(l * (e - 1));
-        lightLine.setTranslateX(Util.nextEven(l * (e - s) / 2.0));
+        lightLine.setTranslateX(l * (e - s) / 2.0);
 
         while (darkLineCount < d) {
             darkLineCount++;
@@ -66,7 +66,7 @@ public class StoryButtonPane extends StackPane {
             getChildren().removeFirst();
         }
         for (int i = 0; i < darkLineCount; i++) {
-            getChildren().get(i).setTranslateX(Util.nextEven(l * (e + i - s / 2.0)));
+            getChildren().get(i).setTranslateX(l * (e + i - s / 2.0));
         }
     }
 }
