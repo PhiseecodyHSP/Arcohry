@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static io.github.phiseecodyhsp.demo.storyMode.StoryButton.*;
 
+//TODO: 背景素材等
 public class StoryUnlockConditionView extends StackPane {
     private static final double TRANS_TIME = 0.25;
     private static final double LOWEST_SCALE_RATIO = 0.75;
@@ -27,16 +28,34 @@ public class StoryUnlockConditionView extends StackPane {
     private static final Font FONT = new Font
             (Resources.Noto_Sans_FONT, Util.px2FontSize(ILLUSTRATION_WIDTH / 7.5));
 
+    private final String music;
+    private final String composer;
+    private final String illustrationPath;
+    private final String illustrator;
+    private final String noteDesigner;
+    private final Chart.Paradigms paradigms;
     private final Label condition = new Label();
-    private final StackPane pane = new StackPane();
     private final ImageView bg = new ImageView(Resources.SUCV_BG0);
     private final ImageView illustration;
+    private final StackPane pane = new StackPane();
     private final ScaleTransition onAddedST = new ScaleTransition(Duration.seconds(TRANS_TIME), pane);
     private final ScaleTransition onRemovedST = new ScaleTransition(Duration.seconds(TRANS_TIME), pane);
     private final FadeTransition onAddedContentFT = new FadeTransition(Duration.seconds(TRANS_TIME), pane);
     private final FadeTransition onRemovedContentFT = new FadeTransition(Duration.seconds(TRANS_TIME), pane);
 
-    public StoryUnlockConditionView(String music, @NotNull String illustrationPath) {
+    public StoryUnlockConditionView(String music,
+                                    String composer,
+                                    @NotNull String illustrationPath,
+                                    String illustrator,
+                                    String noteDesigner,
+                                    @NotNull Chart.Paradigms paradigms) {
+        this.music = music;
+        this.composer = composer;
+        this.illustrationPath = illustrationPath;
+        this.illustrator = illustrator;
+        this.noteDesigner = noteDesigner;
+        this.paradigms = paradigms;
+
         condition.setText("通关“" + music + "”以解锁此故事。");
         condition.setTextFill(Color.WHITE);
         condition.setFont(FONT);
@@ -88,12 +107,15 @@ public class StoryUnlockConditionView extends StackPane {
         getChildren().addAll(shadow, pane);
     }
 
-    //TODO: 排版
     public StoryUnlockConditionView(String music,
+                                    String composer,
                                     @NotNull String illustrationPath,
+                                    String illustrator,
+                                    String noteDesigner,
+                                    @NotNull Chart.Paradigms paradigms,
                                     String partner,
                                     @NotNull String partnerPath) {
-        this(music, illustrationPath);
+        this(music, composer, illustrationPath, illustrator, noteDesigner, paradigms);
         condition.setText("使用搭档“" + partner + "”通关“" + music + "”以解锁此故事。");
         bg.setImage(new Image(Resources.SUCV_BG1));
         condition.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH / 4.0);
@@ -104,40 +126,81 @@ public class StoryUnlockConditionView extends StackPane {
                 ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Math.sqrt(3),
                 -ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Math.sqrt(3));
         arrow.setFill(Color.WHITE);
-        arrow.setTranslateY(0);
+        arrow.setTranslateY(ILLUSTRATION_WIDTH * 7 / 30.0 + BORDER_WIDTH / 4.0);
         arrow.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
 
-        Rectangle border = new Rectangle(ILLUSTRATION_WIDTH / 3.0, ILLUSTRATION_WIDTH / 3.0, Color.WHITE);
+        Rectangle border = new Rectangle(ILLUSTRATION_WIDTH / 2.5 / Math.sqrt(2) + BORDER_WIDTH,
+                ILLUSTRATION_WIDTH / 2.5 / Math.sqrt(2) + BORDER_WIDTH, Color.WHITE);
         border.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
         border.setRotate(45);
         border.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0);
 
         ImageView partnerView = new ImageView(partnerPath);
-        partnerView.setFitWidth(ILLUSTRATION_WIDTH / 3.0 * Math.sqrt(2) - BORDER_WIDTH * 2);
+        partnerView.setFitWidth(ILLUSTRATION_WIDTH / 2.5);
         partnerView.setPreserveRatio(true);
         partnerView.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0);
 
         pane.getChildren().addAll(border, partnerView,arrow);
     }
 
-    public StoryUnlockConditionView(Chart chart) {
-        this(chart.music, chart.illustrationPath);
+    public StoryUnlockConditionView(@NotNull Chart chart) {
+        this(chart.music,
+                chart.composer,
+                chart.illustrationPath,
+                chart.illustrator,
+                chart.noteDesigner,
+                chart.paradigms);
     }
 
-    public StoryUnlockConditionView(Chart chart, Partner partner) {
-        this(chart.music, chart.illustrationPath, partner.name(), partner.avatarPath());
+    public StoryUnlockConditionView(@NotNull Chart chart,@NotNull Partner partner) {
+        this(chart.music,
+                chart.composer,
+                chart.illustrationPath,
+                chart.illustrator,
+                chart.noteDesigner,
+                chart.paradigms,
+                partner.name(),
+                partner.avatarPath());
     }
 
-    public StoryUnlockConditionView(Chart chart, String partner, String partnerPath) {
-        this(chart.music, chart.illustrationPath, partner, partnerPath);
+    public StoryUnlockConditionView(@NotNull Chart chart, String partner,@NotNull String partnerPath) {
+        this(chart.music,
+                chart.composer,
+                chart.illustrationPath,
+                chart.illustrator,
+                chart.noteDesigner,
+                chart.paradigms,
+                partner,
+                partnerPath);
     }
 
-    public StoryUnlockConditionView(String music, String illustrationPath, Partner partner) {
-        this(music, illustrationPath, partner.name(), partner.avatarPath());
+    public StoryUnlockConditionView(String music,
+                                    String composer,
+                                    @NotNull String illustrationPath,
+                                    String illustrator,
+                                    String noteDesigner,
+                                    @NotNull Chart.Paradigms paradigms,
+                                    @NotNull Partner partner) {
+        this(music,
+                composer,
+                illustrationPath,
+                illustrator,
+                noteDesigner,
+                paradigms,
+                partner.name(),
+                partner.avatarPath());
     }
 
     public void show(StoryPane parent) {
         parent.getChildren().add(this);
+        illustration.setOnMouseClicked(_ -> Util.getSetStage(this).playChart(
+                SetStage.TransAnimaType.NORMAL,
+                music,
+                composer,
+                illustrationPath,
+                illustrator,
+                noteDesigner,
+                paradigms));
         onRemovedST.setOnFinished(_ -> parent.getChildren().remove(this));
         onRemovedContentFT.stop();
         onRemovedST.stop();

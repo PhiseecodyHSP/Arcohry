@@ -2,6 +2,7 @@ package io.github.phiseecodyhsp.demo;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.jetbrains.annotations.NotNull;
 
 public class Chart {
     public final String music;
@@ -16,16 +17,16 @@ public class Chart {
     public final Paradigms paradigms;
 
     public Chart(String music,
-                 String musicPath,
+                 @NotNull String musicPath,
                  String composer,
                  double minBPM,
                  double maxBPM,
                  Difficulty difficulty,
                  double rating,
-                 String illustrationPath,
+                 @NotNull String illustrationPath,
                  String illustrator,
                  String noteDesigner,
-                 Paradigms paradigms) {
+                 @NotNull Paradigms paradigms) {
         this.music = music;
         this.musicPath = musicPath;
         this.composer = composer;
@@ -36,9 +37,9 @@ public class Chart {
         this.paradigms = paradigms;
 
         if (minBPM == maxBPM) {
-            bpm = String.valueOf((int) minBPM);
+            bpm = String.valueOf(minBPM);
         } else {
-            bpm = (int) minBPM + "-" + (int) maxBPM;
+            bpm = minBPM + "-" + maxBPM;
         }
 
         if (rating - (int) rating < 0.7) {

@@ -19,12 +19,16 @@ public class SetStage extends Stage {
     private static final int WIDTH = 640;
     private static final int HEIGHT = WIDTH / 16 * 9;
 
+    private StackPane lastPane;
+    private StackPane currentPane;
     private final StackPane root = new StackPane();
     private final Scene scene = new Scene(root);
     private final TransitionAnimation anima = new TransitionAnimation();
 
     public SetStage(StackPane initialPane) {
         root.getChildren().add(initialPane);
+        lastPane = null;
+        currentPane = initialPane;
 
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.F11) {
@@ -49,12 +53,33 @@ public class SetStage extends Stage {
     public void switchPane(TransAnimaType type, StackPane newPane) {
         anima.play(type);
         root.getChildren().set(0, newPane);
+        lastPane = currentPane;
+        currentPane = newPane;
+    }
+
+    public void playChart(@NotNull TransAnimaType type,
+                          String musicName,
+                          String composer,
+                          @NotNull String illustrationPath,
+                          String illustrator,
+                          String noteDesigner,
+                          @NotNull Chart.Paradigms paradigms) {
+        anima.play(type, musicName, composer,illustrationPath, illustrator, noteDesigner, paradigms);
+    }
+
+    public void playChart(@NotNull TransAnimaType type, @NotNull Chart chart) {
+        playChart(type,
+                chart.music,
+                chart.composer,
+                chart.illustrationPath,
+                chart.illustrator,
+                chart.noteDesigner,
+                chart.paradigms);
     }
 
     //TODO
     private class TransitionAnimation extends StackPane {
         private static final double TRANS_TIME = 3;
-        private static final double LOWEST_PANE_OPACITY = 0.5;
         private static final int LABEL_DISPLACEMENT = 0;
         private static final double HIGHEST_ILLUSTRATION_SCALE = 0;
         private static final double PARADIGMS_OPACITY = 0.5;
@@ -72,8 +97,7 @@ public class SetStage extends Stage {
         private final Label illustrator = new Label();
         private final Label noteDesign = new Label("Note Design");
         private final Label noteDesigner = new Label();
-        private final StackPane labelPane =
-                new StackPane(musicName, music, composer, illustration, illustrator, noteDesign, noteDesigner);
+        private final StackPane labelPane = new StackPane();
         private final StackPane pane = new StackPane(labelPane, illustrationView, musicNameShadow, shadow, paradigms);
 
         private final TranslateTransition onLAdded = new TranslateTransition(Duration.seconds(TRANS_TIME), left);
@@ -122,15 +146,18 @@ public class SetStage extends Stage {
         }
 
         private void play(@NotNull SetStage.TransAnimaType type,
-                          @NotNull String musicName,
-                          @NotNull String composer,
+                          String musicName,
+                          String composer,
+                          @NotNull String illustrationPath,
                           String illustrator,
-                          @NotNull String noteDesigner,
+                          String noteDesigner,
                           @NotNull Chart.Paradigms paradigms) {
             type.setImage(this);
 
             this.musicName.setText(musicName);
             this.composer.setText(composer);
+            illustrationView.setImage(new Image(illustrationPath));
+            this.illustrator.setText(illustrator);
             paradigms.setParadigms(this.paradigms);
 
             root.getChildren().add(this);
@@ -156,28 +183,33 @@ public class SetStage extends Stage {
             onIllustrationAdded.playFromStart();
             onPaneAdded.playFromStart();
 
-            getChildren().clear();
-            getChildren().addAll(
-                    left,
-                    right,
-                    shadow,
-                    musicNameShadow,
-                    this.paradigms,
-                    illustrationView,
+            labelPane.getChildren().clear();
+            labelPane.getChildren().addAll(
                     this.musicName,
                     music,
                     this.composer,
                     noteDesign,
                     this.noteDesigner);
-            this.noteDesigner.setText(noteDesigner);
             if (illustrator != null) {
-                this.illustrator.setText(illustrator);
-                getChildren().addAll(illustration, this.illustrator);
+                labelPane.getChildren().addAll(illustration, this.illustrator);
             }
+
+            getChildren().clear();
+            getChildren().addAll(
+                    left,
+                    right,
+                    pane);
+            this.noteDesigner.setText(noteDesigner);
         }
 
         private void play(@NotNull SetStage.TransAnimaType type, @NotNull Chart chart) {
-            play(type, chart.music, chart.composer, chart.illustrator, chart.noteDesigner, chart.paradigms);
+            play(type,
+                    chart.music,
+                    chart.composer,
+                    chart.illustrationPath,
+                    chart.illustrator,
+                    chart.noteDesigner,
+                    chart.paradigms);
         }
     }
 

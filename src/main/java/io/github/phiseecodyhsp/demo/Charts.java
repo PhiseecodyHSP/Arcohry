@@ -8,11 +8,11 @@ public final class Charts {
     static {
         Tutorial_PST = new Chart(
                 "Tutorial",
-                null,
+                "",
                 "ak+q",
                 128, 128,
                 Chart.Difficulty.PST,
-                1,
+                1.0,
                 Resources.Tutorial_ILLUSTRTION,
                 null,
                 null,
