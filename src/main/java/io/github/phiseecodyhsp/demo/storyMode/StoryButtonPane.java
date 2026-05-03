@@ -1,6 +1,8 @@
 package io.github.phiseecodyhsp.demo.storyMode;
 
-import io.github.phiseecodyhsp.demo.Util;
+import io.github.phiseecodyhsp.demo.Partner;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -9,25 +11,55 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.phiseecodyhsp.demo.storyMode.StoryButton.*;
+
 public class StoryButtonPane extends StackPane {
     private final Rectangle lightLine = new Rectangle();
+    private final StackPane partner;
     private final StoryPane parent;
     public final List<StoryButton> storyButtons = new ArrayList<>();
 
     private int darkLineCount;
 
-    public StoryButtonPane(@NotNull StoryPane parent) {
+    public StoryButtonPane(@NotNull StoryPane parent, String partnerPath) {
         this.parent = parent;
 
         lightLine.setFill(Color.WHITE);
         lightLine.setHeight(StoryButton.BORDER_WIDTH);
+
 
         parentProperty().addListener((_, _, p) -> {
             if (p != null && p != parent) {
                 throw new IllegalStateException(getClass().getSimpleName() + "的父容器必须与实例化其时传入的父容器相同");
             }
         });
-        getChildren().add(lightLine);
+
+        if (partnerPath != null) {
+            ImageView partnerView = new ImageView(partnerPath);
+            partnerView.setFitWidth(IMAGE_SIZE * Math.sqrt(2));
+            partnerView.setPreserveRatio(true);
+
+            Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH);
+            border.setFill(Color.rgb(150, 140, 160));
+            border.setArcWidth(ARC_SIZE);
+            border.setArcHeight(ARC_SIZE);
+            border.setRotate(45);
+            border.setEffect(new DropShadow(
+                    OUTER_GLOW_INTENSITY,
+                    OUTER_GLOW_OFFSET,
+                    OUTER_GLOW_OFFSET,
+                    new Color(0, 0, 0, 0.5)));
+            partner = new StackPane(border, partnerView);
+
+            getChildren().addAll(lightLine, partner);
+        } else {
+            partner = null;
+            getChildren().add(lightLine);
+        }
+    }
+
+    public StoryButtonPane(@NotNull StoryPane parent, Partner partner) {
+        this(parent, partner.avatarPath());
     }
 
     public void add(StoryButton... storyButtons) {
@@ -38,8 +70,15 @@ public class StoryButtonPane extends StackPane {
         int s = this.storyButtons.size();
         double l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
 
-        for (int i = 0; i < s; i++) {
-            this.storyButtons.get(i).setTranslateX(l * (i + (1 - s) / 2.0));
+        if (partner != null) {
+            partner.setTranslateX(l * ((2 - s) / 2.0 - 1));
+            for (int i = 0; i < s; i++) {
+                this.storyButtons.get(i).setTranslateX(l * (i + (2 - s) / 2.0));
+            }
+        } else {
+            for (int i = 0; i < s; i++) {
+                this.storyButtons.get(i).setTranslateX(l * (i + (1 - s) / 2.0));
+            }
         }
 
         setMaxSize(s * l - StoryButton.SIDE_LENGTH, StoryButton.DIAGONAL_LENGTH);
@@ -50,9 +89,6 @@ public class StoryButtonPane extends StackPane {
         int s = storyButtons.size();
         double l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
         int d = s - e;
-
-        lightLine.setWidth(l * (e - 1));
-        lightLine.setTranslateX(l * (e - s) / 2.0);
 
         while (darkLineCount < d) {
             darkLineCount++;
@@ -65,6 +101,13 @@ public class StoryButtonPane extends StackPane {
             darkLineCount--;
             getChildren().removeFirst();
         }
+
+        if (partner != null) {
+            e++;
+            s++;
+        }
+        lightLine.setWidth(l * (e - 1));
+        lightLine.setTranslateX(l * (e - s) / 2.0);
         for (int i = 0; i < darkLineCount; i++) {
             getChildren().get(i).setTranslateX(l * (e + i - s / 2.0));
         }

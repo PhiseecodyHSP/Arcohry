@@ -11,9 +11,9 @@ public class TestApplication extends Application {
 
         StoryPane pane = new StoryPane(Resources.Beyond_BACKGROUND);
 
-        StoryButtonPane bPane1 = new StoryButtonPane(pane);
-        StoryButtonPane bPane2 = new StoryButtonPane(pane);
-        StoryButtonPane bPane3 = new StoryButtonPane(pane);
+        StoryButtonPane bPane1 = new StoryButtonPane(pane, Partners.DORO_C);
+        StoryButtonPane bPane2 = new StoryButtonPane(pane, Partners.DORO_C);
+        StoryButtonPane bPane3 = new StoryButtonPane(pane, Partners.DORO_C);
 
         StoryButton button1 = new StoryButton(bPane1, "1.1", Resources.Tutorial_ILLUSTRTION, null, (Story) null);
         StoryButton button2 = new StoryButton(bPane1, "1.2", Resources.Tutorial_ILLUSTRTION, condition1, (Story) null);

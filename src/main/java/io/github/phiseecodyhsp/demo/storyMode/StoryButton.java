@@ -19,7 +19,7 @@ public class StoryButton extends StackPane {
     public static final int BORDER_WIDTH = 2;
     public static final double DIAGONAL_LENGTH = SIDE_LENGTH * Math.sqrt(2);
     public static final int ARC_SIZE = 5;
-    private static final int IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
+    public static final int IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
     private static final double MASK_HIGHEST_OPACITY = 0.25;
     public static final double LOWEST_OPACITY = 1 - MASK_HIGHEST_OPACITY;
     public static final int OUTER_GLOW_INTENSITY = 10;
@@ -71,7 +71,6 @@ public class StoryButton extends StackPane {
 
         ImageView view;
         view = new ImageView(illustrationPath);
-
         view.setFitWidth(IMAGE_SIZE);
         view.setPreserveRatio(true);
         lock.setRotate(-45);

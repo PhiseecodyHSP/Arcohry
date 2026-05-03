@@ -17,10 +17,12 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
+import static io.github.phiseecodyhsp.demo.storyMode.StoryButton.*;
+
 public class StoryUnlockConditionView extends StackPane {
     private static final double TRANS_TIME = 0.25;
     private static final double LOWEST_SCALE_RATIO = 0.75;
-    private static final int ILLUSTRATION_WIDTH = StoryButton.SIDE_LENGTH * 2;
+    private static final int ILLUSTRATION_WIDTH = SIDE_LENGTH * 2;
     private static final double BG_HEIGHT = ILLUSTRATION_WIDTH * 8 / 3.0;
     private static final Font FONT = new Font
             (Resources.Noto_Sans_FONT, Util.px2FontSize(ILLUSTRATION_WIDTH / 7.5));
@@ -41,7 +43,7 @@ public class StoryUnlockConditionView extends StackPane {
         condition.setTranslateY((BG_HEIGHT - ILLUSTRATION_WIDTH) / 2.0);
 
         illustration = new ImageView(illustrationPath);
-        illustration.setEffect(new DropShadow(StoryButton.OUTER_GLOW_INTENSITY, Color.WHITE));
+        illustration.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
         illustration.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 3 / 2.0);
         bg.setFitHeight(BG_HEIGHT);
         bg.setPreserveRatio(true);
@@ -103,15 +105,15 @@ public class StoryUnlockConditionView extends StackPane {
                 -ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Math.sqrt(3));
         arrow.setFill(Color.WHITE);
         arrow.setTranslateY(0);
-        arrow.setEffect(new DropShadow(StoryButton.OUTER_GLOW_INTENSITY, Color.WHITE));
+        arrow.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
 
         Rectangle border = new Rectangle(ILLUSTRATION_WIDTH / 3.0, ILLUSTRATION_WIDTH / 3.0, Color.WHITE);
-        border.setEffect(new DropShadow(StoryButton.OUTER_GLOW_INTENSITY, Color.WHITE));
+        border.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
         border.setRotate(45);
         border.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0);
 
         ImageView partnerView = new ImageView(partnerPath);
-        partnerView.setFitWidth(ILLUSTRATION_WIDTH / 3.0 * Math.sqrt(2) - StoryButton.BORDER_WIDTH * 2);
+        partnerView.setFitWidth(ILLUSTRATION_WIDTH / 3.0 * Math.sqrt(2) - BORDER_WIDTH * 2);
         partnerView.setPreserveRatio(true);
         partnerView.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0);
 
