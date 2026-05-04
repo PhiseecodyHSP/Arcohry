@@ -15,6 +15,6 @@ public class Opening extends StackPane {
         BLACK,
         SILENT,
         ASCENSION,
-        DEFAULT;
+        DEFAULT
     }
 }

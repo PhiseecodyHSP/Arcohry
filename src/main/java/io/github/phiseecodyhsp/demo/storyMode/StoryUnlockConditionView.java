@@ -24,9 +24,9 @@ public class StoryUnlockConditionView extends StackPane {
     private static final double TRANS_TIME = 0.25;
     private static final double LOWEST_SCALE_RATIO = 0.75;
     private static final int ILLUSTRATION_WIDTH = SIDE_LENGTH * 2;
-    private static final double BG_HEIGHT = ILLUSTRATION_WIDTH * 8 / 3.0;
+    private static final int BG_HEIGHT = Util.doubleToEven(ILLUSTRATION_WIDTH * 8 / 3.0);
     private static final Font FONT = new Font
-            (Resources.Noto_Sans_FONT, Util.px2FontSize(ILLUSTRATION_WIDTH / 7.5));
+            (Resources.Noto_Sans_FONT, Util.pxToFontSize(ILLUSTRATION_WIDTH / 7.5));
 
     private final String music;
     private final String composer;
@@ -59,11 +59,11 @@ public class StoryUnlockConditionView extends StackPane {
         condition.setText("通关“" + music + "”以解锁此故事。");
         condition.setTextFill(Color.WHITE);
         condition.setFont(FONT);
-        condition.setTranslateY((BG_HEIGHT - ILLUSTRATION_WIDTH) / 2.0);
+        condition.setTranslateY(Util.doubleToEven((Util.doubleToEven(BG_HEIGHT - ILLUSTRATION_WIDTH) / 2.0)));
 
         illustration = new ImageView(illustrationPath);
         illustration.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
-        illustration.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 3 / 2.0);
+        illustration.setTranslateY(Util.doubleToEven(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 3 / 2.0)));
         bg.setFitHeight(BG_HEIGHT);
         bg.setPreserveRatio(true);
         illustration.setFitWidth(ILLUSTRATION_WIDTH);
@@ -118,27 +118,29 @@ public class StoryUnlockConditionView extends StackPane {
         this(music, composer, illustrationPath, illustrator, noteDesigner, paradigms);
         condition.setText("使用搭档“" + partner + "”通关“" + music + "”以解锁此故事。");
         bg.setImage(new Image(Resources.SUCV_BG1));
-        condition.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH / 4.0);
-        illustration.setTranslateY(ILLUSTRATION_WIDTH - BG_HEIGHT / 2.0);
+        condition.setTranslateY(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH / 4.0));
+        illustration.setTranslateY(Util.doubleToEven(ILLUSTRATION_WIDTH - BG_HEIGHT / 2.0));
 
         Polygon arrow = new Polygon(
                 0, -ILLUSTRATION_WIDTH / 15.0 / Math.sqrt(3),
                 ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Math.sqrt(3),
                 -ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Math.sqrt(3));
         arrow.setFill(Color.WHITE);
-        arrow.setTranslateY(ILLUSTRATION_WIDTH * 7 / 30.0 + BORDER_WIDTH / 4.0);
+        arrow.setTranslateY(Util.doubleToEven(ILLUSTRATION_WIDTH * 7 / 30.0 + BORDER_WIDTH / 4.0));
         arrow.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
 
-        Rectangle border = new Rectangle(ILLUSTRATION_WIDTH / 2.5 / Math.sqrt(2) + BORDER_WIDTH,
-                ILLUSTRATION_WIDTH / 2.5 / Math.sqrt(2) + BORDER_WIDTH, Color.WHITE);
+        Rectangle border = new Rectangle(
+                Util.doubleToEven(ILLUSTRATION_WIDTH / 2.5) / Math.sqrt(2) + BORDER_WIDTH,
+                Util.doubleToEven(ILLUSTRATION_WIDTH / 2.5) / Math.sqrt(2) + BORDER_WIDTH,
+                Color.WHITE);
         border.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
         border.setRotate(45);
-        border.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0);
+        border.setTranslateY(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0));
 
         ImageView partnerView = new ImageView(partnerPath);
-        partnerView.setFitWidth(ILLUSTRATION_WIDTH / 2.5);
+        partnerView.setFitWidth(Util.doubleToEven(ILLUSTRATION_WIDTH / 2.5));
         partnerView.setPreserveRatio(true);
-        partnerView.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0);
+        partnerView.setTranslateY(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0));
 
         pane.getChildren().addAll(border, partnerView,arrow);
     }

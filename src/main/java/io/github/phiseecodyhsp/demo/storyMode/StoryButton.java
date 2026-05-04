@@ -15,9 +15,9 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 public class StoryButton extends StackPane {
-    public static final int SIDE_LENGTH = 100;
+    public static final int SIDE_LENGTH = Util.doubleToEven(Util.getScreenHeight() * 0.1);
     public static final int BORDER_WIDTH = 2;
-    public static final double DIAGONAL_LENGTH = SIDE_LENGTH * Math.sqrt(2);
+    public static final int DIAGONAL_LENGTH = Util.doubleToEven(SIDE_LENGTH * Math.sqrt(2));
     public static final int ARC_SIZE = 5;
     public static final int IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
     private static final double MASK_HIGHEST_OPACITY = 0.25;
@@ -26,7 +26,7 @@ public class StoryButton extends StackPane {
     public static final int OUTER_GLOW_OFFSET = 10;
     private static final double FADETRANS_TIME = 0.25;
     private static final Font FONT = new Font(
-            Resources.Futura_LT_Light_FONT, Util.px2FontSize(DIAGONAL_LENGTH / 4.0));
+            Resources.Futura_LT_Light_FONT, Util.pxToFontSize(DIAGONAL_LENGTH / 4.0));
 
     private boolean enabled = false;
     private boolean unlocked = false;

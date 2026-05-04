@@ -79,6 +79,7 @@ public class SetStage extends Stage {
     //TODO
     private class TransitionAnimation extends StackPane {
         private static final double TRANS_TIME = 1;
+        private static final double SHADOW_OPACITY = 0.5;
         private static final int LABEL_DISPLACEMENT = 0;
         private static final double HIGHEST_ILLUSTRATION_SCALE = 0;
         private static final double PARADIGMS_OPACITY = 0.5;
@@ -97,7 +98,7 @@ public class SetStage extends Stage {
         private final Label noteDesign = new Label("Note Design");
         private final Label noteDesigner = new Label();
         private final StackPane labelPane = new StackPane();
-        private final StackPane pane = new StackPane(labelPane, illustrationView, musicNameShadow, shadow, paradigms);
+        private final StackPane pane = new StackPane(shadow, musicNameShadow, paradigms, illustrationView, labelPane);
 
         private final TranslateTransition onLAdded = new TranslateTransition(Duration.seconds(TRANS_TIME), left);
         private final TranslateTransition onRAdded = new TranslateTransition(Duration.seconds(TRANS_TIME), right);
@@ -115,6 +116,8 @@ public class SetStage extends Stage {
 
         private TransitionAnimation() {
             shadow.setFill(Color.BLACK);
+            shadow.setOpacity(SHADOW_OPACITY);
+
             musicName.setTextFill(Color.WHITE);
             composer.setTextFill(Color.WHITE);
             illustrator.setTextFill(Color.WHITE);

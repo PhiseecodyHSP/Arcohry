@@ -1,6 +1,7 @@
 package io.github.phiseecodyhsp.demo.storyMode;
 
 import io.github.phiseecodyhsp.demo.Partner;
+import io.github.phiseecodyhsp.demo.Util;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -68,16 +69,16 @@ public class StoryButtonPane extends StackPane {
         this.storyButtons.getFirst().unlock(parent);
 
         int s = this.storyButtons.size();
-        double l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
+        int l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
 
         if (partner != null) {
-            partner.setTranslateX(l * ((2 - s) / 2.0 - 1));
+            partner.setTranslateX(Util.doubleToEven(l * ((2 - s) / 2.0 - 1)));
             for (int i = 0; i < s; i++) {
-                this.storyButtons.get(i).setTranslateX(l * (i + (2 - s) / 2.0));
+                this.storyButtons.get(i).setTranslateX(Util.doubleToEven(l * (i + (2 - s) / 2.0)));
             }
         } else {
             for (int i = 0; i < s; i++) {
-                this.storyButtons.get(i).setTranslateX(l * (i + (1 - s) / 2.0));
+                this.storyButtons.get(i).setTranslateX(Util.doubleToEven(l * (i + (1 - s) / 2.0)));
             }
         }
 
@@ -85,10 +86,10 @@ public class StoryButtonPane extends StackPane {
     }
 
     public void updateLine() {
-        int e = (int) storyButtons.stream().filter(StoryButton::isEnabled).count();
+        long e = storyButtons.stream().filter(StoryButton::isEnabled).count();
         int s = storyButtons.size();
         double l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
-        int d = s - e;
+        long d = s - e;
 
         while (darkLineCount < d) {
             darkLineCount++;
@@ -107,9 +108,9 @@ public class StoryButtonPane extends StackPane {
             s++;
         }
         lightLine.setWidth(l * (e - 1));
-        lightLine.setTranslateX(l * (e - s) / 2.0);
+        lightLine.setTranslateX(Util.doubleToEven(l * (e - s) / 2.0));
         for (int i = 0; i < darkLineCount; i++) {
-            getChildren().get(i).setTranslateX(l * (e + i - s / 2.0));
+            getChildren().get(i).setTranslateX(Util.doubleToEven(l * (e + i - s / 2.0)));
         }
     }
 }

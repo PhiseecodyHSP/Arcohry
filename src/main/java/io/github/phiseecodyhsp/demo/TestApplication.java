@@ -2,7 +2,6 @@ package io.github.phiseecodyhsp.demo;
 
 import io.github.phiseecodyhsp.demo.storyMode.*;
 import javafx.application.Application;
-import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 public class TestApplication extends Application {
@@ -33,5 +32,7 @@ public class TestApplication extends Application {
 
         SetStage setStage = new SetStage(pane);
         setStage.show();
+        System.out.println((int) -9.5);
+        System.out.println(Util.doubleToEven(-9.8));
     }
 }

@@ -12,7 +12,7 @@ public final class Charts {
                 "ak+q",
                 128, 128,
                 Chart.Difficulty.PST,
-                1.0,
+                1,
                 Resources.Tutorial_ILLUSTRTION,
                 null,
                 null,
