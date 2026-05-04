@@ -12,4 +12,6 @@ module io.github.phiseecodyhsp.demo {
     exports io.github.phiseecodyhsp.demo;
     exports io.github.phiseecodyhsp.demo.storyMode;
     opens io.github.phiseecodyhsp.demo.storyMode to javafx.fxml;
+    exports io.github.phiseecodyhsp.demo.storage;
+    opens io.github.phiseecodyhsp.demo.storage to javafx.fxml;
 }

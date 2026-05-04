@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.demo;
+package io.github.phiseecodyhsp.demo.storage;
 
 import javafx.scene.media.AudioClip;
 

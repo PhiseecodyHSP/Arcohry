@@ -1,5 +1,8 @@
 package io.github.phiseecodyhsp.demo;
 
+import io.github.phiseecodyhsp.demo.storage.Charts;
+import io.github.phiseecodyhsp.demo.storage.Partners;
+import io.github.phiseecodyhsp.demo.storage.Resources;
 import io.github.phiseecodyhsp.demo.storyMode.*;
 import javafx.application.Application;
 import javafx.stage.Stage;

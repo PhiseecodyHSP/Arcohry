@@ -1,6 +1,10 @@
 package io.github.phiseecodyhsp.demo.storyMode;
 
 import io.github.phiseecodyhsp.demo.*;
+import io.github.phiseecodyhsp.demo.storage.Chart;
+import io.github.phiseecodyhsp.demo.storage.Partner;
+import io.github.phiseecodyhsp.demo.storage.Resources;
+import io.github.phiseecodyhsp.demo.Util;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
@@ -63,18 +67,18 @@ public class StoryUnlockConditionView extends StackPane {
 
         illustration = new ImageView(illustrationPath);
         illustration.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
-        illustration.setTranslateY(Util.doubleToEven(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 3 / 2.0)));
+        illustration.setTranslateY(
+                Util.doubleToEven(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 3 / 2.0)));
         bg.setFitHeight(BG_HEIGHT);
         bg.setPreserveRatio(true);
         illustration.setFitWidth(ILLUSTRATION_WIDTH);
         illustration.setPreserveRatio(true);
 
-        pane.setMaxSize(bg.getFitWidth(), bg.getFitHeight());
+        pane.setMaxSize(0, 0);
         pane.getChildren().addAll(bg, condition, illustration);
         pane.setOpacity(0);
         pane.setScaleX(LOWEST_SCALE_RATIO);
         pane.setScaleY(LOWEST_SCALE_RATIO);
-        pane.setMaxSize(bg.getFitWidth(), bg.getFitHeight());
 
         onAddedST.setToX(1);
         onAddedST.setToY(1);

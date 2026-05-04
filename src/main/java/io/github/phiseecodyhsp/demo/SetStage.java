@@ -1,5 +1,7 @@
 package io.github.phiseecodyhsp.demo;
 
+import io.github.phiseecodyhsp.demo.storage.Chart;
+import io.github.phiseecodyhsp.demo.storage.Resources;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;

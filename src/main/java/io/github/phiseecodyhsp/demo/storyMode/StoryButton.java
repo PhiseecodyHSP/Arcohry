@@ -1,7 +1,7 @@
 package io.github.phiseecodyhsp.demo.storyMode;
 
 import io.github.phiseecodyhsp.demo.Util;
-import io.github.phiseecodyhsp.demo.Resources;
+import io.github.phiseecodyhsp.demo.storage.Resources;
 import javafx.animation.FadeTransition;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -97,7 +97,7 @@ public class StoryButton extends StackPane {
             }
         });
         setOpacity(LOWEST_OPACITY);
-        setMaxSize(SIDE_LENGTH, SIDE_LENGTH);
+        setMaxSize(0, 0);
         setRotate(45);
         setMouseTransparent(false);
         getChildren().addAll(border, view, mask, lockBG, lock);

@@ -1,6 +1,6 @@
 package io.github.phiseecodyhsp.demo.storyMode;
 
-import io.github.phiseecodyhsp.demo.Partner;
+import io.github.phiseecodyhsp.demo.storage.Partner;
 import io.github.phiseecodyhsp.demo.Util;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
@@ -81,8 +81,7 @@ public class StoryButtonPane extends StackPane {
                 this.storyButtons.get(i).setTranslateX(Util.doubleToEven(l * (i + (1 - s) / 2.0)));
             }
         }
-
-        setMaxSize(s * l - StoryButton.SIDE_LENGTH, StoryButton.DIAGONAL_LENGTH);
+        setMaxSize(0, 0);
     }
 
     public void updateLine() {
