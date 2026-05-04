@@ -12,11 +12,12 @@ public class TestApplication extends Application {
         StoryUnlockConditionView condition1 = new StoryUnlockConditionView(Charts.Tutorial_PST);
         StoryUnlockConditionView condition2 = new StoryUnlockConditionView(Charts.Tutorial_PST, Partners.DORO_C);
 
-        StoryPane pane = new StoryPane(Resources.Beyond_BACKGROUND);
+        StoryPane pane1 = new StoryPane(Resources.Beyond_BACKGROUND);
+        StoryPane pane2 = new StoryPane(Resources.Beyond_BACKGROUND);
 
-        StoryButtonPane bPane1 = new StoryButtonPane(pane, Partners.DORO_C);
-        StoryButtonPane bPane2 = new StoryButtonPane(pane, Partners.DORO_C);
-        StoryButtonPane bPane3 = new StoryButtonPane(pane, Partners.DORO_C);
+        StoryButtonPane bPane1 = new StoryButtonPane(pane1, Partners.DORO_C);
+        StoryButtonPane bPane2 = new StoryButtonPane(pane2, Partners.DORO_C);
+        StoryButtonPane bPane3 = new StoryButtonPane(pane1, Partners.DORO_C);
 
         StoryButton button1 = new StoryButton(bPane1, "1.1", Resources.Tutorial_ILLUSTRTION, null, (Story) null);
         StoryButton button2 = new StoryButton(bPane1, "1.2", Resources.Tutorial_ILLUSTRTION, condition1, (Story) null);
@@ -31,11 +32,12 @@ public class TestApplication extends Application {
         bPane1.add(button1, button2);
         bPane2.add(button3, button4, button5, button6);
         bPane3.add(button7, button8, button9);
-        pane.add(bPane1, bPane2, bPane3);
+        pane1.add(bPane1, bPane3);
+        pane2.add(bPane2);
 
-        SetStage setStage = new SetStage(pane);
+        SetStage setStage = new SetStage(pane1);
         setStage.show();
-        System.out.println((int) -9.5);
-        System.out.println(Util.doubleToEven(-9.8));
+        button1.setOnMouseClicked(_ -> setStage.switchPane(pane2));
+        button3.setOnMouseClicked(_ -> setStage.back());
     }
 }

@@ -2,9 +2,7 @@ package io.github.phiseecodyhsp.demo;
 
 import io.github.phiseecodyhsp.demo.storage.Chart;
 import io.github.phiseecodyhsp.demo.storage.Resources;
-import javafx.animation.FadeTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -20,18 +18,19 @@ import org.jetbrains.annotations.NotNull;
 public class SetStage extends Stage {
     private static final double WIDTH = (int) Util.getScreenWidth() / 2.0;
     private static final int HEIGHT = (int) (WIDTH / 16 * 9);
+    private static final double TRANS_TIME = 1;
 
     private StackPane lastPane;
     private StackPane currentPane;
     private final StackPane root = new StackPane();
     private final Scene scene = new Scene(root);
-    private final TransitionAnimation anima = new TransitionAnimation();
+    private final TransitionAnimation anima = new TransitionAnimation(root);
 
     public SetStage(StackPane initialPane) {
+        root.setStyle("-fx-background-color: black;");
         root.getChildren().add(initialPane);
-        lastPane = null;
-        currentPane = initialPane;
 
+        scene.setFill(Color.BLACK);
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.F11) {
                 setFullScreen(!isFullScreen());
@@ -39,6 +38,9 @@ public class SetStage extends Stage {
         });
         scene.widthProperty().addListener(_ -> updateScale());
         scene.heightProperty().addListener(_ -> updateScale());
+
+        lastPane = null;
+        currentPane = initialPane;
 
         setWidth(WIDTH);
         setHeight(HEIGHT);
@@ -56,6 +58,38 @@ public class SetStage extends Stage {
         anima.play(type, newPane);
         lastPane = currentPane;
         currentPane = newPane;
+    }
+
+    public void switchPane(StackPane newPane) {
+        FadeTransition ft1 = new FadeTransition(Duration.seconds(TRANS_TIME), currentPane);
+        FadeTransition ft2 = new FadeTransition(Duration.seconds(TRANS_TIME), newPane);
+        ft1.setToValue(0);
+        ft1.setOnFinished(_ -> {
+            root.getChildren().set(0, newPane);
+            ft2.stop();
+            ft2.playFromStart();
+            currentPane.setMouseTransparent(false);
+        });
+        ft2.setFromValue(0);
+        ft2.setToValue(1);
+        ft1.stop();
+        ft1.playFromStart();
+
+        currentPane.setMouseTransparent(true);
+        lastPane = currentPane;
+        currentPane = newPane;
+    }
+
+    public void back(TransAnimaType type) {
+        if (lastPane != null) {
+            switchPane(type, lastPane);
+        }
+    }
+
+    public void back() {
+        if (lastPane != null) {
+            switchPane(lastPane);
+        }
     }
 
     public void playChart(@NotNull TransAnimaType type,
@@ -79,19 +113,21 @@ public class SetStage extends Stage {
     }
 
     //TODO
-    private class TransitionAnimation extends StackPane {
-        private static final double TRANS_TIME = 1;
+    private static class TransitionAnimation extends StackPane {
         private static final double SHADOW_OPACITY = 0.5;
         private static final int LABEL_DISPLACEMENT = 0;
-        private static final double HIGHEST_ILLUSTRATION_SCALE = 0;
+        private static final double HIGHEST_ILLUSTRATION_SCALE = 2;
         private static final double PARADIGMS_OPACITY = 0.5;
+        private static final int ILLUSTRATION_SIZE = Util.doubleToEven(Util.getScreenHeight() * 0.46875);
+        private static final PauseTransition DELAY = new PauseTransition(Duration.seconds(3));
 
+        private final StackPane root;
         private final ImageView left = new ImageView();
         private final ImageView right = new ImageView();
         private final ImageView illustrationView = new ImageView();
         private final ImageView musicNameShadow = new ImageView();
         private final Rectangle shadow = new Rectangle();
-        private final Rectangle paradigms = new Rectangle();
+        private final Rectangle paradigms = new Rectangle(ILLUSTRATION_SIZE, ILLUSTRATION_SIZE);
         private final Label musicName = new Label();
         private final Label music = new Label("Music");
         private final Label composer = new Label();
@@ -116,9 +152,81 @@ public class SetStage extends Stage {
         private final FadeTransition onPaneRemoved = new FadeTransition(Duration.seconds(TRANS_TIME), pane);
 
 
-        private TransitionAnimation() {
+        private TransitionAnimation(StackPane root) {
+            this.root = root;
+
             shadow.setFill(Color.BLACK);
             shadow.setOpacity(SHADOW_OPACITY);
+            illustrationView.setFitWidth(ILLUSTRATION_SIZE);
+            illustrationView.setFitHeight(ILLUSTRATION_SIZE);
+            paradigms.setOpacity(PARADIGMS_OPACITY);
+
+            onLAdded.setInterpolator(new Interpolator() {
+                @Override
+                protected double curve(double v) {
+                    return 1 - (1 - v) * (1 - v) * (1 - v);
+                }
+            });
+            onLRemoved.setInterpolator(new Interpolator() {
+                @Override
+                protected double curve(double v) {
+                    return v * v * v;
+                }
+            });
+            onRAdded.setInterpolator(new Interpolator() {
+                @Override
+                protected double curve(double v) {
+                    return 1 - (1 - v) * (1 - v) * (1 - v);
+                }
+            });
+            onRRemoved.setInterpolator(new Interpolator() {
+                @Override
+                protected double curve(double v) {
+                    return v * v * v;
+                }
+            });
+
+            onLabelPaneAdded.setInterpolator(new Interpolator() {
+                @Override
+                protected double curve(double v) {
+                    return 1 - (1 - v) * (1 - v) * (1 - v);
+                }
+            });
+
+            onIllustrationAdded.setFromX(HIGHEST_ILLUSTRATION_SCALE);
+            onIllustrationAdded.setFromY(HIGHEST_ILLUSTRATION_SCALE);
+            onIllustrationAdded.setToX(1);
+            onIllustrationAdded.setToY(1);
+            onIllustrationAdded.setInterpolator(new Interpolator() {
+                @Override
+                protected double curve(double v) {
+                    return 1 - (1 - v) * (1 - v) * (1 - v);
+                }
+            });
+            onIllustrationRemoved.setToX(HIGHEST_ILLUSTRATION_SCALE);
+            onIllustrationRemoved.setToY(HIGHEST_ILLUSTRATION_SCALE);
+            onIllustrationRemoved.setInterpolator(new Interpolator() {
+                @Override
+                protected double curve(double v) {
+                    return v * v * v;
+                }
+            });
+            onPaneAdded.setFromValue(0);
+            onPaneAdded.setToValue(1);
+            onPaneRemoved.setToValue(0);
+
+            DELAY.setOnFinished(_ -> {
+                onLAdded.stop();
+                onRAdded.stop();
+                onLabelPaneAdded.stop();
+                onIllustrationAdded.stop();
+                onPaneAdded.stop();
+                onLRemoved.playFromStart();
+                onRRemoved.playFromStart();
+                onIllustrationRemoved.playFromStart();
+                onPaneRemoved.playFromStart();
+                Resources.TRANSANIMA_END_SOUND.play();
+            });
 
             musicName.setTextFill(Color.WHITE);
             composer.setTextFill(Color.WHITE);
@@ -170,16 +278,8 @@ public class SetStage extends Stage {
 
             root.getChildren().add(this);
             onLAdded.setOnFinished(_ -> {
-                onLAdded.stop();
-                onRAdded.stop();
-                onLabelPaneAdded.stop();
-                onIllustrationAdded.stop();
-                onPaneAdded.stop();
-                onLRemoved.playFromStart();
-                onRRemoved.playFromStart();
-                onIllustrationRemoved.playFromStart();
-                onPaneRemoved.playFromStart();
-                Resources.TRANSANIMA_END_SOUND.play();
+                DELAY.stop();
+                DELAY.playFromStart();
             });
             onLRemoved.setOnFinished(_ -> root.getChildren().remove(this));
             onLRemoved.stop();
