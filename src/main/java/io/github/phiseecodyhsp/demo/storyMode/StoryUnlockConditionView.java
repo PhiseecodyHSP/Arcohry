@@ -193,14 +193,19 @@ public class StoryUnlockConditionView extends StackPane {
 
     public void show(StoryPane parent) {
         parent.getChildren().add(this);
-        illustration.setOnMouseClicked(_ -> Util.getSetStage(this).playChart(
-                SetStage.TransAnimaType.NORMAL,
-                music,
-                composer,
-                illustrationPath,
-                illustrator,
-                noteDesigner,
-                paradigms));
+        illustration.setOnMouseClicked(_ -> {
+            Util.getSetStage(this).playChart(SetStage.TransAnimaType.NORMAL,
+                    music,
+                    composer,
+                    illustrationPath,
+                    illustrator,
+                    noteDesigner,
+                    paradigms);
+            onAddedContentFT.stop();
+            onAddedST.stop();
+            onRemovedContentFT.playFromStart();
+            onRemovedST.playFromStart();
+            });
         onRemovedST.setOnFinished(_ -> parent.getChildren().remove(this));
         onRemovedContentFT.stop();
         onRemovedST.stop();

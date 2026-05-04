@@ -2,6 +2,7 @@ package io.github.phiseecodyhsp.demo;
 
 import io.github.phiseecodyhsp.demo.storyMode.*;
 import javafx.application.Application;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 public class TestApplication extends Application {

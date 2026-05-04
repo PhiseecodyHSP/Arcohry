@@ -1,5 +1,7 @@
 package io.github.phiseecodyhsp.demo;
 
+import javafx.scene.media.AudioClip;
+
 //TODO: 播放音频
 public final class Resources {
     private Resources() {}
@@ -15,7 +17,9 @@ public final class Resources {
     public static final String NORMAL_TRANSANIMA_L;
     public static final String NORMAL_TRANSANIMA_R;
 
-    public static final String STORYMODE_BGM;
+    public static final AudioClip START_SOUND;
+    public static final AudioClip TRANSANIMA_STRAT_SOUND;
+    public static final AudioClip TRANSANIMA_END_SOUND;
 
     static {
         Futura_LT_Light_FONT = "Futura LT Light";
@@ -29,7 +33,9 @@ public final class Resources {
         NORMAL_TRANSANIMA_L = of("images/TransAnimaL_resized.png");
         NORMAL_TRANSANIMA_R = of("images/TransAnimaR_resized.png");
 
-        STORYMODE_BGM = of("audios/故事菜单音乐.wav");
+        START_SOUND = new AudioClip(of("audios/START.mp3"));
+        TRANSANIMA_STRAT_SOUND = new AudioClip(of("audios/转场开始.mp3"));
+        TRANSANIMA_END_SOUND = new AudioClip(of("audios/转场结束.mp3"));
     }
 
     private static String of(String path) {

@@ -16,8 +16,8 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 public class SetStage extends Stage {
-    private static final int WIDTH = 640;
-    private static final int HEIGHT = WIDTH / 16 * 9;
+    private static final double WIDTH = (int) Util.getScreenWidth() / 2.0;
+    private static final int HEIGHT = (int) (WIDTH / 16 * 9);
 
     private StackPane lastPane;
     private StackPane currentPane;
@@ -51,8 +51,7 @@ public class SetStage extends Stage {
     }
 
     public void switchPane(TransAnimaType type, StackPane newPane) {
-        anima.play(type);
-        root.getChildren().set(0, newPane);
+        anima.play(type, newPane);
         lastPane = currentPane;
         currentPane = newPane;
     }
@@ -79,7 +78,7 @@ public class SetStage extends Stage {
 
     //TODO
     private class TransitionAnimation extends StackPane {
-        private static final double TRANS_TIME = 3;
+        private static final double TRANS_TIME = 1;
         private static final int LABEL_DISPLACEMENT = 0;
         private static final double HIGHEST_ILLUSTRATION_SCALE = 0;
         private static final double PARADIGMS_OPACITY = 0.5;
@@ -125,7 +124,7 @@ public class SetStage extends Stage {
             musicName.setTextFill(Color.WHITE);
         }
 
-        private void play(@NotNull SetStage.TransAnimaType type) {
+        private void play(@NotNull SetStage.TransAnimaType type, StackPane newPane) {
             type.setImage(this);
 
             root.getChildren().add(this);
@@ -134,17 +133,21 @@ public class SetStage extends Stage {
                 onRAdded.stop();
                 onLRemoved.playFromStart();
                 onRRemoved.playFromStart();
+                Resources.TRANSANIMA_END_SOUND.play();
+                root.getChildren().set(0, newPane);
             });
             onLRemoved.setOnFinished(_ -> root.getChildren().remove(this));
             onLRemoved.stop();
             onRRemoved.stop();
             onLAdded.playFromStart();
             onRAdded.playFromStart();
+            Resources.TRANSANIMA_STRAT_SOUND.play();
 
             getChildren().clear();
             getChildren().addAll(left, right);
         }
 
+        //TODO
         private void play(@NotNull SetStage.TransAnimaType type,
                           String musicName,
                           String composer,
@@ -171,6 +174,7 @@ public class SetStage extends Stage {
                 onRRemoved.playFromStart();
                 onIllustrationRemoved.playFromStart();
                 onPaneRemoved.playFromStart();
+                Resources.TRANSANIMA_END_SOUND.play();
             });
             onLRemoved.setOnFinished(_ -> root.getChildren().remove(this));
             onLRemoved.stop();
@@ -182,6 +186,7 @@ public class SetStage extends Stage {
             onLabelPaneAdded.playFromStart();
             onIllustrationAdded.playFromStart();
             onPaneAdded.playFromStart();
+            Resources.TRANSANIMA_STRAT_SOUND.play();
 
             labelPane.getChildren().clear();
             labelPane.getChildren().addAll(
