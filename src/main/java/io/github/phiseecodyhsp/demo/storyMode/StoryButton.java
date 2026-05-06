@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class StoryButton extends StackPane {
     public static final int SIDE_LENGTH = Util.doubleToEven(Util.getScreenHeight() * 0.1);
     public static final int BORDER_WIDTH = 2;
-    public static final int DIAGONAL_LENGTH = Util.doubleToEven(SIDE_LENGTH * Math.sqrt(2));
+    public static final int DIAGONAL_LENGTH = Util.doubleToEven(SIDE_LENGTH * Util.SQRT_2);
     public static final int ARC_SIZE = 5;
     public static final int IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
     private static final double MASK_HIGHEST_OPACITY = 0.25;

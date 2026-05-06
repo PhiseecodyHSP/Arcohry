@@ -126,16 +126,16 @@ public class StoryUnlockConditionView extends StackPane {
         illustration.setTranslateY(Util.doubleToEven(ILLUSTRATION_WIDTH - BG_HEIGHT / 2.0));
 
         Polygon arrow = new Polygon(
-                0, -ILLUSTRATION_WIDTH / 15.0 / Math.sqrt(3),
-                ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Math.sqrt(3),
-                -ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Math.sqrt(3));
+                0, -ILLUSTRATION_WIDTH / 15.0 / Util.SQRT_3,
+                ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Util.SQRT_3,
+                -ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Util.SQRT_3);
         arrow.setFill(Color.WHITE);
         arrow.setTranslateY(Util.doubleToEven(ILLUSTRATION_WIDTH * 7 / 30.0 + BORDER_WIDTH / 4.0));
         arrow.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
 
         Rectangle border = new Rectangle(
-                Util.doubleToEven(ILLUSTRATION_WIDTH / 2.5) / Math.sqrt(2) + BORDER_WIDTH,
-                Util.doubleToEven(ILLUSTRATION_WIDTH / 2.5) / Math.sqrt(2) + BORDER_WIDTH,
+                Util.doubleToEven(ILLUSTRATION_WIDTH / 2.5) / Util.SQRT_2 + BORDER_WIDTH,
+                Util.doubleToEven(ILLUSTRATION_WIDTH / 2.5) / Util.SQRT_2 + BORDER_WIDTH,
                 Color.WHITE);
         border.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
         border.setRotate(45);

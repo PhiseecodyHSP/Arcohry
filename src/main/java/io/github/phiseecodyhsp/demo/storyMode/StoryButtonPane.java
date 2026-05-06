@@ -37,7 +37,7 @@ public class StoryButtonPane extends StackPane {
 
         if (partnerPath != null) {
             ImageView partnerView = new ImageView(partnerPath);
-            partnerView.setFitWidth(IMAGE_SIZE * Math.sqrt(2));
+            partnerView.setFitWidth(Util.doubleToEven(IMAGE_SIZE * Util.SQRT_2));
             partnerView.setPreserveRatio(true);
 
             Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH);
