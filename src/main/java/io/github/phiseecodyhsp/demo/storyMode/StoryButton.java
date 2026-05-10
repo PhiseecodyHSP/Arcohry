@@ -25,8 +25,8 @@ public class StoryButton extends StackPane {
     public static final int OUTER_GLOW_INTENSITY = 10;
     public static final int OUTER_GLOW_OFFSET = 10;
     private static final double FADETRANS_TIME = 0.25;
-    private static final Font FONT = new Font(
-            Resources.Futura_LT_Light_FONT, Util.pxToFontSize(DIAGONAL_LENGTH / 4.0));
+    private static final Font FONT =
+            Resources.getFont("GeosansLight.ttf", Util.pxToFontSize(DIAGONAL_LENGTH / 4.0));
 
     private boolean enabled = false;
     private boolean unlocked = false;
@@ -34,6 +34,17 @@ public class StoryButton extends StackPane {
     private final ImageView lock = new ImageView(Resources.Init_ILLUSTRATION);
     private final StoryUnlockConditionView condition;
     private final StoryButtonPane parent;
+    private final ImageView star = new ImageView(Resources.Init_ILLUSTRATION);
+    private final Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH);
+    private final ImageView view;
+    private final Rectangle mask = new Rectangle(IMAGE_SIZE, IMAGE_SIZE);
+    private final Polygon lockBG = new Polygon(
+            -IMAGE_SIZE / 2.0, IMAGE_SIZE / 4.0,
+            -IMAGE_SIZE / 2.0, IMAGE_SIZE / 2.0,
+            -IMAGE_SIZE / 4.0, IMAGE_SIZE / 2.0,
+            IMAGE_SIZE / 2.0, -IMAGE_SIZE / 4.0,
+            IMAGE_SIZE / 2.0, -IMAGE_SIZE / 2.0,
+            IMAGE_SIZE / 4.0, -IMAGE_SIZE / 2.0);
 
     private Story story = null;
     private AVGStory avgStory = null;
@@ -49,27 +60,20 @@ public class StoryButton extends StackPane {
         label.setTextFill(Color.WHITE);
         label.setRotate(-45);
 
-        Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH);
         border.setFill(Color.WHITE);
         border.setArcWidth(ARC_SIZE);
         border.setArcHeight(ARC_SIZE);
         border.setEffect(new DropShadow(
                 OUTER_GLOW_INTENSITY, OUTER_GLOW_OFFSET, OUTER_GLOW_OFFSET, new Color(0, 0, 0, 0.5)));
-        Rectangle mask = new Rectangle(IMAGE_SIZE, IMAGE_SIZE);
         mask.setFill(Color.BLACK);
         mask.setOpacity(0);
-        Polygon lockBG = new Polygon(
-                -IMAGE_SIZE / 2.0, IMAGE_SIZE / 4.0,
-                -IMAGE_SIZE / 2.0, IMAGE_SIZE / 2.0,
-                -IMAGE_SIZE / 4.0, IMAGE_SIZE / 2.0,
-                IMAGE_SIZE / 2.0, -IMAGE_SIZE / 4.0,
-                IMAGE_SIZE / 2.0, -IMAGE_SIZE / 2.0,
-                IMAGE_SIZE / 4.0, -IMAGE_SIZE / 2.0);
         lockBG.setFill(Color.BLACK);
         lockBG.setOpacity(0.5);
+        //TODO
+        star.setPreserveRatio(true);
+        star.setFitWidth(0);
+        star.setTranslateY(0);
 
-
-        ImageView view;
         view = new ImageView(illustrationPath);
         view.setFitWidth(IMAGE_SIZE);
         view.setPreserveRatio(true);
@@ -100,24 +104,29 @@ public class StoryButton extends StackPane {
         setMaxSize(0, 0);
         setRotate(45);
         setMouseTransparent(false);
-        getChildren().addAll(border, view, mask, lockBG, lock);
     }
 
-    public StoryButton(StoryButtonPane parent,
+    //TODO
+    public StoryButton(@NotNull StoryButtonPane parent,
                        String title,
-                       String illustrationPath,
+                       @NotNull String illustrationPath,
                        StoryUnlockConditionView condition,
-                       Story story)  {
+                       @NotNull Story story)  {
         this(parent, title, illustrationPath, condition);
+        if (story.hasCG()) {
+            getChildren().add(star);
+        }
+        getChildren().addAll(border, view, mask, lockBG, lock);
         this.story = story;
     }
 
-    public StoryButton(StoryButtonPane parent,
+    public StoryButton(@NotNull StoryButtonPane parent,
                        String title,
-                       String illustrationPath,
+                       @NotNull String illustrationPath,
                        StoryUnlockConditionView condition,
-                       AVGStory story) {
+                       @NotNull AVGStory story) {
         this(parent, title, illustrationPath, condition);
+        getChildren().addAll(star, border, view, mask, lockBG, lock);
         avgStory = story;
     }
 

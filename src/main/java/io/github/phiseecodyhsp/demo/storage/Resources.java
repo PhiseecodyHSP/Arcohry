@@ -1,13 +1,12 @@
 package io.github.phiseecodyhsp.demo.storage;
 
 import javafx.scene.media.AudioClip;
+import javafx.scene.text.Font;
 
-//TODO: 播放音频
+//TODO: 播放音频、lock和star素材
 public final class Resources {
     private Resources() {}
 
-    public static final String Futura_LT_Light_FONT;
-    public static final String Noto_Sans_FONT;
     public static final String Tutorial_ILLUSTRTION;
     public static final String Beyond_BACKGROUND;
     public static final String Init_ILLUSTRATION;
@@ -22,8 +21,6 @@ public final class Resources {
     public static final AudioClip TRANSANIMA_END_SOUND;
 
     static {
-        Futura_LT_Light_FONT = "Futura LT Light";
-        Noto_Sans_FONT = "Noto Sans";
         Tutorial_ILLUSTRTION = of("images/Songs_tutorial.jpg");
         Beyond_BACKGROUND = of("images/Background_beyond.jpg");
         Init_ILLUSTRATION = of("images/Songs_init.jpg");
@@ -40,5 +37,10 @@ public final class Resources {
 
     private static String of(String path) {
         return String.valueOf(Resources.class.getResource("/io/github/phiseecodyhsp/demo/" + path));
+    }
+
+    public static Font getFont(String fontPath, double fontSize) {
+        return Font.loadFont(
+                Resources.class.getResourceAsStream("/io/github/phiseecodyhsp/demo/fonts/" + fontPath), fontSize);
     }
 }

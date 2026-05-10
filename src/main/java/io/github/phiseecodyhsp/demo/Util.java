@@ -33,7 +33,7 @@ public final class Util {
     }
 
     public static double pxToFontSize(double px) {
-        return (px * 72.0 / Screen.getPrimary().getDpi()) + 1;
+        return (px * 72.0 / Screen.getPrimary().getDpi());
     }
 
     public static SetStage getSetStage(Scene scene) {

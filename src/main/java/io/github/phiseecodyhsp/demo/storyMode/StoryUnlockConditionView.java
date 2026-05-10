@@ -30,7 +30,7 @@ public class StoryUnlockConditionView extends StackPane {
     private static final int ILLUSTRATION_WIDTH = SIDE_LENGTH * 2;
     private static final int BG_HEIGHT = Util.doubleToEven(ILLUSTRATION_WIDTH * 8 / 3.0);
     private static final Font FONT = new Font
-            (Resources.Noto_Sans_FONT, Util.pxToFontSize(ILLUSTRATION_WIDTH / 7.5));
+            (null, Util.pxToFontSize(ILLUSTRATION_WIDTH / 7.5));
 
     private final String music;
     private final String composer;
