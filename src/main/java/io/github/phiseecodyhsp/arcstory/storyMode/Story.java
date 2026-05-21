@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.demo.storyMode;
+package io.github.phiseecodyhsp.arcstory.storyMode;
 
 import javafx.scene.layout.StackPane;
 
@@ -10,7 +10,7 @@ public class Story extends StackPane {
 
     }
 
-    public void play(StoryPane parent) {
+    public void play(ChapterPane parent) {
         parent.getChildren().add(this);
     }
 

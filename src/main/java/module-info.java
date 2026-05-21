@@ -1,4 +1,4 @@
-module io.github.phiseecodyhsp.demo {
+module io.github.phiseecodyhsp.arcstory {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
@@ -8,10 +8,10 @@ module io.github.phiseecodyhsp.demo {
     requires org.jetbrains.annotations;
     requires javafx.media;
 
-    opens io.github.phiseecodyhsp.demo to javafx.fxml;
-    exports io.github.phiseecodyhsp.demo;
-    exports io.github.phiseecodyhsp.demo.storyMode;
-    opens io.github.phiseecodyhsp.demo.storyMode to javafx.fxml;
-    exports io.github.phiseecodyhsp.demo.storage;
-    opens io.github.phiseecodyhsp.demo.storage to javafx.fxml;
+    opens io.github.phiseecodyhsp.arcstory to javafx.graphics, javafx.fxml;
+    opens io.github.phiseecodyhsp.arcstory.storyMode to javafx.graphics, javafx.fxml;
+    opens io.github.phiseecodyhsp.arcstory.storage to javafx.graphics, javafx.fxml;
+    exports io.github.phiseecodyhsp.arcstory;
+    exports io.github.phiseecodyhsp.arcstory.storyMode;
+    exports io.github.phiseecodyhsp.arcstory.storage;
 }

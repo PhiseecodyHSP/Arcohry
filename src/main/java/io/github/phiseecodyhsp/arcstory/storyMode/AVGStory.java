@@ -1,6 +1,6 @@
-package io.github.phiseecodyhsp.demo.storyMode;
+package io.github.phiseecodyhsp.arcstory.storyMode;
 
-import io.github.phiseecodyhsp.demo.SetStage;
+import io.github.phiseecodyhsp.arcstory.SetStage;
 import javafx.scene.layout.StackPane;
 
 //TODO

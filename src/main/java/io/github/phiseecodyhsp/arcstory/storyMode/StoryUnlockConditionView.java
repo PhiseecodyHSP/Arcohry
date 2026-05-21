@@ -1,10 +1,10 @@
-package io.github.phiseecodyhsp.demo.storyMode;
+package io.github.phiseecodyhsp.arcstory.storyMode;
 
-import io.github.phiseecodyhsp.demo.*;
-import io.github.phiseecodyhsp.demo.storage.Chart;
-import io.github.phiseecodyhsp.demo.storage.Partner;
-import io.github.phiseecodyhsp.demo.storage.Resources;
-import io.github.phiseecodyhsp.demo.Util;
+import io.github.phiseecodyhsp.arcstory.*;
+import io.github.phiseecodyhsp.arcstory.storage.Chart;
+import io.github.phiseecodyhsp.arcstory.storage.Partner;
+import io.github.phiseecodyhsp.arcstory.storage.Resources;
+import io.github.phiseecodyhsp.arcstory.Util;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
@@ -21,7 +21,7 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
-import static io.github.phiseecodyhsp.demo.storyMode.StoryButton.*;
+import static io.github.phiseecodyhsp.arcstory.storyMode.StoryButton.*;
 
 //TODO: 背景素材等
 public class StoryUnlockConditionView extends StackPane {
@@ -29,8 +29,7 @@ public class StoryUnlockConditionView extends StackPane {
     private static final double LOWEST_SCALE_RATIO = 0.75;
     private static final int ILLUSTRATION_WIDTH = SIDE_LENGTH * 2;
     private static final int BG_HEIGHT = Util.doubleToEven(ILLUSTRATION_WIDTH * 8 / 3.0);
-    private static final Font FONT = new Font
-            (null, Util.pxToFontSize(ILLUSTRATION_WIDTH / 7.5));
+    private static final Font FONT = Resources.getFont(Resources.GeosansLight_FONT, ILLUSTRATION_WIDTH / 7.5);
 
     private final String music;
     private final String composer;
@@ -197,7 +196,7 @@ public class StoryUnlockConditionView extends StackPane {
                 partner.avatarPath());
     }
 
-    public void show(StoryPane parent) {
+    public void show(ChapterPane parent) {
         parent.getChildren().add(this);
         illustration.setOnMouseClicked(_ -> {
             Util.getSetStage(this).playChart(SetStage.TransAnimaType.NORMAL,

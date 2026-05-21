@@ -1,9 +1,7 @@
-package io.github.phiseecodyhsp.demo.storyMode;
+package io.github.phiseecodyhsp.arcstory.storyMode;
 
-import io.github.phiseecodyhsp.demo.storage.Partner;
-import io.github.phiseecodyhsp.demo.Util;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.ImageView;
+import io.github.phiseecodyhsp.arcstory.storage.Partner;
+import io.github.phiseecodyhsp.arcstory.Util;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -12,17 +10,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.github.phiseecodyhsp.demo.storyMode.StoryButton.*;
+import static io.github.phiseecodyhsp.arcstory.storyMode.StoryButton.*;
 
 public class StoryButtonPane extends StackPane {
     private final Rectangle lightLine = new Rectangle();
     private final StackPane partner;
-    private final StoryPane parent;
+    private final ChapterPane parent;
     public final List<StoryButton> storyButtons = new ArrayList<>();
 
     private int darkLineCount;
 
-    public StoryButtonPane(@NotNull StoryPane parent, String partnerPath) {
+    //TODO: Title
+    public StoryButtonPane(@NotNull ChapterPane parent, String partnerPath, String title) {
         this.parent = parent;
 
         lightLine.setFill(Color.WHITE);
@@ -36,22 +35,8 @@ public class StoryButtonPane extends StackPane {
         });
 
         if (partnerPath != null) {
-            ImageView partnerView = new ImageView(partnerPath);
-            partnerView.setFitWidth(Util.doubleToEven(IMAGE_SIZE * Util.SQRT_2));
-            partnerView.setPreserveRatio(true);
-
-            Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH);
-            border.setFill(Color.rgb(150, 140, 160));
-            border.setArcWidth(ARC_SIZE);
-            border.setArcHeight(ARC_SIZE);
-            border.setRotate(45);
-            border.setEffect(new DropShadow(
-                    OUTER_GLOW_INTENSITY,
-                    OUTER_GLOW_OFFSET,
-                    OUTER_GLOW_OFFSET,
-                    new Color(0, 0, 0, 0.5)));
-            partner = new StackPane(border, partnerView);
-
+            partner = new Partner(null, partnerPath, null).
+                    getAvatarPane(SIDE_LENGTH, Color.rgb(150, 140, 160));
             getChildren().addAll(lightLine, partner);
         } else {
             partner = null;
@@ -59,11 +44,11 @@ public class StoryButtonPane extends StackPane {
         }
     }
 
-    public StoryButtonPane(@NotNull StoryPane parent, Partner partner) {
-        this(parent, partner.avatarPath());
+    public StoryButtonPane(@NotNull ChapterPane parent, Partner partner, String title) {
+        this(parent, partner.avatarPath(), title);
     }
 
-    public void add(StoryButton... storyButtons) {
+    public void addAll(StoryButton... storyButtons) {
         getChildren().addAll(storyButtons);
         this.storyButtons.addAll(List.of(storyButtons));
         this.storyButtons.getFirst().unlock(parent);

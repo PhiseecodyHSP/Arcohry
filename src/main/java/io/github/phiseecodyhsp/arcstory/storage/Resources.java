@@ -1,12 +1,15 @@
-package io.github.phiseecodyhsp.demo.storage;
+package io.github.phiseecodyhsp.arcstory.storage;
 
 import javafx.scene.media.AudioClip;
 import javafx.scene.text.Font;
 
-//TODO: 播放音频、lock和star素材
+//TODO: 播放音频、lock、star和NEW素材
 public final class Resources {
     private Resources() {}
 
+    public static final String GeosansLight_FONT;
+
+    public static final String NEW_ICON;
     public static final String Tutorial_ILLUSTRTION;
     public static final String Beyond_BACKGROUND;
     public static final String Init_ILLUSTRATION;
@@ -21,6 +24,9 @@ public final class Resources {
     public static final AudioClip TRANSANIMA_END_SOUND;
 
     static {
+        GeosansLight_FONT = "GeosansLight.ttf";
+
+        NEW_ICON = of("images/Songs_init.jpg");
         Tutorial_ILLUSTRTION = of("images/Songs_tutorial.jpg");
         Beyond_BACKGROUND = of("images/Background_beyond.jpg");
         Init_ILLUSTRATION = of("images/Songs_init.jpg");
@@ -36,11 +42,11 @@ public final class Resources {
     }
 
     private static String of(String path) {
-        return String.valueOf(Resources.class.getResource("/io/github/phiseecodyhsp/demo/" + path));
+        return String.valueOf(Resources.class.getResource("/io/github/phiseecodyhsp/arcstory/" + path));
     }
 
-    public static Font getFont(String fontPath, double fontSize) {
-        return Font.loadFont(
-                Resources.class.getResourceAsStream("/io/github/phiseecodyhsp/demo/fonts/" + fontPath), fontSize);
+    public static Font getFont(String fontPath, double px) {
+        return Font.loadFont(Resources.class.getResourceAsStream(
+                "/io/github/phiseecodyhsp/arcstory/fonts/" + fontPath), px / 0.75);
     }
 }

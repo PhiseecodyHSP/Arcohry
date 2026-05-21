@@ -1,7 +1,7 @@
-package io.github.phiseecodyhsp.demo;
+package io.github.phiseecodyhsp.arcstory;
 
-import io.github.phiseecodyhsp.demo.storage.Chart;
-import io.github.phiseecodyhsp.demo.storage.Resources;
+import io.github.phiseecodyhsp.arcstory.storage.Chart;
+import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.animation.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -326,12 +326,15 @@ public class SetStage extends Stage {
     //TODO: 素材替换
     public enum TransAnimaType {
         NORMAL(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+        COURSE(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
         GRIEVOUS(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
         FRACTURE(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+        TEMPESTISSIMO(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
         FINAL(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
         ARGHENA(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
         ALTER(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-        DESIGNANT(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R);
+        DESIGNANT(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+        UNDYING(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R);
 
         private final String leftImagePath;
         private final String rightImagePath;

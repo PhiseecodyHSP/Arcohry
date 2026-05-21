@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.demo.storage;
+package io.github.phiseecodyhsp.arcstory.storage;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -66,9 +66,12 @@ public class Chart {
     //TODO: 重取色
     public enum Paradigms {
         LIGHT(Color.WHITE),
-        CONFLICT(Color.WHITE);
+        CONFLICT(Color.WHITE),
+        ACHROMIC(Color.WHITE),
+        LEPHON(Color.WHITE);
 
         private final Color color;
+
         Paradigms(Color color) {
             this.color = color;
         }

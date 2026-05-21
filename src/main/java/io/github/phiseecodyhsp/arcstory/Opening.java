@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.demo;
+package io.github.phiseecodyhsp.arcstory;
 
 import javafx.scene.layout.StackPane;
 

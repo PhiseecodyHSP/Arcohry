@@ -1,7 +1,7 @@
-package io.github.phiseecodyhsp.demo.storyMode;
+package io.github.phiseecodyhsp.arcstory.storyMode;
 
-import io.github.phiseecodyhsp.demo.Util;
-import io.github.phiseecodyhsp.demo.storage.Resources;
+import io.github.phiseecodyhsp.arcstory.Util;
+import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.animation.FadeTransition;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -20,18 +20,21 @@ public class StoryButton extends StackPane {
     public static final int DIAGONAL_LENGTH = Util.doubleToEven(SIDE_LENGTH * Util.SQRT_2);
     public static final int ARC_SIZE = 5;
     public static final int IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
-    private static final double MASK_HIGHEST_OPACITY = 0.25;
+    public static final double MASK_HIGHEST_OPACITY = 0.25;
     public static final double LOWEST_OPACITY = 1 - MASK_HIGHEST_OPACITY;
     public static final int OUTER_GLOW_INTENSITY = 10;
     public static final int OUTER_GLOW_OFFSET = 10;
-    private static final double FADETRANS_TIME = 0.25;
+    public static final double FADETRANS_TIME = 0.25;
+    public static final Color TRANSPARENT_BLACK = new Color(0, 0, 0, 0.5);
+    public static final int NEW_ICON_SIZE = 10;
     private static final Font FONT =
-            Resources.getFont("GeosansLight.ttf", Util.pxToFontSize(DIAGONAL_LENGTH / 4.0));
+            Resources.getFont(Resources.GeosansLight_FONT, DIAGONAL_LENGTH / 4.0);
 
     private boolean enabled = false;
     private boolean unlocked = false;
     private final Label label;
     private final ImageView lock = new ImageView(Resources.Init_ILLUSTRATION);
+    private final ImageView neo = new ImageView(Resources.NEW_ICON);
     private final StoryUnlockConditionView condition;
     private final StoryButtonPane parent;
     private final ImageView star = new ImageView(Resources.Init_ILLUSTRATION);
@@ -59,20 +62,26 @@ public class StoryButton extends StackPane {
         label.setFont(FONT);
         label.setTextFill(Color.WHITE);
         label.setRotate(-45);
+        label.setEffect(new DropShadow(
+                OUTER_GLOW_INTENSITY, OUTER_GLOW_OFFSET, OUTER_GLOW_OFFSET, TRANSPARENT_BLACK));
 
         border.setFill(Color.WHITE);
         border.setArcWidth(ARC_SIZE);
         border.setArcHeight(ARC_SIZE);
         border.setEffect(new DropShadow(
-                OUTER_GLOW_INTENSITY, OUTER_GLOW_OFFSET, OUTER_GLOW_OFFSET, new Color(0, 0, 0, 0.5)));
+                OUTER_GLOW_INTENSITY, OUTER_GLOW_OFFSET, OUTER_GLOW_OFFSET, TRANSPARENT_BLACK));
         mask.setFill(Color.BLACK);
         mask.setOpacity(0);
         lockBG.setFill(Color.BLACK);
         lockBG.setOpacity(0.5);
+
         //TODO
         star.setPreserveRatio(true);
         star.setFitWidth(0);
         star.setTranslateY(0);
+        neo.setPreserveRatio(true);
+        neo.setFitWidth(NEW_ICON_SIZE);
+        neo.setTranslateY(0);
 
         view = new ImageView(illustrationPath);
         view.setFitWidth(IMAGE_SIZE);
@@ -106,7 +115,6 @@ public class StoryButton extends StackPane {
         setMouseTransparent(false);
     }
 
-    //TODO
     public StoryButton(@NotNull StoryButtonPane parent,
                        String title,
                        @NotNull String illustrationPath,
@@ -138,7 +146,7 @@ public class StoryButton extends StackPane {
         return enabled;
     }
 
-    public void enable(StoryPane parent) {
+    public void enable(ChapterPane parent) {
         if (!enabled) {
             setOpacity(1);
             setOnMouseClicked(_ -> condition.show(parent));
@@ -147,7 +155,7 @@ public class StoryButton extends StackPane {
         }
     }
 
-    public void unlock(StoryPane parent) {
+    public void unlock(ChapterPane parent) {
         if (!unlocked) {
             enable(parent);
             setOnMouseClicked(_ -> {
@@ -156,9 +164,17 @@ public class StoryButton extends StackPane {
                 } else {
                     story.play(parent);
                 }
+                getChildren().remove(neo);
+                setOnMouseClicked(_ -> {
+                    if (story == null) {
+                        avgStory.play(Util.getSetStage(this));
+                    } else {
+                        story.play(parent);
+                    }
+                });
             });
             getChildren().remove(lock);
-            getChildren().add(label);
+            getChildren().addAll(label, neo);
             try {
                 this.parent.storyButtons.get(this.parent.storyButtons.indexOf(this) + 1).enable(parent);
             } catch (IndexOutOfBoundsException _) {}
