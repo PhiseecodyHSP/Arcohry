@@ -6,7 +6,6 @@ import io.github.phiseecodyhsp.arcstory.storage.Partner;
 import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import io.github.phiseecodyhsp.arcstory.Util;
 import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -82,20 +81,10 @@ public class StoryUnlockConditionView extends StackPane {
 
         onAddedST.setToX(1);
         onAddedST.setToY(1);
-        onAddedST.setInterpolator(new Interpolator() {
-            @Override
-            protected double curve(double v) {
-                return 1 - (1 - v) * (1 - v) * (1 - v);
-            }
-        });
+        onAddedST.setInterpolator(Util.EASE_IN);
         onRemovedST.setToX(LOWEST_SCALE_RATIO);
         onRemovedST.setToY(LOWEST_SCALE_RATIO);
-        onRemovedST.setInterpolator(new Interpolator() {
-            @Override
-            protected double curve(double v) {
-                return v * v * v;
-            }
-        });
+        onRemovedST.setInterpolator(Util.EASE_OUT);
         onAddedContentFT.setToValue(1);
         onRemovedContentFT.setToValue(0);
 

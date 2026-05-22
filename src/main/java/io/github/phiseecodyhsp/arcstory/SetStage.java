@@ -16,8 +16,8 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 public class SetStage extends Stage {
-    private static final double WIDTH = (int) Util.getScreenWidth() / 2.0;
-    private static final int HEIGHT = (int) (WIDTH / 16 * 9);
+    public static final double WIDTH = (int) Util.getScreenWidth() / 2.0;
+    public static final int HEIGHT = (int) (WIDTH / 16 * 9);
     private static final double TRANS_TIME = 1;
 
     private StackPane lastPane;
