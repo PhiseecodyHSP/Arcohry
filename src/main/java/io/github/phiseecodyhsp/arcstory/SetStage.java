@@ -161,56 +161,21 @@ public class SetStage extends Stage {
             illustrationView.setFitHeight(ILLUSTRATION_SIZE);
             paradigms.setOpacity(PARADIGMS_OPACITY);
 
-            onLAdded.setInterpolator(new Interpolator() {
-                @Override
-                protected double curve(double v) {
-                    return 1 - (1 - v) * (1 - v) * (1 - v);
-                }
-            });
-            onLRemoved.setInterpolator(new Interpolator() {
-                @Override
-                protected double curve(double v) {
-                    return v * v * v;
-                }
-            });
-            onRAdded.setInterpolator(new Interpolator() {
-                @Override
-                protected double curve(double v) {
-                    return 1 - (1 - v) * (1 - v) * (1 - v);
-                }
-            });
-            onRRemoved.setInterpolator(new Interpolator() {
-                @Override
-                protected double curve(double v) {
-                    return v * v * v;
-                }
-            });
+            onLAdded.setInterpolator(Util.EASE_IN);
+            onLRemoved.setInterpolator(Util.EASE_OUT);
+            onRAdded.setInterpolator(Util.EASE_IN);
+            onRRemoved.setInterpolator(Util.EASE_OUT);
 
-            onLabelPaneAdded.setInterpolator(new Interpolator() {
-                @Override
-                protected double curve(double v) {
-                    return 1 - (1 - v) * (1 - v) * (1 - v);
-                }
-            });
+            onLabelPaneAdded.setInterpolator(Util.EASE_IN);
 
             onIllustrationAdded.setFromX(HIGHEST_ILLUSTRATION_SCALE);
             onIllustrationAdded.setFromY(HIGHEST_ILLUSTRATION_SCALE);
             onIllustrationAdded.setToX(1);
             onIllustrationAdded.setToY(1);
-            onIllustrationAdded.setInterpolator(new Interpolator() {
-                @Override
-                protected double curve(double v) {
-                    return 1 - (1 - v) * (1 - v) * (1 - v);
-                }
-            });
+            onIllustrationAdded.setInterpolator(Util.EASE_IN);
             onIllustrationRemoved.setToX(HIGHEST_ILLUSTRATION_SCALE);
             onIllustrationRemoved.setToY(HIGHEST_ILLUSTRATION_SCALE);
-            onIllustrationRemoved.setInterpolator(new Interpolator() {
-                @Override
-                protected double curve(double v) {
-                    return v * v * v;
-                }
-            });
+            onIllustrationRemoved.setInterpolator(Util.EASE_OUT);
             onPaneAdded.setFromValue(0);
             onPaneAdded.setToValue(1);
             onPaneRemoved.setToValue(0);
@@ -305,10 +270,7 @@ public class SetStage extends Stage {
             }
 
             getChildren().clear();
-            getChildren().addAll(
-                    left,
-                    right,
-                    pane);
+            getChildren().addAll(left, right, pane);
             this.noteDesigner.setText(noteDesigner);
         }
 

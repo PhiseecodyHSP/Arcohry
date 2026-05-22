@@ -21,7 +21,7 @@ public class StoryButtonPane extends StackPane {
     private int darkLineCount;
 
     //TODO: Title
-    public StoryButtonPane(@NotNull ChapterPane parent, String partnerPath, String title) {
+    public StoryButtonPane(@NotNull ChapterPane parent, String partnerPath, String title, StoryButton... buttons) {
         this.parent = parent;
 
         lightLine.setFill(Color.WHITE);
@@ -42,31 +42,34 @@ public class StoryButtonPane extends StackPane {
             partner = null;
             getChildren().add(lightLine);
         }
+        addAll(buttons);
     }
 
-    public StoryButtonPane(@NotNull ChapterPane parent, Partner partner, String title) {
-        this(parent, partner.avatarPath(), title);
+    public StoryButtonPane(@NotNull ChapterPane parent, Partner partner, String title, StoryButton... buttons) {
+        this(parent, partner.avatarPath(), title, buttons);
     }
 
-    public void addAll(StoryButton... storyButtons) {
-        getChildren().addAll(storyButtons);
-        this.storyButtons.addAll(List.of(storyButtons));
-        this.storyButtons.getFirst().unlock(parent);
+    public void addAll(StoryButton... buttons) {
+        if (buttons.length != 0) {
+            getChildren().addAll(buttons);
+            this.storyButtons.addAll(List.of(buttons));
+            this.storyButtons.getFirst().unlock(parent);
 
-        int s = this.storyButtons.size();
-        int l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
+            int s = this.storyButtons.size();
+            int l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
 
-        if (partner != null) {
-            partner.setTranslateX(Util.doubleToEven(l * ((2 - s) / 2.0 - 1)));
-            for (int i = 0; i < s; i++) {
-                this.storyButtons.get(i).setTranslateX(Util.doubleToEven(l * (i + (2 - s) / 2.0)));
+            if (partner != null) {
+                partner.setTranslateX(Util.doubleToEven(l * ((2 - s) / 2.0 - 1)));
+                for (int i = 0; i < s; i++) {
+                    this.storyButtons.get(i).setTranslateX(Util.doubleToEven(l * (i + (2 - s) / 2.0)));
+                }
+            } else {
+                for (int i = 0; i < s; i++) {
+                    this.storyButtons.get(i).setTranslateX(Util.doubleToEven(l * (i + (1 - s) / 2.0)));
+                }
             }
-        } else {
-            for (int i = 0; i < s; i++) {
-                this.storyButtons.get(i).setTranslateX(Util.doubleToEven(l * (i + (1 - s) / 2.0)));
-            }
+            setMaxSize(0, 0);
         }
-        setMaxSize(0, 0);
     }
 
     public void updateLine() {

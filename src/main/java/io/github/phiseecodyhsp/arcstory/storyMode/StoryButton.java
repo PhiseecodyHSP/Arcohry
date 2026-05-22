@@ -2,7 +2,6 @@ package io.github.phiseecodyhsp.arcstory.storyMode;
 
 import io.github.phiseecodyhsp.arcstory.Util;
 import io.github.phiseecodyhsp.arcstory.storage.Resources;
-import javafx.animation.FadeTransition;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
@@ -11,7 +10,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 public class StoryButton extends StackPane {
@@ -24,7 +22,6 @@ public class StoryButton extends StackPane {
     public static final double LOWEST_OPACITY = 1 - MASK_HIGHEST_OPACITY;
     public static final int OUTER_GLOW_INTENSITY = 10;
     public static final int OUTER_GLOW_OFFSET = 10;
-    public static final double FADETRANS_TIME = 0.25;
     public static final Color TRANSPARENT_BLACK = new Color(0, 0, 0, 0.5);
     public static final int NEW_ICON_SIZE = 10;
     private static final Font FONT =
@@ -90,24 +87,16 @@ public class StoryButton extends StackPane {
         lock.setFitWidth(DIAGONAL_LENGTH / 3.0);
         lock.setPreserveRatio(true);
 
-
-        FadeTransition onEntered = new FadeTransition(Duration.seconds(FADETRANS_TIME), mask);
-        FadeTransition onExited = new FadeTransition(Duration.seconds(FADETRANS_TIME), mask);
-        onEntered.setToValue(MASK_HIGHEST_OPACITY);
-        onExited.setToValue(0);
-        setOnMouseEntered(_ -> {
-            onExited.stop();
-            onEntered.playFromStart();
-        });
-        setOnMouseExited(_ -> {
-            onEntered.stop();
-            onExited.playFromStart();
-        });
-
         parentProperty().addListener((_, _, p) -> {
             if (p != parent) {
                 throw new IllegalStateException(getClass().getSimpleName() + "的父容器必须与实例化其时传入的父容器相同");
             }
+        });
+        setOnMouseEntered(_ -> {
+            mask.setOpacity(MASK_HIGHEST_OPACITY);
+        });
+        setOnMouseExited(_ -> {
+            mask.setOpacity(0);
         });
         setOpacity(LOWEST_OPACITY);
         setMaxSize(0, 0);

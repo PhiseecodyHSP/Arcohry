@@ -1,12 +1,10 @@
 package io.github.phiseecodyhsp.arcstory;
 
-import javafx.animation.FadeTransition;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.util.Duration;
 
 import static io.github.phiseecodyhsp.arcstory.storyMode.StoryButton.*;
 
@@ -30,17 +28,11 @@ public class SingleSongPotentialCalculator extends StackPane {
             Rectangle mask = new Rectangle(width - BORDER_WIDTH, height - BORDER_WIDTH, Color.BLACK);
             mask.setOpacity(0);
 
-            FadeTransition onEntered = new FadeTransition(Duration.seconds(FADETRANS_TIME), mask);
-            FadeTransition onExited = new FadeTransition(Duration.seconds(FADETRANS_TIME), mask);
-            onEntered.setToValue(MASK_HIGHEST_OPACITY);
-            onExited.setToValue(0);
             setOnMouseEntered(_ -> {
-                onExited.stop();
-                onEntered.playFromStart();
+                mask.setOpacity(MASK_HIGHEST_OPACITY);
             });
             setOnMouseExited(_ -> {
-                onEntered.stop();
-                onExited.playFromStart();
+               mask.setOpacity(0);
             });
 
             setMaxSize(0, 0);

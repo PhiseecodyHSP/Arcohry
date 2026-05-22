@@ -1,5 +1,6 @@
 package io.github.phiseecodyhsp.arcstory.storyMode;
 
+import io.github.phiseecodyhsp.arcstory.SetStage;
 import io.github.phiseecodyhsp.arcstory.Util;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -11,12 +12,13 @@ import java.util.List;
 public class ChapterPane extends StackPane {
     private final List<StoryButtonPane> storyButtonPanes = new ArrayList<>();
 
-    public ChapterPane(@NotNull String bgPath) {
+    public ChapterPane(@NotNull String bgPath, StoryButtonPane... buttonPanes) {
         ImageView bg = new ImageView(bgPath);
         bg.setPreserveRatio(true);
         bg.setFitWidth(Util.getScreenWidth());
 
         getChildren().add(bg);
+        addAll(buttonPanes);
     }
 
     public void addAll(StoryButtonPane... buttonPanes) {
