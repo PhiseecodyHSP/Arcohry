@@ -44,24 +44,4 @@ public class ChapterSelectionPane extends StackPane {
             actPanes.get(i).numberLabel.setText(Util.intToRoman(i + 1));
         }
     }
-
-    private static class ChapterButton extends StackPane {
-        private ChapterButton(ChapterPane pane, @NotNull String imagePath) {
-            ImageView view = new ImageView(imagePath);
-
-            setOnMouseClicked(_ -> Util.getSetStage(this).switchPane(pane));
-        }
-    }
-
-    private static class ActPane extends StackPane {
-        private final Label numberLabel = new Label();
-
-        private ActPane(String name, @NotNull String bgPath, ChapterButton... buttons) {
-            Label nameLabel = new Label(name);
-        }
-
-        private void addAll(ChapterButton... buttons) {
-            getChildren().addAll(buttons);
-        }
-    }
 }
