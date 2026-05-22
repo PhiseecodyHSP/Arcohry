@@ -29,6 +29,8 @@ public class StoryButton extends StackPane {
     public static final int NEW_ICON_SIZE = 10;
     private static final Font FONT =
             Resources.getFont(Resources.GeosansLight_FONT, DIAGONAL_LENGTH / 4.0);
+    public static final DropShadow SHADOW = new DropShadow(
+            OUTER_GLOW_INTENSITY, OUTER_GLOW_OFFSET, OUTER_GLOW_OFFSET, TRANSPARENT_BLACK);
 
     private boolean enabled = false;
     private boolean unlocked = false;
@@ -62,14 +64,12 @@ public class StoryButton extends StackPane {
         label.setFont(FONT);
         label.setTextFill(Color.WHITE);
         label.setRotate(-45);
-        label.setEffect(new DropShadow(
-                OUTER_GLOW_INTENSITY, OUTER_GLOW_OFFSET, OUTER_GLOW_OFFSET, TRANSPARENT_BLACK));
+        label.setEffect(SHADOW);
 
         border.setFill(Color.WHITE);
         border.setArcWidth(ARC_SIZE);
         border.setArcHeight(ARC_SIZE);
-        border.setEffect(new DropShadow(
-                OUTER_GLOW_INTENSITY, OUTER_GLOW_OFFSET, OUTER_GLOW_OFFSET, TRANSPARENT_BLACK));
+        border.setEffect(SHADOW);
         mask.setFill(Color.BLACK);
         mask.setOpacity(0);
         lockBG.setFill(Color.BLACK);

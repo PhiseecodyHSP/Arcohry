@@ -10,6 +10,7 @@ import javafx.util.Duration;
 
 import static io.github.phiseecodyhsp.arcstory.storyMode.StoryButton.*;
 
+//TODO
 public class SingleSongPotentialCalculator extends StackPane {
     public SingleSongPotentialCalculator() {
         RectangleButton button = new RectangleButton(100, 50, Color.WHITE, Color.GRAY, "START");

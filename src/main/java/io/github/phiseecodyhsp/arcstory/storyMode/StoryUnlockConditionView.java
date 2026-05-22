@@ -30,6 +30,7 @@ public class StoryUnlockConditionView extends StackPane {
     private static final int ILLUSTRATION_WIDTH = SIDE_LENGTH * 2;
     private static final int BG_HEIGHT = Util.doubleToEven(ILLUSTRATION_WIDTH * 8 / 3.0);
     private static final Font FONT = Resources.getFont(Resources.GeosansLight_FONT, ILLUSTRATION_WIDTH / 7.5);
+    public static final DropShadow GLOW = new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE);
 
     private final String music;
     private final String composer;
@@ -65,7 +66,7 @@ public class StoryUnlockConditionView extends StackPane {
         condition.setTranslateY(Util.doubleToEven((Util.doubleToEven(BG_HEIGHT - ILLUSTRATION_WIDTH) / 2.0)));
 
         illustration = new ImageView(illustrationPath);
-        illustration.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
+        illustration.setEffect(GLOW);
         illustration.setTranslateY(
                 Util.doubleToEven(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 3 / 2.0)));
         bg.setFitHeight(BG_HEIGHT);
@@ -130,13 +131,13 @@ public class StoryUnlockConditionView extends StackPane {
                 -ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Util.SQRT_3);
         arrow.setFill(Color.WHITE);
         arrow.setTranslateY(Util.doubleToEven(ILLUSTRATION_WIDTH * 7 / 30.0 + BORDER_WIDTH / 4.0));
-        arrow.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
+        arrow.setEffect(GLOW);
 
         Rectangle border = new Rectangle(
                 Util.doubleToEven(ILLUSTRATION_WIDTH / 2.5) / Util.SQRT_2 + BORDER_WIDTH,
                 Util.doubleToEven(ILLUSTRATION_WIDTH / 2.5) / Util.SQRT_2 + BORDER_WIDTH,
                 Color.WHITE);
-        border.setEffect(new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE));
+        border.setEffect(GLOW);
         border.setRotate(45);
         border.setTranslateY(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0));
 

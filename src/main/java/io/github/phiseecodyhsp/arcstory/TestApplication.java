@@ -40,7 +40,5 @@ public class TestApplication extends Application {
 
         SetStage setStage = new SetStage(pane1);
         setStage.show();
-
-        button2.setOnMouseClicked(_ -> setStage.switchPane(calculator));
     }
 }
