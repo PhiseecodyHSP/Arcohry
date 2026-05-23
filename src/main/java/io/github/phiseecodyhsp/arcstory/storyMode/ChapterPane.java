@@ -1,6 +1,5 @@
 package io.github.phiseecodyhsp.arcstory.storyMode;
 
-import io.github.phiseecodyhsp.arcstory.SetStage;
 import io.github.phiseecodyhsp.arcstory.Util;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;

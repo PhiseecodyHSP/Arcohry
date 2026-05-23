@@ -54,7 +54,7 @@ public class SetStage extends Stage {
         root.setScaleY(scale);
     }
 
-    public void switchPane(TransAnimaType type, StackPane newPane) {
+    public void switchPane(TransitionAnimation.Type type, StackPane newPane) {
         anima.play(type, newPane);
         lastPane = currentPane;
         currentPane = newPane;
@@ -80,7 +80,7 @@ public class SetStage extends Stage {
         currentPane = newPane;
     }
 
-    public void back(TransAnimaType type) {
+    public void back(TransitionAnimation.Type type) {
         if (lastPane != null) {
             switchPane(type, lastPane);
         }
@@ -92,7 +92,7 @@ public class SetStage extends Stage {
         }
     }
 
-    public void playChart(@NotNull TransAnimaType type,
+    public void playChart(@NotNull SetStage.TransitionAnimation.Type type,
                           String musicName,
                           String composer,
                           @NotNull String illustrationPath,
@@ -102,7 +102,7 @@ public class SetStage extends Stage {
         anima.play(type, musicName, composer,illustrationPath, illustrator, noteDesigner, paradigms);
     }
 
-    public void playChart(@NotNull TransAnimaType type, @NotNull Chart chart) {
+    public void playChart(@NotNull SetStage.TransitionAnimation.Type type, @NotNull Chart chart) {
         playChart(type,
                 chart.music,
                 chart.composer,
@@ -113,7 +113,7 @@ public class SetStage extends Stage {
     }
 
     //TODO
-    private static class TransitionAnimation extends StackPane {
+    public static class TransitionAnimation extends StackPane {
         private static final double SHADOW_OPACITY = 0.5;
         private static final int LABEL_DISPLACEMENT = 0;
         private static final double HIGHEST_ILLUSTRATION_SCALE = 2;
@@ -202,7 +202,7 @@ public class SetStage extends Stage {
             musicName.setTextFill(Color.WHITE);
         }
 
-        private void play(@NotNull SetStage.TransAnimaType type, StackPane newPane) {
+        private void play(@NotNull SetStage.TransitionAnimation.Type type, StackPane newPane) {
             type.setImage(this);
 
             root.getChildren().add(this);
@@ -226,7 +226,7 @@ public class SetStage extends Stage {
         }
 
         //TODO
-        private void play(@NotNull SetStage.TransAnimaType type,
+        private void play(@NotNull SetStage.TransitionAnimation.Type type,
                           String musicName,
                           String composer,
                           @NotNull String illustrationPath,
@@ -274,7 +274,7 @@ public class SetStage extends Stage {
             this.noteDesigner.setText(noteDesigner);
         }
 
-        private void play(@NotNull SetStage.TransAnimaType type, @NotNull Chart chart) {
+        private void play(@NotNull SetStage.TransitionAnimation.Type type, @NotNull Chart chart) {
             play(type,
                     chart.music,
                     chart.composer,
@@ -283,32 +283,32 @@ public class SetStage extends Stage {
                     chart.noteDesigner,
                     chart.paradigms);
         }
-    }
 
-    //TODO: 素材替换
-    public enum TransAnimaType {
-        NORMAL(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-        COURSE(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-        GRIEVOUS(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-        FRACTURE(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-        TEMPESTISSIMO(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-        FINAL(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-        ARGHENA(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-        ALTER(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-        DESIGNANT(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-        UNDYING(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R);
+        //TODO: 素材替换
+        public enum Type {
+            NORMAL(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+            COURSE(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+            GRIEVOUS(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+            FRACTURE(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+            TEMPESTISSIMO(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+            FINAL(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+            ARGHENA(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+            ALTER(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+            DESIGNANT(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
+            UNDYING(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R);
 
-        private final String leftImagePath;
-        private final String rightImagePath;
+            private final String leftImagePath;
+            private final String rightImagePath;
 
-        TransAnimaType(String l, String r) {
-            leftImagePath = l;
-            rightImagePath = r;
-        }
+            Type(String l, String r) {
+                leftImagePath = l;
+                rightImagePath = r;
+            }
 
-        private void setImage(TransitionAnimation anima) {
-            anima.left.setImage(new Image(leftImagePath));
-            anima.right.setImage(new Image(rightImagePath));
+            private void setImage(TransitionAnimation anima) {
+                anima.left.setImage(new Image(leftImagePath));
+                anima.right.setImage(new Image(rightImagePath));
+            }
         }
     }
 }

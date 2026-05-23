@@ -1,7 +1,10 @@
 package io.github.phiseecodyhsp.arcstory.storage;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
 import javafx.scene.text.Font;
+
+import java.io.InputStream;
 
 //TODO: 播放音频、lock、star和NEW素材
 public final class Resources {
@@ -19,34 +22,45 @@ public final class Resources {
     public static final String NORMAL_TRANSANIMA_L;
     public static final String NORMAL_TRANSANIMA_R;
 
+    public static final String STORY1_1;
+
     public static final AudioClip START_SOUND;
     public static final AudioClip TRANSANIMA_STRAT_SOUND;
     public static final AudioClip TRANSANIMA_END_SOUND;
 
     static {
-        GeosansLight_FONT = "GeosansLight.ttf";
+        GeosansLight_FONT = "fonts/GeosansLight.ttf";
 
-        NEW_ICON = of("images/Songs_init.jpg");
-        Tutorial_ILLUSTRTION = of("images/Songs_tutorial.jpg");
-        Beyond_BACKGROUND = of("images/Background_beyond.jpg");
-        Init_ILLUSTRATION = of("images/Songs_init.jpg");
-        DOROC_AVATAR = of("images/143px-Partner_doroc_awaken_icon.png");
-        SUCV_BG0 = of("images/未标题-1.png");
-        SUCV_BG1 = of("images/未标题-1.png");
-        NORMAL_TRANSANIMA_L = of("images/TransAnimaL_resized.png");
-        NORMAL_TRANSANIMA_R = of("images/TransAnimaR_resized.png");
+        NEW_ICON = ofString("images/Songs_init.jpg");
+        Tutorial_ILLUSTRTION = ofString("images/Songs_tutorial.jpg");
+        Beyond_BACKGROUND = ofString("images/Background_beyond.jpg");
+        Init_ILLUSTRATION = ofString("images/Songs_init.jpg");
+        DOROC_AVATAR = ofString("images/143px-Partner_doroc_awaken_icon.png");
+        SUCV_BG0 = ofString("images/未标题-1.png");
+        SUCV_BG1 = ofString("images/未标题-1.png");
+        NORMAL_TRANSANIMA_L = ofString("images/TransAnimaL_resized.png");
+        NORMAL_TRANSANIMA_R = ofString("images/TransAnimaR_resized.png");
 
-        START_SOUND = new AudioClip(of("audios/START.mp3"));
-        TRANSANIMA_STRAT_SOUND = new AudioClip(of("audios/转场开始.mp3"));
-        TRANSANIMA_END_SOUND = new AudioClip(of("audios/转场结束.mp3"));
+        STORY1_1 = "stories/test.json";
+
+        START_SOUND = ofClip("audios/START.mp3");
+        TRANSANIMA_STRAT_SOUND = ofClip("audios/转场开始.mp3");
+        TRANSANIMA_END_SOUND = ofClip("audios/转场结束.mp3");
     }
 
-    private static String of(String path) {
+    private static String ofString(String path) {
         return String.valueOf(Resources.class.getResource("/io/github/phiseecodyhsp/arcstory/" + path));
     }
 
-    public static Font getFont(String fontPath, double px) {
-        return Font.loadFont(Resources.class.getResourceAsStream(
-                "/io/github/phiseecodyhsp/arcstory/fonts/" + fontPath), px / 0.75);
+    private static InputStream ofStream(String path) {
+        return Resources.class.getResourceAsStream("/io/github/phiseecodyhsp/arcstory/" + path);
+    }
+
+    private static AudioClip ofClip(String path) {
+        return new AudioClip(ofString(path));
+    }
+
+    public static Font getFont(String path, double px) {
+        return Font.loadFont(ofStream(path), px / 0.75);
     }
 }

@@ -9,6 +9,6 @@ public class AVGStory extends StackPane {
     }
 
     public void play(SetStage stage) {
-        stage.switchPane(SetStage.TransAnimaType.NORMAL, this);
+        stage.switchPane(SetStage.TransitionAnimation.Type.NORMAL, this);
     }
 }

@@ -1,0 +1,5 @@
+[
+    { "type": "cg",   "path": "images/Songs_init.jpg" },
+    { "type": "text", "path": "texts/test.txt" },
+    { "type": "text", "path": "texts/test1.txt" }
+]

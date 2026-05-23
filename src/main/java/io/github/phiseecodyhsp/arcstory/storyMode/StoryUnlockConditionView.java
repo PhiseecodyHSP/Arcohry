@@ -189,7 +189,7 @@ public class StoryUnlockConditionView extends StackPane {
     public void show(ChapterPane parent) {
         parent.getChildren().add(this);
         illustration.setOnMouseClicked(_ -> {
-            Util.getSetStage(this).playChart(SetStage.TransAnimaType.NORMAL,
+            Util.getSetStage(this).playChart(SetStage.TransitionAnimation.Type.NORMAL,
                     music,
                     composer,
                     illustrationPath,

@@ -7,13 +7,14 @@ import io.github.phiseecodyhsp.arcstory.storyMode.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class TestApplication extends Application {
-    public void start(Stage stage) {
+    public void start(Stage stage) throws IOException {
         SingleSongPotentialCalculator calculator = new SingleSongPotentialCalculator();
 
         StoryUnlockConditionView condition1 = new StoryUnlockConditionView(Charts.Tutorial_PST);
         StoryUnlockConditionView condition2 = new StoryUnlockConditionView(Charts.Tutorial_PST, Partners.DORO_C);
-        Story story = new Story();
 
         ChapterPane pane1 = new ChapterPane(Resources.Beyond_BACKGROUND);
         ChapterPane pane2 = new ChapterPane(Resources.Beyond_BACKGROUND);
@@ -21,6 +22,8 @@ public class TestApplication extends Application {
         StoryButtonPane bPane1 = new StoryButtonPane(pane1, Partners.DORO_C, null);
         StoryButtonPane bPane2 = new StoryButtonPane(pane2, Partners.DORO_C, null);
         StoryButtonPane bPane3 = new StoryButtonPane(pane1, Partners.DORO_C, null);
+
+        Story story = new Story(Resources.STORY1_1);
 
         StoryButton button1 = new StoryButton(bPane1, "1-1", Resources.Tutorial_ILLUSTRTION, null, story);
         StoryButton button2 = new StoryButton(bPane1, "1-2", Resources.Tutorial_ILLUSTRTION, condition1, story);
@@ -40,5 +43,6 @@ public class TestApplication extends Application {
 
         SetStage setStage = new SetStage(pane1);
         setStage.show();
+        System.out.println(SingleSongPotentialCalculator.getSingleSongPtt(10.8, 9933517));
     }
 }

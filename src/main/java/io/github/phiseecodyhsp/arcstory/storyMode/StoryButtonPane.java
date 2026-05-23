@@ -35,7 +35,7 @@ public class StoryButtonPane extends StackPane {
         });
 
         if (partnerPath != null) {
-            partner = new Partner(null, partnerPath, null).
+            partner = new Partner(null, partnerPath, "").
                     getAvatarPane(SIDE_LENGTH, Color.rgb(150, 140, 160));
             getChildren().addAll(lightLine, partner);
         } else {

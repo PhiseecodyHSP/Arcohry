@@ -6,6 +6,6 @@ public final class Partners {
     public static final Partner DORO_C;
 
     static {
-        DORO_C = new Partner("DORO*C", Resources.DOROC_AVATAR, null);
+        DORO_C = new Partner("DORO*C", Resources.DOROC_AVATAR, "");
     }
 }

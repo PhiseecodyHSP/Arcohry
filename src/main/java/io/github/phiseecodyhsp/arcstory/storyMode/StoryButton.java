@@ -110,7 +110,7 @@ public class StoryButton extends StackPane {
                        StoryUnlockConditionView condition,
                        @NotNull Story story)  {
         this(parent, title, illustrationPath, condition);
-        if (story.hasCG()) {
+        if (story.withCG) {
             getChildren().add(star);
         }
         getChildren().addAll(border, view, mask, lockBG, lock);

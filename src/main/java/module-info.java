@@ -7,6 +7,7 @@ module io.github.phiseecodyhsp.arcstory {
     requires jdk.unsupported.desktop;
     requires org.jetbrains.annotations;
     requires javafx.media;
+    requires com.fasterxml.jackson.databind;
 
     opens io.github.phiseecodyhsp.arcstory to javafx.fxml;
     opens io.github.phiseecodyhsp.arcstory.storyMode to javafx.fxml;
