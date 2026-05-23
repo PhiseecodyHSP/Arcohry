@@ -2,7 +2,6 @@ package io.github.phiseecodyhsp.arcstory.storyMode;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
