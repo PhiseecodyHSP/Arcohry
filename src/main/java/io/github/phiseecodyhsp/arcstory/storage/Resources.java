@@ -52,7 +52,7 @@ public final class Resources {
         return String.valueOf(Resources.class.getResource("/io/github/phiseecodyhsp/arcstory/" + path));
     }
 
-    private static InputStream ofStream(String path) {
+    public static InputStream ofStream(String path) {
         return Resources.class.getResourceAsStream("/io/github/phiseecodyhsp/arcstory/" + path);
     }
 

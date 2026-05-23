@@ -1,7 +1,9 @@
 package io.github.phiseecodyhsp.arcstory.storyMode;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
@@ -18,8 +20,7 @@ public class Story extends StackPane {
     private final ImageView currentCg = new ImageView();
 
     public Story(String jsonPath) throws IOException {
-        items = new ObjectMapper().readValue(getClass().getResourceAsStream(
-                "/io/github/phiseecodyhsp/arcstory/" + jsonPath), new TypeReference<>() {});
+        items = new ObjectMapper().readValue(Resources.ofStream(jsonPath), new TypeReference<>() {});
         withCG = Objects.equals(items.getFirst().type, Item.CG_TYPE);
     }
 
@@ -31,7 +32,9 @@ public class Story extends StackPane {
         private static final String CG_TYPE = "cg";
         private static final String TEXT_TYPE = "text";
 
+        @JsonProperty
         private String type;
+        @JsonProperty
         private String path;
 
         private Item() {}

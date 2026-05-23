@@ -42,6 +42,7 @@ public class SetStage extends Stage {
         lastPane = null;
         currentPane = initialPane;
 
+        setTitle("Arcaea Story Mode");
         setWidth(WIDTH);
         setHeight(HEIGHT);
         setScene(scene);
