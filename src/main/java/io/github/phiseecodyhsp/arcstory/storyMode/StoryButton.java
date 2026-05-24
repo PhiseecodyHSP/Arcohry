@@ -12,6 +12,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+
 public class StoryButton extends StackPane {
     public static final int SIDE_LENGTH = Util.doubleToEven(Util.getScreenHeight() * 0.1);
     public static final int BORDER_WIDTH = 2;
@@ -47,6 +49,7 @@ public class StoryButton extends StackPane {
             IMAGE_SIZE / 2.0, -IMAGE_SIZE / 4.0,
             IMAGE_SIZE / 2.0, -IMAGE_SIZE / 2.0,
             IMAGE_SIZE / 4.0, -IMAGE_SIZE / 2.0);
+    public final boolean withUnlockCondition;
 
     private Story story = null;
     private AVGStory avgStory = null;
@@ -57,6 +60,7 @@ public class StoryButton extends StackPane {
                         StoryUnlockConditionView condition) {
         this.condition = condition;
         this.parent = parent;
+        withUnlockCondition = condition != null;
         label = new Label(title);
         label.setFont(FONT);
         label.setTextFill(Color.WHITE);
@@ -101,11 +105,7 @@ public class StoryButton extends StackPane {
         lock.setPreserveRatio(true);
         lock.setMouseTransparent(true);
 
-        parentProperty().addListener((_, _, p) -> {
-            if (p != parent) {
-                throw new IllegalStateException(getClass().getSimpleName() + "的父容器必须与实例化其时传入的父容器相同");
-            }
-        });
+        Util.addParentChecker(this, parent);
         setOpacity(LOWEST_OPACITY);
         setMaxSize(0, 0);
         setRotate(45);
@@ -160,14 +160,22 @@ public class StoryButton extends StackPane {
                 if (story == null) {
                     avgStory.play(Util.getSetStage(this));
                 } else {
-                    story.play(parent);
+                    try {
+                        story.play(parent);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
                 getChildren().remove(neo);
                 border.setOnMouseClicked(_ -> {
                     if (story == null) {
                         avgStory.play(Util.getSetStage(this));
                     } else {
-                        story.play(parent);
+                        try {
+                            story.play(parent);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 });
             });

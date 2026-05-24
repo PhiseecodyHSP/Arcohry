@@ -48,7 +48,7 @@ public final class Resources {
         TRANSANIMA_END_SOUND = ofClip("audios/转场结束.mp3");
     }
 
-    private static String ofString(String path) {
+    public static String ofString(String path) {
         return String.valueOf(Resources.class.getResource("/io/github/phiseecodyhsp/arcstory/" + path));
     }
 

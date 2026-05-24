@@ -28,12 +28,7 @@ public class StoryButtonPane extends StackPane {
         lightLine.setHeight(StoryButton.BORDER_WIDTH);
 
 
-        parentProperty().addListener((_, _, p) -> {
-            if (p != null && p != parent) {
-                throw new IllegalStateException(getClass().getSimpleName() + "的父容器必须与实例化其时传入的父容器相同");
-            }
-        });
-
+        Util.addParentChecker(this, parent);
         if (partnerPath != null) {
             partner = new Partner(null, partnerPath, "").
                     getAvatarPane(SIDE_LENGTH, Color.rgb(150, 140, 160));
@@ -49,6 +44,7 @@ public class StoryButtonPane extends StackPane {
         this(parent, partner.avatarPath(), title, buttons);
     }
 
+    //TODO: 展示UnlockCondition时会发生微小位移
     public void addAll(StoryButton... buttons) {
         if (buttons.length != 0) {
             getChildren().addAll(buttons);
@@ -61,11 +57,19 @@ public class StoryButtonPane extends StackPane {
             if (partner != null) {
                 partner.setTranslateX(Util.doubleToEven(l * ((2 - s) / 2.0 - 1)));
                 for (int i = 0; i < s; i++) {
-                    this.storyButtons.get(i).setTranslateX(Util.doubleToEven(l * (i + (2 - s) / 2.0)));
+                    StoryButton button = this.storyButtons.get(i);
+                    button.setTranslateX(Util.doubleToEven(l * (i + (2 - s) / 2.0)));
+                    if (!button.withUnlockCondition) {
+                        button.unlock(parent);
+                    }
                 }
             } else {
                 for (int i = 0; i < s; i++) {
-                    this.storyButtons.get(i).setTranslateX(Util.doubleToEven(l * (i + (1 - s) / 2.0)));
+                    StoryButton button = this.storyButtons.get(i);
+                    button.setTranslateX(Util.doubleToEven(l * (i + (1 - s) / 2.0)));
+                    if (!button.withUnlockCondition) {
+                        button.unlock(parent);
+                    }
                 }
             }
             setMaxSize(0, 0);

@@ -1,8 +1,9 @@
 package io.github.phiseecodyhsp.arcstory;
 
 import javafx.animation.Interpolator;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 
 public final class Util {
@@ -82,10 +83,18 @@ public final class Util {
         throw new IllegalStateException();
     }
 
-    public static SetStage getSetStage(StackPane pane) {
-        if (pane.getScene() != null) {
-            return getSetStage(pane.getScene());
+    public static SetStage getSetStage(Node node) {
+        if (node.getScene() != null) {
+            return getSetStage(node.getScene());
         }
         throw new IllegalStateException();
+    }
+
+    public static void addParentChecker(Node node, Parent parent) {
+        node.parentProperty().addListener((_, _, p) -> {
+            if (p != parent) {
+                throw new IllegalStateException(node.getClass().getSimpleName() + "的父容器必须与实例化其时传入的父容器相同");
+            }
+        });
     }
 }

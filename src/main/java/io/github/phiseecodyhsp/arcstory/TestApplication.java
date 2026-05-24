@@ -28,7 +28,7 @@ public class TestApplication extends Application {
         StoryButton button1 = new StoryButton(bPane1, "1-1", Resources.Tutorial_ILLUSTRTION, null, story);
         StoryButton button2 = new StoryButton(bPane1, "1-2", Resources.Tutorial_ILLUSTRTION, condition1, story);
         StoryButton button3 = new StoryButton(bPane2, "2-1", Resources.Tutorial_ILLUSTRTION, null, story);
-        StoryButton button4 = new StoryButton(bPane2, "2-2",  Resources.Tutorial_ILLUSTRTION, condition1, story);
+        StoryButton button4 = new StoryButton(bPane2, "2-2", Resources.Tutorial_ILLUSTRTION, condition1, story);
         StoryButton button5 = new StoryButton(bPane2, "2-3", Resources.Tutorial_ILLUSTRTION, null, story);
         StoryButton button6 = new StoryButton(bPane2, "2-4", Resources.Tutorial_ILLUSTRTION, null, story);
         StoryButton button7 = new StoryButton(bPane3, "3-1", Resources.Tutorial_ILLUSTRTION, null, story);
