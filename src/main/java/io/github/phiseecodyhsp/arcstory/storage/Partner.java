@@ -8,7 +8,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.NotNull;
 
-import static io.github.phiseecodyhsp.arcstory.storyMode.StoryButton.*;
+import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.*;
 
 public record Partner(String name, @NotNull String avatarPath, @NotNull String illustrationPath) {
     public StackPane getAvatarPane(int sideLength, Paint borderColor) {

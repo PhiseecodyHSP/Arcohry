@@ -20,7 +20,7 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
-import static io.github.phiseecodyhsp.arcstory.storyMode.StoryButton.*;
+import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.*;
 
 //TODO: 背景素材等
 public class StoryUnlockConditionView extends StackPane {

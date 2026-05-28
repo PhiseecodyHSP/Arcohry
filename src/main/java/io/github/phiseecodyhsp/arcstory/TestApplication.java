@@ -1,48 +1,39 @@
 package io.github.phiseecodyhsp.arcstory;
 
-import io.github.phiseecodyhsp.arcstory.storage.Charts;
-import io.github.phiseecodyhsp.arcstory.storage.Partners;
-import io.github.phiseecodyhsp.arcstory.storage.Resources;
+import io.github.phiseecodyhsp.arcstory.storage.*;
 import io.github.phiseecodyhsp.arcstory.storyMode.*;
+import io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.*;
+import io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class TestApplication extends Application {
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         SingleSongPotentialCalculator calculator = new SingleSongPotentialCalculator();
 
         StoryUnlockConditionView condition1 = new StoryUnlockConditionView(Charts.Tutorial_PST);
         StoryUnlockConditionView condition2 = new StoryUnlockConditionView(Charts.Tutorial_PST, Partners.DORO_C);
 
         ChapterPane pane1 = new ChapterPane(Resources.Beyond_BACKGROUND);
-        ChapterPane pane2 = new ChapterPane(Resources.Beyond_BACKGROUND);
 
-        StoryButtonPane bPane1 = new StoryButtonPane(pane1, Partners.DORO_C, null);
-        StoryButtonPane bPane2 = new StoryButtonPane(pane2, Partners.DORO_C, null);
-        StoryButtonPane bPane3 = new StoryButtonPane(pane1, Partners.DORO_C, null);
+        StoryButtonPane bPane1 = pane1.new StoryButtonPane(Partners.DORO_C, null);
+        StoryButtonPane bPane2 = pane1.new StoryButtonPane(Partners.DORO_C, null);
+        StoryButtonPane bPane3 = pane1.new StoryButtonPane(Partners.DORO_C, null);
 
         Story story = new Story(Resources.STORY1_1);
 
-        StoryButton button1 = new StoryButton(bPane1, "1-1", Resources.Tutorial_ILLUSTRTION, null, story);
-        StoryButton button2 = new StoryButton(bPane1, "1-2", Resources.Tutorial_ILLUSTRTION, condition1, story);
-        StoryButton button3 = new StoryButton(bPane2, "2-1", Resources.Tutorial_ILLUSTRTION, null, story);
-        StoryButton button4 = new StoryButton(bPane2, "2-2", Resources.Tutorial_ILLUSTRTION, condition1, story);
-        StoryButton button5 = new StoryButton(bPane2, "2-3", Resources.Tutorial_ILLUSTRTION, null, story);
-        StoryButton button6 = new StoryButton(bPane2, "2-4", Resources.Tutorial_ILLUSTRTION, null, story);
-        StoryButton button7 = new StoryButton(bPane3, "3-1", Resources.Tutorial_ILLUSTRTION, null, story);
-        StoryButton button8 = new StoryButton(bPane3, "3-2", Resources.Tutorial_ILLUSTRTION, condition2, story);
-        StoryButton button9 = new StoryButton(bPane3, "3-3", Resources.Tutorial_ILLUSTRTION, null, story);
-
-        bPane1.addAll(button1, button2);
-        bPane2.addAll(button3, button4, button5, button6);
-        bPane3.addAll(button7, button8, button9);
-        pane1.addAll(bPane1, bPane3);
-        pane2.addAll(bPane2);
+        StoryButton button1 = bPane1.new StoryButton("1-1", Resources.Tutorial_ILLUSTRTION, null, story);
+        StoryButton button2 = bPane1.new StoryButton("1-2", Resources.Tutorial_ILLUSTRTION, condition1, story);
+        StoryButton button3 = bPane2.new StoryButton("2-1", Resources.Tutorial_ILLUSTRTION, null, story);
+        StoryButton button4 = bPane2.new StoryButton("2-2", Resources.Tutorial_ILLUSTRTION, condition1, story);
+        StoryButton button5 = bPane2.new StoryButton("2-3", Resources.Tutorial_ILLUSTRTION, null, story);
+        StoryButton button6 = bPane2.new StoryButton("2-4", Resources.Tutorial_ILLUSTRTION, null, story);
+        StoryButton button7 = bPane3.new StoryButton("3-1", Resources.Tutorial_ILLUSTRTION, null, story);
+        StoryButton button8 = bPane3.new StoryButton("3-2", Resources.Tutorial_ILLUSTRTION, condition2, story);
+        StoryButton button9 = bPane3.new StoryButton("3-3", Resources.Tutorial_ILLUSTRTION, null, story);
 
         SetStage setStage = new SetStage(pane1);
         setStage.show();
-        System.out.println(SingleSongPotentialCalculator.getSingleSongPtt(10.8, 9933517));
+        System.out.println(SingleSongPotentialCalculator.getSingleSongPtt(10.8, 9975926));
     }
 }

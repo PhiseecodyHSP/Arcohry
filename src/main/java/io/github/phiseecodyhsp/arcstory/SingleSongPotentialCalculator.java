@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
-import static io.github.phiseecodyhsp.arcstory.storyMode.StoryButton.*;
+import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.*;
 
 //TODO
 public class SingleSongPotentialCalculator extends StackPane {
@@ -28,12 +28,8 @@ public class SingleSongPotentialCalculator extends StackPane {
             Rectangle mask = new Rectangle(width - BORDER_WIDTH, height - BORDER_WIDTH, Color.BLACK);
             mask.setOpacity(0);
 
-            setOnMouseEntered(_ -> {
-                mask.setOpacity(MASK_HIGHEST_OPACITY);
-            });
-            setOnMouseExited(_ -> {
-               mask.setOpacity(0);
-            });
+            setOnMouseEntered(_ -> mask.setOpacity(MASK_HIGHEST_OPACITY));
+            setOnMouseExited(_ -> mask.setOpacity(0));
 
             setMaxSize(0, 0);
             getChildren().addAll(border, rectangle, label, mask);

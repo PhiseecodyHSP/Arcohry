@@ -62,7 +62,7 @@ public final class Util {
 
         int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
         String[] symbols = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
-        StringBuilder roman = new StringBuilder(new StringBuilder());
+        StringBuilder roman = new StringBuilder();
         if (num < 0) {
             roman.append("-");
             num = -num;
@@ -93,7 +93,7 @@ public final class Util {
     public static void addParentChecker(Node node, Parent parent) {
         node.parentProperty().addListener((_, _, p) -> {
             if (p != parent) {
-                throw new IllegalStateException(node.getClass().getSimpleName() + "的父容器必须与实例化其时传入的父容器相同");
+                throw new IllegalStateException(node + "'s parent must be " + parent + ", but found " + p);
             }
         });
     }
