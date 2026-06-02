@@ -1,6 +1,5 @@
 package io.github.phiseecodyhsp.arcstory.storage;
 
-import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
 import javafx.scene.text.Font;
 
@@ -21,6 +20,7 @@ public final class Resources {
     public static final String SUCV_BG1;
     public static final String NORMAL_TRANSANIMA_L;
     public static final String NORMAL_TRANSANIMA_R;
+    public static final String TRANSANIMA_SHADOW;
 
     public static final String STORY1_1;
 
@@ -40,6 +40,7 @@ public final class Resources {
         SUCV_BG1 = ofString("images/未标题-1.png");
         NORMAL_TRANSANIMA_L = ofString("images/TransAnimaL_resized.png");
         NORMAL_TRANSANIMA_R = ofString("images/TransAnimaR_resized.png");
+        TRANSANIMA_SHADOW = ofString("images/TransAnimaL_resized.png");
 
         STORY1_1 = "stories/test.json";
 
@@ -53,7 +54,11 @@ public final class Resources {
     }
 
     public static InputStream ofStream(String path) {
-        return Resources.class.getResourceAsStream("/io/github/phiseecodyhsp/arcstory/" + path);
+        InputStream is = Resources.class.getResourceAsStream("/io/github/phiseecodyhsp/arcstory/" + path);
+        if (is != null) {
+            return is;
+        }
+        throw new IllegalArgumentException("Path '" + path + "' is invalid");
     }
 
     private static AudioClip ofClip(String path) {
@@ -61,6 +66,6 @@ public final class Resources {
     }
 
     public static Font getFont(String path, double px) {
-        return Font.loadFont(ofStream(path), px / 0.75);
+        return Font.loadFont(ofStream(path), px);
     }
 }

@@ -3,6 +3,7 @@ package io.github.phiseecodyhsp.arcstory;
 import io.github.phiseecodyhsp.arcstory.storage.Chart;
 import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.animation.*;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -20,15 +21,15 @@ public class SetStage extends Stage {
     public static final int HEIGHT = (int) (WIDTH / 16 * 9);
     private static final double TRANS_TIME = 1;
 
-    private StackPane lastPane;
-    private StackPane currentPane;
+    private Node lastNode;
+    private Node currentNode;
     private final StackPane root = new StackPane();
     private final Scene scene = new Scene(root);
     private final TransitionAnimation anima = new TransitionAnimation(root);
 
-    public SetStage(StackPane initialPane) {
+    public SetStage(Node initialNode) {
         root.setStyle("-fx-background-color: black;");
-        root.getChildren().add(initialPane);
+        root.getChildren().add(initialNode);
 
         scene.setFill(Color.BLACK);
         scene.setOnKeyPressed(e -> {
@@ -39,8 +40,8 @@ public class SetStage extends Stage {
         scene.widthProperty().addListener(_ -> updateScale());
         scene.heightProperty().addListener(_ -> updateScale());
 
-        lastPane = null;
-        currentPane = initialPane;
+        lastNode = null;
+        currentNode = initialNode;
 
         setTitle("Arcaea Story Mode");
         setWidth(WIDTH);
@@ -55,41 +56,41 @@ public class SetStage extends Stage {
         root.setScaleY(scale);
     }
 
-    public void switchPane(TransitionAnimation.Type type, StackPane newPane) {
-        anima.play(type, newPane);
-        lastPane = currentPane;
-        currentPane = newPane;
+    public void switchPane(TransitionAnimation.Type type, Node newNode) {
+        anima.play(type, newNode);
+        lastNode = currentNode;
+        currentNode = newNode;
     }
 
-    public void switchPane(StackPane newPane) {
-        FadeTransition ft1 = new FadeTransition(Duration.seconds(TRANS_TIME), currentPane);
-        FadeTransition ft2 = new FadeTransition(Duration.seconds(TRANS_TIME), newPane);
+    public void switchPane(Node newNode) {
+        FadeTransition ft1 = new FadeTransition(Duration.seconds(TRANS_TIME), currentNode);
+        FadeTransition ft2 = new FadeTransition(Duration.seconds(TRANS_TIME), newNode);
         ft1.setToValue(0);
         ft1.setOnFinished(_ -> {
-            root.getChildren().set(0, newPane);
+            root.getChildren().set(0, newNode);
             ft2.stop();
             ft2.playFromStart();
-            currentPane.setMouseTransparent(false);
+            currentNode.setMouseTransparent(false);
         });
         ft2.setFromValue(0);
         ft2.setToValue(1);
         ft1.stop();
         ft1.playFromStart();
 
-        currentPane.setMouseTransparent(true);
-        lastPane = currentPane;
-        currentPane = newPane;
+        currentNode.setMouseTransparent(true);
+        lastNode = currentNode;
+        currentNode = newNode;
     }
 
     public void back(TransitionAnimation.Type type) {
-        if (lastPane != null) {
-            switchPane(type, lastPane);
+        if (lastNode != null) {
+            switchPane(type, lastNode);
         }
     }
 
     public void back() {
-        if (lastPane != null) {
-            switchPane(lastPane);
+        if (lastNode != null) {
+            switchPane(lastNode);
         }
     }
 
@@ -115,7 +116,6 @@ public class SetStage extends Stage {
 
     //TODO
     public static class TransitionAnimation extends StackPane {
-        private static final double SHADOW_OPACITY = 0.5;
         private static final int LABEL_DISPLACEMENT = 0;
         private static final double HIGHEST_ILLUSTRATION_SCALE = 2;
         private static final double PARADIGMS_OPACITY = 0.5;
@@ -127,7 +127,7 @@ public class SetStage extends Stage {
         private final ImageView right = new ImageView();
         private final ImageView illustrationView = new ImageView();
         private final ImageView musicNameShadow = new ImageView();
-        private final Rectangle shadow = new Rectangle();
+        private final ImageView shadow = new ImageView(Resources.TRANSANIMA_SHADOW);
         private final Rectangle paradigms = new Rectangle(ILLUSTRATION_SIZE, ILLUSTRATION_SIZE);
         private final Label musicName = new Label();
         private final Label music = new Label("Music");
@@ -156,8 +156,6 @@ public class SetStage extends Stage {
         private TransitionAnimation(StackPane root) {
             this.root = root;
 
-            shadow.setFill(Color.BLACK);
-            shadow.setOpacity(SHADOW_OPACITY);
             illustrationView.setFitWidth(ILLUSTRATION_SIZE);
             illustrationView.setFitHeight(ILLUSTRATION_SIZE);
             paradigms.setOpacity(PARADIGMS_OPACITY);
@@ -203,7 +201,7 @@ public class SetStage extends Stage {
             musicName.setTextFill(Color.WHITE);
         }
 
-        private void play(@NotNull SetStage.TransitionAnimation.Type type, StackPane newPane) {
+        private void play(@NotNull SetStage.TransitionAnimation.Type type, Node newNode) {
             type.setImage(this);
 
             root.getChildren().add(this);
@@ -213,7 +211,7 @@ public class SetStage extends Stage {
                 onLRemoved.playFromStart();
                 onRRemoved.playFromStart();
                 Resources.TRANSANIMA_END_SOUND.play();
-                root.getChildren().set(0, newPane);
+                root.getChildren().set(0, newNode);
             });
             onLRemoved.setOnFinished(_ -> root.getChildren().remove(this));
             onLRemoved.stop();

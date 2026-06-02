@@ -108,9 +108,9 @@ public class ChapterPane extends StackPane {
 
             while (darkLineCount < d) {
                 darkLineCount++;
-                Rectangle darkLine = new Rectangle(StoryButton.SIDE_LENGTH + 7, StoryButton.BORDER_WIDTH);
+                Rectangle darkLine = new Rectangle(
+                        StoryButton.SIDE_LENGTH + 7, StoryButton.BORDER_WIDTH, Color.WHITE);
                 darkLine.setOpacity(StoryButton.LOWEST_OPACITY);
-                darkLine.setFill(Color.WHITE);
                 getChildren().addFirst(darkLine);
             }
             while (darkLineCount > d) {
@@ -136,7 +136,7 @@ public class ChapterPane extends StackPane {
         public class StoryButton extends StackPane {
             public static final int SIDE_LENGTH = Util.doubleToEven(Util.getScreenHeight() * 0.1);
             public static final int BORDER_WIDTH = 2;
-            private static final int DIAGONAL_LENGTH = Util.doubleToEven(SIDE_LENGTH * Util.SQRT_2);
+            public static final int DIAGONAL_LENGTH = Util.doubleToEven(SIDE_LENGTH * Util.SQRT_2);
             public static final int ARC_SIZE = 5;
             private static final int IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
             public static final double MASK_HIGHEST_OPACITY = 0.25;
@@ -158,8 +158,8 @@ public class ChapterPane extends StackPane {
             private final StoryUnlockConditionView condition;
             private final StoryButtonPane parent = StoryButtonPane.this;
             private final ImageView star = new ImageView(Resources.Init_ILLUSTRATION);
-            private final Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH);
-            private final Rectangle mask = new Rectangle(IMAGE_SIZE, IMAGE_SIZE);
+            private final Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH, Color.WHITE);
+            private final Rectangle mask = new Rectangle(IMAGE_SIZE, IMAGE_SIZE, Color.BLACK);
 
             private Story story = null;
             private AVGStory avgStory = null;
@@ -175,14 +175,12 @@ public class ChapterPane extends StackPane {
                 label.setEffect(SHADOW);
                 label.setMouseTransparent(true);
 
-                border.setFill(Color.WHITE);
                 border.setArcWidth(ARC_SIZE);
                 border.setArcHeight(ARC_SIZE);
                 border.setEffect(SHADOW);
                 border.setOnMouseEntered(_ -> mask.setOpacity(MASK_HIGHEST_OPACITY));
                 border.setOnMouseExited(_ -> mask.setOpacity(0));
 
-                mask.setFill(Color.BLACK);
                 mask.setOpacity(0);
                 mask.setMouseTransparent(true);
 

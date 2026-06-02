@@ -9,15 +9,16 @@ import javafx.stage.Stage;
 
 public class TestApplication extends Application {
     public void start(Stage stage) {
-        SingleSongPotentialCalculator calculator = new SingleSongPotentialCalculator();
+        PotentialCalculator calculator = new PotentialCalculator();
 
         StoryUnlockConditionView condition1 = new StoryUnlockConditionView(Charts.Tutorial_PST);
         StoryUnlockConditionView condition2 = new StoryUnlockConditionView(Charts.Tutorial_PST, Partners.DORO_C);
 
         ChapterPane pane1 = new ChapterPane(Resources.Beyond_BACKGROUND);
+        ChapterPane pane2 = new ChapterPane(Resources.Beyond_BACKGROUND);
 
         StoryButtonPane bPane1 = pane1.new StoryButtonPane(Partners.DORO_C, null);
-        StoryButtonPane bPane2 = pane1.new StoryButtonPane(Partners.DORO_C, null);
+        StoryButtonPane bPane2 = pane2.new StoryButtonPane(Partners.DORO_C, null);
         StoryButtonPane bPane3 = pane1.new StoryButtonPane(Partners.DORO_C, null);
 
         Story story = new Story(Resources.STORY1_1);
@@ -34,6 +35,5 @@ public class TestApplication extends Application {
 
         SetStage setStage = new SetStage(pane1);
         setStage.show();
-        System.out.println(SingleSongPotentialCalculator.getSingleSongPtt(10.8, 9975926));
     }
 }
