@@ -232,7 +232,7 @@ public class ChapterPane extends StackPane {
                                @NotNull Story story)  {
                 this(title, illustrationPath, condition);
 
-                if (story.withCG) {
+                if (story.hasCG()) {
                     getChildren().add(star);
                 }
                 this.story = story;

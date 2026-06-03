@@ -1,4 +1,12 @@
 [
-    { "type": "text", "path": "texts/test.txt" },
-    { "type": "text", "path": "texts/test1.txt" }
+    {"type": "cg", "path": "images/Songs_init.jpg"},
+    { "type": "text", "path": "texts/15-6-1.txt" },
+    {"type": "cg", "path": "images/Songs_tutorial.jpg"},
+    { "type": "text", "path": "texts/15-6-2.txt" },
+    { "type": "text", "path": "texts/15-6-3.txt" },
+    { "type": "text", "path": "texts/15-6-4.txt" },
+    { "type": "text", "path": "texts/15-6-5.txt" },
+    { "type": "text", "path": "texts/15-6-6.txt" },
+    { "type": "text", "path": "texts/15-6-7.txt" },
+    { "type": "text", "path": "texts/15-6-8.txt" }
 ]

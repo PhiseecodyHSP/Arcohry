@@ -24,7 +24,7 @@ import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButton
 
 //TODO: 背景素材等
 public class StoryUnlockConditionView extends StackPane {
-    private static final double TRANS_TIME = 0.25;
+    public static final double TRANS_TIME = 0.25;
     private static final double LOWEST_SCALE_RATIO = 0.75;
     private static final int ILLUSTRATION_WIDTH = SIDE_LENGTH * 2;
     private static final int BG_HEIGHT = Util.doubleToEven(ILLUSTRATION_WIDTH * 8 / 3.0);
@@ -43,8 +43,8 @@ public class StoryUnlockConditionView extends StackPane {
     private final StackPane pane = new StackPane();
     private final ScaleTransition onAddedST = new ScaleTransition(Duration.seconds(TRANS_TIME), pane);
     private final ScaleTransition onRemovedST = new ScaleTransition(Duration.seconds(TRANS_TIME), pane);
-    private final FadeTransition onAddedContentFT = new FadeTransition(Duration.seconds(TRANS_TIME), pane);
-    private final FadeTransition onRemovedContentFT = new FadeTransition(Duration.seconds(TRANS_TIME), pane);
+    private final FadeTransition onContentAddedFT = new FadeTransition(Duration.seconds(TRANS_TIME), pane);
+    private final FadeTransition onContentRemovedFT = new FadeTransition(Duration.seconds(TRANS_TIME), pane);
 
     public StoryUnlockConditionView(String music,
                                     String composer,
@@ -85,15 +85,15 @@ public class StoryUnlockConditionView extends StackPane {
         onRemovedST.setToX(LOWEST_SCALE_RATIO);
         onRemovedST.setToY(LOWEST_SCALE_RATIO);
         onRemovedST.setInterpolator(Util.EASE_OUT);
-        onAddedContentFT.setToValue(1);
-        onRemovedContentFT.setToValue(0);
+        onContentAddedFT.setToValue(1);
+        onContentRemovedFT.setToValue(0);
 
         Rectangle shadow = new Rectangle(Util.getScreenWidth(), Util.getScreenHeight());
         shadow.setOpacity(0);
         shadow.setOnMouseClicked(_ -> {
-            onAddedContentFT.stop();
+            onContentAddedFT.stop();
             onAddedST.stop();
-            onRemovedContentFT.playFromStart();
+            onContentRemovedFT.playFromStart();
             onRemovedST.playFromStart();
         });
 
@@ -196,15 +196,15 @@ public class StoryUnlockConditionView extends StackPane {
                     illustrator,
                     noteDesigner,
                     paradigms);
-            onAddedContentFT.stop();
+            onContentAddedFT.stop();
             onAddedST.stop();
-            onRemovedContentFT.playFromStart();
+            onContentRemovedFT.playFromStart();
             onRemovedST.playFromStart();
             });
         onRemovedST.setOnFinished(_ -> parent.getChildren().remove(this));
-        onRemovedContentFT.stop();
+        onContentRemovedFT.stop();
         onRemovedST.stop();
-        onAddedContentFT.playFromStart();
+        onContentAddedFT.playFromStart();
         onAddedST.playFromStart();
     }
 }
