@@ -8,8 +8,6 @@ import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.Node;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -29,8 +27,8 @@ import java.util.Objects;
 import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.*;
 import static io.github.phiseecodyhsp.arcstory.storyMode.StoryUnlockConditionView.TRANS_TIME;
 
-public class Story extends StackPane {
-    private final List<Item> items;
+public class StoryPlayer extends StackPane {
+    private List<Item> items;
     private final ImageView lastCg = new ImageView();
     private final ImageView currentCg = new ImageView();
     private final Text text = new Text();
@@ -44,7 +42,7 @@ public class Story extends StackPane {
     private ChapterPane parent;
     private int currentlyPlaying;
 
-    public Story(String jsonPath) {
+    public StoryPlayer() {
         onShadowAdded.setFromValue(0);
         onShadowAdded.setToValue(LOWEST_OPACITY);
         onRemoved.setToValue(0);
@@ -55,7 +53,9 @@ public class Story extends StackPane {
 
         lastCg.setPreserveRatio(true);
         lastCg.setFitWidth(Util.getScreenWidth());
+    }
 
+    public void play(ChapterPane parent, String jsonPath) {
         try {
             items = new ObjectMapper().readValue(Resources.ofStream(jsonPath), new TypeReference<>() {});
         } catch (IOException e) {
@@ -71,9 +71,7 @@ public class Story extends StackPane {
                 withCG = true;
             }
         });
-    }
 
-    public void play(ChapterPane parent) {
         this.parent = parent;
         this.parent.getChildren().add(this);
         currentlyPlaying = 0;
@@ -104,25 +102,9 @@ public class Story extends StackPane {
     private void playScene(int num) {
         Item item = items.get(num);
         if (Objects.equals(item.type, Item.CG_TYPE)) {
-            currentCg.setImage(new Image(Resources.ofString(item.path)));
-            getChildren().add(currentCg);
+
         } else {
-            if (num == 0) {
-                onShadowAdded.setOnFinished(_ -> playText(item.path));
-                getChildren().clear();
-                getChildren().add(textPane);
-                onShadowAdded.playFromStart();
-            }
-            if (Objects.equals(items.get(num - 1).type, Item.CG_TYPE)) {
-                lastCg.setImage(currentCg.getImage());
-                textPlayer.clear();
-                getChildren().clear();
-                getChildren().addAll(lastCg, textPane);
-                onShadowAdded.setOnFinished(_ -> playText(item.path));
-                onShadowAdded.playFromStart();
-            } else {
-                playText(item.path);
-            }
+
         }
     }
 
@@ -186,7 +168,7 @@ public class Story extends StackPane {
             int[] index = {0};
             timeline.setCycleCount(texts.size());
             timeline.getKeyFrames().clear();
-            timeline.setOnFinished(_ -> textPane.setOnMouseClicked(_ -> Story.this.playNext()));
+            timeline.setOnFinished(_ -> textPane.setOnMouseClicked(_ -> StoryPlayer.this.playNext()));
             timeline.getKeyFrames().add(
                     new KeyFrame(Duration.seconds(INTERVAL), _ -> {
                         if (index[0] < texts.size()) {
@@ -207,7 +189,7 @@ public class Story extends StackPane {
                 t.setFill(Color.WHITE);
             }
             requestLayout();
-            textPane.setOnMouseClicked(_ -> Story.this.playNext());
+            textPane.setOnMouseClicked(_ -> StoryPlayer.this.playNext());
         }
 
         private void clear() {

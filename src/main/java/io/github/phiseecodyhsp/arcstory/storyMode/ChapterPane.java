@@ -161,7 +161,7 @@ public class ChapterPane extends StackPane {
             private final Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH, Color.WHITE);
             private final Rectangle mask = new Rectangle(IMAGE_SIZE, IMAGE_SIZE, Color.BLACK);
 
-            private Story story = null;
+            private StoryPlayer storyPlayer = null;
             private AVGStory avgStory = null;
 
             private StoryButton(String title,
@@ -229,13 +229,13 @@ public class ChapterPane extends StackPane {
             public StoryButton(String title,
                                @NotNull String illustrationPath,
                                StoryUnlockConditionView condition,
-                               @NotNull Story story)  {
+                               @NotNull StoryPlayer storyPlayer)  {
                 this(title, illustrationPath, condition);
 
-                if (story.hasCG()) {
+                if (storyPlayer.hasCG()) {
                     getChildren().add(star);
                 }
-                this.story = story;
+                this.storyPlayer = storyPlayer;
             }
 
             public StoryButton(String title,
@@ -264,17 +264,17 @@ public class ChapterPane extends StackPane {
                 if (!unlocked) {
                     enable();
                     border.setOnMouseClicked(_ -> {
-                        if (story == null) {
+                        if (storyPlayer == null) {
                             avgStory.play(Util.getSetStage(this));
                         } else {
-                            story.play(parent.parent);
+                            storyPlayer.play(parent.parent);
                         }
                         getChildren().remove(neo);
                         border.setOnMouseClicked(_ -> {
-                            if (story == null) {
+                            if (storyPlayer == null) {
                                 avgStory.play(Util.getSetStage(this));
                             } else {
-                                story.play(parent.parent);
+                                storyPlayer.play(parent.parent);
                             }
                         });
                     });
