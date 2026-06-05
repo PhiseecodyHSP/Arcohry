@@ -29,14 +29,12 @@ public class StoryPlayer extends StackPane {
     private List<Item> items;
     private final ImageView lastCg = new ImageView();
     private final ImageView currentCg = new ImageView();
-    private final Text text = new Text();
     private final TextPlayer textPlayer = new TextPlayer();
     private final Rectangle shadow = new Rectangle(Util.getScreenWidth(), Util.getScreenHeight(), Color.BLACK);
     private final StackPane textPane = new StackPane(shadow, textPlayer);
     private final FadeTransition onRemoved = new FadeTransition(Duration.seconds(TRANS_TIME * 2), this);
     private final FadeTransition onShadowAdded = new FadeTransition(Duration.seconds(TRANS_TIME), shadow);
 
-    private boolean withCG = false;
     private ChapterPane parent;
     private int currentlyPlaying;
 
@@ -97,10 +95,6 @@ public class StoryPlayer extends StackPane {
         } catch (IOException e) {
             throw new UncheckedIOException("Failed to read " + path, e);
         }
-    }
-
-    public boolean hasCG() {
-        return withCG;
     }
 
     public static class Item {

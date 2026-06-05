@@ -12,9 +12,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 public class SetStage extends Stage {
     public static final double WIDTH = (int) Util.getScreenWidth() / 2.0;
@@ -119,8 +122,9 @@ public class SetStage extends Stage {
         private static final int LABEL_DISPLACEMENT = 0;
         private static final double HIGHEST_ILLUSTRATION_SCALE = 2;
         private static final double PARADIGMS_OPACITY = 0.5;
-        private static final int ILLUSTRATION_SIZE = Util.doubleToEven(Util.getScreenHeight() * 0.46875);
+        private static final int ILLUSTRATION_SIZE = Util.doubleToEven(Util.getScreenHeight() / 2);
         private static final PauseTransition DELAY = new PauseTransition(Duration.seconds(3));
+        private static final Font FONT = Resources.getFont(Resources.GeosansLight_FONT, 20);
 
         private final StackPane root;
         private final ImageView left = new ImageView();
@@ -160,6 +164,7 @@ public class SetStage extends Stage {
             illustrationView.setFitHeight(ILLUSTRATION_SIZE);
             paradigms.setOpacity(PARADIGMS_OPACITY);
 
+            onLRemoved.setOnFinished(_ -> root.getChildren().remove(this));
             onLAdded.setInterpolator(Util.EASE_IN);
             onLRemoved.setInterpolator(Util.EASE_OUT);
             onRAdded.setInterpolator(Util.EASE_IN);
@@ -193,12 +198,19 @@ public class SetStage extends Stage {
             });
 
             musicName.setTextFill(Color.WHITE);
+            musicName.setFont(FONT);
             composer.setTextFill(Color.WHITE);
+            composer.setFont(FONT);
             illustrator.setTextFill(Color.WHITE);
+            illustration.setFont(FONT);
             illustration.setTextFill(Color.WHITE);
+            illustration.setFont(FONT);
             noteDesign.setTextFill(Color.WHITE);
+            noteDesign.setFont(FONT);
             noteDesigner.setTextFill(Color.WHITE);
+            noteDesigner.setFont(FONT);
             musicName.setTextFill(Color.WHITE);
+            musicName.setFont(FONT);
         }
 
         private void play(@NotNull SetStage.TransitionAnimation.Type type, Node newNode) {
@@ -213,7 +225,6 @@ public class SetStage extends Stage {
                 Resources.TRANSANIMA_END_SOUND.play();
                 root.getChildren().set(0, newNode);
             });
-            onLRemoved.setOnFinished(_ -> root.getChildren().remove(this));
             onLRemoved.stop();
             onRRemoved.stop();
             onLAdded.playFromStart();
@@ -245,7 +256,6 @@ public class SetStage extends Stage {
                 DELAY.stop();
                 DELAY.playFromStart();
             });
-            onLRemoved.setOnFinished(_ -> root.getChildren().remove(this));
             onLRemoved.stop();
             onRRemoved.stop();
             onIllustrationRemoved.stop();

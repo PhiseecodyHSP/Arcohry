@@ -26,7 +26,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
     private static final double LOWEST_SCALE_RATIO = 0.75;
     private static final int ILLUSTRATION_WIDTH = SIDE_LENGTH * 2;
     private static final int BG_HEIGHT = Util.doubleToEven(ILLUSTRATION_WIDTH * 8 / 3.0);
-    private static final Font FONT = Resources.getFont(Resources.GeosansLight_FONT, ILLUSTRATION_WIDTH / 7.5);
+    private static final Font FONT = Resources.getFont("fonts/NotoSansCJKsc-Regular.ttf", ILLUSTRATION_WIDTH / 7.5);
     public static final DropShadow GLOW = new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE);
 
     private StackPane partner;
@@ -92,7 +92,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
                         String illustrator,
                         String noteDesigner,
                         @NotNull Chart.Paradigms paradigms) {
-        partner = null;
+        parent.getChildren().add(this);
 
         bg.setImage(new Image(Resources.SUCV_BG0));
 
@@ -124,7 +124,6 @@ public class StoryUnlockConditionDisplayer extends StackPane {
 
         pane.getChildren().remove(arrow);
         pane.getChildren().remove(partner);
-        parent.getChildren().add(this);
     }
 
     public void display(ChapterPane parent, @NotNull Chart chart) {
@@ -146,16 +145,20 @@ public class StoryUnlockConditionDisplayer extends StackPane {
                         @NotNull Chart.Paradigms paradigms,
                         String partner,
                         @NotNull String partnerPath) {
+        parent.getChildren().add(this);
+
         this.partner = Partner.getAvatarPane(partnerPath,
                 Util.doubleToEven(ILLUSTRATION_WIDTH / 2.5 / Util.SQRT_2),
                 Color.WHITE,
                 GLOW);
+        this.partner.setTranslateY(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0));
 
         bg.setImage(new Image(Resources.SUCV_BG1));
 
         condition.setText("使用搭档“" + partner + "”通关“" + music + "”以解锁此故事。");
         condition.setTranslateY(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH / 4.0));
 
+        illustration.setImage(new Image(illustrationPath));
         illustration.setTranslateY(Util.doubleToEven(ILLUSTRATION_WIDTH - BG_HEIGHT / 2.0));
         illustration.setOnMouseClicked(_ -> {
             Util.getSetStage(this).playChart(SetStage.TransitionAnimation.Type.NORMAL,
@@ -178,12 +181,11 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         onAddedST.playFromStart();
 
         if (!pane.getChildren().contains(arrow)) {
-            pane.getChildren().add(arrow);
+            pane.getChildren().addFirst(arrow);
         }
         if (!pane.getChildren().contains(this.partner)) {
-            pane.getChildren().add(this.partner);
+            pane.getChildren().addFirst(this.partner);
         }
-        parent.getChildren().add(this);
     }
 
     public void display(ChapterPane parent, @NotNull Chart chart, @NotNull Partner partner) {
@@ -196,6 +198,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
                 chart.paradigms,
                 partner.name(),
                 partner.avatarPath());
+        System.out.println(illustration);
     }
 
     public void display(ChapterPane parent, @NotNull Chart chart, String partner, @NotNull String partnerPath) {

@@ -4,7 +4,6 @@ import io.github.phiseecodyhsp.arcstory.storyMode.StoryPlayer;
 import io.github.phiseecodyhsp.arcstory.storyMode.StoryUnlockConditionDisplayer;
 import javafx.animation.Interpolator;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 
@@ -97,13 +96,5 @@ public final class Util {
             return getSetStage(node.getScene());
         }
         throw new IllegalStateException();
-    }
-
-    public static void addParentChecker(Node node, Parent parent) {
-        node.parentProperty().addListener((_, _, p) -> {
-            if (p != parent) {
-                throw new IllegalStateException(node + "'s parent must be " + parent + ", but found " + p);
-            }
-        });
     }
 }

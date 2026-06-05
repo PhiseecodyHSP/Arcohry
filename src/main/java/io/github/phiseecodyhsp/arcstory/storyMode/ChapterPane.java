@@ -94,7 +94,6 @@ public class ChapterPane extends StackPane {
             if (buttons.length != 0) {
                 getChildren().addAll(buttons);
                 storyButtons.addAll(List.of(buttons));
-                storyButtons.getFirst().unlock();
 
                 int s = storyButtons.size();
                 int l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
@@ -183,14 +182,6 @@ public class ChapterPane extends StackPane {
                                @NotNull String storyPath,
                                Chart chart,
                                Partner partner) {
-                this.chart = chart;
-                if (this.chart == null) {
-                    unlock();
-                    this.partner = null;
-                } else {
-                    this.partner = partner;
-                }
-
                 label = new Label(title);
                 label.setFont(FONT);
                 label.setTextFill(Color.WHITE);
@@ -237,6 +228,13 @@ public class ChapterPane extends StackPane {
                 setRotate(45);
                 setMouseTransparent(false);
                 getChildren().addAll(border, view, mask, lockBg, lock);
+                this.chart = chart;
+                if (this.chart == null) {
+                    unlock();
+                    this.partner = null;
+                } else {
+                    this.partner = partner;
+                }
 
                 try {
                     items = new ObjectMapper().readValue(Resources.ofStream(storyPath), new TypeReference<>() {});
@@ -279,8 +277,8 @@ public class ChapterPane extends StackPane {
                                     Util.CONDITION_DISPLAYER.display(parent.parent, chart));
                         }
                     }
-                    enabled = true;
                     parent.updateLine();
+                    enabled = true;
                 }
             }
 

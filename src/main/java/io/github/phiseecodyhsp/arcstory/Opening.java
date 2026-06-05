@@ -5,7 +5,6 @@ import javafx.scene.layout.StackPane;
 //TODO
 public class Opening extends StackPane {
     public Opening() {
-
     }
 
     public enum Type {
