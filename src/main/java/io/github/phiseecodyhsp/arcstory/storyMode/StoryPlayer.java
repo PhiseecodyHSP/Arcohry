@@ -1,8 +1,6 @@
 package io.github.phiseecodyhsp.arcstory.storyMode;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.phiseecodyhsp.arcstory.Util;
 import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.animation.FadeTransition;
@@ -25,7 +23,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.*;
-import static io.github.phiseecodyhsp.arcstory.storyMode.StoryUnlockConditionView.TRANS_TIME;
+import static io.github.phiseecodyhsp.arcstory.storyMode.StoryUnlockConditionDisplayer.TRANS_TIME;
 
 public class StoryPlayer extends StackPane {
     private List<Item> items;
@@ -55,33 +53,18 @@ public class StoryPlayer extends StackPane {
         lastCg.setFitWidth(Util.getScreenWidth());
     }
 
-    public void play(ChapterPane parent, String jsonPath) {
-        try {
-            items = new ObjectMapper().readValue(Resources.ofStream(jsonPath), new TypeReference<>() {});
-        } catch (IOException e) {
-            throw new UncheckedIOException("Failed to read '" + jsonPath + "'", e);
-        }
-        items.forEach(i -> {
-            if (!Objects.equals(i.type, Item.CG_TYPE) && !Objects.equals(i.type, Item.TEXT_TYPE)) {
-                throw new IllegalStateException(
-                        "A " + Item.class.getSimpleName() + "'s type must be \"cg\" or \"text\", " +
-                                "but found \"" + i.type + "\" in '" + i.path +"'");
-            }
-            if (i.type.equals(Item.CG_TYPE)) {
-                withCG = true;
-            }
-        });
-
+    public void play(ChapterPane parent, List<Item> items) {
         this.parent = parent;
+        this.items = items;
         this.parent.getChildren().add(this);
         currentlyPlaying = 0;
-        playScene(currentlyPlaying);
+        play(currentlyPlaying);
     }
 
     private void playNext() {
         currentlyPlaying++;
         if (currentlyPlaying < items.size()) {
-            playScene(currentlyPlaying);
+            play(currentlyPlaying);
         } else {
             onRemoved.playFromStart();
             onRemoved.setOnFinished(_ -> {
@@ -94,12 +77,12 @@ public class StoryPlayer extends StackPane {
     private void playLast() {
         currentlyPlaying--;
         if (currentlyPlaying >= 0) {
-            playScene(currentlyPlaying - 1);
+            play(currentlyPlaying - 1);
         }
     }
 
-    //TODO: playCg
-    private void playScene(int num) {
+    //TODO
+    private void play(int num) {
         Item item = items.get(num);
         if (Objects.equals(item.type, Item.CG_TYPE)) {
 
@@ -120,9 +103,9 @@ public class StoryPlayer extends StackPane {
         return withCG;
     }
 
-    private static class Item {
-        private static final String CG_TYPE = "cg";
-        private static final String TEXT_TYPE = "text";
+    public static class Item {
+        public static final String CG_TYPE = "cg";
+        public static final String TEXT_TYPE = "text";
 
         @JsonProperty
         private String type;
@@ -134,6 +117,14 @@ public class StoryPlayer extends StackPane {
         private Item(String type, String path) {
             this.type = type;
             this.path = path;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public String getPath() {
+            return path;
         }
     }
 

@@ -1,6 +1,9 @@
 package io.github.phiseecodyhsp.arcstory.storyMode;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.phiseecodyhsp.arcstory.Util;
+import io.github.phiseecodyhsp.arcstory.storage.Chart;
 import io.github.phiseecodyhsp.arcstory.storage.Partner;
 import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.scene.control.Label;
@@ -13,9 +16,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+
+import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.OUTER_GLOW_INTENSITY;
+import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.OUTER_GLOW_OFFSET;
 
 public class ChapterPane extends StackPane {
     private final List<StoryButtonPane> storyButtonPanes = new ArrayList<>();
@@ -58,8 +67,15 @@ public class ChapterPane extends StackPane {
             lightLine.setHeight(StoryButton.BORDER_WIDTH);
 
             if (partnerPath != null) {
-                partner = new Partner(null, partnerPath, "").
-                        getAvatarPane(StoryButton.SIDE_LENGTH, Color.rgb(150, 140, 160));
+                partner = Partner.getAvatarPane(
+                        partnerPath,
+                        StoryButton.SIDE_LENGTH,
+                        Color.rgb(150, 140, 160),
+                        new DropShadow(
+                                OUTER_GLOW_INTENSITY,
+                                OUTER_GLOW_OFFSET,
+                                OUTER_GLOW_OFFSET,
+                                StoryButton.TRANSPARENT_BLACK));
                 getChildren().addAll(lightLine, partner);
             } else {
                 partner = null;
@@ -152,22 +168,29 @@ public class ChapterPane extends StackPane {
 
             private boolean enabled = false;
             private boolean unlocked = false;
+            private final List<StoryPlayer.Item> items;
             private final Label label;
             private final ImageView lock = new ImageView(Resources.Init_ILLUSTRATION);
             private final ImageView neo = new ImageView(Resources.NEW_ICON);
-            private final StoryUnlockConditionView condition;
             private final StoryButtonPane parent = StoryButtonPane.this;
-            private final ImageView star = new ImageView(Resources.Init_ILLUSTRATION);
             private final Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH, Color.WHITE);
             private final Rectangle mask = new Rectangle(IMAGE_SIZE, IMAGE_SIZE, Color.BLACK);
+            private final Chart chart;
+            private final Partner partner;
 
-            private StoryPlayer storyPlayer = null;
-            private AVGStory avgStory = null;
+            public StoryButton(String title,
+                               @NotNull String illustrationPath,
+                               @NotNull String storyPath,
+                               Chart chart,
+                               Partner partner) {
+                this.chart = chart;
+                if (this.chart == null) {
+                    unlock();
+                    this.partner = null;
+                } else {
+                    this.partner = partner;
+                }
 
-            private StoryButton(String title,
-                                @NotNull String illustrationPath,
-                                StoryUnlockConditionView condition) {
-                this.condition = condition;
                 label = new Label(title);
                 label.setFont(FONT);
                 label.setTextFill(Color.WHITE);
@@ -195,11 +218,6 @@ public class ChapterPane extends StackPane {
                 lockBg.setOpacity(0.5);
                 lockBg.setMouseTransparent(true);
 
-                star.setPreserveRatio(true);
-                star.setFitWidth(Util.doubleToEven(SIDE_LENGTH / 4.0));
-                star.setTranslateX(Util.doubleToEven(SIDE_LENGTH * 2 / 7.0));
-                star.setTranslateY(Util.doubleToEven(SIDE_LENGTH * 2 / 7.0));
-                star.setMouseTransparent(true);
                 neo.setPreserveRatio(true);
                 neo.setFitWidth(NEW_ICON_SIZE);
                 neo.setTranslateY(Util.doubleToEven(-SIDE_LENGTH * 7 / 12.0));
@@ -219,32 +237,30 @@ public class ChapterPane extends StackPane {
                 setRotate(45);
                 setMouseTransparent(false);
                 getChildren().addAll(border, view, mask, lockBg, lock);
-                if (condition == null) {
-                    unlock();
+
+                try {
+                    items = new ObjectMapper().readValue(Resources.ofStream(storyPath), new TypeReference<>() {});
+                } catch (IOException e) {
+                    throw new UncheckedIOException("Failed to read '" + storyPath + "'", e);
                 }
+                items.forEach(i -> {
+                    if (!Objects.equals(i.getType(), StoryPlayer.Item.CG_TYPE) && !Objects.equals(i.getType(), StoryPlayer.Item.TEXT_TYPE)) {
+                        throw new IllegalStateException(
+                                "A " + StoryPlayer.Item.class.getSimpleName() + "'s type must be \"cg\" or \"text\", " +
+                                        "but found \"" + i.getType() + "\" in '" + i.getPath() +"'");
+                    }
+                    if (i.getType().equals(StoryPlayer.Item.CG_TYPE)) {
+                        ImageView star = new ImageView(Resources.Init_ILLUSTRATION);
+                        star.setPreserveRatio(true);
+                        star.setFitWidth(Util.doubleToEven(SIDE_LENGTH / 4.0));
+                        star.setTranslateX(Util.doubleToEven(SIDE_LENGTH * 2 / 7.0));
+                        star.setTranslateY(Util.doubleToEven(SIDE_LENGTH * 2 / 7.0));
+                        star.setMouseTransparent(true);
+                        getChildren().add(star);
+                    }
+                });
 
                 parent.addAll(this);
-            }
-
-            public StoryButton(String title,
-                               @NotNull String illustrationPath,
-                               StoryUnlockConditionView condition,
-                               @NotNull StoryPlayer storyPlayer)  {
-                this(title, illustrationPath, condition);
-
-                if (storyPlayer.hasCG()) {
-                    getChildren().add(star);
-                }
-                this.storyPlayer = storyPlayer;
-            }
-
-            public StoryButton(String title,
-                               @NotNull String illustrationPath,
-                               StoryUnlockConditionView condition,
-                               @NotNull AVGStory story) {
-                this(title, illustrationPath, condition);
-                getChildren().add(star);
-                avgStory = story;
             }
 
             public boolean isNew() {
@@ -254,7 +270,15 @@ public class ChapterPane extends StackPane {
             private void enable() {
                 if (!enabled) {
                     setOpacity(1);
-                    border.setOnMouseClicked(_ -> condition.show(parent.parent));
+                    if (chart != null) {
+                        if (partner != null) {
+                            border.setOnMouseClicked(_ ->
+                                    Util.CONDITION_DISPLAYER.display(parent.parent, chart, partner));
+                        } else {
+                            border.setOnMouseClicked(_ ->
+                                    Util.CONDITION_DISPLAYER.display(parent.parent, chart));
+                        }
+                    }
                     enabled = true;
                     parent.updateLine();
                 }
@@ -264,19 +288,9 @@ public class ChapterPane extends StackPane {
                 if (!unlocked) {
                     enable();
                     border.setOnMouseClicked(_ -> {
-                        if (storyPlayer == null) {
-                            avgStory.play(Util.getSetStage(this));
-                        } else {
-                            storyPlayer.play(parent.parent);
-                        }
+                        Util.STORY_PLAYER.play(parent.parent, items);
                         getChildren().remove(neo);
-                        border.setOnMouseClicked(_ -> {
-                            if (storyPlayer == null) {
-                                avgStory.play(Util.getSetStage(this));
-                            } else {
-                                storyPlayer.play(parent.parent);
-                            }
-                        });
+                        border.setOnMouseClicked(_ -> Util.STORY_PLAYER.play(parent.parent, items));
                     });
                     getChildren().remove(lock);
                     getChildren().addAll(label, neo);

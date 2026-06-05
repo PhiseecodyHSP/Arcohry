@@ -1,5 +1,7 @@
 package io.github.phiseecodyhsp.arcstory;
 
+import io.github.phiseecodyhsp.arcstory.storyMode.StoryPlayer;
+import io.github.phiseecodyhsp.arcstory.storyMode.StoryUnlockConditionDisplayer;
 import javafx.animation.Interpolator;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -14,6 +16,9 @@ public final class Util {
 
     public static final Interpolator EASE_IN;
     public static final Interpolator EASE_OUT;
+
+    public static final StoryPlayer STORY_PLAYER;
+    public static final StoryUnlockConditionDisplayer CONDITION_DISPLAYER;
 
     static {
         SQRT_2 = Math.sqrt(2);
@@ -31,6 +36,9 @@ public final class Util {
                 return v * v * v;
             }
         };
+
+        STORY_PLAYER = new StoryPlayer();
+        CONDITION_DISPLAYER = new StoryUnlockConditionDisplayer();
     }
 
     public static int doubleToEven(double d) {
