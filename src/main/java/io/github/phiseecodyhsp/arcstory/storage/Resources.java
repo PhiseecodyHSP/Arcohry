@@ -16,6 +16,7 @@ public final class Resources {
     public static final String Beyond_BACKGROUND;
     public static final String Init_ILLUSTRATION;
     public static final String DOROC_AVATAR;
+    public static final String Tairitsu_AWAKEN_AVATAR;
     public static final String SUCV_BG0;
     public static final String SUCV_BG1;
     public static final String NORMAL_TRANSANIMA_L;
@@ -36,6 +37,7 @@ public final class Resources {
         Beyond_BACKGROUND = ofString("images/Background_beyond.jpg");
         Init_ILLUSTRATION = ofString("images/Songs_init.jpg");
         DOROC_AVATAR = ofString("images/143px-Partner_doroc_awaken_icon.png");
+        Tairitsu_AWAKEN_AVATAR = ofString("images/Partner_1_awaken_icon.png");
         SUCV_BG0 = ofString("images/未标题-1.png");
         SUCV_BG1 = ofString("images/未标题-1.png");
         NORMAL_TRANSANIMA_L = ofString("images/TransAnimaL_resized.png");

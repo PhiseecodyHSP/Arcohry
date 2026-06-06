@@ -19,7 +19,7 @@ public class TestApplication extends Application {
         StoryButtonPane bPane3 = pane1.new StoryButtonPane(Partners.DORO_C, null);
 
         StoryButton button1 = bPane1.new StoryButton("1-1", Resources.Tutorial_ILLUSTRTION, Resources.STORY1_1, null, null);
-        StoryButton button2 = bPane1.new StoryButton("1-2", Resources.Tutorial_ILLUSTRTION, Resources.STORY1_1, Charts.Tutorial_PST, Partners.DORO_C);
+        StoryButton button2 = bPane1.new StoryButton("1-2", Resources.Tutorial_ILLUSTRTION, Resources.STORY1_1, Charts.Tutorial_PST, null);
         StoryButton button3 = bPane2.new StoryButton("2-1", Resources.Tutorial_ILLUSTRTION, Resources.STORY1_1, null, null);
         StoryButton button4 = bPane2.new StoryButton("2-2", Resources.Tutorial_ILLUSTRTION, Resources.STORY1_1, null, null);
         StoryButton button5 = bPane2.new StoryButton("2-3", Resources.Tutorial_ILLUSTRTION, Resources.STORY1_1, null, null);
@@ -30,5 +30,6 @@ public class TestApplication extends Application {
 
         SetStage setStage = new SetStage(pane1);
         setStage.show();
+        System.out.println(Util.intToOrdinal(-10));
     }
 }

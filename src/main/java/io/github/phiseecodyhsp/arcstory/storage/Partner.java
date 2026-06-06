@@ -11,7 +11,10 @@ import org.jetbrains.annotations.NotNull;
 import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.*;
 
 public record Partner(String name, @NotNull String avatarPath, @NotNull String illustrationPath) {
-    public static StackPane getAvatarPane(String avatarPath, int sideLength, Paint borderColor, DropShadow dropShadow) {
+    public static StackPane getAvatarPane(@NotNull String avatarPath,
+                                          int sideLength,
+                                          Paint borderColor,
+                                          DropShadow dropShadow) {
         ImageView avatarView = new ImageView(avatarPath);
         avatarView.setFitWidth(Util.doubleToEven((sideLength - 2 * BORDER_WIDTH) * Util.SQRT_2));
         avatarView.setPreserveRatio(true);

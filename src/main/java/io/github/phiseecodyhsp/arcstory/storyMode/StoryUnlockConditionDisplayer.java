@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -29,16 +30,18 @@ public class StoryUnlockConditionDisplayer extends StackPane {
     private static final Font FONT = Resources.getFont("fonts/NotoSansCJKsc-Regular.ttf", ILLUSTRATION_WIDTH / 7.5);
     public static final DropShadow GLOW = new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE);
 
-    private StackPane partner;
-
     private final Label condition = new Label();
     private final ImageView bg = new ImageView();
     private final ImageView illustration = new ImageView();
-    private final StackPane pane = new StackPane(bg, condition, illustration);
     private final Polygon arrow = new Polygon(
             0, -ILLUSTRATION_WIDTH / 15.0 / Util.SQRT_3,
             ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Util.SQRT_3,
             -ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Util.SQRT_3);
+    private final StackPane partner = Partner.getAvatarPane(
+            Resources.Tairitsu_AWAKEN_AVATAR,
+            Util.doubleToEven(ILLUSTRATION_WIDTH / 2.5 / Util.SQRT_2),
+            Color.WHITE, GLOW);
+    private final StackPane pane = new StackPane(bg, condition, partner, arrow, illustration);
     private final ScaleTransition onAddedST = new ScaleTransition(Duration.seconds(TRANS_TIME), pane);
     private final ScaleTransition onRemovedST = new ScaleTransition(Duration.seconds(TRANS_TIME), pane);
     private final FadeTransition onContentAddedFT = new FadeTransition(Duration.seconds(TRANS_TIME), pane);
@@ -60,6 +63,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         pane.setScaleX(LOWEST_SCALE_RATIO);
         pane.setScaleY(LOWEST_SCALE_RATIO);
 
+        this.partner.setTranslateY(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0));
         arrow.setFill(Color.WHITE);
         arrow.setTranslateY(Util.doubleToEven(ILLUSTRATION_WIDTH * 7 / 30.0 + BORDER_WIDTH / 4.0));
         arrow.setEffect(GLOW);
@@ -122,8 +126,8 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         onContentAddedFT.playFromStart();
         onAddedST.playFromStart();
 
-        pane.getChildren().remove(arrow);
-        pane.getChildren().remove(partner);
+        this.partner.setOpacity(0);
+        this.arrow.setOpacity(0);
     }
 
     public void display(ChapterPane parent, @NotNull Chart chart) {
@@ -147,11 +151,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
                         @NotNull String partnerPath) {
         parent.getChildren().add(this);
 
-        this.partner = Partner.getAvatarPane(partnerPath,
-                Util.doubleToEven(ILLUSTRATION_WIDTH / 2.5 / Util.SQRT_2),
-                Color.WHITE,
-                GLOW);
-        this.partner.setTranslateY(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0));
+        setPaneImage(this.partner, 1, partnerPath);
 
         bg.setImage(new Image(Resources.SUCV_BG1));
 
@@ -180,12 +180,8 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         onContentAddedFT.playFromStart();
         onAddedST.playFromStart();
 
-        if (!pane.getChildren().contains(arrow)) {
-            pane.getChildren().addFirst(arrow);
-        }
-        if (!pane.getChildren().contains(this.partner)) {
-            pane.getChildren().addFirst(this.partner);
-        }
+        this.partner.setOpacity(1);
+        arrow.setOpacity(1);
     }
 
     public void display(ChapterPane parent, @NotNull Chart chart, @NotNull Partner partner) {
@@ -198,7 +194,6 @@ public class StoryUnlockConditionDisplayer extends StackPane {
                 chart.paradigms,
                 partner.name(),
                 partner.avatarPath());
-        System.out.println(illustration);
     }
 
     public void display(ChapterPane parent, @NotNull Chart chart, String partner, @NotNull String partnerPath) {
@@ -230,5 +225,15 @@ public class StoryUnlockConditionDisplayer extends StackPane {
                 paradigms,
                 partner.name(),
                 partner.avatarPath());
+    }
+
+    private void setPaneImage(Pane pane, int index, String path) {
+        if (pane.getChildren().get(index) instanceof ImageView view) {
+            view.setImage(new Image(path));
+        } else {
+            throw new IllegalStateException(
+                    "Pane '" + pane + "''s " + Util.intToOrdinal(index) +
+                            " node must be " + ImageView.class.getSimpleName());
+        }
     }
 }

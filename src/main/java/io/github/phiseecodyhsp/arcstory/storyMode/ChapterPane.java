@@ -26,6 +26,7 @@ import java.util.Objects;
 import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.OUTER_GLOW_INTENSITY;
 import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.OUTER_GLOW_OFFSET;
 
+//超绝双重内部类
 public class ChapterPane extends StackPane {
     private final List<StoryButtonPane> storyButtonPanes = new ArrayList<>();
 
