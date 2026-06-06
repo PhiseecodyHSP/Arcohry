@@ -128,7 +128,7 @@ public class StoryPlayer extends StackPane {
         private static final double DEFAULT_LINE_SPACING = 26.5;
         private static final Font FONT = Resources.getFont("fonts/NotoSansCJKsc-Regular.ttf", FONT_PX);
         private static final double INTERVAL = 0.05;
-        private static final String SPACES = " ".repeat(40);
+        private static final String SPACES = " ".repeat((int) (2 / INTERVAL));
 
         private final List<Text> texts = new ArrayList<>();
         private final Timeline timeline = new Timeline();

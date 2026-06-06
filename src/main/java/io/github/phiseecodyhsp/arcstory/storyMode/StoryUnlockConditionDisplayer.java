@@ -232,8 +232,22 @@ public class StoryUnlockConditionDisplayer extends StackPane {
             view.setImage(new Image(path));
         } else {
             throw new IllegalStateException(
-                    "Pane '" + pane + "''s " + Util.intToOrdinal(index) +
+                    "Pane '" + pane + "''s " + intToOrdinal(index) +
                             " node must be " + ImageView.class.getSimpleName());
         }
+    }
+
+    private static String intToOrdinal(int num) {
+        int abs = Math.abs(num);
+        if (abs % 10 == 1) {
+            return num + "st";
+        }
+        if (abs % 10 == 2) {
+            return num + "nd";
+        }
+        if (abs % 10 == 3) {
+            return num + "rd";
+        }
+        return num + "th";
     }
 }

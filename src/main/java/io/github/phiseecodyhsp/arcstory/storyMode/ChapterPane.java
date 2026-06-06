@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.OUTER_GLOW_INTENSITY;
 import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.OUTER_GLOW_OFFSET;
@@ -237,27 +238,33 @@ public class ChapterPane extends StackPane {
                     this.partner = partner;
                 }
 
+                boolean[] withCg = {false};
                 try {
                     items = new ObjectMapper().readValue(Resources.ofStream(storyPath), new TypeReference<>() {});
                 } catch (IOException e) {
                     throw new UncheckedIOException("Failed to read '" + storyPath + "'", e);
                 }
                 items.forEach(i -> {
-                    if (!Objects.equals(i.getType(), StoryPlayer.Item.CG_TYPE) && !Objects.equals(i.getType(), StoryPlayer.Item.TEXT_TYPE)) {
+                    if (!Objects.equals(i.getType(), StoryPlayer.Item.CG_TYPE) &&
+                            !Objects.equals(i.getType(), StoryPlayer.Item.TEXT_TYPE)) {
                         throw new IllegalStateException(
                                 "A " + StoryPlayer.Item.class.getSimpleName() + "'s type must be \"cg\" or \"text\", " +
                                         "but found \"" + i.getType() + "\" in '" + i.getPath() +"'");
                     }
                     if (i.getType().equals(StoryPlayer.Item.CG_TYPE)) {
-                        ImageView star = new ImageView(Resources.Init_ILLUSTRATION);
-                        star.setPreserveRatio(true);
-                        star.setFitWidth(Util.doubleToEven(SIDE_LENGTH / 4.0));
-                        star.setTranslateX(Util.doubleToEven(SIDE_LENGTH * 2 / 7.0));
-                        star.setTranslateY(Util.doubleToEven(SIDE_LENGTH * 2 / 7.0));
-                        star.setMouseTransparent(true);
-                        getChildren().add(star);
+                        withCg[0] = true;
                     }
                 });
+
+                if (withCg[0]) {
+                    ImageView star = new ImageView(Resources.Init_ILLUSTRATION);
+                    star.setPreserveRatio(true);
+                    star.setFitWidth(Util.doubleToEven(SIDE_LENGTH / 4.0));
+                    star.setTranslateX(Util.doubleToEven(SIDE_LENGTH * 2 / 7.0));
+                    star.setTranslateY(Util.doubleToEven(SIDE_LENGTH * 2 / 7.0));
+                    star.setMouseTransparent(true);
+                    getChildren().add(star);
+                }
 
                 parent.addAll(this);
             }
