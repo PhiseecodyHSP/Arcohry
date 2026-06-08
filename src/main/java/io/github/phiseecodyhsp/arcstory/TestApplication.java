@@ -28,8 +28,8 @@ public class TestApplication extends Application {
         StoryButton button8 = bPane3.new StoryButton("3-2", Resources.Tutorial_ILLUSTRTION, Resources.STORY1_1, null, null);
         StoryButton button9 = bPane3.new StoryButton("3-3", Resources.Tutorial_ILLUSTRTION, Resources.STORY1_1, null, null);
 
-        SetStage setStage = new SetStage(pane1);
-        setStage.show();
+        stage = new SetStage(pane1);
+        stage.show();
         System.out.println(PotentialCalculator.getScore(10.8, 12.45));
     }
 }

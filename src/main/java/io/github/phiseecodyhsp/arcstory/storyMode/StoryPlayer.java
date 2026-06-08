@@ -3,16 +3,18 @@ package io.github.phiseecodyhsp.arcstory.storyMode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.phiseecodyhsp.arcstory.Util;
 import io.github.phiseecodyhsp.arcstory.storage.Resources;
-import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -30,7 +32,21 @@ import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButton
 import static io.github.phiseecodyhsp.arcstory.storyMode.StoryUnlockConditionDisplayer.TRANS_TIME;
 
 public class StoryPlayer extends StackPane {
+    private static final int SWEEP_LINE_ROTATE = 20;
+    private static final double TAN = Math.tan(Math.toRadians(90 - SWEEP_LINE_ROTATE));
+    private static final double FIT_WIDTH = Util.getScreenWidth();
+
     private List<Item> items;
+    private final Polygon sweepLine = new Polygon(
+            -Util.getScreenWidth() / 40, 0,
+            -Util.getScreenWidth() / 40 - Util.getScreenHeight() / TAN, Util.getScreenHeight(),
+            -Util.getScreenHeight() / TAN, Util.getScreenHeight(),
+            0, 0);
+    private final Polygon clipper = new Polygon(
+            -Util.getScreenWidth() / 40, 0,
+            -Util.getScreenWidth() / 40 - Util.getScreenHeight() / TAN, Util.getScreenHeight(),
+            -Util.getScreenHeight() / TAN, Util.getScreenHeight(),
+            0, 0);
     private final ImageView lastCg = new ImageView();
     private final ImageView currentCg = new ImageView();
     private final TextPlayer textPlayer = new TextPlayer();
@@ -38,33 +54,61 @@ public class StoryPlayer extends StackPane {
     private final StackPane textPane = new StackPane(shadow, textPlayer);
     private final FadeTransition onRemoved = new FadeTransition(Duration.seconds(TRANS_TIME * 2), this);
     private final FadeTransition onShadowAdded = new FadeTransition(Duration.seconds(TRANS_TIME), shadow);
-    private final TranslateTransition onCgAdded =
-            new TranslateTransition(Duration.seconds(TRANS_TIME * 2), currentCg);
+    private final Timeline onCgAdded;
 
     private ChapterPane parent;
     private int currentlyPlaying;
 
     public StoryPlayer() {
-        onShadowAdded.setFromValue(0);
-        onShadowAdded.setToValue(LOWEST_OPACITY);
-        onRemoved.setToValue(0);
-
-        currentCg.setPreserveRatio(true);
-        currentCg.setFitWidth(Util.getScreenWidth());
-
-        onCgAdded.setFromX(-currentCg.getFitWidth());
-        onCgAdded.setToX(0);
-        onCgAdded.setInterpolator(Util.EASE_IN);
-
         lastCg.setPreserveRatio(true);
-        lastCg.setFitWidth(Util.getScreenWidth());
+        lastCg.setFitWidth(FIT_WIDTH);
+
+        ColorAdjust colorAdjust = new ColorAdjust();
+        currentCg.setPreserveRatio(true);
+        currentCg.setFitWidth(FIT_WIDTH);
+        currentCg.setClip(clipper);
+        currentCg.setEffect(colorAdjust);
+
+        DropShadow dropShadow = new DropShadow(0, Color.WHITE);
+        sweepLine.setFill(Color.WHITE);
+        sweepLine.setEffect(dropShadow);
+
+        DoubleProperty x3 = new SimpleDoubleProperty();
+        DoubleProperty x4 = new SimpleDoubleProperty();
+        x3.addListener((_, _, x) ->
+                clipper.getPoints().set(4, x.doubleValue()));
+        x4.addListener((_, _, x) ->
+                clipper.getPoints().set(6, x.doubleValue()));
+
+        onCgAdded = new Timeline(
+                new KeyFrame(Duration.ZERO,
+                        new KeyValue(x3, -Util.getScreenWidth() / 40 - Util.getScreenHeight() / TAN),
+                        new KeyValue(x4, -Util.getScreenWidth() / 40),
+                        new KeyValue(
+                                sweepLine.translateXProperty(),
+                                -Util.getScreenWidth() * 41 / 80 - Util.getScreenHeight() / 2 / TAN),
+                        new KeyValue(dropShadow.radiusProperty(), 127),
+                        new KeyValue(colorAdjust.brightnessProperty(), 1)),
+                new KeyFrame(Duration.seconds(TRANS_TIME * 4),
+                        new KeyValue(x3, Util.getScreenWidth(), Util.EASE_IN),
+                        new KeyValue(x4, Util.getScreenWidth() + Util.getScreenHeight() / TAN, Util.EASE_IN),
+                        new KeyValue(
+                                sweepLine.translateXProperty(),
+                                Util.getScreenWidth() * 41 / 80 + Util.getScreenHeight() / 2 / TAN,
+                                Util.EASE_IN),
+                        new KeyValue(colorAdjust.brightnessProperty(), 0),
+                        new KeyValue(dropShadow.radiusProperty(), 0)));
+        onCgAdded.setOnFinished(_ -> currentCg.setOnMouseClicked(_ -> playNext()));
+
+        onShadowAdded.setFromValue(0);
+        onShadowAdded.setToValue(LOWEST_BRIGHTNESS);
+        onRemoved.setToValue(0);
     }
 
     public void play(ChapterPane parent, List<Item> items) {
         this.parent = parent;
         this.items = items;
         this.parent.getChildren().add(this);
-        currentCg.setOnMouseClicked(_ -> playNext());
         onRemoved.setOnFinished(_ -> this.parent.getChildren().remove(this));
         getChildren().clear();
         setOpacity(1);
@@ -78,7 +122,7 @@ public class StoryPlayer extends StackPane {
             play(currentlyPlaying);
         } else {
             currentCg.setOnMouseClicked(null);
-            textPane.setOnMouseClicked(null);
+            shadow.setOnMouseClicked(null);
             onRemoved.playFromStart();
         }
     }
@@ -95,13 +139,21 @@ public class StoryPlayer extends StackPane {
                 lastCg.setImage(currentCg.getImage());
                 entopAll(lastCg);
             }
-            currentCg.setImage(new Image(Resources.ofString(item.path)));
-            entopAll(currentCg);
+            Image image = new Image(Resources.ofString(item.path));
+            currentCg.setImage(image);
+            currentCg.setOnMouseClicked(null);
+
+            double h = FIT_WIDTH * image.getHeight() / image.getWidth();
+            clipper.setTranslateY((h - Util.getScreenHeight()) / 2);
+
+            shadow.setOnMouseClicked(null);
+            entopAll(currentCg, sweepLine);
             onCgAdded.playFromStart();
         } else {
             textPlayer.clear();
             if (num == 0) {
                 getChildren().add(textPane);
+                shadow.setOnMouseClicked(null);
                 onShadowAdded.playFromStart();
                 onShadowAdded.setOnFinished(_ -> playText(item.path));
             } else {
@@ -110,6 +162,7 @@ public class StoryPlayer extends StackPane {
                 } else {
                     entopAll(lastCg, textPane);
                     lastCg.setImage(currentCg.getImage());
+                    shadow.setOnMouseClicked(null);
                     onShadowAdded.playFromStart();
                     onShadowAdded.setOnFinished(_ -> playText(item.path));
                 }
@@ -168,18 +221,24 @@ public class StoryPlayer extends StackPane {
         private static final String SPACES = " ".repeat((int) (2 / INTERVAL));
 
         private final List<Text> texts = new ArrayList<>();
-        private final Timeline timeline = new Timeline();
+
+        private Timeline timeline;
 
         private TextPlayer() {
-            timeline.setOnFinished(_ ->
-                    textPane.setOnMouseClicked(_ -> StoryPlayer.this.playNext()));
-
             setMaxHeight(0);
             setLineSpacing(LINE_SPACING - DEFAULT_LINE_SPACING);
             setTranslateX(FONT_PX * 3);
+            setMouseTransparent(true);
         }
 
         private void play(String text) {
+            if (timeline != null) {
+                timeline.stop();
+                timeline.getKeyFrames().clear();
+                timeline.setOnFinished(null);
+                timeline = null;
+            }
+
             text = text.replaceAll("(?m)^$", SPACES);
             for (char c : text.toCharArray()) {
                 Text t = new Text(String.valueOf(c));
@@ -191,26 +250,28 @@ public class StoryPlayer extends StackPane {
 
             int s = texts.size();
             int[] index = {0};
+            timeline = new Timeline(new KeyFrame(Duration.seconds(INTERVAL), _ -> {
+                if (timeline != null && index[0] < s) {
+                    texts.get(index[0]).setFill(Color.WHITE);
+                    requestLayout();
+                    index[0]++;
+                }
+            }));
             timeline.setCycleCount(s);
-            timeline.getKeyFrames().clear();
-            timeline.getKeyFrames().add(
-                    new KeyFrame(Duration.seconds(INTERVAL), _ -> {
-                        if (index[0] < s) {
-                            texts.get(index[0]).setFill(Color.WHITE);
-                            requestLayout();
-                            index[0]++;
-                        }
-                    })
-            );
+            timeline.setOnFinished(_ ->
+                    shadow.setOnMouseClicked(_ -> StoryPlayer.this.playNext()));
             timeline.play();
 
-            textPane.setOnMouseClicked(_ -> {
-                timeline.stop();
+            shadow.setOnMouseClicked(_ -> {
+                if (timeline != null) {
+                    timeline.stop();
+                    timeline = null;
+                }
                 for (Text t : texts) {
                     t.setFill(Color.WHITE);
                 }
                 requestLayout();
-                textPane.setOnMouseClicked(_ -> StoryPlayer.this.playNext());
+                shadow.setOnMouseClicked(_ -> StoryPlayer.this.playNext());
             });
         }
 

@@ -117,7 +117,7 @@ public class PotentialCalculator extends StackPane {
             Rectangle mask = new Rectangle(width - BORDER_WIDTH, height - BORDER_WIDTH, Color.BLACK);
             mask.setOpacity(0);
 
-            setOnMouseEntered(_ -> mask.setOpacity(MASK_HIGHEST_OPACITY));
+            setOnMouseEntered(_ -> mask.setOpacity(HIGHEST_DARKNESS));
             setOnMouseExited(_ -> mask.setOpacity(0));
 
             setMaxSize(0, 0);

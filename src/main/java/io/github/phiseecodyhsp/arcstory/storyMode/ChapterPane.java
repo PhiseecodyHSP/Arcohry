@@ -6,7 +6,9 @@ import io.github.phiseecodyhsp.arcstory.Util;
 import io.github.phiseecodyhsp.arcstory.storage.Chart;
 import io.github.phiseecodyhsp.arcstory.storage.Partner;
 import io.github.phiseecodyhsp.arcstory.storage.Resources;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -22,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.OUTER_GLOW_INTENSITY;
 import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.StoryButton.OUTER_GLOW_OFFSET;
@@ -30,18 +31,21 @@ import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButton
 //超绝双重内部类
 public class ChapterPane extends StackPane {
     private final List<StoryButtonPane> storyButtonPanes = new ArrayList<>();
+    private final StackPane innerPane = new StackPane();
 
     public ChapterPane(@NotNull String bgPath, StoryButtonPane... buttonPanes) {
         ImageView bg = new ImageView(bgPath);
         bg.setPreserveRatio(true);
         bg.setFitWidth(Util.getScreenWidth());
+        innerPane.setAlignment(Pos.CENTER_LEFT);
+        innerPane.setMaxSize(0, 0);
 
-        getChildren().add(bg);
+        getChildren().addAll(bg, innerPane);
         addAll(buttonPanes);
     }
 
     private void addAll(StoryButtonPane... buttonPanes) {
-        getChildren().addAll(buttonPanes);
+        innerPane.getChildren().addAll(buttonPanes);
         storyButtonPanes.addAll(List.of(buttonPanes));
 
         int s = storyButtonPanes.size();
@@ -83,6 +87,7 @@ public class ChapterPane extends StackPane {
                 partner = null;
                 getChildren().add(lightLine);
             }
+            setMaxSize(0, 0);
 
             parent.addAll(this);
         }
@@ -112,11 +117,11 @@ public class ChapterPane extends StackPane {
                         storyButtons.get(i + 1).enable();
                     }
                 }
-                setMaxSize(0, 0);
+                updateLine();
             }
-            updateLine();
         }
 
+        //TODO
         public void updateLine() {
             long e = storyButtons.stream().filter(b -> b.enabled).count();
             int s = storyButtons.size();
@@ -127,7 +132,7 @@ public class ChapterPane extends StackPane {
                 darkLineCount++;
                 Rectangle darkLine = new Rectangle(
                         StoryButton.SIDE_LENGTH + 7, StoryButton.BORDER_WIDTH, Color.WHITE);
-                darkLine.setOpacity(StoryButton.LOWEST_OPACITY);
+                darkLine.setOpacity(StoryButton.LOWEST_BRIGHTNESS);
                 getChildren().addFirst(darkLine);
             }
             while (darkLineCount > d) {
@@ -156,8 +161,8 @@ public class ChapterPane extends StackPane {
             public static final int DIAGONAL_LENGTH = Util.doubleToEven(SIDE_LENGTH * Util.SQRT_2);
             public static final int ARC_SIZE = 5;
             private static final int IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
-            public static final double MASK_HIGHEST_OPACITY = 0.25;
-            public static final double LOWEST_OPACITY = 1 - MASK_HIGHEST_OPACITY;
+            public static final double HIGHEST_DARKNESS = 0.25;
+            public static final double LOWEST_BRIGHTNESS = 1 - HIGHEST_DARKNESS;
             public static final int OUTER_GLOW_INTENSITY = 10;
             public static final int OUTER_GLOW_OFFSET = 10;
             public static final Color TRANSPARENT_BLACK = new Color(0, 0, 0, 0.5);
@@ -175,7 +180,6 @@ public class ChapterPane extends StackPane {
             private final ImageView neo = new ImageView(Resources.NEW_ICON);
             private final StoryButtonPane parent = StoryButtonPane.this;
             private final Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH, Color.WHITE);
-            private final Rectangle mask = new Rectangle(IMAGE_SIZE, IMAGE_SIZE, Color.BLACK);
             private final Chart chart;
             private final Partner partner;
 
@@ -190,15 +194,6 @@ public class ChapterPane extends StackPane {
                 label.setRotate(-45);
                 label.setEffect(SHADOW);
                 label.setMouseTransparent(true);
-
-                border.setArcWidth(ARC_SIZE);
-                border.setArcHeight(ARC_SIZE);
-                border.setEffect(SHADOW);
-                border.setOnMouseEntered(_ -> mask.setOpacity(MASK_HIGHEST_OPACITY));
-                border.setOnMouseExited(_ -> mask.setOpacity(0));
-
-                mask.setOpacity(0);
-                mask.setMouseTransparent(true);
 
                 Polygon lockBg = new Polygon(
                         -IMAGE_SIZE / 2.0, IMAGE_SIZE / 4.0,
@@ -225,11 +220,19 @@ public class ChapterPane extends StackPane {
                 lock.setPreserveRatio(true);
                 lock.setMouseTransparent(true);
 
-                setOpacity(LOWEST_OPACITY);
+                ColorAdjust darken = new ColorAdjust();
+                darken.setBrightness(-HIGHEST_DARKNESS);
+                border.setArcWidth(ARC_SIZE);
+                border.setArcHeight(ARC_SIZE);
+                border.setEffect(SHADOW);
+                border.setOnMouseEntered(_ -> view.setEffect(darken));
+                border.setOnMouseExited(_ -> view.setEffect(null));
+
+                setOpacity(LOWEST_BRIGHTNESS);
                 setMaxSize(0, 0);
                 setRotate(45);
                 setMouseTransparent(false);
-                getChildren().addAll(border, view, mask, lockBg, lock);
+                getChildren().addAll(border, view, lockBg, lock);
                 this.chart = chart;
                 if (this.chart == null) {
                     unlock();
