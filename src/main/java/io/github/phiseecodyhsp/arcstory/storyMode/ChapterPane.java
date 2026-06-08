@@ -36,7 +36,7 @@ public class ChapterPane extends StackPane {
     public ChapterPane(@NotNull String bgPath, StoryButtonPane... buttonPanes) {
         ImageView bg = new ImageView(bgPath);
         bg.setPreserveRatio(true);
-        bg.setFitWidth(Util.getScreenWidth());
+        bg.setFitWidth(Util.PRIMARY_SCREEN_WIDTH);
         innerPane.setAlignment(Pos.CENTER_LEFT);
         innerPane.setMaxSize(0, 0);
 
@@ -156,7 +156,7 @@ public class ChapterPane extends StackPane {
         }
 
         public class StoryButton extends StackPane {
-            public static final int SIDE_LENGTH = Util.doubleToEven(Util.getScreenHeight() * 0.1);
+            public static final int SIDE_LENGTH = Util.doubleToEven(Util.PRIMARY_SCREEN_HEIGHT * 0.1);
             public static final int BORDER_WIDTH = 2;
             public static final int DIAGONAL_LENGTH = Util.doubleToEven(SIDE_LENGTH * Util.SQRT_2);
             public static final int ARC_SIZE = 5;

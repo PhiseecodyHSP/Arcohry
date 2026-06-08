@@ -77,7 +77,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         onContentAddedFT.setToValue(1);
         onContentRemovedFT.setToValue(0);
 
-        Rectangle shadow = new Rectangle(Util.getScreenWidth(), Util.getScreenHeight());
+        Rectangle shadow = new Rectangle(Util.PRIMARY_SCREEN_WIDTH, Util.PRIMARY_SCREEN_HEIGHT);
         shadow.setOpacity(0);
         shadow.setOnMouseClicked(_ -> {
             onContentAddedFT.stop();

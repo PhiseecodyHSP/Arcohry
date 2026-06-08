@@ -12,6 +12,8 @@ public final class Util {
 
     public static final double SQRT_2;
     public static final double SQRT_3;
+    public static final double PRIMARY_SCREEN_WIDTH;
+    public static final double PRIMARY_SCREEN_HEIGHT;
 
     public static final Interpolator EASE_IN;
     public static final Interpolator EASE_OUT;
@@ -22,6 +24,8 @@ public final class Util {
     static {
         SQRT_2 = Math.sqrt(2);
         SQRT_3 = Math.sqrt(3);
+        PRIMARY_SCREEN_WIDTH = Screen.getPrimary().getBounds().getWidth();
+        PRIMARY_SCREEN_HEIGHT = Screen.getPrimary().getBounds().getHeight();
 
         EASE_IN = new Interpolator() {
             @Override
@@ -52,14 +56,6 @@ public final class Util {
             i = (int) d + 1;
             return i % 2 == 0 ? i : i + 1;
         }
-    }
-
-    public static double getScreenWidth() {
-        return Screen.getPrimary().getBounds().getWidth();
-    }
-
-    public static double getScreenHeight() {
-        return Screen.getPrimary().getBounds().getHeight();
     }
 
     private static SetStage getSetStage(Scene scene) {

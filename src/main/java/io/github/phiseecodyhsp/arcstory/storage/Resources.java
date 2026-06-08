@@ -15,6 +15,8 @@ public final class Resources {
     public static final String Tutorial_ILLUSTRTION;
     public static final String Beyond_BACKGROUND;
     public static final String Init_ILLUSTRATION;
+    public static final String Hikari_AVATAR;
+    public static final String Hikari_ILLUSTRATION;
     public static final String DOROC_AVATAR;
     public static final String Tairitsu_AWAKEN_AVATAR;
     public static final String SUCV_BG0;
@@ -23,7 +25,7 @@ public final class Resources {
     public static final String NORMAL_TRANSANIMA_R;
     public static final String TRANSANIMA_SHADOW;
 
-    public static final String STORY1_1;
+    public static final String STORY1_ZR;
 
     public static final AudioClip START_SOUND;
     public static final AudioClip TRANSANIMA_STRAT_SOUND;
@@ -36,6 +38,8 @@ public final class Resources {
         Tutorial_ILLUSTRTION = ofString("images/Songs_tutorial.jpg");
         Beyond_BACKGROUND = ofString("images/Background_beyond.jpg");
         Init_ILLUSTRATION = ofString("images/Songs_init.jpg");
+        Hikari_AVATAR = ofString("images/Partner_0_icon.png");
+        Hikari_ILLUSTRATION = ofString("images/Partner_0_new.png");
         DOROC_AVATAR = ofString("images/143px-Partner_doroc_awaken_icon.png");
         Tairitsu_AWAKEN_AVATAR = ofString("images/Partner_1_awaken_icon.png");
         SUCV_BG0 = ofString("images/未标题-1.png");
@@ -44,7 +48,7 @@ public final class Resources {
         NORMAL_TRANSANIMA_R = ofString("images/TransAnimaR_resized.png");
         TRANSANIMA_SHADOW = ofString("images/TransAnimaL_resized.png");
 
-        STORY1_1 = "stories/test.json";
+        STORY1_ZR = "stories/1-ZR.json";
 
         START_SOUND = ofClip("audios/START.mp3");
         TRANSANIMA_STRAT_SOUND = ofClip("audios/转场开始.mp3");

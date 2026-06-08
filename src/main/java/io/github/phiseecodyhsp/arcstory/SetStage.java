@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 
 public class SetStage extends Stage {
-    public static final double WIDTH = (int) Util.getScreenWidth() / 2.0;
+    public static final double WIDTH = (int) Util.PRIMARY_SCREEN_WIDTH / 2.0;
     public static final int HEIGHT = (int) (WIDTH / 16 * 9);
     private static final double TRANS_TIME = 1;
 
@@ -53,8 +53,8 @@ public class SetStage extends Stage {
     }
 
     private void updateScale() {
-        double scale = Math.max(scene.getWidth() / Util.getScreenWidth(),
-                scene.getHeight() / (Util.getScreenHeight()));
+        double scale = Math.max(scene.getWidth() / Util.PRIMARY_SCREEN_WIDTH,
+                scene.getHeight() / (Util.PRIMARY_SCREEN_HEIGHT));
         root.setScaleX(scale);
         root.setScaleY(scale);
     }
@@ -122,7 +122,7 @@ public class SetStage extends Stage {
         private static final int LABEL_DISPLACEMENT = 0;
         private static final double HIGHEST_ILLUSTRATION_SCALE = 2;
         private static final double PARADIGMS_OPACITY = 0.5;
-        private static final int ILLUSTRATION_SIZE = Util.doubleToEven(Util.getScreenHeight() / 2);
+        private static final int ILLUSTRATION_SIZE = Util.doubleToEven(Util.PRIMARY_SCREEN_HEIGHT / 2);
         private static final PauseTransition DELAY = new PauseTransition(Duration.seconds(3));
         private static final Font FONT = Resources.getFont(Resources.GeosansLight_FONT, 20);
 

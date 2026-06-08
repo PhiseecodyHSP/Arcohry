@@ -6,7 +6,6 @@ import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.animation.*;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
@@ -34,23 +33,23 @@ import static io.github.phiseecodyhsp.arcstory.storyMode.StoryUnlockConditionDis
 public class StoryPlayer extends StackPane {
     private static final int SWEEP_LINE_ROTATE = 20;
     private static final double TAN = Math.tan(Math.toRadians(90 - SWEEP_LINE_ROTATE));
-    private static final double FIT_WIDTH = Util.getScreenWidth();
+    private static final double FIT_WIDTH = Util.PRIMARY_SCREEN_WIDTH;
 
     private List<Item> items;
     private final Polygon sweepLine = new Polygon(
-            -Util.getScreenWidth() / 40, 0,
-            -Util.getScreenWidth() / 40 - Util.getScreenHeight() / TAN, Util.getScreenHeight(),
-            -Util.getScreenHeight() / TAN, Util.getScreenHeight(),
+            -Util.PRIMARY_SCREEN_WIDTH / 40, 0,
+            -Util.PRIMARY_SCREEN_WIDTH / 40 - Util.PRIMARY_SCREEN_HEIGHT / TAN, Util.PRIMARY_SCREEN_HEIGHT,
+            -Util.PRIMARY_SCREEN_HEIGHT / TAN, Util.PRIMARY_SCREEN_HEIGHT,
             0, 0);
     private final Polygon clipper = new Polygon(
-            -Util.getScreenWidth() / 40, 0,
-            -Util.getScreenWidth() / 40 - Util.getScreenHeight() / TAN, Util.getScreenHeight(),
-            -Util.getScreenHeight() / TAN, Util.getScreenHeight(),
+            -Util.PRIMARY_SCREEN_WIDTH / 40, 0,
+            -Util.PRIMARY_SCREEN_WIDTH / 40 - Util.PRIMARY_SCREEN_HEIGHT / TAN, Util.PRIMARY_SCREEN_HEIGHT,
+            -Util.PRIMARY_SCREEN_HEIGHT / TAN, Util.PRIMARY_SCREEN_HEIGHT,
             0, 0);
     private final ImageView lastCg = new ImageView();
     private final ImageView currentCg = new ImageView();
     private final TextPlayer textPlayer = new TextPlayer();
-    private final Rectangle shadow = new Rectangle(Util.getScreenWidth(), Util.getScreenHeight(), Color.BLACK);
+    private final Rectangle shadow = new Rectangle(Util.PRIMARY_SCREEN_WIDTH, Util.PRIMARY_SCREEN_HEIGHT, Color.BLACK);
     private final StackPane textPane = new StackPane(shadow, textPlayer);
     private final FadeTransition onRemoved = new FadeTransition(Duration.seconds(TRANS_TIME * 2), this);
     private final FadeTransition onShadowAdded = new FadeTransition(Duration.seconds(TRANS_TIME), shadow);
@@ -82,19 +81,19 @@ public class StoryPlayer extends StackPane {
 
         onCgAdded = new Timeline(
                 new KeyFrame(Duration.ZERO,
-                        new KeyValue(x3, -Util.getScreenWidth() / 40 - Util.getScreenHeight() / TAN),
-                        new KeyValue(x4, -Util.getScreenWidth() / 40),
+                        new KeyValue(x3, -Util.PRIMARY_SCREEN_WIDTH / 40 - Util.PRIMARY_SCREEN_HEIGHT / TAN),
+                        new KeyValue(x4, -Util.PRIMARY_SCREEN_WIDTH / 40),
                         new KeyValue(
                                 sweepLine.translateXProperty(),
-                                -Util.getScreenWidth() * 41 / 80 - Util.getScreenHeight() / 2 / TAN),
+                                -Util.PRIMARY_SCREEN_WIDTH * 41 / 80 - Util.PRIMARY_SCREEN_HEIGHT / 2 / TAN),
                         new KeyValue(dropShadow.radiusProperty(), 127),
                         new KeyValue(colorAdjust.brightnessProperty(), 1)),
                 new KeyFrame(Duration.seconds(TRANS_TIME * 4),
-                        new KeyValue(x3, Util.getScreenWidth(), Util.EASE_IN),
-                        new KeyValue(x4, Util.getScreenWidth() + Util.getScreenHeight() / TAN, Util.EASE_IN),
+                        new KeyValue(x3, Util.PRIMARY_SCREEN_WIDTH, Util.EASE_IN),
+                        new KeyValue(x4, Util.PRIMARY_SCREEN_WIDTH + Util.PRIMARY_SCREEN_HEIGHT / TAN, Util.EASE_IN),
                         new KeyValue(
                                 sweepLine.translateXProperty(),
-                                Util.getScreenWidth() * 41 / 80 + Util.getScreenHeight() / 2 / TAN,
+                                Util.PRIMARY_SCREEN_WIDTH * 41 / 80 + Util.PRIMARY_SCREEN_HEIGHT / 2 / TAN,
                                 Util.EASE_IN),
                         new KeyValue(colorAdjust.brightnessProperty(), 0),
                         new KeyValue(dropShadow.radiusProperty(), 0)));
@@ -144,7 +143,7 @@ public class StoryPlayer extends StackPane {
             currentCg.setOnMouseClicked(null);
 
             double h = FIT_WIDTH * image.getHeight() / image.getWidth();
-            clipper.setTranslateY((h - Util.getScreenHeight()) / 2);
+            clipper.setTranslateY((h - Util.PRIMARY_SCREEN_HEIGHT) / 2);
 
             shadow.setOnMouseClicked(null);
             entopAll(currentCg, sweepLine);
