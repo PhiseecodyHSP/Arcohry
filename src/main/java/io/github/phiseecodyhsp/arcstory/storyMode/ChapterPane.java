@@ -245,13 +245,14 @@ public class ChapterPane extends StackPane {
                     throw new UncheckedIOException("Failed to read '" + storyPath + "'", e);
                 }
                 items.forEach(i -> {
-                    if (!Objects.equals(i.getType(), StoryPlayer.Item.CG_TYPE) &&
-                            !Objects.equals(i.getType(), StoryPlayer.Item.TEXT_TYPE)) {
+                    String type = i.getType();
+                    if (!Objects.equals(type, StoryPlayer.Item.CG_TYPE) &&
+                            !Objects.equals(type, StoryPlayer.Item.TEXT_TYPE)) {
                         throw new IllegalStateException(
                                 "A " + StoryPlayer.Item.class.getSimpleName() + "'s type must be \"cg\" or \"text\", " +
-                                        "but found \"" + i.getType() + "\" in '" + i.getPath() +"'");
+                                        "but found \"" + type + "\" in '" + i.getPath() +"'");
                     }
-                    if (i.getType().equals(StoryPlayer.Item.CG_TYPE)) {
+                    if (type.equals(StoryPlayer.Item.CG_TYPE)) {
                         withCg[0] = true;
                     }
                 });

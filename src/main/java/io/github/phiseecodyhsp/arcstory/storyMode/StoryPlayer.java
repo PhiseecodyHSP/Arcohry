@@ -6,7 +6,11 @@ import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -34,6 +38,8 @@ public class StoryPlayer extends StackPane {
     private final StackPane textPane = new StackPane(shadow, textPlayer);
     private final FadeTransition onRemoved = new FadeTransition(Duration.seconds(TRANS_TIME * 2), this);
     private final FadeTransition onShadowAdded = new FadeTransition(Duration.seconds(TRANS_TIME), shadow);
+    private final TranslateTransition onCgAdded =
+            new TranslateTransition(Duration.seconds(TRANS_TIME * 2), currentCg);
 
     private ChapterPane parent;
     private int currentlyPlaying;
@@ -45,7 +51,10 @@ public class StoryPlayer extends StackPane {
 
         currentCg.setPreserveRatio(true);
         currentCg.setFitWidth(Util.getScreenWidth());
-        currentCg.setOnMouseClicked(_ -> playNext());
+
+        onCgAdded.setFromX(-currentCg.getFitWidth());
+        onCgAdded.setToX(0);
+        onCgAdded.setInterpolator(Util.EASE_IN);
 
         lastCg.setPreserveRatio(true);
         lastCg.setFitWidth(Util.getScreenWidth());
@@ -55,6 +64,10 @@ public class StoryPlayer extends StackPane {
         this.parent = parent;
         this.items = items;
         this.parent.getChildren().add(this);
+        currentCg.setOnMouseClicked(_ -> playNext());
+        onRemoved.setOnFinished(_ -> this.parent.getChildren().remove(this));
+        getChildren().clear();
+        setOpacity(1);
         currentlyPlaying = 0;
         play(currentlyPlaying);
     }
@@ -64,28 +77,43 @@ public class StoryPlayer extends StackPane {
         if (currentlyPlaying < items.size()) {
             play(currentlyPlaying);
         } else {
+            currentCg.setOnMouseClicked(null);
+            textPane.setOnMouseClicked(null);
             onRemoved.playFromStart();
-            onRemoved.setOnFinished(_ -> {
-                this.parent.getChildren().remove(this);
-                textPlayer.clear();
-            });
         }
     }
 
     private void playLast() {
         currentlyPlaying--;
-        if (currentlyPlaying >= 0) {
-            play(currentlyPlaying - 1);
-        }
+        play(currentlyPlaying);
     }
 
-    //TODO
     private void play(int num) {
         Item item = items.get(num);
-        if (Objects.equals(item.type, Item.CG_TYPE)) {
-
+        if (!item.isText()) {
+            if (num != 0 && !items.get(num - 1).isText()) {
+                lastCg.setImage(currentCg.getImage());
+                entopAll(lastCg);
+            }
+            currentCg.setImage(new Image(Resources.ofString(item.path)));
+            entopAll(currentCg);
+            onCgAdded.playFromStart();
         } else {
-
+            textPlayer.clear();
+            if (num == 0) {
+                getChildren().add(textPane);
+                onShadowAdded.playFromStart();
+                onShadowAdded.setOnFinished(_ -> playText(item.path));
+            } else {
+                if (items.get(num - 1).isText()) {
+                    playText(item.path);
+                } else {
+                    entopAll(lastCg, textPane);
+                    lastCg.setImage(currentCg.getImage());
+                    onShadowAdded.playFromStart();
+                    onShadowAdded.setOnFinished(_ -> playText(item.path));
+                }
+            }
         }
     }
 
@@ -93,8 +121,13 @@ public class StoryPlayer extends StackPane {
         try {
             textPlayer.play(new String(Resources.ofStream(path).readAllBytes(), StandardCharsets.UTF_8));
         } catch (IOException e) {
-            throw new UncheckedIOException("Failed to read " + path, e);
+            throw new UncheckedIOException("Failed to read '" + path + "'", e);
         }
+    }
+
+    private void entopAll(Node... nodes) {
+        getChildren().removeAll(nodes);
+        getChildren().addAll(nodes);
     }
 
     public static class Item {
@@ -120,6 +153,10 @@ public class StoryPlayer extends StackPane {
         public String getPath() {
             return path;
         }
+
+        private boolean isText() {
+            return Objects.equals(type, TEXT_TYPE);
+        }
     }
 
     private class TextPlayer extends TextFlow {
@@ -134,13 +171,15 @@ public class StoryPlayer extends StackPane {
         private final Timeline timeline = new Timeline();
 
         private TextPlayer() {
+            timeline.setOnFinished(_ ->
+                    textPane.setOnMouseClicked(_ -> StoryPlayer.this.playNext()));
+
             setMaxHeight(0);
             setLineSpacing(LINE_SPACING - DEFAULT_LINE_SPACING);
             setTranslateX(FONT_PX * 3);
         }
 
         private void play(String text) {
-            clear();
             text = text.replaceAll("(?m)^$", SPACES);
             for (char c : text.toCharArray()) {
                 Text t = new Text(String.valueOf(c));
@@ -150,13 +189,13 @@ public class StoryPlayer extends StackPane {
                 texts.add(t);
             }
 
+            int s = texts.size();
             int[] index = {0};
-            timeline.setCycleCount(texts.size());
+            timeline.setCycleCount(s);
             timeline.getKeyFrames().clear();
-            timeline.setOnFinished(_ -> textPane.setOnMouseClicked(_ -> StoryPlayer.this.playNext()));
             timeline.getKeyFrames().add(
                     new KeyFrame(Duration.seconds(INTERVAL), _ -> {
-                        if (index[0] < texts.size()) {
+                        if (index[0] < s) {
                             texts.get(index[0]).setFill(Color.WHITE);
                             requestLayout();
                             index[0]++;
@@ -165,16 +204,14 @@ public class StoryPlayer extends StackPane {
             );
             timeline.play();
 
-            textPane.setOnMouseClicked(_ -> skip());
-        }
-
-        private void skip() {
-            timeline.stop();
-            for (Text t : texts) {
-                t.setFill(Color.WHITE);
-            }
-            requestLayout();
-            textPane.setOnMouseClicked(_ -> StoryPlayer.this.playNext());
+            textPane.setOnMouseClicked(_ -> {
+                timeline.stop();
+                for (Text t : texts) {
+                    t.setFill(Color.WHITE);
+                }
+                requestLayout();
+                textPane.setOnMouseClicked(_ -> StoryPlayer.this.playNext());
+            });
         }
 
         private void clear() {

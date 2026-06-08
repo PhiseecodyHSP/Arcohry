@@ -62,7 +62,7 @@ public final class Util {
         return Screen.getPrimary().getBounds().getHeight();
     }
 
-    public static SetStage getSetStage(Scene scene) {
+    private static SetStage getSetStage(Scene scene) {
         if (scene.getWindow() instanceof SetStage stage) {
             return stage;
         }

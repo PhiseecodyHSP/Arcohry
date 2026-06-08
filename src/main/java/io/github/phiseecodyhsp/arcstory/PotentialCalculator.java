@@ -140,9 +140,9 @@ public class PotentialCalculator extends StackPane {
             return PM_SCORE;
         }
         if (ptt >= rating + 1) {
-            return (int) ((ptt - rating - 1) * 200000 + EX_SCORE + 1);
+            return (int) Math.ceil((ptt - rating - 1) * 200000 + EX_SCORE + 1);
         }
-        return (int) ((ptt - rating) * 300000 + AA_SCORE + 1);
+        return (int) Math.ceil((ptt - rating) * 300000 + AA_SCORE + 1);
     }
 
     public static double getRating(double ptt, int score) {

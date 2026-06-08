@@ -233,7 +233,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         } else {
             throw new IllegalStateException(
                     "Pane '" + pane + "''s " + intToOrdinal(index) +
-                            " node must be " + ImageView.class.getSimpleName());
+                            " node isn't " + ImageView.class.getSimpleName());
         }
     }
 
