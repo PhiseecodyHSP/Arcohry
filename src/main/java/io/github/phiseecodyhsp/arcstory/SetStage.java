@@ -46,7 +46,8 @@ public class SetStage extends Stage {
         lastNode = null;
         currentNode = initialNode;
 
-        setTitle("Arcaea Story Mode");
+        setFullScreenExitHint("");
+        setTitle("Report");
         setWidth(WIDTH);
         setHeight(HEIGHT);
         setScene(scene);

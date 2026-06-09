@@ -4,12 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.phiseecodyhsp.arcstory.Util;
 import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.animation.*;
-import javafx.beans.property.DoubleProperty;
 import javafx.scene.Node;
-import javafx.scene.effect.Bloom;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -287,35 +284,6 @@ public class StoryPlayer extends StackPane {
         private void clear() {
             getChildren().clear();
             texts.clear();
-        }
-    }
-
-    private static class ProjectingPane extends StackPane {
-        private final GaussianBlur blur = new GaussianBlur();
-        private final Bloom bloom = new Bloom();
-
-        private ProjectingPane(Polygon polygon, double radius, double threshold) {
-            Polygon copy = clonePolygon(polygon);
-            blur.setRadius(radius);
-            bloom.setThreshold(threshold);
-            bloom.setInput(blur);
-            copy.setEffect(blur);
-
-            getChildren().addAll(copy, polygon);
-        }
-
-        private static Polygon clonePolygon(Polygon original) {
-            Polygon copy = new Polygon();
-            copy.getPoints().addAll(original.getPoints());
-            return copy;
-        }
-
-        private DoubleProperty radiusProperty() {
-            return blur.radiusProperty();
-        }
-
-        private DoubleProperty thresholdProperty() {
-            return bloom.thresholdProperty();
         }
     }
 }
