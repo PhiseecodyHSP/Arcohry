@@ -33,8 +33,7 @@ public class StoryPlayer extends StackPane {
     private static final double TAN = Math.tan(Math.toRadians(90 - SWEEP_LINE_ROTATE));
     private static final double FIT_WIDTH = Util.PRIMARY_SCREEN_WIDTH;
     private static final double SWEEP_LINE_WIDTH = Util.PRIMARY_SCREEN_WIDTH / 40;
-    private static final ColorAdjust PARENT_GLOW = new ColorAdjust();
-    private static final ColorAdjust CG_GLOW = new ColorAdjust();
+    private static final ColorAdjust GLOW = new ColorAdjust();
 
     private List<Item> items;
     private final Polygon sweepLine = new Polygon(
@@ -66,13 +65,17 @@ public class StoryPlayer extends StackPane {
         currentCg.setPreserveRatio(true);
         currentCg.setFitWidth(FIT_WIDTH);
         currentCg.setClip(clipper);
-        currentCg.setEffect(CG_GLOW);
+        currentCg.setEffect(GLOW);
 
-        //TODO: 单DropShadow不够强
         DropShadow sweepLineGlow = new DropShadow(0, Color.WHITE);
+        DropShadow shadow1 = new DropShadow(0, Color.WHITE);
+        DropShadow shadow2 = new DropShadow(0, Color.WHITE);
+        sweepLineGlow.setInput(shadow1);
+        shadow1.setInput(shadow2);
         sweepLine.setFill(Color.WHITE);
         sweepLine.setEffect(sweepLineGlow);
 
+        double time = TRANS_TIME * 4;
         onCgAdded = new Timeline(
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(
@@ -80,21 +83,27 @@ public class StoryPlayer extends StackPane {
                         -Util.PRIMARY_SCREEN_WIDTH - SWEEP_LINE_WIDTH - Util.PRIMARY_SCREEN_HEIGHT / TAN),
                         new KeyValue(
                                 sweepLine.translateXProperty(),
-                                -(Util.PRIMARY_SCREEN_WIDTH + SWEEP_LINE_WIDTH + Util.PRIMARY_SCREEN_HEIGHT / TAN) / 2),
+                                -(Util.PRIMARY_SCREEN_WIDTH + SWEEP_LINE_WIDTH +
+                                        Util.PRIMARY_SCREEN_HEIGHT / TAN) / 2),
                         new KeyValue(sweepLine.opacityProperty(), 0.5),
                         new KeyValue(sweepLineGlow.radiusProperty(), 127),
-                        new KeyValue(PARENT_GLOW.brightnessProperty(), 0),
-                        new KeyValue(CG_GLOW.brightnessProperty(), 1)),
-                new KeyFrame(Duration.seconds(TRANS_TIME * 4),
+                        new KeyValue(shadow1.radiusProperty(), 127),
+                        new KeyValue(shadow2.radiusProperty(), 127),
+                        new KeyValue(GLOW.brightnessProperty(), 0)),
+                new KeyFrame(Duration.seconds(time / 8),
+                        new KeyValue(GLOW.brightnessProperty(), LOWEST_BRIGHTNESS)),
+                new KeyFrame(Duration.seconds(time),
                         new KeyValue(clipper.translateXProperty(), 0, Util.EASE_IN),
                         new KeyValue(
                                 sweepLine.translateXProperty(),
-                                (Util.PRIMARY_SCREEN_WIDTH + SWEEP_LINE_WIDTH + Util.PRIMARY_SCREEN_HEIGHT / TAN) / 2,
+                                (Util.PRIMARY_SCREEN_WIDTH + SWEEP_LINE_WIDTH +
+                                        Util.PRIMARY_SCREEN_HEIGHT / TAN) / 2,
                                 Util.EASE_IN),
                         new KeyValue(sweepLine.opacityProperty(), 1),
                         new KeyValue(sweepLineGlow.radiusProperty(), 0),
-                        new KeyValue(PARENT_GLOW.brightnessProperty(), 1),
-                        new KeyValue(CG_GLOW.brightnessProperty(), 0)));
+                        new KeyValue(shadow1.radiusProperty(), 0),
+                        new KeyValue(shadow2.radiusProperty(), 0),
+                        new KeyValue(GLOW.brightnessProperty(), 0)));
         onCgAdded.setOnFinished(_ -> currentCg.setOnMouseClicked(_ -> playNext()));
 
         onShadowAdded.setFromValue(0);
@@ -106,8 +115,8 @@ public class StoryPlayer extends StackPane {
         this.parent = parent;
         this.items = items;
         this.parent.getChildren().add(this);
-        this.parent.getBg().setEffect(PARENT_GLOW);
-        this.parent.getInnerPane().setEffect(PARENT_GLOW);
+        this.parent.getBg().setEffect(GLOW);
+        this.parent.getInnerPane().setEffect(GLOW);
         onRemoved.setOnFinished(_ -> {
             this.parent.getChildren().remove(this);
             this.parent = null;
