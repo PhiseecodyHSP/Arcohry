@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.phiseecodyhsp.arcstory.Util;
 import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.animation.*;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
@@ -34,18 +32,21 @@ public class StoryPlayer extends StackPane {
     private static final int SWEEP_LINE_ROTATE = 20;
     private static final double TAN = Math.tan(Math.toRadians(90 - SWEEP_LINE_ROTATE));
     private static final double FIT_WIDTH = Util.PRIMARY_SCREEN_WIDTH;
+    private static final double SWEEP_LINE_WIDTH = Util.PRIMARY_SCREEN_WIDTH / 40;
+    private static final ColorAdjust PARENT_GLOW = new ColorAdjust();
+    private static final ColorAdjust CG_GLOW = new ColorAdjust();
 
     private List<Item> items;
     private final Polygon sweepLine = new Polygon(
-            -Util.PRIMARY_SCREEN_WIDTH / 40, 0,
-            -Util.PRIMARY_SCREEN_WIDTH / 40 - Util.PRIMARY_SCREEN_HEIGHT / TAN, Util.PRIMARY_SCREEN_HEIGHT,
+            -SWEEP_LINE_WIDTH, 0,
+            -SWEEP_LINE_WIDTH - Util.PRIMARY_SCREEN_HEIGHT / TAN, Util.PRIMARY_SCREEN_HEIGHT,
             -Util.PRIMARY_SCREEN_HEIGHT / TAN, Util.PRIMARY_SCREEN_HEIGHT,
             0, 0);
     private final Polygon clipper = new Polygon(
-            -Util.PRIMARY_SCREEN_WIDTH / 40, 0,
-            -Util.PRIMARY_SCREEN_WIDTH / 40 - Util.PRIMARY_SCREEN_HEIGHT / TAN, Util.PRIMARY_SCREEN_HEIGHT,
-            -Util.PRIMARY_SCREEN_HEIGHT / TAN, Util.PRIMARY_SCREEN_HEIGHT,
-            0, 0);
+            -SWEEP_LINE_WIDTH, 0,
+            -SWEEP_LINE_WIDTH - Util.PRIMARY_SCREEN_HEIGHT / TAN, Util.PRIMARY_SCREEN_HEIGHT,
+            Util.PRIMARY_SCREEN_WIDTH, Util.PRIMARY_SCREEN_HEIGHT,
+            Util.PRIMARY_SCREEN_WIDTH + Util.PRIMARY_SCREEN_HEIGHT / TAN, 0);
     private final ImageView lastCg = new ImageView();
     private final ImageView currentCg = new ImageView();
     private final TextPlayer textPlayer = new TextPlayer();
@@ -62,41 +63,38 @@ public class StoryPlayer extends StackPane {
         lastCg.setPreserveRatio(true);
         lastCg.setFitWidth(FIT_WIDTH);
 
-        ColorAdjust colorAdjust = new ColorAdjust();
         currentCg.setPreserveRatio(true);
         currentCg.setFitWidth(FIT_WIDTH);
         currentCg.setClip(clipper);
-        currentCg.setEffect(colorAdjust);
+        currentCg.setEffect(CG_GLOW);
 
-        DropShadow dropShadow = new DropShadow(0, Color.WHITE);
+        //TODO: 单DropShadow不够强
+        DropShadow sweepLineGlow = new DropShadow(0, Color.WHITE);
         sweepLine.setFill(Color.WHITE);
-        sweepLine.setEffect(dropShadow);
-
-        DoubleProperty x3 = new SimpleDoubleProperty();
-        DoubleProperty x4 = new SimpleDoubleProperty();
-        x3.addListener((_, _, x) ->
-                clipper.getPoints().set(4, x.doubleValue()));
-        x4.addListener((_, _, x) ->
-                clipper.getPoints().set(6, x.doubleValue()));
+        sweepLine.setEffect(sweepLineGlow);
 
         onCgAdded = new Timeline(
                 new KeyFrame(Duration.ZERO,
-                        new KeyValue(x3, -Util.PRIMARY_SCREEN_WIDTH / 40 - Util.PRIMARY_SCREEN_HEIGHT / TAN),
-                        new KeyValue(x4, -Util.PRIMARY_SCREEN_WIDTH / 40),
+                        new KeyValue(
+                        clipper.translateXProperty(),
+                        -Util.PRIMARY_SCREEN_WIDTH - SWEEP_LINE_WIDTH - Util.PRIMARY_SCREEN_HEIGHT / TAN),
                         new KeyValue(
                                 sweepLine.translateXProperty(),
-                                -Util.PRIMARY_SCREEN_WIDTH * 41 / 80 - Util.PRIMARY_SCREEN_HEIGHT / 2 / TAN),
-                        new KeyValue(dropShadow.radiusProperty(), 127),
-                        new KeyValue(colorAdjust.brightnessProperty(), 1)),
+                                -(Util.PRIMARY_SCREEN_WIDTH + SWEEP_LINE_WIDTH + Util.PRIMARY_SCREEN_HEIGHT / TAN) / 2),
+                        new KeyValue(sweepLine.opacityProperty(), 0.5),
+                        new KeyValue(sweepLineGlow.radiusProperty(), 127),
+                        new KeyValue(PARENT_GLOW.brightnessProperty(), 0),
+                        new KeyValue(CG_GLOW.brightnessProperty(), 1)),
                 new KeyFrame(Duration.seconds(TRANS_TIME * 4),
-                        new KeyValue(x3, Util.PRIMARY_SCREEN_WIDTH, Util.EASE_IN),
-                        new KeyValue(x4, Util.PRIMARY_SCREEN_WIDTH + Util.PRIMARY_SCREEN_HEIGHT / TAN, Util.EASE_IN),
+                        new KeyValue(clipper.translateXProperty(), 0, Util.EASE_IN),
                         new KeyValue(
                                 sweepLine.translateXProperty(),
-                                Util.PRIMARY_SCREEN_WIDTH * 41 / 80 + Util.PRIMARY_SCREEN_HEIGHT / 2 / TAN,
+                                (Util.PRIMARY_SCREEN_WIDTH + SWEEP_LINE_WIDTH + Util.PRIMARY_SCREEN_HEIGHT / TAN) / 2,
                                 Util.EASE_IN),
-                        new KeyValue(colorAdjust.brightnessProperty(), 0),
-                        new KeyValue(dropShadow.radiusProperty(), 0)));
+                        new KeyValue(sweepLine.opacityProperty(), 1),
+                        new KeyValue(sweepLineGlow.radiusProperty(), 0),
+                        new KeyValue(PARENT_GLOW.brightnessProperty(), 1),
+                        new KeyValue(CG_GLOW.brightnessProperty(), 0)));
         onCgAdded.setOnFinished(_ -> currentCg.setOnMouseClicked(_ -> playNext()));
 
         onShadowAdded.setFromValue(0);
@@ -108,7 +106,12 @@ public class StoryPlayer extends StackPane {
         this.parent = parent;
         this.items = items;
         this.parent.getChildren().add(this);
-        onRemoved.setOnFinished(_ -> this.parent.getChildren().remove(this));
+        this.parent.getBg().setEffect(PARENT_GLOW);
+        this.parent.getInnerPane().setEffect(PARENT_GLOW);
+        onRemoved.setOnFinished(_ -> {
+            this.parent.getChildren().remove(this);
+            this.parent = null;
+        });
         getChildren().clear();
         setOpacity(1);
         currentlyPlaying = 0;
@@ -133,6 +136,10 @@ public class StoryPlayer extends StackPane {
 
     private void play(int num) {
         Item item = items.get(num);
+        if (num == 1) {
+            this.parent.getBg().setEffect(null);
+            this.parent.getInnerPane().setEffect(null);
+        }
         if (!item.isText()) {
             if (num != 0 && !items.get(num - 1).isText()) {
                 lastCg.setImage(currentCg.getImage());
@@ -217,7 +224,7 @@ public class StoryPlayer extends StackPane {
         private static final double DEFAULT_LINE_SPACING = 26.5;
         private static final Font FONT = Resources.getFont("fonts/NotoSansCJKsc-Regular.ttf", FONT_PX);
         private static final double INTERVAL = 0.05;
-        private static final String SPACES = " ".repeat((int) (2 / INTERVAL));
+        private static final String SPACES = " ".repeat((int) (1.5 / INTERVAL));
 
         private final List<Text> texts = new ArrayList<>();
 

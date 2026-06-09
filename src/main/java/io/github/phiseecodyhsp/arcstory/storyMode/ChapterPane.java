@@ -32,9 +32,10 @@ import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButton
 public class ChapterPane extends StackPane {
     private final List<StoryButtonPane> storyButtonPanes = new ArrayList<>();
     private final StackPane innerPane = new StackPane();
+    private final ImageView bg;
 
     public ChapterPane(@NotNull String bgPath, StoryButtonPane... buttonPanes) {
-        ImageView bg = new ImageView(bgPath);
+        bg = new ImageView(bgPath);
         bg.setPreserveRatio(true);
         bg.setFitWidth(Util.PRIMARY_SCREEN_WIDTH);
         innerPane.setAlignment(Pos.CENTER_LEFT);
@@ -57,6 +58,14 @@ public class ChapterPane extends StackPane {
 
     public List<StoryButtonPane> getStoryButtonPanes() {
         return Collections.unmodifiableList(storyButtonPanes);
+    }
+
+    public StackPane getInnerPane() {
+        return innerPane;
+    }
+
+    public ImageView getBg() {
+        return bg;
     }
 
     public class StoryButtonPane extends StackPane {
