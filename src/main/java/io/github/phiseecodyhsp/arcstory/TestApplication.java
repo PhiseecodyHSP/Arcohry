@@ -5,6 +5,8 @@ import io.github.phiseecodyhsp.arcstory.storyMode.*;
 import io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.*;
 import io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.*;
 import javafx.application.Application;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
 public class TestApplication extends Application {
