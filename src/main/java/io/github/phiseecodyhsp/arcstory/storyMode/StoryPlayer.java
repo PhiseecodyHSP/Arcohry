@@ -65,7 +65,9 @@ public class StoryPlayer extends StackPane {
         currentCg.setPreserveRatio(true);
         currentCg.setFitWidth(FIT_WIDTH);
         currentCg.setClip(clipper);
+        lastCg.setEffect(GLOW);
         currentCg.setEffect(GLOW);
+        textPane.setEffect(GLOW);
 
         DropShadow sweepLineGlow = new DropShadow(0, Color.WHITE);
         DropShadow shadow1 = new DropShadow(0, Color.WHITE);
@@ -90,7 +92,7 @@ public class StoryPlayer extends StackPane {
                         new KeyValue(shadow1.radiusProperty(), 127),
                         new KeyValue(shadow2.radiusProperty(), 127),
                         new KeyValue(GLOW.brightnessProperty(), 0)),
-                new KeyFrame(Duration.seconds(time / 8),
+                new KeyFrame(Duration.seconds(time / 32),
                         new KeyValue(GLOW.brightnessProperty(), LOWEST_BRIGHTNESS)),
                 new KeyFrame(Duration.seconds(time),
                         new KeyValue(clipper.translateXProperty(), 0, Util.EASE_IN),

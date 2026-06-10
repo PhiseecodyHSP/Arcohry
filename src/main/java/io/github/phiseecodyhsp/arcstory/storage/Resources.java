@@ -26,6 +26,7 @@ public final class Resources {
     public static final String TRANSANIMA_SHADOW;
 
     public static final String STORY1_ZR;
+    public static final String STORYCG;
 
     public static final AudioClip START_SOUND;
     public static final AudioClip TRANSANIMA_STRAT_SOUND;
@@ -49,6 +50,7 @@ public final class Resources {
         TRANSANIMA_SHADOW = ofString("images/TransAnimaL_resized.png");
 
         STORY1_ZR = "stories/1-ZR.json";
+        STORYCG = "stories/cg.json";
 
         START_SOUND = ofClip("audios/START.mp3");
         TRANSANIMA_STRAT_SOUND = ofClip("audios/转场开始.mp3");

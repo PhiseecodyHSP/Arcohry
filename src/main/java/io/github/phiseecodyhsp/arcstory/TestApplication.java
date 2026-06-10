@@ -18,9 +18,9 @@ public class TestApplication extends Application {
         StoryButtonPane buttonPane = chapterPane.new StoryButtonPane(Partners.Hikari, null);
 
         StoryButton storyButton = buttonPane.new StoryButton(
-                "1-ZR",
+                "SP",
                 Resources.Tutorial_ILLUSTRTION,
-                Resources.STORY1_ZR,
+                Resources.STORYCG,
                 null,
                 null);
 

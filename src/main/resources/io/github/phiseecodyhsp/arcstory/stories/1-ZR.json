@@ -1,5 +1,5 @@
 [
-    { "type": "cg", "path": "images/Story_1-ZR_cg.jpg" },
+    { "type": "cg", "path": "images/1-ZR.jpg" },
     { "type": "text", "path": "texts/1-ZR_1.txt" },
     { "type": "text", "path": "texts/1-ZR_2.txt" }
 ]
