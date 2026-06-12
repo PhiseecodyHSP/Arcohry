@@ -1,0 +1,5 @@
+[
+    { "type": "text", "path": "texts/A3_1.txt" },
+    { "type": "text", "path": "texts/A3_2.txt" },
+    { "type": "text", "path": "texts/A3_3.txt" }
+]

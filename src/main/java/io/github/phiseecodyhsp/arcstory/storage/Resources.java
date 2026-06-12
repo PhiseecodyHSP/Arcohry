@@ -12,21 +12,31 @@ public final class Resources {
     public static final String GeosansLight_FONT;
 
     public static final String NEW_ICON;
+    public static final String STAR;
     public static final String Tutorial_ILLUSTRTION;
     public static final String Beyond_BACKGROUND;
+    public static final String CHAPTER5_SCENERY;
     public static final String Init_ILLUSTRATION;
     public static final String Hikari_AVATAR;
     public static final String Hikari_ILLUSTRATION;
     public static final String DOROC_AVATAR;
     public static final String Tairitsu_AWAKEN_AVATAR;
-    public static final String SUCV_BG0;
-    public static final String SUCV_BG1;
+    public static final String SUC_BG0;
+    public static final String SUC_BG1;
     public static final String NORMAL_TRANSANIMA_L;
     public static final String NORMAL_TRANSANIMA_R;
     public static final String TRANSANIMA_SHADOW;
+    public static final String COVER;
 
     public static final String STORY1_ZR;
     public static final String STORYCG;
+    public static final String STORYA1;
+    public static final String STORYA2;
+    public static final String STORYA3;
+    public static final String STORYA4;
+    public static final String STORYA5;
+    public static final String STORYA6;
+    public static final String STORYAE;
 
     public static final AudioClip START_SOUND;
     public static final AudioClip TRANSANIMA_STRAT_SOUND;
@@ -35,22 +45,32 @@ public final class Resources {
     static {
         GeosansLight_FONT = "fonts/GeosansLight.ttf";
 
-        NEW_ICON = ofString("images/Songs_init.jpg");
+        NEW_ICON = ofString("images/Icon_scenery_Beyond.png");
+        STAR = ofString("images/Icon_scenery_Beyond.png");
         Tutorial_ILLUSTRTION = ofString("images/Songs_tutorial.jpg");
         Beyond_BACKGROUND = ofString("images/Background_beyond.jpg");
+        CHAPTER5_SCENERY = ofString("images/Background_scenery_chap5_16-9.jpg");
         Init_ILLUSTRATION = ofString("images/Songs_init.jpg");
         Hikari_AVATAR = ofString("images/Partner_0_icon.png");
         Hikari_ILLUSTRATION = ofString("images/Partner_0_new.png");
         DOROC_AVATAR = ofString("images/143px-Partner_doroc_awaken_icon.png");
         Tairitsu_AWAKEN_AVATAR = ofString("images/Partner_1_awaken_icon.png");
-        SUCV_BG0 = ofString("images/未标题-1.png");
-        SUCV_BG1 = ofString("images/未标题-1.png");
+        SUC_BG0 = ofString("images/未标题-1.png");
+        SUC_BG1 = ofString("images/未标题-1.png");
         NORMAL_TRANSANIMA_L = ofString("images/TransAnimaL_resized.png");
         NORMAL_TRANSANIMA_R = ofString("images/TransAnimaR_resized.png");
         TRANSANIMA_SHADOW = ofString("images/TransAnimaL_resized.png");
+        COVER = ofString("images/cover.png");
 
         STORY1_ZR = "stories/1-ZR.json";
         STORYCG = "stories/cg.json";
+        STORYA1 = "stories/A1.json";
+        STORYA2 = "stories/A2.json";
+        STORYA3 = "stories/A3.json";
+        STORYA4 = "stories/A4.json";
+        STORYA5 = "stories/A5.json";
+        STORYA6 = "stories/A6.json";
+        STORYAE = "stories/AE.json";
 
         START_SOUND = ofClip("audios/START.mp3");
         TRANSANIMA_STRAT_SOUND = ofClip("audios/转场开始.mp3");

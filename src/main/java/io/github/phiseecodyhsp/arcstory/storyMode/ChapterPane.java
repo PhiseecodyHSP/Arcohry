@@ -6,11 +6,13 @@ import io.github.phiseecodyhsp.arcstory.Util;
 import io.github.phiseecodyhsp.arcstory.storage.Chart;
 import io.github.phiseecodyhsp.arcstory.storage.Partner;
 import io.github.phiseecodyhsp.arcstory.storage.Resources;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -34,7 +36,7 @@ public class ChapterPane extends StackPane {
     private final StackPane innerPane = new StackPane();
     private final ImageView bg;
 
-    public ChapterPane(@NotNull String bgPath, StoryButtonPane... buttonPanes) {
+    public ChapterPane(@NotNull String bgPath) {
         bg = new ImageView(bgPath);
         bg.setPreserveRatio(true);
         bg.setFitWidth(Util.PRIMARY_SCREEN_WIDTH);
@@ -42,7 +44,6 @@ public class ChapterPane extends StackPane {
         innerPane.setMaxSize(0, 0);
 
         getChildren().addAll(bg, innerPane);
-        addAll(buttonPanes);
     }
 
     private void addAll(StoryButtonPane... buttonPanes) {
@@ -107,30 +108,28 @@ public class ChapterPane extends StackPane {
 
         //TODO: 展示UnlockCondition时会发生微小位移
         private void addAll(StoryButton... buttons) {
-            if (buttons.length != 0) {
-                getChildren().addAll(buttons);
-                storyButtons.addAll(List.of(buttons));
+            getChildren().addAll(buttons);
+            storyButtons.addAll(List.of(buttons));
+            storyButtons.getFirst().enable();
 
-                int s = storyButtons.size();
-                int l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
-                int d = 2 - s;
-                if (partner != null) {
-                    partner.setTranslateX(Util.doubleToEven(l * ((2 - s) / 2.0 - 1)));
-                } else {
-                    d = 1 - s;
-                }
-                for (int i = 0; i < s; i++) {
-                    StoryButton button = storyButtons.get(i);
-                    button.setTranslateX(Util.doubleToEven(l * (i + (d) / 2.0)));
-                    if (button.unlocked && i + 1 < s) {
-                        storyButtons.get(i + 1).enable();
-                    }
-                }
-                updateLine();
+            int s = storyButtons.size();
+            int l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
+            int d = 2 - s;
+            if (partner != null) {
+                partner.setTranslateX(Util.doubleToEven(l * ((2 - s) / 2.0 - 1)));
+            } else {
+                d = 1 - s;
             }
+            for (int i = 0; i < s; i++) {
+                StoryButton button = storyButtons.get(i);
+                button.setTranslateX(Util.doubleToEven(l * (i + (d) / 2.0)));
+                   if (button.unlocked && i + 1 < s) {
+                       storyButtons.get(i + 1).enable();
+                   }
+            }
+            updateLine();
         }
 
-        //TODO
         public void updateLine() {
             long e = storyButtons.stream().filter(b -> b.enabled).count();
             int s = storyButtons.size();
@@ -175,7 +174,7 @@ public class ChapterPane extends StackPane {
             public static final int OUTER_GLOW_INTENSITY = 10;
             public static final int OUTER_GLOW_OFFSET = 10;
             public static final Color TRANSPARENT_BLACK = new Color(0, 0, 0, 0.5);
-            public static final int NEW_ICON_SIZE = Util.doubleToEven(SIDE_LENGTH / 3.0);
+            public static final int NEW_ICON_SIZE = Util.doubleToEven(SIDE_LENGTH / 3.0 * Util.SQRT_2);
             private static final Font FONT =
                     Resources.getFont(Resources.GeosansLight_FONT, DIAGONAL_LENGTH / 4.0);
             public static final DropShadow SHADOW = new DropShadow(
@@ -189,8 +188,7 @@ public class ChapterPane extends StackPane {
             private final ImageView neo = new ImageView(Resources.NEW_ICON);
             private final StoryButtonPane parent = StoryButtonPane.this;
             private final Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH, Color.WHITE);
-            private final Chart chart;
-            private final Partner partner;
+            private final EventHandler<? super MouseEvent> handler;
 
             public StoryButton(String title,
                                @NotNull String illustrationPath,
@@ -216,6 +214,7 @@ public class ChapterPane extends StackPane {
                 lockBg.setMouseTransparent(true);
 
                 neo.setPreserveRatio(true);
+                neo.setRotate(-45);
                 neo.setFitWidth(NEW_ICON_SIZE);
                 neo.setTranslateY(Util.doubleToEven(-SIDE_LENGTH * 7 / 12.0));
                 neo.setMouseTransparent(true);
@@ -240,14 +239,16 @@ public class ChapterPane extends StackPane {
                 setOpacity(LOWEST_BRIGHTNESS);
                 setMaxSize(0, 0);
                 setRotate(45);
-                setMouseTransparent(false);
                 getChildren().addAll(border, view, lockBg, lock);
-                this.chart = chart;
-                if (this.chart == null) {
-                    unlock();
-                    this.partner = null;
+
+                if (chart != null) {
+                    if (partner != null) {
+                        handler = _ -> Util.CONDITION_DISPLAYER.display(parent.parent, chart, partner);
+                    } else {
+                        handler = _ -> Util.CONDITION_DISPLAYER.display(parent.parent, chart);
+                    }
                 } else {
-                    this.partner = partner;
+                    handler = null;
                 }
 
                 boolean[] withCg = {false};
@@ -270,9 +271,10 @@ public class ChapterPane extends StackPane {
                 });
 
                 if (withCg[0]) {
-                    ImageView star = new ImageView(Resources.Init_ILLUSTRATION);
+                    ImageView star = new ImageView(Resources.STAR);
+                    star.setRotate(-45);
                     star.setPreserveRatio(true);
-                    star.setFitWidth(Util.doubleToEven(SIDE_LENGTH / 4.0));
+                    star.setFitWidth(Util.doubleToEven(SIDE_LENGTH / 4.0 * Util.SQRT_2));
                     star.setTranslateX(Util.doubleToEven(SIDE_LENGTH * 2 / 7.0));
                     star.setTranslateY(Util.doubleToEven(SIDE_LENGTH * 2 / 7.0));
                     star.setMouseTransparent(true);
@@ -289,14 +291,10 @@ public class ChapterPane extends StackPane {
             private void enable() {
                 if (!enabled) {
                     setOpacity(1);
-                    if (chart != null) {
-                        if (partner != null) {
-                            border.setOnMouseClicked(_ ->
-                                    Util.CONDITION_DISPLAYER.display(parent.parent, chart, partner));
-                        } else {
-                            border.setOnMouseClicked(_ ->
-                                    Util.CONDITION_DISPLAYER.display(parent.parent, chart));
-                        }
+                    if (handler != null) {
+                        border.setOnMouseClicked(handler);
+                    } else {
+                        unlock();
                     }
                     parent.updateLine();
                     enabled = true;
@@ -305,7 +303,6 @@ public class ChapterPane extends StackPane {
 
             private void unlock() {
                 if (!unlocked) {
-                    enable();
                     border.setOnMouseClicked(_ -> {
                         Util.STORY_PLAYER.play(parent.parent, items);
                         getChildren().remove(neo);

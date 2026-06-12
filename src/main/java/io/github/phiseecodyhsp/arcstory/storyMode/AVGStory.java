@@ -1,6 +1,7 @@
 package io.github.phiseecodyhsp.arcstory.storyMode;
 
 import io.github.phiseecodyhsp.arcstory.SetStage;
+import io.github.phiseecodyhsp.arcstory.Loading;
 import javafx.scene.layout.StackPane;
 
 //TODO
@@ -9,6 +10,6 @@ public class AVGStory extends StackPane {
     }
 
     public void play(SetStage stage) {
-        stage.switchPane(SetStage.TransitionAnimation.Type.NORMAL, this);
+        stage.switchPane(Loading.Type.NORMAL, this);
     }
 }

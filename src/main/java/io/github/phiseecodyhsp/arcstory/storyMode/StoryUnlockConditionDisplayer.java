@@ -1,6 +1,6 @@
 package io.github.phiseecodyhsp.arcstory.storyMode;
 
-import io.github.phiseecodyhsp.arcstory.SetStage;
+import io.github.phiseecodyhsp.arcstory.Loading;
 import io.github.phiseecodyhsp.arcstory.Util;
 import io.github.phiseecodyhsp.arcstory.storage.Chart;
 import io.github.phiseecodyhsp.arcstory.storage.Partner;
@@ -98,7 +98,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
                         @NotNull Chart.Paradigms paradigms) {
         parent.getChildren().add(this);
 
-        bg.setImage(new Image(Resources.SUCV_BG0));
+        bg.setImage(new Image(Resources.SUC_BG0));
 
         condition.setText("通关“" + music + "”以解锁此故事。");
         condition.setTranslateY(Util.doubleToEven((Util.doubleToEven(BG_HEIGHT - ILLUSTRATION_WIDTH) / 2.0)));
@@ -107,7 +107,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         illustration.setTranslateY(
                 Util.doubleToEven(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 3 / 2.0)));
         illustration.setOnMouseClicked(_ -> {
-            Util.getSetStage(this).playChart(SetStage.TransitionAnimation.Type.NORMAL,
+            Util.getSetStage(this).playChart(Loading.Type.NORMAL,
                     music,
                     composer,
                     illustrationPath,
@@ -153,7 +153,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
 
         setPaneImage(this.partner, 1, partnerPath);
 
-        bg.setImage(new Image(Resources.SUCV_BG1));
+        bg.setImage(new Image(Resources.SUC_BG1));
 
         condition.setText("使用搭档“" + partner + "”通关“" + music + "”以解锁此故事。");
         condition.setTranslateY(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH / 4.0));
@@ -161,7 +161,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         illustration.setImage(new Image(illustrationPath));
         illustration.setTranslateY(Util.doubleToEven(ILLUSTRATION_WIDTH - BG_HEIGHT / 2.0));
         illustration.setOnMouseClicked(_ -> {
-            Util.getSetStage(this).playChart(SetStage.TransitionAnimation.Type.NORMAL,
+            Util.getSetStage(this).playChart(Loading.Type.NORMAL,
                     music,
                     composer,
                     illustrationPath,

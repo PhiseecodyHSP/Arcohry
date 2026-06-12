@@ -1,0 +1,10 @@
+[
+    { "type": "text", "path": "texts/A2_1.txt" },
+    { "type": "cg", "path": "images/school.jpeg" },
+    { "type": "text", "path": "texts/A2_2.txt" },
+    { "type": "text", "path": "texts/A2_3.txt" },
+    { "type": "cg", "path": "images/1-1.jpg" },
+    { "type": "text", "path": "texts/A2_4.txt" },
+    { "type": "cg", "path": "images/skipping.png" },
+    { "type": "text", "path": "texts/A2_5.txt" }
+]

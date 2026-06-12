@@ -56,6 +56,7 @@ public class StoryPlayer extends StackPane {
     private final Timeline onCgAdded;
 
     private ChapterPane parent;
+    private int lastPlayed;
     private int currentlyPlaying;
 
     public StoryPlayer() {
@@ -125,11 +126,13 @@ public class StoryPlayer extends StackPane {
         });
         getChildren().clear();
         setOpacity(1);
+        lastPlayed = -1;
         currentlyPlaying = 0;
         play(currentlyPlaying);
     }
 
     private void playNext() {
+        lastPlayed = currentlyPlaying;
         currentlyPlaying++;
         if (currentlyPlaying < items.size()) {
             play(currentlyPlaying);
@@ -141,6 +144,7 @@ public class StoryPlayer extends StackPane {
     }
 
     private void playLast() {
+        lastPlayed = currentlyPlaying;
         currentlyPlaying--;
         play(currentlyPlaying);
     }
@@ -152,7 +156,7 @@ public class StoryPlayer extends StackPane {
             this.parent.getInnerPane().setEffect(null);
         }
         if (!item.isText()) {
-            if (num != 0 && !items.get(num - 1).isText()) {
+            if (lastPlayed >= 0 && !items.get(lastPlayed).isText()) {
                 lastCg.setImage(currentCg.getImage());
                 entopAll(lastCg);
             }
@@ -168,13 +172,13 @@ public class StoryPlayer extends StackPane {
             onCgAdded.playFromStart();
         } else {
             textPlayer.clear();
-            if (num == 0) {
+            if (lastPlayed < 0) {
                 getChildren().add(textPane);
                 shadow.setOnMouseClicked(null);
                 onShadowAdded.playFromStart();
                 onShadowAdded.setOnFinished(_ -> playText(item.path));
             } else {
-                if (items.get(num - 1).isText()) {
+                if (items.get(lastPlayed).isText()) {
                     playText(item.path);
                 } else {
                     entopAll(lastCg, textPane);
