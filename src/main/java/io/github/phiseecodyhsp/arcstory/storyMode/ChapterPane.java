@@ -127,10 +127,9 @@ public class ChapterPane extends StackPane {
                        storyButtons.get(i + 1).enable();
                    }
             }
-            updateLine();
         }
 
-        public void updateLine() {
+        private void updateLine() {
             long e = storyButtons.stream().filter(b -> b.enabled).count();
             int s = storyButtons.size();
             double l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
@@ -308,6 +307,10 @@ public class ChapterPane extends StackPane {
                         getChildren().remove(neo);
                         border.setOnMouseClicked(_ -> Util.STORY_PLAYER.play(parent.parent, items));
                     });
+                    int i = parent.storyButtons.indexOf(this) + 1;
+                    if (i < parent.storyButtons.size()) {
+                        parent.storyButtons.get(i).enable();
+                    }
                     getChildren().remove(lock);
                     getChildren().addAll(label, neo);
                     unlocked = true;
