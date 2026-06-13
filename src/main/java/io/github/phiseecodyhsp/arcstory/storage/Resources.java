@@ -38,9 +38,9 @@ public final class Resources {
     public static final String STORYA6;
     public static final String STORYAE;
 
-    public static final AudioClip START_SOUND;
-    public static final AudioClip TRANSANIMA_STRAT_SOUND;
-    public static final AudioClip TRANSANIMA_END_SOUND;
+    public static final String START_SOUND;
+    public static final String TRANSANIMA_STRAT_SOUND;
+    public static final String TRANSANIMA_END_SOUND;
 
     static {
         GeosansLight_FONT = "fonts/GeosansLight.ttf";
@@ -72,9 +72,9 @@ public final class Resources {
         STORYA6 = "stories/A6.json";
         STORYAE = "stories/AE.json";
 
-        START_SOUND = ofClip("audios/START.mp3");
-        TRANSANIMA_STRAT_SOUND = ofClip("audios/转场开始.mp3");
-        TRANSANIMA_END_SOUND = ofClip("audios/转场结束.mp3");
+        START_SOUND = "audios/START.mp3";
+        TRANSANIMA_STRAT_SOUND = "audios/转场开始.mp3";
+        TRANSANIMA_END_SOUND = "audios/转场结束.mp3";
     }
 
     public static String ofString(String path) {
@@ -89,8 +89,8 @@ public final class Resources {
         throw new IllegalArgumentException("Path '" + path + "' is invalid");
     }
 
-    private static AudioClip ofClip(String path) {
-        return new AudioClip(ofString(path));
+    public static void playAudio(String path) {
+        new AudioClip(ofString(path)).play();
     }
 
     public static Font getFont(String path, double px) {

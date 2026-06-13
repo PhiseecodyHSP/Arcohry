@@ -92,7 +92,7 @@ public class Loading extends StackPane {
             onRRemoved.playFromStart();
             onIllustrationRemoved.playFromStart();
             onPaneRemoved.playFromStart();
-            Resources.TRANSANIMA_END_SOUND.play();
+            Resources.playAudio(Resources.TRANSANIMA_END_SOUND);
         });
 
         musicName.setTextFill(Color.WHITE);
@@ -120,14 +120,14 @@ public class Loading extends StackPane {
             onRAdded.stop();
             onLRemoved.playFromStart();
             onRRemoved.playFromStart();
-            Resources.TRANSANIMA_END_SOUND.play();
+            Resources.playAudio(Resources.TRANSANIMA_END_SOUND);
             pane.getChildren().set(0, newNode);
         });
         onLRemoved.stop();
         onRRemoved.stop();
         onLAdded.playFromStart();
         onRAdded.playFromStart();
-        Resources.TRANSANIMA_STRAT_SOUND.play();
+        Resources.playAudio(Resources.TRANSANIMA_STRAT_SOUND);
 
         getChildren().clear();
         getChildren().addAll(left, right);
@@ -164,7 +164,7 @@ public class Loading extends StackPane {
         onLabelPaneAdded.playFromStart();
         onIllustrationAdded.playFromStart();
         onPaneAdded.playFromStart();
-        Resources.TRANSANIMA_STRAT_SOUND.play();
+        Resources.playAudio(Resources.START_SOUND);
 
         labelPane.getChildren().clear();
         labelPane.getChildren().addAll(

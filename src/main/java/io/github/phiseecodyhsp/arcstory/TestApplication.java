@@ -6,6 +6,7 @@ import io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.*;
 import io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButtonPane.*;
 import javafx.application.Application;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 public class TestApplication extends Application {
@@ -76,7 +77,10 @@ public class TestApplication extends Application {
         view.setPreserveRatio(true);
         view.setFitWidth(Util.PRIMARY_SCREEN_WIDTH);
         SetStage setStage = new SetStage(view);
-        view.setOnMouseClicked(_ -> setStage.transitionNode(chapterPane));
+        view.setOnMouseClicked(_ -> {
+            setStage.transitionNode(chapterPane);
+            new AudioClip(Resources.ofString("audios/START.mp3")).play();
+        });
         BACK.setBorderOnMouseClicked(_ -> setStage.transitionBack());
         VIDEO.setBorderOnMouseClicked(_ -> getHostServices().showDocument(
                 "https://www.bilibili.com/video/BV1iCpozfE8w"));
