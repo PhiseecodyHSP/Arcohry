@@ -129,12 +129,20 @@ public class ChapterPane extends StackPane {
             }
         }
 
+        /**
+         * 更新按钮之间的连线.
+         *
+         * <p>{@link #lightLine} 表示不透明的白色连线, 其只有一条并直接穿过多个按钮.
+         * {@code darkLine} 表示透明的白色连线, 由于禁用的按钮也是透明的,
+         * 其被设计为多条, 并只存在于两个按钮之间.
+         */
         public void updateLine() {
             long enabledCount = storyButtons.stream().filter(b -> b.enabled).count();
             int totalCount = storyButtons.size();
             double w = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
             long disabledCount = totalCount - enabledCount;
 
+            // 暗线数量小于禁用按钮数量时添加更多暗线
             while (darkLineCount < disabledCount) {
                 darkLineCount++;
                 Rectangle darkLine = new Rectangle(
@@ -142,11 +150,14 @@ public class ChapterPane extends StackPane {
                 darkLine.setOpacity(StoryButton.LOWEST_BRIGHTNESS);
                 getChildren().addFirst(darkLine);
             }
+
+            // 大于的情况, 两个 while 实际上包括了不同的分支判断
             while (darkLineCount > disabledCount) {
                 darkLineCount--;
                 getChildren().removeFirst();
             }
 
+            // Partner 算作一个按钮
             if (partner != null) {
                 enabledCount++;
                 totalCount++;
@@ -283,6 +294,11 @@ public class ChapterPane extends StackPane {
                 parent.addAll(this);
             }
 
+            @Override
+            public String toString() {
+                return getClass().getSimpleName() + "'" + label.getText() + "'";
+            }
+
             public boolean isNew() {
                 return getChildren().contains(neo);
             }
@@ -315,6 +331,10 @@ public class ChapterPane extends StackPane {
                     getChildren().addAll(label, neo);
                     unlocked = true;
                 }
+            }
+
+            public void setBorderOnMouseClicked(EventHandler<? super MouseEvent> handler) {
+                border.setOnMouseClicked(handler);
             }
         }
     }

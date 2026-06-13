@@ -15,6 +15,7 @@ public class TestApplication extends Application {
         ChapterPane chapterPane = new ChapterPane(Resources.CHAPTER5_SCENERY);
 
         StoryButtonPane buttonPane1 = chapterPane.new StoryButtonPane((String) null, null);
+        StoryButtonPane buttonPane2 = chapterPane.new StoryButtonPane((String) null, null);
 
         StoryButton A1 = buttonPane1.new StoryButton(
                 "A1",
@@ -58,12 +59,27 @@ public class TestApplication extends Application {
                 Resources.STORYAE,
                 null,
                 null);
+        StoryButton BACK = buttonPane2.new StoryButton(
+                "BACK",
+                Resources.Tutorial_ILLUSTRTION,
+                Resources.STORYAE,
+                null,
+                null);
+        StoryButton VIDEO = buttonPane2.new StoryButton(
+                "VIDEO",
+                Resources.Tutorial_ILLUSTRTION,
+                Resources.STORYAE,
+                null,
+                null);
 
         ImageView view = new ImageView(Resources.COVER);
         view.setPreserveRatio(true);
         view.setFitWidth(Util.PRIMARY_SCREEN_WIDTH);
         SetStage setStage = new SetStage(view);
-        view.setOnMouseClicked(_ -> setStage.switchPane(chapterPane));
+        view.setOnMouseClicked(_ -> setStage.transitionNode(chapterPane));
+        BACK.setBorderOnMouseClicked(_ -> setStage.transitionBack());
+        VIDEO.setBorderOnMouseClicked(_ -> getHostServices().showDocument(
+                "https://www.bilibili.com/video/BV1iCpozfE8w"));
         setStage.show();
     }
 }

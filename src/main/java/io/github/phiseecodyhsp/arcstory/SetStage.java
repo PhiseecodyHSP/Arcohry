@@ -51,15 +51,13 @@ public class SetStage extends Stage {
         root.setScaleY(scale);
     }
 
-    public void switchPane(Loading.Type type, Node newNode) {
+    public void switchNode(Loading.Type type, Node newNode) {
         loading.play(root, type, newNode);
         lastNode = currentNode;
         currentNode = newNode;
     }
 
-    public void switchPane(Node newNode) {
-        FadeTransition ft1 = new FadeTransition(Duration.seconds(Loading.TRANS_TIME), currentNode);
-        FadeTransition ft2 = new FadeTransition(Duration.seconds(Loading.TRANS_TIME), newNode);
+    public void switchNode(Node newNode) {
         ft1.setToValue(0);
         ft1.setOnFinished(_ -> {
             root.getChildren().set(0, newNode);
@@ -77,15 +75,15 @@ public class SetStage extends Stage {
         currentNode = newNode;
     }
 
-    public void back(Loading.Type type) {
+    public void switchBack(Loading.Type type) {
         if (lastNode != null) {
-            switchPane(type, lastNode);
+            switchNode(type, lastNode);
         }
     }
 
-    public void back() {
+    public void switchBack() {
         if (lastNode != null) {
-            switchPane(lastNode);
+            switchNode(lastNode);
         }
     }
 

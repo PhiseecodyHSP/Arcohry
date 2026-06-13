@@ -10,6 +10,6 @@ public class AVGStory extends StackPane {
     }
 
     public void play(SetStage stage) {
-        stage.switchPane(Loading.Type.NORMAL, this);
+        stage.switchNode(Loading.Type.NORMAL, this);
     }
 }

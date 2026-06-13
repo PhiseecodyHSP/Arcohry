@@ -32,7 +32,7 @@ public class PotentialCalculator extends StackPane {
         acc.setMaxSize(400, 40);
 
         RectangleButton button = new RectangleButton(100, 50, Color.WHITE, Color.GRAY, "BACK");
-        button.setOnMouseClicked(_ -> Util.getSetStage(this).back());
+        button.setOnMouseClicked(_ -> Util.getSetStage(this).switchBack());
         getChildren().addAll(button, rating, acc);
     }
 

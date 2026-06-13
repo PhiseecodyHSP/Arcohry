@@ -59,6 +59,7 @@ public class StoryPlayer extends StackPane {
     private int lastPlayed;
     private int currentlyPlaying;
 
+    //TODO: Partner and buttons
     public StoryPlayer() {
         lastCg.setPreserveRatio(true);
         lastCg.setFitWidth(FIT_WIDTH);
@@ -171,7 +172,6 @@ public class StoryPlayer extends StackPane {
             entopAll(currentCg, sweepLine);
             onCgAdded.playFromStart();
         } else {
-            textPlayer.clear();
             if (lastPlayed < 0) {
                 getChildren().add(textPane);
                 shadow.setOnMouseClicked(null);
@@ -180,6 +180,7 @@ public class StoryPlayer extends StackPane {
             } else {
                 if (items.get(lastPlayed).isText()) {
                     playText(item.path);
+                    //TODO: 在此处启用playLast()
                 } else {
                     entopAll(lastCg, textPane);
                     lastCg.setImage(currentCg.getImage());
@@ -280,7 +281,10 @@ public class StoryPlayer extends StackPane {
             }));
             timeline.setCycleCount(s);
             timeline.setOnFinished(_ ->
-                    shadow.setOnMouseClicked(_ -> StoryPlayer.this.playNext()));
+                    shadow.setOnMouseClicked(_ -> {
+                        clear();
+                        StoryPlayer.this.playNext();
+                    }));
             timeline.play();
 
             shadow.setOnMouseClicked(_ -> {
@@ -292,7 +296,10 @@ public class StoryPlayer extends StackPane {
                     t.setFill(Color.WHITE);
                 }
                 requestLayout();
-                shadow.setOnMouseClicked(_ -> StoryPlayer.this.playNext());
+                shadow.setOnMouseClicked(_ -> {
+                    clear();
+                    StoryPlayer.this.playNext();
+                });
             });
         }
 
