@@ -51,6 +51,35 @@ public class SetStage extends Stage {
         root.setScaleY(scale);
     }
 
+    public void transitionNode(Node newNode) {
+        lastNode = currentNode;
+        currentNode = newNode;
+
+        FadeTransition ft1 = new FadeTransition(Duration.seconds(Loading.TRANS_TIME), lastNode);
+        FadeTransition ft2 = new FadeTransition(Duration.seconds(Loading.TRANS_TIME), currentNode);
+
+        ft1.setToValue(0);
+        ft2.setToValue(1);
+        ft2.setOnFinished(_ -> {
+            root.getChildren().remove(lastNode);
+            lastNode.setMouseTransparent(false);
+            currentNode.setMouseTransparent(false);
+        });
+
+        lastNode.setMouseTransparent(true);
+        currentNode.setMouseTransparent(true);
+        currentNode.setOpacity(0);
+        root.getChildren().add(currentNode);
+        ft1.playFromStart();
+        ft2.playFromStart();
+    }
+
+    public void transitionBack() {
+        if (lastNode != null) {
+            transitionNode(lastNode);
+        }
+    }
+
     public void switchNode(Loading.Type type, Node newNode) {
         loading.play(root, type, newNode);
         lastNode = currentNode;
