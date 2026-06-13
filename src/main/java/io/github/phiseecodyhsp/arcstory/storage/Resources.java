@@ -89,7 +89,7 @@ public final class Resources {
         throw new IllegalArgumentException("Path '" + path + "' is invalid");
     }
 
-    public static void playAudio(String path) {
+    public static void playSound(String path) {
         new AudioClip(ofString(path)).play();
     }
 
