@@ -39,8 +39,9 @@ public final class Resources {
     public static final String STORYAE;
 
     public static final String START_SOUND;
-    public static final String TRANSANIMA_STRAT_SOUND;
-    public static final String TRANSANIMA_END_SOUND;
+    public static final String LOADING_START_SOUND;
+    public static final String LOADING_END_SOUND;
+    public static final String STORY_MODE_BGM;
 
     static {
         GeosansLight_FONT = "fonts/GeosansLight.ttf";
@@ -72,9 +73,13 @@ public final class Resources {
         STORYA6 = "stories/A6.json";
         STORYAE = "stories/AE.json";
 
-        START_SOUND = "audios/START.mp3";
-        TRANSANIMA_STRAT_SOUND = "audios/转场开始.mp3";
-        TRANSANIMA_END_SOUND = "audios/转场结束.mp3";
+        START_SOUND = ofString("audios/START.mp3");
+
+        //TODO: 这两个音效无法播放
+        LOADING_START_SOUND = ofString("audios/LoadingStart.mp3");
+        LOADING_END_SOUND = ofString("audios/LoadingEnd.mp3");
+
+        STORY_MODE_BGM = ofString("audios/故事模式BGM.wav");
     }
 
     public static String ofString(String path) {
@@ -90,7 +95,7 @@ public final class Resources {
     }
 
     public static void playSound(String path) {
-        new AudioClip(ofString(path)).play();
+        new AudioClip(path).play();
     }
 
     public static Font getFont(String path, double px) {

@@ -1,15 +1,23 @@
 package io.github.phiseecodyhsp.arcstory;
 
 import io.github.phiseecodyhsp.arcstory.storage.Chart;
+import io.github.phiseecodyhsp.arcstory.storage.Resources;
+import io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane;
+import io.github.phiseecodyhsp.arcstory.storyMode.ChapterSelectionPane;
 import javafx.animation.*;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class SetStage extends Stage {
     public static final double WIDTH = (int) Util.PRIMARY_SCREEN_WIDTH / 2.0;
@@ -17,6 +25,8 @@ public class SetStage extends Stage {
 
     private Node lastNode;
     private Node currentNode;
+    private MediaPlayer bgmPlayer;
+
     private final StackPane root = new StackPane();
     private final Scene scene = new Scene(root);
     private final Loading loading = new Loading();
@@ -72,11 +82,13 @@ public class SetStage extends Stage {
         root.getChildren().add(currentNode);
         ft1.playFromStart();
         ft2.playFromStart();
+        checkBgm();
     }
 
     public void transitionBack() {
         if (lastNode != null) {
             transitionNode(lastNode);
+            checkBgm();
         }
     }
 
@@ -105,6 +117,7 @@ public class SetStage extends Stage {
 
         lastNode.setMouseTransparent(true);
         ft1.playFromStart();
+        checkBgm();
     }
 
     public void switchBack(Loading.Type type) {
@@ -116,6 +129,7 @@ public class SetStage extends Stage {
     public void switchBack() {
         if (lastNode != null) {
             switchNode(lastNode);
+            checkBgm();
         }
     }
 
@@ -137,5 +151,27 @@ public class SetStage extends Stage {
                 chart.illustrator,
                 chart.noteDesigner,
                 chart.paradigms);
+    }
+
+    public void checkBgm() {
+        if (currentNode instanceof ChapterSelectionPane || currentNode instanceof ChapterPane) {
+            if (bgmPlayer == null || bgmPlayer.getStatus() == MediaPlayer.Status.STOPPED) {
+                playBgm(Resources.STORY_MODE_BGM);
+            } else {
+                if (!Objects.equals(bgmPlayer.getMedia().getSource(), Resources.STORY_MODE_BGM)) {
+                    bgmPlayer.stop();
+                    playBgm(Resources.STORY_MODE_BGM);
+                }
+            }
+        } else {
+            bgmPlayer.stop();
+        }
+    }
+
+    private void playBgm(String path) {
+        bgmPlayer = new MediaPlayer(new Media(path));
+        bgmPlayer.setCycleCount(AudioClip.INDEFINITE);
+        bgmPlayer.setVolume(0.2D);
+        bgmPlayer.play();
     }
 }

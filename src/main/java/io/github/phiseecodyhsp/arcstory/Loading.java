@@ -62,7 +62,6 @@ public class Loading extends StackPane {
         illustrationView.setFitHeight(ILLUSTRATION_SIZE);
         paradigms.setOpacity(PARADIGMS_OPACITY);
 
-        onLRemoved.setOnFinished(_ -> pane.getChildren().remove(this));
         onLAdded.setInterpolator(Util.EASE_IN);
         onLRemoved.setInterpolator(Util.EASE_OUT);
         onRAdded.setInterpolator(Util.EASE_IN);
@@ -92,7 +91,7 @@ public class Loading extends StackPane {
             onRRemoved.playFromStart();
             onIllustrationRemoved.playFromStart();
             onPaneRemoved.playFromStart();
-            Resources.playSound(Resources.TRANSANIMA_END_SOUND);
+            Resources.playSound(Resources.LOADING_END_SOUND);
         });
 
         musicName.setTextFill(Color.WHITE);
@@ -120,14 +119,18 @@ public class Loading extends StackPane {
             onRAdded.stop();
             onLRemoved.playFromStart();
             onRRemoved.playFromStart();
-            Resources.playSound(Resources.TRANSANIMA_END_SOUND);
+            Resources.playSound(Resources.LOADING_END_SOUND);
             pane.getChildren().set(0, newNode);
+            try {
+                Util.getSetStage(pane).checkBgm();
+            } catch (IllegalStateException _) {}
         });
+        onLRemoved.setOnFinished(_ -> pane.getChildren().remove(this));
         onLRemoved.stop();
         onRRemoved.stop();
         onLAdded.playFromStart();
         onRAdded.playFromStart();
-        Resources.playSound(Resources.TRANSANIMA_STRAT_SOUND);
+        Resources.playSound(Resources.LOADING_START_SOUND);
 
         getChildren().clear();
         getChildren().addAll(left, right);
@@ -155,6 +158,7 @@ public class Loading extends StackPane {
             DELAY.stop();
             DELAY.playFromStart();
         });
+        onLRemoved.setOnFinished(_ -> pane.getChildren().remove(this));
         onLRemoved.stop();
         onRRemoved.stop();
         onIllustrationRemoved.stop();
