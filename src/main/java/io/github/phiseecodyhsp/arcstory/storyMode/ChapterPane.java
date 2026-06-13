@@ -129,32 +129,32 @@ public class ChapterPane extends StackPane {
             }
         }
 
-        private void updateLine() {
-            long e = storyButtons.stream().filter(b -> b.enabled).count();
-            int s = storyButtons.size();
-            double l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
-            long d = s - e;
+        public void updateLine() {
+            long enabledCount = storyButtons.stream().filter(b -> b.enabled).count();
+            int totalCount = storyButtons.size();
+            double w = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
+            long disabledCount = totalCount - enabledCount;
 
-            while (darkLineCount < d) {
+            while (darkLineCount < disabledCount) {
                 darkLineCount++;
                 Rectangle darkLine = new Rectangle(
                         StoryButton.SIDE_LENGTH + 7, StoryButton.BORDER_WIDTH, Color.WHITE);
                 darkLine.setOpacity(StoryButton.LOWEST_BRIGHTNESS);
                 getChildren().addFirst(darkLine);
             }
-            while (darkLineCount > d) {
+            while (darkLineCount > disabledCount) {
                 darkLineCount--;
                 getChildren().removeFirst();
             }
 
             if (partner != null) {
-                e++;
-                s++;
+                enabledCount++;
+                totalCount++;
             }
-            lightLine.setWidth(l * (e - 1));
-            lightLine.setTranslateX(Util.doubleToEven(l * (e - s) / 2.0));
+            lightLine.setWidth(w * (enabledCount - 1));
+            lightLine.setTranslateX(Util.doubleToEven(w * (enabledCount - totalCount) / 2.0));
             for (int i = 0; i < darkLineCount; i++) {
-                getChildren().get(i).setTranslateX(Util.doubleToEven(l * (e + i - s / 2.0)));
+                getChildren().get(i).setTranslateX(Util.doubleToEven(w * (enabledCount + i - totalCount / 2.0)));
             }
         }
 
