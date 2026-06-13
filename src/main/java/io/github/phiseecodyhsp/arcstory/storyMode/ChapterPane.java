@@ -295,8 +295,8 @@ public class ChapterPane extends StackPane {
                     } else {
                         unlock();
                     }
-                    parent.updateLine();
                     enabled = true;
+                    parent.updateLine();
                 }
             }
 
