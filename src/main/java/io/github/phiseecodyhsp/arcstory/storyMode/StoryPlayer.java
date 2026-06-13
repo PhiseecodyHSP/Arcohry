@@ -159,7 +159,7 @@ public class StoryPlayer extends StackPane {
         if (!item.isText()) {
             if (lastPlayed >= 0 && !items.get(lastPlayed).isText()) {
                 lastCg.setImage(currentCg.getImage());
-                entopAll(lastCg);
+                allToTop(lastCg);
             }
             Image image = new Image(Resources.ofString(item.path));
             currentCg.setImage(image);
@@ -169,7 +169,7 @@ public class StoryPlayer extends StackPane {
             clipper.setTranslateY((h - Util.PRIMARY_SCREEN_HEIGHT) / 2);
 
             shadow.setOnMouseClicked(null);
-            entopAll(currentCg, sweepLine);
+            allToTop(currentCg, sweepLine);
             onCgAdded.playFromStart();
         } else {
             if (lastPlayed < 0) {
@@ -182,7 +182,7 @@ public class StoryPlayer extends StackPane {
                     playText(item.path);
                     //TODO: 在此处启用playLast()
                 } else {
-                    entopAll(lastCg, textPane);
+                    allToTop(lastCg, textPane);
                     lastCg.setImage(currentCg.getImage());
                     shadow.setOnMouseClicked(null);
                     onShadowAdded.playFromStart();
@@ -200,7 +200,7 @@ public class StoryPlayer extends StackPane {
         }
     }
 
-    private void entopAll(Node... nodes) {
+    private void allToTop(Node... nodes) {
         getChildren().removeAll(nodes);
         getChildren().addAll(nodes);
     }

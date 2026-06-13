@@ -171,7 +171,7 @@ public class SetStage extends Stage {
     private void playBgm(String path) {
         bgmPlayer = new MediaPlayer(new Media(path));
         bgmPlayer.setCycleCount(AudioClip.INDEFINITE);
-        bgmPlayer.setVolume(0.2D);
+        bgmPlayer.setVolume(0.2);
         bgmPlayer.play();
     }
 }
