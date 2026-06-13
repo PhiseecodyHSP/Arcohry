@@ -58,21 +58,24 @@ public class SetStage extends Stage {
     }
 
     public void switchNode(Node newNode) {
-        ft1.setToValue(0);
-        ft1.setOnFinished(_ -> {
-            root.getChildren().set(0, newNode);
-            ft2.stop();
-            ft2.playFromStart();
-            currentNode.setMouseTransparent(false);
-        });
-        ft2.setFromValue(0);
-        ft2.setToValue(1);
-        ft1.stop();
-        ft1.playFromStart();
-
-        currentNode.setMouseTransparent(true);
         lastNode = currentNode;
         currentNode = newNode;
+
+        FadeTransition ft1 = new FadeTransition(Duration.seconds(Loading.TRANS_TIME), lastNode);
+        FadeTransition ft2 = new FadeTransition(Duration.seconds(Loading.TRANS_TIME), currentNode);
+        ft1.setToValue(0);
+        ft1.setOnFinished(_ -> {
+            currentNode.setOpacity(0);
+            currentNode.setMouseTransparent(true);
+            root.getChildren().set(0, currentNode);
+            ft2.playFromStart();
+            lastNode.setMouseTransparent(false);
+        });
+        ft2.setToValue(1);
+        ft2.setOnFinished(_ -> currentNode.setMouseTransparent(false));
+
+        lastNode.setMouseTransparent(true);
+        ft1.playFromStart();
     }
 
     public void switchBack(Loading.Type type) {
