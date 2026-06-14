@@ -1,6 +1,6 @@
 package io.github.phiseecodyhsp.arcstory.storyMode;
 
-import io.github.phiseecodyhsp.arcstory.Loading;
+import io.github.phiseecodyhsp.arcstory.SetStage;
 import io.github.phiseecodyhsp.arcstory.Util;
 import io.github.phiseecodyhsp.arcstory.storage.Chart;
 import io.github.phiseecodyhsp.arcstory.storage.Partner;
@@ -106,7 +106,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         illustration.setTranslateY(
                 Util.doubleToEven(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 3 / 2.0)));
         illustration.setOnMouseClicked(_ -> {
-            Util.getSetStage(this).playChart(Loading.Type.NORMAL,
+            Util.getSetStage(this).playChart(SetStage.Loading.Type.NORMAL,
                     music,
                     composer,
                     illustrationPath,
@@ -160,7 +160,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         illustration.setImage(new Image(illustrationPath));
         illustration.setTranslateY(Util.doubleToEven(ILLUSTRATION_WIDTH - BG_HEIGHT / 2.0));
         illustration.setOnMouseClicked(_ -> {
-            Util.getSetStage(this).playChart(Loading.Type.NORMAL,
+            Util.getSetStage(this).playChart(SetStage.Loading.Type.NORMAL,
                     music,
                     composer,
                     illustrationPath,

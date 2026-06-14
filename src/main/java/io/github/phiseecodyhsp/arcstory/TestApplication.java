@@ -80,6 +80,5 @@ public class TestApplication extends Application {
         BACK.setBorderOnMouseClicked(_ -> setStage.transitionBack());
         VIDEO.setBorderOnMouseClicked(_ -> getHostServices().showDocument(
                 "https://www.bilibili.com/video/BV1iCpozfE8w"));
-        setStage.show();
     }
 }
