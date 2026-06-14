@@ -5,6 +5,7 @@ import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane;
 import io.github.phiseecodyhsp.arcstory.storyMode.ChapterSelectionPane;
 import javafx.animation.*;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -65,7 +66,6 @@ public class SetStage extends Stage {
                 scene.getHeight() / (Util.PRIMARY_SCREEN_HEIGHT));
         root.setScaleX(scale);
         root.setScaleY(scale);
-        System.out.println(currentNode.getOpacity());
     }
 
     public void transitionNode(Node newNode) {
@@ -90,23 +90,26 @@ public class SetStage extends Stage {
         root.getChildren().add(currentNode);
         ft1.playFromStart();
         ft2.playFromStart();
+
+        if (currentNode instanceof ChapterSelectionPane || currentNode instanceof ChapterPane) {
+            if (!isBgmPlaying()) {
+                playBgm(Resources.STORY_MODE_BGM);
+            } else {
+                if (!Objects.equals(bgmPlayer.getMedia().getSource(), Resources.STORY_MODE_BGM)) {
+                    bgmPlayer.stop();
+                    playBgm(Resources.STORY_MODE_BGM);
+                }
+            }
+        } else {
+            if (isBgmPlaying()) {
+                bgmPlayer.stop();
+            }
+        }
     }
 
     public void transitionBack() {
         if (lastNode != null) {
             transitionNode(lastNode);
-        }
-    }
-
-    public void switchNode(Loading.Type type, Node newNode) {
-        lastNode = currentNode;
-        currentNode = newNode;
-        loading.play(type);
-    }
-
-    public void switchBack(Loading.Type type) {
-        if (lastNode != null) {
-            switchNode(type, lastNode);
         }
     }
 
@@ -124,17 +127,35 @@ public class SetStage extends Stage {
             lastNode.setOpacity(1);
             ft2.playFromStart();
             lastNode.setMouseTransparent(false);
+            if (currentNode instanceof ChapterSelectionPane || currentNode instanceof ChapterPane) {
+                playBgm(Resources.STORY_MODE_BGM);
+            }
         });
         ft2.setToValue(1);
         ft2.setOnFinished(_ -> currentNode.setMouseTransparent(false));
 
         lastNode.setMouseTransparent(true);
         ft1.playFromStart();
+        if (isBgmPlaying()) {
+            bgmPlayer.stop();
+        }
     }
 
     public void switchBack() {
         if (lastNode != null) {
             switchNode(lastNode);
+        }
+    }
+
+    public void switchNode(Loading.Type type, Node newNode) {
+        lastNode = currentNode;
+        currentNode = newNode;
+        loading.play(type);
+    }
+
+    public void switchBack(Loading.Type type) {
+        if (lastNode != null) {
+            switchNode(type, lastNode);
         }
     }
 
@@ -158,22 +179,6 @@ public class SetStage extends Stage {
                 chart.paradigms);
     }
 
-    //TODO
-    public void checkBgm() {
-        if (currentNode instanceof ChapterSelectionPane || currentNode instanceof ChapterPane) {
-            if (bgmPlayer == null || bgmPlayer.getStatus() == MediaPlayer.Status.STOPPED) {
-                playBgm(Resources.STORY_MODE_BGM);
-            } else {
-                if (!Objects.equals(bgmPlayer.getMedia().getSource(), Resources.STORY_MODE_BGM)) {
-                    bgmPlayer.stop();
-                    playBgm(Resources.STORY_MODE_BGM);
-                }
-            }
-        } else {
-            bgmPlayer.stop();
-        }
-    }
-
     private void playBgm(String path) {
         bgmPlayer = new MediaPlayer(new Media(path));
         bgmPlayer.setCycleCount(AudioClip.INDEFINITE);
@@ -181,7 +186,10 @@ public class SetStage extends Stage {
         bgmPlayer.play();
     }
 
-    //TODO
+    private boolean isBgmPlaying() {
+        return bgmPlayer != null && bgmPlayer.getStatus() == MediaPlayer.Status.PLAYING;
+    }
+
     public class Loading extends StackPane {
         public static final double TRANS_TIME = 1;
         private static final int LABEL_DISPLACEMENT = 0;
@@ -226,15 +234,18 @@ public class SetStage extends Stage {
             illustrationView.setFitHeight(ILLUSTRATION_SIZE);
             paradigms.setOpacity(PARADIGMS_OPACITY);
 
+            StackPane.setAlignment(left, Pos.CENTER_LEFT);
+            StackPane.setAlignment(right, Pos.CENTER_RIGHT);
             onLAdded.setInterpolator(Util.EASE_IN);
             onLRemoved.setInterpolator(Util.EASE_OUT);
-            onRAdded.setInterpolator(Util.EASE_IN);
-            onRRemoved.setInterpolator(Util.EASE_OUT);
             onLRemoved.setOnFinished(_ -> {
                 lastNode.setMouseTransparent(false);
                 currentNode.setMouseTransparent(false);
                 root.getChildren().remove(this);
             });
+            onRAdded.setInterpolator(Util.EASE_IN);
+            onRRemoved.setInterpolator(Util.EASE_OUT);
+
 
             onLabelPaneAdded.setInterpolator(Util.EASE_IN);
 
@@ -251,11 +262,6 @@ public class SetStage extends Stage {
             onPaneRemoved.setToValue(0);
 
             DELAY.setOnFinished(_ -> {
-                onLAdded.stop();
-                onRAdded.stop();
-                onLabelPaneAdded.stop();
-                onIllustrationAdded.stop();
-                onPaneAdded.stop();
                 onLRemoved.playFromStart();
                 onRRemoved.playFromStart();
                 onIllustrationRemoved.playFromStart();
@@ -277,28 +283,28 @@ public class SetStage extends Stage {
             noteDesigner.setFont(FONT);
             musicName.setTextFill(Color.WHITE);
             musicName.setFont(FONT);
+
+            setMinSize(Util.PRIMARY_SCREEN_WIDTH, Util.PRIMARY_SCREEN_HEIGHT);
         }
 
+        //TODO
         private void play(@NotNull SetStage.Loading.Type type) {
             type.setImage(this);
+
+            Resources.playSound(Resources.LOADING_START_SOUND);
 
             lastNode.setMouseTransparent(true);
             currentNode.setMouseTransparent(true);
 
             root.getChildren().add(this);
             onLAdded.setOnFinished(_ -> {
-                onLAdded.stop();
-                onRAdded.stop();
+                Resources.playSound(Resources.LOADING_END_SOUND);
                 onLRemoved.playFromStart();
                 onRRemoved.playFromStart();
-                Resources.playSound(Resources.LOADING_END_SOUND);
                 root.getChildren().set(0, currentNode);
             });
-            onLRemoved.stop();
-            onRRemoved.stop();
             onLAdded.playFromStart();
             onRAdded.playFromStart();
-            Resources.playSound(Resources.LOADING_START_SOUND);
 
             getChildren().clear();
             getChildren().addAll(left, right);
@@ -313,6 +319,7 @@ public class SetStage extends Stage {
                          String noteDesigner,
                          @NotNull Chart.Paradigms paradigms) {
             type.setImage(this);
+            Resources.playSound(Resources.START_SOUND);
 
             this.musicName.setText(musicName);
             this.composer.setText(composer);
@@ -321,20 +328,12 @@ public class SetStage extends Stage {
             paradigms.setParadigms(this.paradigms);
 
             root.getChildren().add(this);
-            onLAdded.setOnFinished(_ -> {
-                DELAY.stop();
-                DELAY.playFromStart();
-            });
-            onLRemoved.stop();
-            onRRemoved.stop();
-            onIllustrationRemoved.stop();
-            onPaneRemoved.stop();
+            onLAdded.setOnFinished(_ -> DELAY.playFromStart());
             onLAdded.playFromStart();
             onRAdded.playFromStart();
             onLabelPaneAdded.playFromStart();
             onIllustrationAdded.playFromStart();
             onPaneAdded.playFromStart();
-            Resources.playSound(Resources.START_SOUND);
 
             labelPane.getChildren().clear();
             labelPane.getChildren().addAll(
@@ -365,16 +364,16 @@ public class SetStage extends Stage {
 
         //TODO: 素材替换
         public enum Type {
-            NORMAL(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-            COURSE(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-            GRIEVOUS(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-            FRACTURE(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-            TEMPESTISSIMO(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-            FINAL(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-            ARGHENA(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-            ALTER(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-            DESIGNANT(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R),
-            UNDYING(Resources.NORMAL_TRANSANIMA_L, Resources.NORMAL_TRANSANIMA_R);
+            NORMAL(Resources.NORMAL_LOADING_L, Resources.NORMAL_LOADING_R),
+            COURSE(Resources.NORMAL_LOADING_L, Resources.NORMAL_LOADING_R),
+            GRIEVOUS(Resources.NORMAL_LOADING_L, Resources.NORMAL_LOADING_R),
+            FRACTURE(Resources.NORMAL_LOADING_L, Resources.NORMAL_LOADING_R),
+            TEMPESTISSIMO(Resources.NORMAL_LOADING_L, Resources.NORMAL_LOADING_R),
+            FINAL(Resources.NORMAL_LOADING_L, Resources.NORMAL_LOADING_R),
+            ARGHENA(Resources.NORMAL_LOADING_L, Resources.NORMAL_LOADING_R),
+            ALTER(Resources.NORMAL_LOADING_L, Resources.NORMAL_LOADING_R),
+            DESIGNANT(Resources.NORMAL_LOADING_L, Resources.NORMAL_LOADING_R),
+            UNDYING(Resources.NORMAL_LOADING_L, Resources.NORMAL_LOADING_R);
 
             private final String leftImagePath;
             private final String rightImagePath;

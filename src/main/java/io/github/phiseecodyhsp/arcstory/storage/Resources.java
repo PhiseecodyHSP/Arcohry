@@ -23,8 +23,8 @@ public final class Resources {
     public static final String Tairitsu_AWAKEN_AVATAR;
     public static final String SUC_BG0;
     public static final String SUC_BG1;
-    public static final String NORMAL_TRANSANIMA_L;
-    public static final String NORMAL_TRANSANIMA_R;
+    public static final String NORMAL_LOADING_L;
+    public static final String NORMAL_LOADING_R;
     public static final String TRANSANIMA_SHADOW;
     public static final String COVER;
 
@@ -58,8 +58,8 @@ public final class Resources {
         Tairitsu_AWAKEN_AVATAR = ofString("images/Partner_1_awaken_icon.png");
         SUC_BG0 = ofString("images/未标题-1.png");
         SUC_BG1 = ofString("images/未标题-1.png");
-        NORMAL_TRANSANIMA_L = ofString("images/TransAnimaL_resized.png");
-        NORMAL_TRANSANIMA_R = ofString("images/TransAnimaR_resized.png");
+        NORMAL_LOADING_L = ofString("images/TransAnimaL_resized.png");
+        NORMAL_LOADING_R = ofString("images/TransAnimaR_resized.png");
         TRANSANIMA_SHADOW = ofString("images/TransAnimaL_resized.png");
         COVER = ofString("images/cover.png");
 

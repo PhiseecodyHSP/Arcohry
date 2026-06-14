@@ -128,10 +128,13 @@ public class ChapterPane extends StackPane {
                 button.setTranslateX(Util.doubleToEven(l * (i + (d) / 2.0)));
                    if (button.unlocked && i + 1 < s) {
                        storyButtons.get(i + 1).enable();
+                   } else {
+                       updateLine();
                    }
             }
         }
 
+        //TODO: 出于未知原因, 存在 darkLine 时父容器的排版会出问题
         /**
          * 更新按钮之间的连线.
          *
