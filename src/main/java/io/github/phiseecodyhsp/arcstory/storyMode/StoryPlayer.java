@@ -2,6 +2,7 @@ package io.github.phiseecodyhsp.arcstory.storyMode;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.phiseecodyhsp.arcstory.Util;
+import io.github.phiseecodyhsp.arcstory.storage.Partner;
 import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.animation.*;
 import javafx.scene.Node;
@@ -9,6 +10,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -50,7 +52,14 @@ public class StoryPlayer extends StackPane {
     private final ImageView currentCg = new ImageView();
     private final TextPlayer textPlayer = new TextPlayer();
     private final Rectangle shadow = new Rectangle(Util.PRIMARY_SCREEN_WIDTH, Util.PRIMARY_SCREEN_HEIGHT, Color.BLACK);
-    private final StackPane textPane = new StackPane(shadow, textPlayer);
+
+    //TODO
+    private final StackPane partnerAvatarPane = Partner.getAvatarPane(
+            Resources.Tairitsu_AWAKEN_AVATAR,
+            Util.doubleToEven(0 / 2.5 / Util.SQRT_2),
+            Color.WHITE, null);
+
+    private final StackPane textPane = new StackPane(shadow, textPlayer, partnerAvatarPane);
     private final FadeTransition onRemoved = new FadeTransition(Duration.seconds(TRANS_TIME * 2), this);
     private final FadeTransition onShadowAdded = new FadeTransition(Duration.seconds(TRANS_TIME), shadow);
     private final Timeline onCgAdded;
@@ -115,7 +124,7 @@ public class StoryPlayer extends StackPane {
         onRemoved.setToValue(0);
     }
 
-    public void play(ChapterPane parent, List<Item> items) {
+    public void play(ChapterPane parent, String partnerAvatarPath, List<Item> items) {
         this.parent = parent;
         this.items = items;
         this.parent.getChildren().add(this);
@@ -125,11 +134,27 @@ public class StoryPlayer extends StackPane {
             this.parent.getChildren().remove(this);
             this.parent = null;
         });
+
+        if (partnerAvatarPath != null) {
+            Util.setPaneLastImage(textPane, partnerAvatarPath);
+            allToTop(textPane, partnerAvatarPane);
+        } else {
+            textPane.getChildren().remove(partnerAvatarPane);
+        }
+
         getChildren().clear();
         setOpacity(1);
         lastPlayed = -1;
         currentlyPlaying = 0;
         play(currentlyPlaying);
+    }
+
+    public void play(ChapterPane parent, Partner partner, List<Item> items) {
+        if (partner != null) {
+            play(parent, partner.avatarPath(), items);
+        } else {
+            play(parent, (String) null, items);
+        }
     }
 
     private void playNext() {
@@ -159,7 +184,7 @@ public class StoryPlayer extends StackPane {
         if (!item.isText()) {
             if (lastPlayed >= 0 && !items.get(lastPlayed).isText()) {
                 lastCg.setImage(currentCg.getImage());
-                allToTop(lastCg);
+                allToTop(this, lastCg);
             }
             Image image = new Image(Resources.ofString(item.path));
             currentCg.setImage(image);
@@ -169,7 +194,7 @@ public class StoryPlayer extends StackPane {
             clipper.setTranslateY((h - Util.PRIMARY_SCREEN_HEIGHT) / 2);
 
             shadow.setOnMouseClicked(null);
-            allToTop(currentCg, sweepLine);
+            allToTop(this, currentCg, sweepLine);
             onCgAdded.playFromStart();
         } else {
             if (lastPlayed < 0) {
@@ -182,7 +207,7 @@ public class StoryPlayer extends StackPane {
                     playText(item.path);
                     //TODO: 在此处启用playLast()
                 } else {
-                    allToTop(lastCg, textPane);
+                    allToTop(this, lastCg, textPane);
                     lastCg.setImage(currentCg.getImage());
                     shadow.setOnMouseClicked(null);
                     onShadowAdded.playFromStart();
@@ -200,9 +225,9 @@ public class StoryPlayer extends StackPane {
         }
     }
 
-    private void allToTop(Node... nodes) {
-        getChildren().removeAll(nodes);
-        getChildren().addAll(nodes);
+    private void allToTop(Pane pane, Node... nodes) {
+        pane.getChildren().removeAll(nodes);
+        pane.getChildren().addAll(nodes);
     }
 
     public static class Item {

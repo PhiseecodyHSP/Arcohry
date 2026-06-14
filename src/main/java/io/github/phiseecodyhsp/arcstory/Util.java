@@ -98,4 +98,13 @@ public final class Util {
                             " node isn't " + ImageView.class.getSimpleName());
         }
     }
+
+    public static void setPaneLastImage(Pane pane, String path) {
+        if (pane.getChildren().getLast() instanceof ImageView view) {
+            view.setImage(new Image(path));
+        } else {
+            throw new IllegalStateException(
+                    "Pane '" + pane + "''s last node isn't " + ImageView.class.getSimpleName());
+        }
+    }
 }

@@ -71,20 +71,23 @@ public class ChapterPane extends StackPane {
 
     public class StoryButtonPane extends StackPane {
         private final Rectangle lightLine = new Rectangle();
-        private final StackPane partner;
+        private final StackPane partnerAvatarPane;
         private final ChapterPane parent = ChapterPane.this;
         private final List<StoryButton> storyButtons = new ArrayList<>();
+        private final String partnerAvatarPath;
 
         private int darkLineCount;
 
         //TODO: Title
-        public StoryButtonPane(String partnerPath, String title) {
+        public StoryButtonPane(String partnerAvatarPath, String title) {
+            this.partnerAvatarPath = partnerAvatarPath;
+
             lightLine.setFill(Color.WHITE);
             lightLine.setHeight(StoryButton.BORDER_WIDTH);
 
-            if (partnerPath != null) {
-                partner = Partner.getAvatarPane(
-                        partnerPath,
+            if (this.partnerAvatarPath != null) {
+                partnerAvatarPane = Partner.getAvatarPane(
+                        this.partnerAvatarPath,
                         StoryButton.SIDE_LENGTH,
                         Color.rgb(150, 140, 160),
                         new DropShadow(
@@ -92,9 +95,9 @@ public class ChapterPane extends StackPane {
                                 OUTER_GLOW_OFFSET,
                                 OUTER_GLOW_OFFSET,
                                 StoryButton.TRANSPARENT_BLACK));
-                getChildren().addAll(lightLine, partner);
+                getChildren().addAll(lightLine, partnerAvatarPane);
             } else {
-                partner = null;
+                partnerAvatarPane = null;
                 getChildren().add(lightLine);
             }
             setMaxSize(0, 0);
@@ -115,8 +118,8 @@ public class ChapterPane extends StackPane {
             int s = storyButtons.size();
             int l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
             int d = 2 - s;
-            if (partner != null) {
-                partner.setTranslateX(Util.doubleToEven(l * ((2 - s) / 2.0 - 1)));
+            if (partnerAvatarPane != null) {
+                partnerAvatarPane.setTranslateX(Util.doubleToEven(l * ((2 - s) / 2.0 - 1)));
             } else {
                 d = 1 - s;
             }
@@ -158,7 +161,7 @@ public class ChapterPane extends StackPane {
             }
 
             // Partner 算作一个按钮
-            if (partner != null) {
+            if (partnerAvatarPane != null) {
                 enabledCount++;
                 totalCount++;
             }
@@ -319,9 +322,10 @@ public class ChapterPane extends StackPane {
             private void unlock() {
                 if (!unlocked) {
                     border.setOnMouseClicked(_ -> {
-                        Util.STORY_PLAYER.play(parent.parent, items);
+                        Util.STORY_PLAYER.play(parent.parent, partnerAvatarPath, items);
                         getChildren().remove(neo);
-                        border.setOnMouseClicked(_ -> Util.STORY_PLAYER.play(parent.parent, items));
+                        border.setOnMouseClicked(_ ->
+                                Util.STORY_PLAYER.play(parent.parent, partnerAvatarPath, items));
                     });
                     int i = parent.storyButtons.indexOf(this) + 1;
                     if (i < parent.storyButtons.size()) {
