@@ -2,5 +2,6 @@
     { "type": "text", "path": "texts/A1_1.txt" },
     { "type": "cg", "path": "images/testify1.jpg" },
     { "type": "text", "path": "texts/A1_2.txt" },
-    { "type": "text", "path": "texts/A1_3.txt" }
+    { "type": "text", "path": "texts/A1_3.txt" },
+    { "type": "text", "path": "texts/A1_4.txt" }
 ]
