@@ -5,6 +5,9 @@ import io.github.phiseecodyhsp.arcstory.storyMode.StoryUnlockConditionDisplayer;
 import javafx.animation.Interpolator;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 
 public final class Util {
@@ -70,5 +73,29 @@ public final class Util {
             return getSetStage(node.getScene());
         }
         throw new IllegalStateException();
+    }
+
+    private static String intToOrdinal(int num) {
+        int abs = Math.abs(num);
+        if (abs % 10 == 1) {
+            return num + "st";
+        }
+        if (abs % 10 == 2) {
+            return num + "nd";
+        }
+        if (abs % 10 == 3) {
+            return num + "rd";
+        }
+        return num + "th";
+    }
+
+    public static void setPaneImage(Pane pane, int index, String path) {
+        if (pane.getChildren().get(index) instanceof ImageView view) {
+            view.setImage(new Image(path));
+        } else {
+            throw new IllegalStateException(
+                    "Pane '" + pane + "''s " + intToOrdinal(index) +
+                            " node isn't " + ImageView.class.getSimpleName());
+        }
     }
 }

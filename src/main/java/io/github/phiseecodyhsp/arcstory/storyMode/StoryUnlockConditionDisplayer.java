@@ -151,7 +151,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
                         @NotNull String partnerPath) {
         parent.getChildren().add(this);
 
-        setPaneImage(this.partner, 1, partnerPath);
+        Util.setPaneImage(this.partner, 1, partnerPath);
 
         bg.setImage(new Image(Resources.SUC_BG1));
 
@@ -225,29 +225,5 @@ public class StoryUnlockConditionDisplayer extends StackPane {
                 paradigms,
                 partner.name(),
                 partner.avatarPath());
-    }
-
-    private void setPaneImage(Pane pane, int index, String path) {
-        if (pane.getChildren().get(index) instanceof ImageView view) {
-            view.setImage(new Image(path));
-        } else {
-            throw new IllegalStateException(
-                    "Pane '" + pane + "''s " + intToOrdinal(index) +
-                            " node isn't " + ImageView.class.getSimpleName());
-        }
-    }
-
-    private static String intToOrdinal(int num) {
-        int abs = Math.abs(num);
-        if (abs % 10 == 1) {
-            return num + "st";
-        }
-        if (abs % 10 == 2) {
-            return num + "nd";
-        }
-        if (abs % 10 == 3) {
-            return num + "rd";
-        }
-        return num + "th";
     }
 }
