@@ -29,7 +29,34 @@ public class SetStage extends Stage {
 
     private final StackPane root = new StackPane();
     private final Scene scene = new Scene(root);
-    private final Loading loading = new Loading();
+    private final Loading loading = new Loading() {
+        @Override
+        public void play(StackPane pane, @NotNull Type type, Node newNode) {
+//            type.setImage(this);
+//
+//            pane.getChildren().add(this);
+//            onLAdded.setOnFinished(_ -> {
+//                onLAdded.stop();
+//                onRAdded.stop();
+//                onLRemoved.playFromStart();
+//                onRRemoved.playFromStart();
+//                Resources.playSound(Resources.LOADING_END_SOUND);
+//                pane.getChildren().set(0, newNode);
+//                try {
+//                    Util.getSetStage(pane).checkBgm();
+//                } catch (IllegalStateException _) {}
+//            });
+//            onLRemoved.setOnFinished(_ -> pane.getChildren().remove(this));
+//            onLRemoved.stop();
+//            onRRemoved.stop();
+//            onLAdded.playFromStart();
+//            onRAdded.playFromStart();
+//            Resources.playSound(Resources.LOADING_START_SOUND);
+//
+//            getChildren().clear();
+//            getChildren().addAll(left, right);
+        }
+    };
 
     public SetStage(Node initialNode) {
         root.setStyle("-fx-background-color: black;");
@@ -153,6 +180,7 @@ public class SetStage extends Stage {
                 chart.paradigms);
     }
 
+    //TODO
     public void checkBgm() {
         if (currentNode instanceof ChapterSelectionPane || currentNode instanceof ChapterPane) {
             if (bgmPlayer == null || bgmPlayer.getStatus() == MediaPlayer.Status.STOPPED) {
