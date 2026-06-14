@@ -76,7 +76,7 @@ public class TestApplication extends Application {
         view.setPreserveRatio(true);
         view.setFitWidth(Util.PRIMARY_SCREEN_WIDTH);
         SetStage setStage = new SetStage(view);
-        view.setOnMouseClicked(_ -> setStage.transitionNode(chapterPane));
+        view.setOnMouseClicked(_ -> setStage.switchNode(SetStage.Loading.Type.NORMAL, chapterPane));
         BACK.setBorderOnMouseClicked(_ -> setStage.transitionBack());
         VIDEO.setBorderOnMouseClicked(_ -> getHostServices().showDocument(
                 "https://www.bilibili.com/video/BV1iCpozfE8w"));

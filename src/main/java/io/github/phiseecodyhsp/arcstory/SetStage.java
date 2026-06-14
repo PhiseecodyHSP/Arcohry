@@ -65,6 +65,7 @@ public class SetStage extends Stage {
                 scene.getHeight() / (Util.PRIMARY_SCREEN_HEIGHT));
         root.setScaleX(scale);
         root.setScaleY(scale);
+        System.out.println(currentNode.getOpacity());
     }
 
     public void transitionNode(Node newNode) {
@@ -78,6 +79,7 @@ public class SetStage extends Stage {
         ft2.setToValue(1);
         ft2.setOnFinished(_ -> {
             root.getChildren().remove(lastNode);
+            lastNode.setOpacity(1);
             lastNode.setMouseTransparent(false);
             currentNode.setMouseTransparent(false);
         });
@@ -88,20 +90,24 @@ public class SetStage extends Stage {
         root.getChildren().add(currentNode);
         ft1.playFromStart();
         ft2.playFromStart();
-        checkBgm();
     }
 
     public void transitionBack() {
         if (lastNode != null) {
             transitionNode(lastNode);
-            checkBgm();
         }
     }
 
     public void switchNode(Loading.Type type, Node newNode) {
-        loading.play(type, newNode);
         lastNode = currentNode;
         currentNode = newNode;
+        loading.play(type);
+    }
+
+    public void switchBack(Loading.Type type) {
+        if (lastNode != null) {
+            switchNode(type, lastNode);
+        }
     }
 
     public void switchNode(Node newNode) {
@@ -115,6 +121,7 @@ public class SetStage extends Stage {
             currentNode.setOpacity(0);
             currentNode.setMouseTransparent(true);
             root.getChildren().set(0, currentNode);
+            lastNode.setOpacity(1);
             ft2.playFromStart();
             lastNode.setMouseTransparent(false);
         });
@@ -123,19 +130,11 @@ public class SetStage extends Stage {
 
         lastNode.setMouseTransparent(true);
         ft1.playFromStart();
-        checkBgm();
-    }
-
-    public void switchBack(Loading.Type type) {
-        if (lastNode != null) {
-            switchNode(type, lastNode);
-        }
     }
 
     public void switchBack() {
         if (lastNode != null) {
             switchNode(lastNode);
-            checkBgm();
         }
     }
 
@@ -231,7 +230,11 @@ public class SetStage extends Stage {
             onLRemoved.setInterpolator(Util.EASE_OUT);
             onRAdded.setInterpolator(Util.EASE_IN);
             onRRemoved.setInterpolator(Util.EASE_OUT);
-            onLRemoved.setOnFinished(_ -> root.getChildren().remove(this));
+            onLRemoved.setOnFinished(_ -> {
+                lastNode.setMouseTransparent(false);
+                currentNode.setMouseTransparent(false);
+                root.getChildren().remove(this);
+            });
 
             onLabelPaneAdded.setInterpolator(Util.EASE_IN);
 
@@ -276,8 +279,11 @@ public class SetStage extends Stage {
             musicName.setFont(FONT);
         }
 
-        private void play(@NotNull SetStage.Loading.Type type, Node newNode) {
+        private void play(@NotNull SetStage.Loading.Type type) {
             type.setImage(this);
+
+            lastNode.setMouseTransparent(true);
+            currentNode.setMouseTransparent(true);
 
             root.getChildren().add(this);
             onLAdded.setOnFinished(_ -> {
@@ -286,10 +292,7 @@ public class SetStage extends Stage {
                 onLRemoved.playFromStart();
                 onRRemoved.playFromStart();
                 Resources.playSound(Resources.LOADING_END_SOUND);
-                root.getChildren().set(0, newNode);
-                try {
-                    Util.getSetStage(pane).checkBgm();
-                } catch (IllegalStateException _) {}
+                root.getChildren().set(0, currentNode);
             });
             onLRemoved.stop();
             onRRemoved.stop();
