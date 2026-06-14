@@ -196,6 +196,7 @@ public class StoryPlayer extends StackPane {
             shadow.setOnMouseClicked(null);
             allToTop(this, currentCg, sweepLine);
             onCgAdded.playFromStart();
+            Resources.playSound(Resources.CG);
         } else {
             if (lastPlayed < 0) {
                 getChildren().add(textPane);
