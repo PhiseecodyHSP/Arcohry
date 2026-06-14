@@ -136,9 +136,7 @@ public class SetStage extends Stage {
 
         lastNode.setMouseTransparent(true);
         ft1.playFromStart();
-        if (isBgmPlaying()) {
-            bgmPlayer.stop();
-        }
+        stopBgm();
     }
 
     public void switchBack() {
@@ -188,6 +186,12 @@ public class SetStage extends Stage {
 
     private boolean isBgmPlaying() {
         return bgmPlayer != null && bgmPlayer.getStatus() == MediaPlayer.Status.PLAYING;
+    }
+
+    private void stopBgm() {
+        if (isBgmPlaying()) {
+            bgmPlayer.stop();
+        }
     }
 
     public class Loading extends StackPane {
@@ -302,12 +306,16 @@ public class SetStage extends Stage {
                 onLRemoved.playFromStart();
                 onRRemoved.playFromStart();
                 root.getChildren().set(0, currentNode);
+                if (currentNode instanceof ChapterSelectionPane || currentNode instanceof ChapterPane) {
+                    playBgm(Resources.STORY_MODE_BGM);
+                }
             });
             onLAdded.playFromStart();
             onRAdded.playFromStart();
 
             getChildren().clear();
             getChildren().addAll(left, right);
+            stopBgm();
         }
 
         //TODO
@@ -349,6 +357,7 @@ public class SetStage extends Stage {
             getChildren().clear();
             getChildren().addAll(left, right, pane);
             this.noteDesigner.setText(noteDesigner);
+            stopBgm();
         }
 
         private void play(@NotNull SetStage.Loading.Type type, @NotNull Chart chart) {
