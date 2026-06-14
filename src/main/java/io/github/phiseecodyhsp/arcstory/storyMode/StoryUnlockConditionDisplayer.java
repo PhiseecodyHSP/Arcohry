@@ -32,6 +32,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
     private final Label condition = new Label();
     private final ImageView bg = new ImageView();
     private final ImageView illustration = new ImageView();
+    private final Rectangle shadow = new Rectangle(Util.PRIMARY_SCREEN_WIDTH, Util.PRIMARY_SCREEN_HEIGHT);
     private final Polygon arrow = new Polygon(
             0, -ILLUSTRATION_WIDTH / 15.0 / Util.SQRT_3,
             ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Util.SQRT_3,
@@ -67,23 +68,21 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         arrow.setTranslateY(Util.doubleToEven(ILLUSTRATION_WIDTH * 7 / 30.0 + BORDER_WIDTH / 4.0));
         arrow.setEffect(GLOW);
 
+        shadow.setOpacity(0);
+
         onAddedST.setToX(1);
         onAddedST.setToY(1);
         onAddedST.setInterpolator(Util.EASE_IN);
+        onAddedST.setOnFinished(_ -> shadow.setOnMouseClicked(_ -> {
+            onContentRemovedFT.playFromStart();
+            onRemovedST.playFromStart();
+            shadow.setOnMouseClicked(null);
+        }));
         onRemovedST.setToX(LOWEST_SCALE_RATIO);
         onRemovedST.setToY(LOWEST_SCALE_RATIO);
         onRemovedST.setInterpolator(Util.EASE_OUT);
         onContentAddedFT.setToValue(1);
         onContentRemovedFT.setToValue(0);
-
-        Rectangle shadow = new Rectangle(Util.PRIMARY_SCREEN_WIDTH, Util.PRIMARY_SCREEN_HEIGHT);
-        shadow.setOpacity(0);
-        shadow.setOnMouseClicked(_ -> {
-            onContentAddedFT.stop();
-            onAddedST.stop();
-            onContentRemovedFT.playFromStart();
-            onRemovedST.playFromStart();
-        });
 
         getChildren().addAll(shadow, pane);
     }
@@ -120,8 +119,6 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         });
 
         onRemovedST.setOnFinished(_ -> parent.getChildren().remove(this));
-        onContentRemovedFT.stop();
-        onRemovedST.stop();
         onContentAddedFT.playFromStart();
         onAddedST.playFromStart();
 
@@ -174,8 +171,6 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         });
 
         onRemovedST.setOnFinished(_ -> parent.getChildren().remove(this));
-        onContentRemovedFT.stop();
-        onRemovedST.stop();
         onContentAddedFT.playFromStart();
         onAddedST.playFromStart();
 
