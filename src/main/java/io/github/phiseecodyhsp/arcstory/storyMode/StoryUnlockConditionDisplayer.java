@@ -89,7 +89,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         getChildren().addAll(shadow, pane);
     }
 
-    public void display(ChapterPane parent,
+    public void display(StackPane parent,
                         String music,
                         String composer,
                         @NotNull String illustrationPath,
@@ -130,7 +130,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         this.arrow.setOpacity(0);
     }
 
-    public void display(ChapterPane parent, @NotNull Chart chart) {
+    public void display(StackPane parent, @NotNull Chart chart) {
         display(parent,
                 chart.music,
                 chart.composer,
@@ -140,7 +140,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
                 chart.paradigms);
     }
 
-    public void display(ChapterPane parent,
+    public void display(StackPane parent,
                         String music,
                         String composer,
                         @NotNull String illustrationPath,
@@ -184,7 +184,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         arrow.setOpacity(1);
     }
 
-    public void display(ChapterPane parent, @NotNull Chart chart, @NotNull Partner partner) {
+    public void display(StackPane parent, @NotNull Chart chart, @NotNull Partner partner) {
         display(parent,
                 chart.music,
                 chart.composer,
@@ -196,7 +196,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
                 partner.avatarPath());
     }
 
-    public void display(ChapterPane parent, @NotNull Chart chart, String partner, @NotNull String partnerPath) {
+    public void display(StackPane parent, @NotNull Chart chart, String partner, @NotNull String partnerPath) {
         display(parent,
                 chart.music,
                 chart.composer,
@@ -208,7 +208,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
                 partnerPath);
     }
 
-    public void display(ChapterPane parent,
+    public void display(StackPane parent,
                         String music,
                         String composer,
                         @NotNull String illustrationPath,
