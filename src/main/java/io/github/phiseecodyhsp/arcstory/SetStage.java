@@ -26,8 +26,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class SetStage extends Stage {
-    public static final double WIDTH = (int) Util.PRIMARY_SCREEN_WIDTH / 2.0;
-    public static final int HEIGHT = (int) (WIDTH / 16 * 9);
+    public static final double WIDTH = Util.PRIMARY_SCREEN_WIDTH / 2;
+    public static final double HEIGHT = WIDTH / 16 * 9;
 
     private Node lastNode;
     private Node currentNode;
