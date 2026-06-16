@@ -1,12 +1,9 @@
-package io.github.phiseecodyhsp.arcstory;
+package io.github.phiseecodyhsp.arcstory.opening;
 
 import javafx.scene.layout.StackPane;
 
 //TODO
-public class Opening extends StackPane {
-    public Opening() {
-    }
-
+public abstract class Opening extends StackPane {
     public enum Type {
         ETERNAL,
         VICIOUS,
@@ -14,6 +11,7 @@ public class Opening extends StackPane {
         BLACK,
         SILENT,
         ASCENSION,
+        NEXT,
         DEFAULT
     }
 }

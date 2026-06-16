@@ -15,4 +15,6 @@ module io.github.phiseecodyhsp.arcstory {
     exports io.github.phiseecodyhsp.arcstory.storyMode;
     exports io.github.phiseecodyhsp.arcstory.storage;
     opens io.github.phiseecodyhsp.arcstory.storage to com.fasterxml.jackson.databind, javafx.fxml;
+    exports io.github.phiseecodyhsp.arcstory.opening;
+    opens io.github.phiseecodyhsp.arcstory.opening to javafx.fxml;
 }
