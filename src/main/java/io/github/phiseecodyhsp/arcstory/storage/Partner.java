@@ -12,11 +12,11 @@ import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButton
 
 public record Partner(String name, @NotNull String avatarPath, @NotNull String illustrationPath) {
     public static StackPane getAvatarPane(@NotNull String avatarPath,
-                                          int sideLength,
+                                          double sideLength,
                                           Paint borderColor,
                                           DropShadow dropShadow) {
         ImageView avatarView = new ImageView(avatarPath);
-        avatarView.setFitWidth(Util.doubleToEven((sideLength - 2 * BORDER_WIDTH) * Util.SQRT_2));
+        avatarView.setFitWidth((sideLength - 2 * BORDER_WIDTH) * Util.SQRT_2);
         avatarView.setPreserveRatio(true);
 
         Rectangle border = new Rectangle(sideLength, sideLength);
@@ -28,7 +28,7 @@ public record Partner(String name, @NotNull String avatarPath, @NotNull String i
         return new StackPane(border, avatarView);
     }
 
-    public StackPane getAvatarPane(int sideLength, Paint borderColor, DropShadow dropShadow) {
+    public StackPane getAvatarPane(double sideLength, Paint borderColor, DropShadow dropShadow) {
         return getAvatarPane(avatarPath, sideLength, borderColor, dropShadow);
     }
 }

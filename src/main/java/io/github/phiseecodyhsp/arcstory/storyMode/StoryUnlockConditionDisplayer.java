@@ -24,22 +24,23 @@ import static io.github.phiseecodyhsp.arcstory.storyMode.ChapterPane.StoryButton
 public class StoryUnlockConditionDisplayer extends StackPane {
     public static final double TRANS_TIME = 0.25;
     private static final double LOWEST_SCALE_RATIO = 0.75;
-    private static final int ILLUSTRATION_WIDTH = SIDE_LENGTH * 2;
-    private static final int BG_HEIGHT = Util.doubleToEven(ILLUSTRATION_WIDTH * 8 / 3.0);
+    private static final double ILLUSTRATION_WIDTH = SIDE_LENGTH * 2;
+    private static final double BG_HEIGHT = ILLUSTRATION_WIDTH * 8 / 3.0;
     private static final Font FONT = Resources.getFont("fonts/NotoSansCJKsc-Regular.ttf", ILLUSTRATION_WIDTH / 7.5);
     public static final DropShadow GLOW = new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE);
+    private static final double SQRT_3 = Math.sqrt(3);
 
     private final Label condition = new Label();
     private final ImageView bg = new ImageView();
     private final ImageView illustration = new ImageView();
     private final Rectangle shadow = new Rectangle(Util.PRIMARY_SCREEN_WIDTH, Util.PRIMARY_SCREEN_HEIGHT);
     private final Polygon arrow = new Polygon(
-            0, -ILLUSTRATION_WIDTH / 15.0 / Util.SQRT_3,
-            ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Util.SQRT_3,
-            -ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / Util.SQRT_3);
+            0, -ILLUSTRATION_WIDTH / 15.0 / SQRT_3,
+            ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / SQRT_3,
+            -ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / SQRT_3);
     private final StackPane partnerAvatarPane = Partner.getAvatarPane(
             Resources.Tairitsu_AWAKEN_AVATAR,
-            Util.doubleToEven(ILLUSTRATION_WIDTH / 2.5 / Util.SQRT_2),
+            ILLUSTRATION_WIDTH / 2.5 / Util.SQRT_2,
             Color.WHITE, GLOW);
     private final StackPane pane = new StackPane(bg, condition, partnerAvatarPane, arrow, illustration);
     private final ScaleTransition onAddedST = new ScaleTransition(Duration.seconds(TRANS_TIME), pane);
@@ -63,9 +64,9 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         pane.setScaleX(LOWEST_SCALE_RATIO);
         pane.setScaleY(LOWEST_SCALE_RATIO);
 
-        this.partnerAvatarPane.setTranslateY(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0));
+        this.partnerAvatarPane.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0);
         arrow.setFill(Color.WHITE);
-        arrow.setTranslateY(Util.doubleToEven(ILLUSTRATION_WIDTH * 7 / 30.0 + BORDER_WIDTH / 4.0));
+        arrow.setTranslateY(ILLUSTRATION_WIDTH * 7 / 30.0 + BORDER_WIDTH / 4.0);
         arrow.setEffect(GLOW);
 
         shadow.setOpacity(0);
@@ -99,11 +100,10 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         bg.setImage(new Image(Resources.SUC_BG0));
 
         condition.setText("通关“" + music + "”以解锁此故事。");
-        condition.setTranslateY(Util.doubleToEven((Util.doubleToEven(BG_HEIGHT - ILLUSTRATION_WIDTH) / 2.0)));
+        condition.setTranslateY((BG_HEIGHT - ILLUSTRATION_WIDTH) / 2);
 
         illustration.setImage(new Image(illustrationPath));
-        illustration.setTranslateY(
-                Util.doubleToEven(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 3 / 2.0)));
+        illustration.setTranslateY(BG_HEIGHT / 2 - ILLUSTRATION_WIDTH * 3 / 2);
         illustration.setOnMouseClicked(_ -> {
             Util.getSetStage(this).playChart(SetStage.Loading.Type.NORMAL,
                     music,
@@ -152,10 +152,10 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         bg.setImage(new Image(Resources.SUC_BG1));
 
         condition.setText("使用搭档“" + partner + "”通关“" + music + "”以解锁此故事。");
-        condition.setTranslateY(Util.doubleToEven(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH / 4.0));
+        condition.setTranslateY(BG_HEIGHT / 2 - ILLUSTRATION_WIDTH / 4);
 
         illustration.setImage(new Image(illustrationPath));
-        illustration.setTranslateY(Util.doubleToEven(ILLUSTRATION_WIDTH - BG_HEIGHT / 2.0));
+        illustration.setTranslateY(ILLUSTRATION_WIDTH - BG_HEIGHT / 2);
         illustration.setOnMouseClicked(_ -> {
             Util.getSetStage(this).playChart(SetStage.Loading.Type.NORMAL,
                     music,

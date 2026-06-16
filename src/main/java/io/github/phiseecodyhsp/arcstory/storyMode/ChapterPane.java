@@ -55,6 +55,7 @@ public class ChapterPane extends StackPane {
         for (int i = 0; i < s; i++) {
             storyButtonPanes.get(i).setTranslateY((2 * i - s + 1) * d);
         }
+        System.out.println(s);
     }
 
     public List<StoryButtonPane> getStoryButtonPanes() {
@@ -116,16 +117,16 @@ public class ChapterPane extends StackPane {
             storyButtons.getFirst().enable();
 
             int s = storyButtons.size();
-            int l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
+            double l = StoryButton.SIDE_LENGTH + StoryButton.DIAGONAL_LENGTH;
             int d = 2 - s;
             if (partnerAvatarPane != null) {
-                partnerAvatarPane.setTranslateX(Util.doubleToEven(l * ((2 - s) / 2.0 - 1)));
+                partnerAvatarPane.setTranslateX(l * ((2 - s) / 2.0 - 1));
             } else {
                 d = 1 - s;
             }
             for (int i = 0; i < s; i++) {
                 StoryButton button = storyButtons.get(i);
-                button.setTranslateX(Util.doubleToEven(l * (i + (d) / 2.0)));
+                button.setTranslateX(l * (i + (d) / 2.0));
                    if (button.unlocked && i + 1 < s) {
                        storyButtons.get(i + 1).enable();
                    } else {
@@ -169,9 +170,9 @@ public class ChapterPane extends StackPane {
                 totalCount++;
             }
             lightLine.setWidth(w * (enabledCount - 1));
-            lightLine.setTranslateX(Util.doubleToEven(w * (enabledCount - totalCount) / 2.0));
+            lightLine.setTranslateX(w * (enabledCount - totalCount) / 2.0);
             for (int i = 0; i < darkLineCount; i++) {
-                getChildren().get(i).setTranslateX(Util.doubleToEven(w * (enabledCount + i - totalCount / 2.0)));
+                getChildren().get(i).setTranslateX(w * (enabledCount + i - totalCount / 2.0));
             }
         }
 
@@ -180,17 +181,17 @@ public class ChapterPane extends StackPane {
         }
 
         public class StoryButton extends StackPane {
-            public static final int SIDE_LENGTH = Util.doubleToEven(Util.PRIMARY_SCREEN_HEIGHT * 0.1);
+            public static final double SIDE_LENGTH = Util.PRIMARY_SCREEN_HEIGHT * 0.1;
             public static final int BORDER_WIDTH = 2;
-            public static final int DIAGONAL_LENGTH = Util.doubleToEven(SIDE_LENGTH * Util.SQRT_2);
+            public static final double DIAGONAL_LENGTH = SIDE_LENGTH * Util.SQRT_2;
             public static final int ARC_SIZE = 5;
-            private static final int IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
+            private static final double IMAGE_SIZE = SIDE_LENGTH - 2 * BORDER_WIDTH;
             public static final double HIGHEST_DARKNESS = 0.25;
             public static final double LOWEST_BRIGHTNESS = 1 - HIGHEST_DARKNESS;
             public static final int OUTER_GLOW_INTENSITY = 10;
             public static final int OUTER_GLOW_OFFSET = 10;
             public static final Color TRANSPARENT_BLACK = new Color(0, 0, 0, 0.5);
-            public static final int NEW_ICON_SIZE = Util.doubleToEven(SIDE_LENGTH / 3.0 * Util.SQRT_2);
+            public static final double NEW_ICON_SIZE = SIDE_LENGTH / 3.0 * Util.SQRT_2;
             private static final Font FONT =
                     Resources.getFont(Resources.GeosansLight_FONT, DIAGONAL_LENGTH / 4.0);
             public static final DropShadow SHADOW = new DropShadow(
@@ -232,7 +233,7 @@ public class ChapterPane extends StackPane {
                 neo.setPreserveRatio(true);
                 neo.setRotate(-45);
                 neo.setFitWidth(NEW_ICON_SIZE);
-                neo.setTranslateY(Util.doubleToEven(-SIDE_LENGTH * 7 / 12.0));
+                neo.setTranslateY(-SIDE_LENGTH * 7 / 12.0);
                 neo.setMouseTransparent(true);
 
                 ImageView view = new ImageView(illustrationPath);
@@ -290,9 +291,9 @@ public class ChapterPane extends StackPane {
                     ImageView star = new ImageView(Resources.STAR);
                     star.setRotate(-45);
                     star.setPreserveRatio(true);
-                    star.setFitWidth(Util.doubleToEven(SIDE_LENGTH / 4.0 * Util.SQRT_2));
-                    star.setTranslateX(Util.doubleToEven(SIDE_LENGTH * 2 / 7.0));
-                    star.setTranslateY(Util.doubleToEven(SIDE_LENGTH * 2 / 7.0));
+                    star.setFitWidth(SIDE_LENGTH / 4.0 * Util.SQRT_2);
+                    star.setTranslateX(SIDE_LENGTH * 2 / 7.0);
+                    star.setTranslateY(SIDE_LENGTH * 2 / 7.0);
                     star.setMouseTransparent(true);
                     getChildren().add(star);
                 }

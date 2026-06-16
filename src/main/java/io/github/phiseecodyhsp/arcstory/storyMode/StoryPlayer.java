@@ -56,7 +56,7 @@ public class StoryPlayer extends StackPane {
     //TODO
     private final StackPane partnerAvatarPane = Partner.getAvatarPane(
             Resources.Tairitsu_AWAKEN_AVATAR,
-            Util.doubleToEven(0 / 2.5 / Util.SQRT_2),
+            0,
             Color.WHITE, null);
 
     private final StackPane textPane = new StackPane(shadow, textPlayer, partnerAvatarPane);
