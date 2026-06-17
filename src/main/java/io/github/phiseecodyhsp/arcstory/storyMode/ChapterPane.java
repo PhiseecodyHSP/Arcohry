@@ -49,7 +49,7 @@ public class ChapterPane extends StackPane {
     private void addAll(StoryButtonPane... buttonPanes) {
         innerPane.getChildren().addAll(buttonPanes);
         storyButtonPanes.addAll(List.of(buttonPanes));
-
+        
         int s = storyButtonPanes.size();
         double d = StoryButtonPane.StoryButton.DIAGONAL_LENGTH;
         for (int i = 0; i < s; i++) {
@@ -173,7 +173,7 @@ public class ChapterPane extends StackPane {
             }
 
             // 由于实际只有亮线会影响宽度, 这里要强制设置最小宽度以正确对齐
-            this.setMinWidth(w * (totalCount - 1));
+            setMinWidth(w * (totalCount - 1));
         }
 
         public List<StoryButton> getStoryButtons() {
