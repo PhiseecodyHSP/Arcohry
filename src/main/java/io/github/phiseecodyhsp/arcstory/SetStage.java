@@ -55,7 +55,7 @@ public class SetStage extends Stage {
         scene.heightProperty().addListener(_ -> updateScale());
 
         setFullScreenExitHint("");
-        setTitle("Report");
+        setTitle("");
         setWidth(WIDTH);
         setHeight(HEIGHT);
         setScene(scene);
