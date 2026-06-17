@@ -28,15 +28,7 @@ public final class Resources {
     public static final String TRANSANIMA_SHADOW;
     public static final String COVER;
 
-    public static final String STORY1_ZR;
-    public static final String STORYCG;
-    public static final String STORYA1;
-    public static final String STORYA2;
-    public static final String STORYA3;
-    public static final String STORYA4;
-    public static final String STORYA5;
-    public static final String STORYA6;
-    public static final String STORYAE;
+    public static final String STORY_EMPTY;
 
     public static final String START_SOUND;
     public static final String LOADING_START_SOUND;
@@ -64,15 +56,7 @@ public final class Resources {
         TRANSANIMA_SHADOW = ofString("images/TransAnimaL_resized.png");
         COVER = ofString("images/cover.png");
 
-        STORY1_ZR = "stories/1-ZR.json";
-        STORYCG = "stories/cg.json";
-        STORYA1 = "stories/A1.json";
-        STORYA2 = "stories/A2.json";
-        STORYA3 = "stories/A3.json";
-        STORYA4 = "stories/A4.json";
-        STORYA5 = "stories/A5.json";
-        STORYA6 = "stories/A6.json";
-        STORYAE = "stories/AE.json";
+        STORY_EMPTY = "stories/empty.json";
 
         START_SOUND = ofString("audios/START.mp3");
 
