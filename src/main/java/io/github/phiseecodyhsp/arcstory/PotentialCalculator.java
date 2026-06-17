@@ -44,13 +44,13 @@ public class PotentialCalculator extends StackPane {
             rectangle.widthProperty().bind(this.widthProperty());
             rectangle.setHeight(4);
             rectangle.setFill(Color.color(0, 0.4375, 0.75));
-            rectangle.translateYProperty().bind(this.heightProperty().subtract(rectangle.heightProperty()).divide(2.0D));
-            rectangle.setScaleX(0.0D);
+            rectangle.translateYProperty().bind(this.heightProperty().subtract(rectangle.heightProperty()).divide(2D));
+            rectangle.setScaleX(0D);
 
             // 三次缓动动画, 支持正向与逆向播放的衔接
             AnimationTimer timer = new AnimationTimer() {
                 private static final double DURATION = 0.5D;
-                private double progress = 0.0D;
+                private double progress = 0D;
                 private long preview = Long.MIN_VALUE;
 
                 @Override
@@ -59,25 +59,25 @@ public class PotentialCalculator extends StackPane {
                         preview = now;
                         return;
                     }
-                    double deltaSec = (now - preview) / 1000000000.0D;
+                    double deltaSec = (now - preview) / 1000000000D;
                     if (content.isFocused()) {
                         // P = 1 - (1 - t / duration)^3, 0 <= t <= duration
-                        double t0 = (1.0D - Math.cbrt(1.0D - this.progress)) * DURATION;
-                        double t = Math.clamp(t0 + deltaSec, 0.0D, DURATION);
-                        double d = 1.0D - t / DURATION;
-                        this.progress = 1.0D - d * d * d;
+                        double t0 = (1D - Math.cbrt(1D - this.progress)) * DURATION;
+                        double t = Math.clamp(t0 + deltaSec, 0D, DURATION);
+                        double d = 1D - t / DURATION;
+                        this.progress = 1D - d * d * d;
                         rectangle.setScaleX(this.progress);
-                        if (this.progress == 1.0D) {
+                        if (this.progress == 1D) {
                             this.stop();
                         }
                     } else {
                         // P = (t / duration)^3, 0 <= t <= duration
                         double t0 = Math.cbrt(this.progress) * DURATION;
-                        double t = Math.clamp(t0 - deltaSec, 0.0D, DURATION);
+                        double t = Math.clamp(t0 - deltaSec, 0D, DURATION);
                         double d = t / DURATION;
                         this.progress = d * d * d;
                         rectangle.setScaleX(this.progress);
-                        if (this.progress == 0.0D) {
+                        if (this.progress == 0D) {
                             this.stop();
                         }
                     }
@@ -96,9 +96,8 @@ public class PotentialCalculator extends StackPane {
             this.content.setBackground(Background.EMPTY);
             this.content.setBorder(Border.EMPTY);
             this.content.setStyle("-fx-text-fill: white;");
-            this.content.focusedProperty().addListener((_, _, _) -> {
-                timer.start();
-            });
+            this.content.focusedProperty().addListener((_, _, _) ->
+                    timer.start());
 
             this.getChildren().addAll(this.content, rectangle);
         }

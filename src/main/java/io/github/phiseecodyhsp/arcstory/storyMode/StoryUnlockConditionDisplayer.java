@@ -25,7 +25,7 @@ public class StoryUnlockConditionDisplayer extends StackPane {
     public static final double TRANS_TIME = 0.25;
     private static final double LOWEST_SCALE_RATIO = 0.75;
     private static final double ILLUSTRATION_WIDTH = SIDE_LENGTH * 2;
-    private static final double BG_HEIGHT = ILLUSTRATION_WIDTH * 8 / 3.0;
+    private static final double BG_HEIGHT = ILLUSTRATION_WIDTH * 8 / 3;
     private static final Font FONT = Resources.getFont("fonts/NotoSansCJKsc-Regular.ttf", ILLUSTRATION_WIDTH / 7.5);
     public static final DropShadow GLOW = new DropShadow(OUTER_GLOW_INTENSITY, Color.WHITE);
     private static final double SQRT_3 = Math.sqrt(3);
@@ -35,9 +35,9 @@ public class StoryUnlockConditionDisplayer extends StackPane {
     private final ImageView illustration = new ImageView();
     private final Rectangle shadow = new Rectangle(Util.PRIMARY_SCREEN_WIDTH, Util.PRIMARY_SCREEN_HEIGHT);
     private final Polygon arrow = new Polygon(
-            0, -ILLUSTRATION_WIDTH / 15.0 / SQRT_3,
-            ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / SQRT_3,
-            -ILLUSTRATION_WIDTH / 30.0, ILLUSTRATION_WIDTH / 30.0 / SQRT_3);
+            0, -ILLUSTRATION_WIDTH / 15 / SQRT_3,
+            ILLUSTRATION_WIDTH / 30, ILLUSTRATION_WIDTH / 30 / SQRT_3,
+            -ILLUSTRATION_WIDTH / 30, ILLUSTRATION_WIDTH / 30 / SQRT_3);
     private final StackPane partnerAvatarPane = Partner.getAvatarPane(
             Resources.Tairitsu_AWAKEN_AVATAR,
             ILLUSTRATION_WIDTH / 2.5 / Util.SQRT_2,
@@ -64,9 +64,9 @@ public class StoryUnlockConditionDisplayer extends StackPane {
         pane.setScaleX(LOWEST_SCALE_RATIO);
         pane.setScaleY(LOWEST_SCALE_RATIO);
 
-        this.partnerAvatarPane.setTranslateY(BG_HEIGHT / 2.0 - ILLUSTRATION_WIDTH * 5 / 6.0);
+        this.partnerAvatarPane.setTranslateY(BG_HEIGHT / 2 - ILLUSTRATION_WIDTH * 5 / 6);
         arrow.setFill(Color.WHITE);
-        arrow.setTranslateY(ILLUSTRATION_WIDTH * 7 / 30.0 + BORDER_WIDTH / 4.0);
+        arrow.setTranslateY(ILLUSTRATION_WIDTH * 7 / 30 + BORDER_WIDTH / 4.0);
         arrow.setEffect(GLOW);
 
         shadow.setOpacity(0);

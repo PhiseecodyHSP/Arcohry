@@ -199,7 +199,7 @@ public class SetStage extends Stage {
         private static final int LABEL_DISPLACEMENT = 0;
         private static final double HIGHEST_ILLUSTRATION_SCALE = 2;
         private static final double PARADIGMS_OPACITY = 0.5;
-        private static final double ILLUSTRATION_SIZE = Util.PRIMARY_SCREEN_HEIGHT;
+        private static final double ILLUSTRATION_SIZE = Util.PRIMARY_SCREEN_HEIGHT / 2;
         private static final PauseTransition DELAY = new PauseTransition(Duration.seconds(3));
         private static final Font FONT = Resources.getFont(Resources.GeosansLight_FONT, 20);
 
@@ -246,6 +246,7 @@ public class SetStage extends Stage {
                 lastNode.setMouseTransparent(false);
                 currentNode.setMouseTransparent(false);
                 root.getChildren().remove(this);
+                System.out.println(1);
             });
             onRAdded.setInterpolator(Util.EASE_IN);
             onRRemoved.setInterpolator(Util.EASE_OUT);

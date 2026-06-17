@@ -126,7 +126,7 @@ public class ChapterPane extends StackPane {
             }
             for (int i = 0; i < s; i++) {
                 StoryButton button = storyButtons.get(i);
-                button.setTranslateX(l * (i + (d) / 2.0));
+                button.setTranslateX(l * (i + d / 2.0));
                    if (button.unlocked && i + 1 < s) {
                        storyButtons.get(i + 1).enable();
                    } else {
@@ -170,7 +170,7 @@ public class ChapterPane extends StackPane {
                 totalCount++;
             }
             lightLine.setWidth(w * (enabledCount - 1));
-            lightLine.setTranslateX(w * (enabledCount - totalCount) / 2.0);
+            lightLine.setTranslateX(w * (enabledCount - totalCount) / 2);
             for (int i = 0; i < darkLineCount; i++) {
                 getChildren().get(i).setTranslateX(w * (enabledCount + i - totalCount / 2.0));
             }
@@ -191,9 +191,9 @@ public class ChapterPane extends StackPane {
             public static final int OUTER_GLOW_INTENSITY = 10;
             public static final int OUTER_GLOW_OFFSET = 10;
             public static final Color TRANSPARENT_BLACK = new Color(0, 0, 0, 0.5);
-            public static final double NEW_ICON_SIZE = SIDE_LENGTH / 3.0 * Util.SQRT_2;
+            public static final double NEW_ICON_SIZE = SIDE_LENGTH / 3 * Util.SQRT_2;
             private static final Font FONT =
-                    Resources.getFont(Resources.GeosansLight_FONT, DIAGONAL_LENGTH / 4.0);
+                    Resources.getFont(Resources.GeosansLight_FONT, DIAGONAL_LENGTH / 4);
             public static final DropShadow SHADOW = new DropShadow(
                     OUTER_GLOW_INTENSITY, OUTER_GLOW_OFFSET, OUTER_GLOW_OFFSET, TRANSPARENT_BLACK);
 
@@ -220,12 +220,12 @@ public class ChapterPane extends StackPane {
                 label.setMouseTransparent(true);
 
                 Polygon lockBg = new Polygon(
-                        -IMAGE_SIZE / 2.0, IMAGE_SIZE / 4.0,
-                        -IMAGE_SIZE / 2.0, IMAGE_SIZE / 2.0,
-                        -IMAGE_SIZE / 4.0, IMAGE_SIZE / 2.0,
-                        IMAGE_SIZE / 2.0, -IMAGE_SIZE / 4.0,
-                        IMAGE_SIZE / 2.0, -IMAGE_SIZE / 2.0,
-                        IMAGE_SIZE / 4.0, -IMAGE_SIZE / 2.0);
+                        -IMAGE_SIZE / 2, IMAGE_SIZE / 4,
+                        -IMAGE_SIZE / 2, IMAGE_SIZE / 2,
+                        -IMAGE_SIZE / 4, IMAGE_SIZE / 2,
+                        IMAGE_SIZE / 2, -IMAGE_SIZE / 4,
+                        IMAGE_SIZE / 2, -IMAGE_SIZE / 2,
+                        IMAGE_SIZE / 4, -IMAGE_SIZE / 2);
                 lockBg.setFill(Color.BLACK);
                 lockBg.setOpacity(0.5);
                 lockBg.setMouseTransparent(true);
@@ -233,7 +233,7 @@ public class ChapterPane extends StackPane {
                 neo.setPreserveRatio(true);
                 neo.setRotate(-45);
                 neo.setFitWidth(NEW_ICON_SIZE);
-                neo.setTranslateY(-SIDE_LENGTH * 7 / 12.0);
+                neo.setTranslateY(-SIDE_LENGTH * 7 / 12);
                 neo.setMouseTransparent(true);
 
                 ImageView view = new ImageView(illustrationPath);
@@ -241,7 +241,7 @@ public class ChapterPane extends StackPane {
                 view.setPreserveRatio(true);
                 view.setMouseTransparent(true);
                 lock.setRotate(-45);
-                lock.setFitWidth(DIAGONAL_LENGTH / 3.0);
+                lock.setFitWidth(DIAGONAL_LENGTH / 3);
                 lock.setPreserveRatio(true);
                 lock.setMouseTransparent(true);
 
@@ -291,9 +291,9 @@ public class ChapterPane extends StackPane {
                     ImageView star = new ImageView(Resources.STAR);
                     star.setRotate(-45);
                     star.setPreserveRatio(true);
-                    star.setFitWidth(SIDE_LENGTH / 4.0 * Util.SQRT_2);
-                    star.setTranslateX(SIDE_LENGTH * 2 / 7.0);
-                    star.setTranslateY(SIDE_LENGTH * 2 / 7.0);
+                    star.setFitWidth(SIDE_LENGTH / 4 * Util.SQRT_2);
+                    star.setTranslateX(SIDE_LENGTH * 2 / 7);
+                    star.setTranslateY(SIDE_LENGTH * 2 / 7);
                     star.setMouseTransparent(true);
                     getChildren().add(star);
                 }
