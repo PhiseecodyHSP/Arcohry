@@ -55,7 +55,6 @@ public class ChapterPane extends StackPane {
         for (int i = 0; i < s; i++) {
             storyButtonPanes.get(i).setTranslateY((2 * i - s + 1) * d);
         }
-        System.out.println(s);
     }
 
     public List<StoryButtonPane> getStoryButtonPanes() {
@@ -127,11 +126,11 @@ public class ChapterPane extends StackPane {
             for (int i = 0; i < s; i++) {
                 StoryButton button = storyButtons.get(i);
                 button.setTranslateX(l * (i + d / 2.0));
-                   if (button.unlocked && i + 1 < s) {
-                       storyButtons.get(i + 1).enable();
-                   } else {
-                       updateLine();
-                   }
+                if (button.unlocked && i + 1 < s) {
+                    storyButtons.get(i + 1).enable();
+                } else {
+                    updateLine();
+                }
             }
         }
 

@@ -243,10 +243,11 @@ public class SetStage extends Stage {
             onLAdded.setInterpolator(Util.EASE_IN);
             onLRemoved.setInterpolator(Util.EASE_OUT);
             onLRemoved.setOnFinished(_ -> {
-                lastNode.setMouseTransparent(false);
+                if (lastNode != null) {
+                    lastNode.setMouseTransparent(false);
+                }
                 currentNode.setMouseTransparent(false);
                 root.getChildren().remove(this);
-                System.out.println(1);
             });
             onRAdded.setInterpolator(Util.EASE_IN);
             onRRemoved.setInterpolator(Util.EASE_OUT);
@@ -295,7 +296,6 @@ public class SetStage extends Stage {
         //TODO
         private void play(@NotNull SetStage.Loading.Type type) {
             type.setType(this);
-
             Resources.playSound(Resources.LOADING_START_SOUND);
 
             lastNode.setMouseTransparent(true);
@@ -329,6 +329,8 @@ public class SetStage extends Stage {
                          @NotNull Chart.Paradigms paradigms) {
             type.setType(this);
             Resources.playSound(Resources.START_SOUND);
+
+            currentNode.setMouseTransparent(true);
 
             this.musicName.setText(musicName);
             this.composer.setText(composer);

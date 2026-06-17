@@ -45,20 +45,6 @@ public final class Util {
         CONDITION_DISPLAYER = new StoryUnlockConditionDisplayer();
     }
 
-//    public static int doubleToEven(double d) {
-//        int i;
-//        if (d < 0) {
-//            i = (int) d - 1;
-//            return i % 2 == 0 ? i : i - 1;
-//        }
-//        if (d == 0) {
-//            return 0;
-//        } else {
-//            i = (int) d + 1;
-//            return i % 2 == 0 ? i : i + 1;
-//        }
-//    }
-
     private static SetStage getSetStage(Scene scene) {
         if (scene.getWindow() instanceof SetStage stage) {
             return stage;
