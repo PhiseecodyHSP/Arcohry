@@ -37,9 +37,8 @@ public class SetStage extends Stage {
     private final Scene scene = new Scene(root);
     private final Loading loading = new Loading();
 
-    public SetStage(Node initialNode) {
+    public SetStage() {
         root.setStyle("-fx-background-color: black;");
-        root.getChildren().add(initialNode);
 
         scene.setFill(Color.BLACK);
         scene.setOnKeyPressed(e -> {
@@ -50,9 +49,6 @@ public class SetStage extends Stage {
         scene.widthProperty().addListener(_ -> updateScale());
         scene.heightProperty().addListener(_ -> updateScale());
 
-        lastNode = null;
-        currentNode = initialNode;
-
         setFullScreenExitHint("");
         setTitle("Report");
         setWidth(WIDTH);
@@ -61,11 +57,23 @@ public class SetStage extends Stage {
         show();
     }
 
+    public SetStage(Node initialNode) {
+        this();
+        currentNode = initialNode;
+        root.getChildren().addFirst(currentNode);
+    }
+
     private void updateScale() {
         double scale = Math.max(scene.getWidth() / Util.PRIMARY_SCREEN_WIDTH,
                 scene.getHeight() / (Util.PRIMARY_SCREEN_HEIGHT));
         root.setScaleX(scale);
         root.setScaleY(scale);
+    }
+
+    public void setNode(Node newNode) {
+        lastNode = currentNode;
+        currentNode = newNode;
+        root.getChildren().set(0, currentNode);
     }
 
     public void transitionNode(Node newNode) {
