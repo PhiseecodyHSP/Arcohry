@@ -109,7 +109,6 @@ public class ChapterPane extends StackPane {
             this(partner.avatarPath(), title);
         }
 
-        //TODO: 展示UnlockCondition时会发生微小位移
         private void addAll(StoryButton... buttons) {
             getChildren().addAll(buttons);
             storyButtons.addAll(List.of(buttons));
@@ -201,13 +200,13 @@ public class ChapterPane extends StackPane {
 
             private boolean enabled = false;
             private boolean unlocked = false;
-            private final List<StoryPlayer.Item> items;
             private final Label label;
             private final ImageView lock = new ImageView(Resources.Init_ILLUSTRATION);
             private final ImageView neo = new ImageView(Resources.NEW_ICON);
             private final StoryButtonPane parent = StoryButtonPane.this;
             private final Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH, Color.WHITE);
-            private final EventHandler<? super MouseEvent> handler;
+            private final EventHandler<? super MouseEvent> conditionHandler;
+            private final EventHandler<? super MouseEvent> storyHandler;
 
             public StoryButton(String title,
                                @NotNull String illustrationPath,
@@ -262,32 +261,48 @@ public class ChapterPane extends StackPane {
 
                 if (chart != null) {
                     if (partner != null) {
-                        handler = _ -> CONDITION_DISPLAYER.display(parent.parent, chart, partner);
+                        conditionHandler = _ -> CONDITION_DISPLAYER.display(parent.parent, chart, partner);
                     } else {
-                        handler = _ -> CONDITION_DISPLAYER.display(parent.parent, chart);
+                        conditionHandler = _ -> CONDITION_DISPLAYER.display(parent.parent, chart);
                     }
                 } else {
-                    handler = null;
+                    conditionHandler = null;
                 }
 
                 boolean[] withCg = {false};
+                List<StoryPlayer.Item> items;
                 try {
                     items = new ObjectMapper().readValue(Resources.ofStream(storyPath), new TypeReference<>() {});
                 } catch (IOException e) {
                     throw new UncheckedIOException("Failed to read '" + storyPath + "'", e);
                 }
-                items.forEach(i -> {
-                    String type = i.getType();
-                    if (!Objects.equals(type, StoryPlayer.Item.CG_TYPE) &&
-                            !Objects.equals(type, StoryPlayer.Item.TEXT_TYPE)) {
-                        throw new IllegalStateException(
-                                "A " + StoryPlayer.Item.class.getSimpleName() + "'s type must be \"cg\" or \"text\", " +
-                                        "but found \"" + type + "\" in '" + i.getPath() +"'");
-                    }
-                    if (type.equals(StoryPlayer.Item.CG_TYPE)) {
-                        withCg[0] = true;
-                    }
-                });
+
+                if (items.isEmpty()) {
+                    storyHandler = _ -> {
+                        getChildren().remove(neo);
+                        border.setOnMouseClicked(null);
+                    };
+                } else {
+                    items.forEach(i -> {
+                        String type = i.getType();
+                        if (!Objects.equals(type, StoryPlayer.Item.CG_TYPE) &&
+                                !Objects.equals(type, StoryPlayer.Item.TEXT_TYPE)) {
+                            throw new IllegalStateException(
+                                    "A " + StoryPlayer.Item.class.getSimpleName() + "'s type must be \"cg\" or \"text\", " +
+                                            "but found \"" + type + "\" in '" + i.getPath() +"'");
+                        }
+                        if (type.equals(StoryPlayer.Item.CG_TYPE)) {
+                            withCg[0] = true;
+                        }
+                    });
+
+                    storyHandler = _ -> {
+                        STORY_PLAYER.play(parent.parent, partnerAvatarPath, items);
+                        getChildren().remove(neo);
+                        border.setOnMouseClicked(_ ->
+                                STORY_PLAYER.play(parent.parent, partnerAvatarPath, items));
+                    };
+                }
 
                 if (withCg[0]) {
                     ImageView star = new ImageView(Resources.STAR);
@@ -305,7 +320,7 @@ public class ChapterPane extends StackPane {
 
             @Override
             public String toString() {
-                return getClass().getSimpleName() + "'" + label.getText() + "'";
+                return getClass().getSimpleName() + " '" + label.getText() + "'";
             }
 
             public boolean isNew() {
@@ -315,8 +330,8 @@ public class ChapterPane extends StackPane {
             private void enable() {
                 if (!enabled) {
                     setOpacity(1);
-                    if (handler != null) {
-                        border.setOnMouseClicked(handler);
+                    if (conditionHandler != null) {
+                        border.setOnMouseClicked(conditionHandler);
                     } else {
                         unlock();
                     }
@@ -327,12 +342,7 @@ public class ChapterPane extends StackPane {
 
             private void unlock() {
                 if (!unlocked) {
-                    border.setOnMouseClicked(_ -> {
-                        STORY_PLAYER.play(parent.parent, partnerAvatarPath, items);
-                        getChildren().remove(neo);
-                        border.setOnMouseClicked(_ ->
-                                STORY_PLAYER.play(parent.parent, partnerAvatarPath, items));
-                    });
+                    border.setOnMouseClicked(storyHandler);
                     int i = parent.storyButtons.indexOf(this) + 1;
                     if (i < parent.storyButtons.size()) {
                         parent.storyButtons.get(i).enable();
