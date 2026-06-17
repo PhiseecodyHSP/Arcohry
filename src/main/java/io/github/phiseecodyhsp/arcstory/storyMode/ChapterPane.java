@@ -133,7 +133,6 @@ public class ChapterPane extends StackPane {
             }
         }
 
-        //TODO: 出于未知原因, 存在 darkLine 时父容器的排版会出问题
         /**
          * 更新按钮之间的连线.
          *
@@ -172,6 +171,9 @@ public class ChapterPane extends StackPane {
             for (int i = 0; i < darkLineCount; i++) {
                 getChildren().get(i).setTranslateX(w * (enabledCount + i - totalCount / 2.0));
             }
+
+            // 由于实际只有亮线会影响宽度, 这里要强制设置最小宽度以正确对齐
+            this.setMinWidth(w * (totalCount - 1));
         }
 
         public List<StoryButton> getStoryButtons() {
