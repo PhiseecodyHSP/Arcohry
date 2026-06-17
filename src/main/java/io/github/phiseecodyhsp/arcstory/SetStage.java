@@ -41,6 +41,9 @@ public class SetStage extends Stage {
         root.setStyle("-fx-background-color: black;");
         currentNode = initialNode;
         root.getChildren().add(currentNode);
+        if (currentNode instanceof ChapterSelectionPane || currentNode instanceof ChapterPane) {
+            playBgm(Resources.STORY_MODE_BGM);
+        }
 
         scene.setFill(Color.BLACK);
         scene.setOnKeyPressed(e -> {
