@@ -195,6 +195,9 @@ public class ChapterPane extends StackPane {
                     Resources.getFont(Resources.GeosansLight_FONT, DIAGONAL_LENGTH / 4);
             public static final DropShadow SHADOW = new DropShadow(
                     OUTER_GLOW_INTENSITY, OUTER_GLOW_OFFSET, OUTER_GLOW_OFFSET, TRANSPARENT_BLACK);
+            private static final StoryPlayer STORY_PLAYER = new StoryPlayer();
+            private static final StoryUnlockConditionDisplayer CONDITION_DISPLAYER =
+                    new StoryUnlockConditionDisplayer();
 
             private boolean enabled = false;
             private boolean unlocked = false;
@@ -259,9 +262,9 @@ public class ChapterPane extends StackPane {
 
                 if (chart != null) {
                     if (partner != null) {
-                        handler = _ -> Util.CONDITION_DISPLAYER.display(parent.parent, chart, partner);
+                        handler = _ -> CONDITION_DISPLAYER.display(parent.parent, chart, partner);
                     } else {
-                        handler = _ -> Util.CONDITION_DISPLAYER.display(parent.parent, chart);
+                        handler = _ -> CONDITION_DISPLAYER.display(parent.parent, chart);
                     }
                 } else {
                     handler = null;
@@ -325,10 +328,10 @@ public class ChapterPane extends StackPane {
             private void unlock() {
                 if (!unlocked) {
                     border.setOnMouseClicked(_ -> {
-                        Util.STORY_PLAYER.play(parent.parent, partnerAvatarPath, items);
+                        STORY_PLAYER.play(parent.parent, partnerAvatarPath, items);
                         getChildren().remove(neo);
                         border.setOnMouseClicked(_ ->
-                                Util.STORY_PLAYER.play(parent.parent, partnerAvatarPath, items));
+                                STORY_PLAYER.play(parent.parent, partnerAvatarPath, items));
                     });
                     int i = parent.storyButtons.indexOf(this) + 1;
                     if (i < parent.storyButtons.size()) {

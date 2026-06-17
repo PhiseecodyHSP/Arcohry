@@ -1,7 +1,5 @@
 package io.github.phiseecodyhsp.arcstory;
 
-import io.github.phiseecodyhsp.arcstory.storyMode.StoryPlayer;
-import io.github.phiseecodyhsp.arcstory.storyMode.StoryUnlockConditionDisplayer;
 import javafx.animation.Interpolator;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -20,9 +18,6 @@ public final class Util {
     public static final Interpolator EASE_IN;
     public static final Interpolator EASE_OUT;
 
-    public static final StoryPlayer STORY_PLAYER;
-    public static final StoryUnlockConditionDisplayer CONDITION_DISPLAYER;
-
     static {
         SQRT_2 = Math.sqrt(2);
         PRIMARY_SCREEN_WIDTH = Screen.getPrimary().getBounds().getWidth();
@@ -40,9 +35,6 @@ public final class Util {
                 return v * v * v;
             }
         };
-
-        STORY_PLAYER = new StoryPlayer();
-        CONDITION_DISPLAYER = new StoryUnlockConditionDisplayer();
     }
 
     private static SetStage getSetStage(Scene scene) {
