@@ -17,7 +17,6 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -208,8 +207,8 @@ public class SetStage extends Stage {
         private final ImageView right = new ImageView();
         private final ImageView illustrationView = new ImageView();
         private final ImageView musicNameShadow = new ImageView();
-        private final ImageView shadow = new ImageView(Resources.TRANSANIMA_SHADOW);
-        private final Rectangle paradigms = new Rectangle(ILLUSTRATION_SIZE, ILLUSTRATION_SIZE);
+        private final ImageView shadow = new ImageView(Resources.LOADING_SHADOW);
+        private final ImageView paradigms = new ImageView();
         private final Label musicName = new Label();
         private final Label music = new Label("Music");
         private final Label composer = new Label();
@@ -237,6 +236,8 @@ public class SetStage extends Stage {
         private Loading() {
             illustrationView.setFitWidth(ILLUSTRATION_SIZE);
             illustrationView.setFitHeight(ILLUSTRATION_SIZE);
+            paradigms.setFitWidth(ILLUSTRATION_SIZE);
+            paradigms.setFitHeight(ILLUSTRATION_SIZE);
             paradigms.setOpacity(PARADIGMS_OPACITY);
 
             StackPane.setAlignment(left, Pos.CENTER_LEFT);

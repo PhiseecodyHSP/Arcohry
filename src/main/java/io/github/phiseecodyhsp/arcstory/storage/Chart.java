@@ -1,7 +1,7 @@
 package io.github.phiseecodyhsp.arcstory.storage;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.jetbrains.annotations.NotNull;
 
 public class Chart {
@@ -63,21 +63,20 @@ public class Chart {
         }
     }
 
-    //TODO: 重取色
     public enum Paradigms {
-        LIGHT(Color.WHITE),
-        CONFLICT(Color.WHITE),
-        ACHROMIC(Color.WHITE),
-        LEPHON(Color.WHITE);
+        LIGHT(Resources.LIGHT),
+        CONFLICT(Resources.CONFLICT),
+        ACHROMIC(Resources.ACHROMIC),
+        LEPHON(Resources.LEPHON);
 
-        private final Color color;
+        private final String path;
 
-        Paradigms(Color color) {
-            this.color = color;
+        Paradigms(String path) {
+            this.path = path;
         }
 
-        public void setParadigms(Rectangle square) {
-            square.setFill(color);
+        public void setParadigms(ImageView paradigms) {
+            paradigms.setImage(new Image(path));
         }
     }
 }

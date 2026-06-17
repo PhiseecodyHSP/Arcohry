@@ -5,7 +5,7 @@ import javafx.scene.text.Font;
 
 import java.io.InputStream;
 
-//TODO: 播放音频、lock、star和NEW素材
+//TODO: 播放音频、lock、star、NEW、和分侧素材
 public final class Resources {
     private Resources() {}
 
@@ -25,8 +25,11 @@ public final class Resources {
     public static final String SUC_BG1;
     public static final String NORMAL_LOADING_L;
     public static final String NORMAL_LOADING_R;
-    public static final String TRANSANIMA_SHADOW;
-    public static final String COVER;
+    public static final String LOADING_SHADOW;
+    public static final String LIGHT;
+    public static final String CONFLICT;
+    public static final String ACHROMIC;
+    public static final String LEPHON;
 
     public static final String STORY_EMPTY;
 
@@ -53,8 +56,11 @@ public final class Resources {
         SUC_BG1 = ofString("images/未标题-1.png");
         NORMAL_LOADING_L = ofString("images/TransAnimaL_resized.png");
         NORMAL_LOADING_R = ofString("images/TransAnimaR_resized.png");
-        TRANSANIMA_SHADOW = ofString("images/TransAnimaL_resized.png");
-        COVER = ofString("images/cover.png");
+        LOADING_SHADOW = ofString("images/TransAnimaL_resized.png");
+        LIGHT = ofString("images/0-3.jpg");
+        CONFLICT = ofString("images/0-3.jpg");
+        ACHROMIC = ofString("images/0-3.jpg");
+        LEPHON = ofString("images/0-3.jpg");
 
         STORY_EMPTY = "stories/empty.json";
 
