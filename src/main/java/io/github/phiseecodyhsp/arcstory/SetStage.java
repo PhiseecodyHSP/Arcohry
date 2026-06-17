@@ -296,7 +296,7 @@ public class SetStage extends Stage {
 
         //TODO
         private void play(@NotNull SetStage.Loading.Type type) {
-            type.setType(this);
+            type.setType(left, right);
             Resources.playSound(Resources.LOADING_START_SOUND);
 
             lastNode.setMouseTransparent(true);
@@ -328,7 +328,7 @@ public class SetStage extends Stage {
                          String illustrator,
                          String noteDesigner,
                          @NotNull Chart.Paradigms paradigms) {
-            type.setType(this);
+            type.setType(left, right);
             Resources.playSound(Resources.START_SOUND);
 
             currentNode.setMouseTransparent(true);
@@ -396,9 +396,9 @@ public class SetStage extends Stage {
                 rightImagePath = r;
             }
 
-            private void setType(Loading loading) {
-                loading.left.setImage(new Image(leftImagePath));
-                loading.right.setImage(new Image(rightImagePath));
+            private void setType(ImageView left, ImageView right) {
+                left.setImage(new Image(leftImagePath));
+                right.setImage(new Image(rightImagePath));
             }
         }
     }
