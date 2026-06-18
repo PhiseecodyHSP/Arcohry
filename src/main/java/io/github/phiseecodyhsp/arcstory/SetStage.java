@@ -17,6 +17,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -27,6 +28,8 @@ import java.util.Objects;
 public class SetStage extends Stage {
     public static final double WIDTH = Util.PRIMARY_SCREEN_WIDTH / 2;
     public static final double HEIGHT = WIDTH / 16 * 9;
+    private static final double BGM_VOLUME = 0.2;
+    private static final double BGM_FADING_TIME = 0.5;
 
     private Node lastNode;
     private Node currentNode;
@@ -40,9 +43,7 @@ public class SetStage extends Stage {
         root.setStyle("-fx-background-color: black;");
         currentNode = initialNode;
         root.getChildren().add(currentNode);
-        if (currentNode instanceof ChapterSelectionPane || currentNode instanceof ChapterPane) {
-            playBgm(Resources.STORY_MODE_BGM);
-        }
+        checkBgm();
 
         scene.setFill(Color.BLACK);
         scene.setOnKeyPressed(e -> {
@@ -91,19 +92,9 @@ public class SetStage extends Stage {
         ft1.playFromStart();
         ft2.playFromStart();
 
-        if (currentNode instanceof ChapterSelectionPane || currentNode instanceof ChapterPane) {
-            if (!isBgmPlaying()) {
-                playBgm(Resources.STORY_MODE_BGM);
-            } else {
-                if (!Objects.equals(bgmPlayer.getMedia().getSource(), Resources.STORY_MODE_BGM)) {
-                    bgmPlayer.stop();
-                    playBgm(Resources.STORY_MODE_BGM);
-                }
-            }
-        } else {
-            if (isBgmPlaying()) {
-                bgmPlayer.stop();
-            }
+        switch (currentNode) {
+            case ChapterSelectionPane _, ChapterPane _ -> transitionBgm(Resources.STORY_MODE_BGM);
+            default -> stopBgm();
         }
     }
 
@@ -111,6 +102,13 @@ public class SetStage extends Stage {
         if (lastNode != null) {
             transitionNode(lastNode);
         }
+    }
+
+    private void transitionBgm(String path) {
+        if (isBgmPlaying() && Objects.equals(bgmPlayer.getMedia().getSource(), path)) {
+            return;
+        }
+        setBgm(path);
     }
 
     public void switchNode(Node newNode) {
@@ -127,9 +125,7 @@ public class SetStage extends Stage {
             lastNode.setOpacity(1);
             ft2.playFromStart();
             lastNode.setMouseTransparent(false);
-            if (currentNode instanceof ChapterSelectionPane || currentNode instanceof ChapterPane) {
-                playBgm(Resources.STORY_MODE_BGM);
-            }
+            checkBgm();
         });
         ft2.setToValue(1);
         ft2.setOnFinished(_ -> currentNode.setMouseTransparent(false));
@@ -177,10 +173,22 @@ public class SetStage extends Stage {
                 chart.paradigms);
     }
 
-    private void playBgm(String path) {
+    public void setBgm(String path) {
+        stopBgm();
+        loopBgm(path);
+    }
+
+    private void checkBgm() {
+        switch (currentNode) {
+            case ChapterSelectionPane _, ChapterPane _ -> loopBgm(Resources.STORY_MODE_BGM);
+            default -> {}
+        }
+    }
+
+    private void loopBgm(String path) {
         bgmPlayer = new MediaPlayer(new Media(path));
         bgmPlayer.setCycleCount(AudioClip.INDEFINITE);
-        bgmPlayer.setVolume(0.2);
+        bgmPlayer.setVolume(BGM_VOLUME);
         bgmPlayer.play();
     }
 
@@ -190,7 +198,13 @@ public class SetStage extends Stage {
 
     private void stopBgm() {
         if (isBgmPlaying()) {
-            bgmPlayer.stop();
+            Timeline fading = new Timeline(
+                    new KeyFrame(Duration.ZERO,
+                            new KeyValue(bgmPlayer.volumeProperty(), BGM_VOLUME)),
+                    new KeyFrame(Duration.seconds(BGM_FADING_TIME),
+                            new KeyValue(bgmPlayer.volumeProperty(), 0)));
+            fading.setOnFinished(_ -> bgmPlayer.stop());
+            fading.playFromStart();
         }
     }
 
@@ -277,21 +291,8 @@ public class SetStage extends Stage {
                 Resources.playSound(Resources.LOADING_END_SOUND);
             });
 
-            musicName.setTextFill(Color.WHITE);
-            musicName.setFont(FONT);
-            composer.setTextFill(Color.WHITE);
-            composer.setFont(FONT);
-            illustrator.setTextFill(Color.WHITE);
-            illustration.setFont(FONT);
-            illustration.setTextFill(Color.WHITE);
-            illustration.setFont(FONT);
-            noteDesign.setTextFill(Color.WHITE);
-            noteDesign.setFont(FONT);
-            noteDesigner.setTextFill(Color.WHITE);
-            noteDesigner.setFont(FONT);
-            musicName.setTextFill(Color.WHITE);
-            musicName.setFont(FONT);
-
+            setFont(FONT, musicName, composer, illustrator, illustration, noteDesign, noteDesigner);
+            setTextFill(Color.WHITE, musicName, composer, illustrator, illustration, noteDesign, noteDesigner);
             setMinSize(Util.PRIMARY_SCREEN_WIDTH, Util.PRIMARY_SCREEN_HEIGHT);
         }
 
@@ -309,9 +310,7 @@ public class SetStage extends Stage {
                 onLRemoved.playFromStart();
                 onRRemoved.playFromStart();
                 root.getChildren().set(0, currentNode);
-                if (currentNode instanceof ChapterSelectionPane || currentNode instanceof ChapterPane) {
-                    playBgm(Resources.STORY_MODE_BGM);
-                }
+                checkBgm();
             });
             onLAdded.playFromStart();
             onRAdded.playFromStart();
@@ -374,6 +373,18 @@ public class SetStage extends Stage {
                     chart.illustrator,
                     chart.noteDesigner,
                     chart.paradigms);
+        }
+
+        private void setFont(Font font, Label... labels) {
+            for (Label l : labels) {
+                l.setFont(font);
+            }
+        }
+
+        private void setTextFill(Paint paint, Label... labels) {
+            for (Label l : labels) {
+                l.setTextFill(paint);
+            }
         }
 
         //TODO: 素材替换
