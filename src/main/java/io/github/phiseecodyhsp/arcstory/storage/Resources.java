@@ -32,6 +32,7 @@ public final class Resources {
     public static final String LEPHON;
 
     public static final String STORY_EMPTY;
+    public static final String STORY_TEST;
 
     public static final String START_SOUND;
     public static final String LOADING_START_SOUND;
@@ -63,6 +64,7 @@ public final class Resources {
         LEPHON = ofString("images/0-3.jpg");
 
         STORY_EMPTY = "stories/empty.json";
+        STORY_TEST = "stories/test.json";
 
         START_SOUND = ofString("audios/START.mp3");
 
