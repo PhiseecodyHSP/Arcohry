@@ -128,8 +128,6 @@ public class StoryPlayer extends StackPane {
         this.parent = parent;
         this.items = items;
         this.parent.getChildren().add(this);
-        this.parent.getBg().setEffect(GLOW);
-        this.parent.getInnerPane().setEffect(GLOW);
         onRemoved.setOnFinished(_ -> {
             this.parent.getChildren().remove(this);
             this.parent = null;
@@ -144,9 +142,18 @@ public class StoryPlayer extends StackPane {
 
         getChildren().clear();
         setOpacity(1);
-        lastPlayed = -1;
-        currentlyPlaying = 0;
-        play(currentlyPlaying);
+
+        if (!items.isEmpty()) {
+            this.parent.getBg().setEffect(GLOW);
+            this.parent.getInnerPane().setEffect(GLOW);
+            lastPlayed = -1;
+            currentlyPlaying = 0;
+            play(currentlyPlaying);
+        } else {
+            getChildren().add(textPane);
+            onShadowAdded.setOnFinished(_ -> shadow.setOnMouseClicked(_ -> end()));
+            onShadowAdded.playFromStart();
+        }
     }
 
     public void play(ChapterPane parent, Partner partner, List<Item> items) {
@@ -163,9 +170,7 @@ public class StoryPlayer extends StackPane {
         if (currentlyPlaying < items.size()) {
             play(currentlyPlaying);
         } else {
-            currentCg.setOnMouseClicked(null);
-            shadow.setOnMouseClicked(null);
-            onRemoved.playFromStart();
+            end();
         }
     }
 
@@ -196,7 +201,6 @@ public class StoryPlayer extends StackPane {
             shadow.setOnMouseClicked(null);
             allToTop(this, currentCg, sweepLine);
             onCgAdded.playFromStart();
-            Resources.playSound(Resources.CG);
         } else {
             if (lastPlayed < 0) {
                 getChildren().add(textPane);
@@ -224,6 +228,12 @@ public class StoryPlayer extends StackPane {
         } catch (IOException e) {
             throw new UncheckedIOException("Failed to read '" + path + "'", e);
         }
+    }
+
+    private void end() {
+        currentCg.setOnMouseClicked(null);
+        shadow.setOnMouseClicked(null);
+        onRemoved.playFromStart();
     }
 
     private void allToTop(Pane pane, Node... nodes) {

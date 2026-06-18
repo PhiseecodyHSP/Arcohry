@@ -19,7 +19,7 @@ public class TestApplication extends Application {
         StoryButton button1 = buttonPane1.new StoryButton(
                 "A",
                 Resources.Tutorial_ILLUSTRTION,
-                Resources.STORY_EMPTY,
+                Resources.STORY_TEST,
                 null,
                 null);
         StoryButton button2 = buttonPane1.new StoryButton(

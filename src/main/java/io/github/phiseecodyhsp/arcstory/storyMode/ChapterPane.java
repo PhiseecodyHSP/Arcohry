@@ -279,32 +279,24 @@ public class ChapterPane extends StackPane {
                     throw new UncheckedIOException("Failed to read '" + storyPath + "'", e);
                 }
 
-                if (items.isEmpty()) {
-                    storyHandler = _ -> {
-                        getChildren().remove(neo);
-                        border.setOnMouseClicked(null);
-                    };
-                } else {
-                    items.forEach(i -> {
-                        String type = i.getType();
-                        if (!Objects.equals(type, StoryPlayer.Item.CG_TYPE) &&
-                                !Objects.equals(type, StoryPlayer.Item.TEXT_TYPE)) {
-                            throw new IllegalStateException(
-                                    "A " + StoryPlayer.Item.class.getSimpleName() + "'s type must be \"cg\" or \"text\", " +
-                                            "but found \"" + type + "\" in '" + i.getPath() +"'");
-                        }
-                        if (type.equals(StoryPlayer.Item.CG_TYPE)) {
-                            withCg[0] = true;
-                        }
-                    });
+                storyHandler = _ -> {
+                    STORY_PLAYER.play(parent.parent, partnerAvatarPath, items);
+                    getChildren().remove(neo);
+                    border.setOnMouseClicked(_ ->
+                            STORY_PLAYER.play(parent.parent, partnerAvatarPath, items));
+                };
 
-                    storyHandler = _ -> {
-                        STORY_PLAYER.play(parent.parent, partnerAvatarPath, items);
-                        getChildren().remove(neo);
-                        border.setOnMouseClicked(_ ->
-                                STORY_PLAYER.play(parent.parent, partnerAvatarPath, items));
-                    };
-                }
+                items.forEach(i -> {
+                    String type = i.getType();
+                    if (!Objects.equals(type, StoryPlayer.Item.CG_TYPE) &&
+                            !Objects.equals(type, StoryPlayer.Item.TEXT_TYPE)) {
+                        throw new IllegalStateException(
+                                "A " + StoryPlayer.Item.class.getSimpleName() + "'s type must be \"cg\" or \"text\", " +
+                                        "but found \"" + type + "\" in '" + i.getPath() +"'");
+                    }
+                    if (type.equals(StoryPlayer.Item.CG_TYPE)) {
+                        withCg[0] = true;
+                    }});
 
                 if (withCg[0]) {
                     ImageView star = new ImageView(Resources.STAR);
