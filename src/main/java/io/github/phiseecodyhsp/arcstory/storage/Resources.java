@@ -38,7 +38,6 @@ public final class Resources {
     public static final String LOADING_START_SOUND;
     public static final String LOADING_END_SOUND;
     public static final String STORY_MODE_BGM;
-    public static final String CG;
 
     static {
         GeosansLight_FONT = "fonts/GeosansLight.ttf";
@@ -73,7 +72,6 @@ public final class Resources {
         LOADING_END_SOUND = ofString("audios/LoadingEnd.mp3");
 
         STORY_MODE_BGM = ofString("audios/故事模式BGM.wav");
-        CG = ofString("audios/cg.mp3");
     }
 
     public static String ofString(String path) {

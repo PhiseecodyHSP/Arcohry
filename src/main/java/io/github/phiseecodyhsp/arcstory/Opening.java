@@ -1,0 +1,206 @@
+package io.github.phiseecodyhsp.arcstory;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.geometry.Pos;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.util.Duration;
+
+import java.awt.*;
+
+//TODO
+public class Opening extends StackPane {
+//    private final Timeline timeline;
+//
+//    public Opening(Type type) {
+//        ImageView bg = new ImageView(type.bgPath);
+//        bg.setPreserveRatio(true);
+//        bg.setFitWidth(Util.PRIMARY_SCREEN_WIDTH);
+//        StackPane.setAlignment(bg, Pos.TOP_CENTER);
+//
+//        timeline = new Timeline(
+//                new KeyFrame(
+//                        Duration.ZERO,
+//                        new KeyValue(bg.yProperty(), 0)
+//
+//        ));
+//
+//        getChildren().addAll(bg, type.flows[0], type.flows[1], type.flows[2]);
+//    }
+//
+//    //TODO
+//    public enum Type {
+//        ETERNAL(),
+//        VICIOUS(),
+//        LUMINOUS(),
+//        BLACK(),
+//        SILENT(),
+//        ASCENSION(),
+//        NEXT(),
+//        DEFAULT();
+//
+//        private final String musicPath;
+//        private final double climaxTime;
+//        private final String bgPath;
+//        private final TextFlow[] flows;
+//
+//        Type(String musicPath,
+//             double climaxTime,
+//             String bgPath,
+//             TextFlow[] flows) {
+//            this.musicPath = musicPath;
+//            this.climaxTime = climaxTime;
+//            this.bgPath = bgPath;
+//
+//            if (flows.length != 3) {
+//                throw new IllegalArgumentException();
+//            } else {
+//                this.flows = flows;
+//            }
+//        }
+//    }
+//
+//    private static final class Copies {
+//        private static final Font EN_FONT;
+//        private static final Font BIG_EN_FONT;
+//        private static final Font JP_FONT;
+//
+//        private Copies() {}
+//
+//        static {
+//        }
+//
+//        private TextFlow[] getEternalTextFlows() {
+//            Text en1 = new Text("A HARMONY OF ");
+//            Text L = new Text("L");
+//            Text ight = new Text("ight");
+//            Text n1 = new Text("\n");
+//            Text jp1 = new Text("「");
+//            Text hikari = new Text("光");
+//            Text jp2 = new Text("奏でる調和」が");
+//
+//            Text en2 = new Text("AWAITS YOU IN A LOST WORLD");
+//            Text n2 = new Text("\n");
+//            Text jp3 = new Text("「音が");
+//            Text tairitsu = new Text("対立");
+//            Text jp4 = new Text("する」失われる世界で");
+//
+//            Text en3 = new Text("OF MUSICAL ");
+//            Text C = new Text("C");
+//            Text onflict = new Text("onflict...");
+//            Text n3 = new Text("\n");
+//            Text jp5 = new Text("あなたを待ち受ける…");
+//
+//            setFont(EN_FONT, en1, ight, en2, en3, onflict);
+//            setFont(BIG_EN_FONT, L, C);
+//
+//            return new TextFlow[]{
+//                    new TextFlow(en1, L, ight, n1, jp1, hikari, jp2),
+//                    new TextFlow(en2, n2, jp3, tairitsu, jp4),
+//                    new TextFlow(en3, C, onflict, n3, jp5)};
+//        }
+//
+//        private TextFlow[] getFinalTextFlows() {
+//            Text en1 = new Text("A HARMONY OF ");
+//            Text L = new Text("L");
+//            Text ight = new Text("ight");
+//            Text n1 = new Text("\n");
+//            Text jp1 = new Text("「");
+//            Text hikari = new Text("光");
+//            Text jp2 = new Text("奏でる調和」が");
+//
+//            Text en2 = new Text("AWAITS YOU IN A LOST WORLD");
+//            Text n2 = new Text("\n");
+//            Text jp3 = new Text("「音が");
+//            Text tairitsu = new Text("対立");
+//            Text jp4 = new Text("する」失われる世界で");
+//
+//            Text en3 = new Text("OF MUSICAL ");
+//            Text C = new Text("C");
+//            Text onflict = new Text("onflict...");
+//            Text n3 = new Text("\n");
+//            Text jp5 = new Text("あなたを待ち受ける…");
+//
+//            setFont(EN_FONT, en1, ight, en2, en3, onflict);
+//            setFont(BIG_EN_FONT, L, C);
+//            setFont(JP_FONT, jp1, jp2, jp3, jp4, jp5);
+//
+//            return new TextFlow[]{
+//                    new TextFlow(en1, L, ight, n1, jp1, hikari, jp2),
+//                    new TextFlow(en2, n2, jp3, tairitsu, jp4),
+//                    new TextFlow(en3, C, onflict, n3, jp5)};
+//        }
+//
+//        private TextFlow[] getSilentTextFlows() {
+//            Text en1 = new Text("A FADING ");
+//            Text L = new Text("L");
+//            Text ight = new Text("ight");
+//            Text n1 = new Text("\n");
+//            Text jp1 = new Text("『消えゆく");
+//            Text hikari = new Text("光");
+//            Text jp2 = new Text("』が");
+//
+//            Text en2 = new Text("AWAITS TWO IN A CLOSED WORLD");
+//            Text n2 = new Text("\n");
+//            Text jp3 = new Text("『忘れられた");
+//            Text tairitsu = new Text("対立");
+//            Text jp4 = new Text("』の果て");
+//
+//            Text en3 = new Text("OF MUSICAL ");
+//            Text C = new Text("C");
+//            Text onflict = new Text("onflict...");
+//            Text n3 = new Text("\n");
+//            Text jp5 = new Text("閉じ往く世界で、二人を待つ");
+//
+//            setFont(EN_FONT, en1, ight, en2, en3, onflict);
+//            setFont(BIG_EN_FONT, L, C);
+//            setFont(JP_FONT, jp1, jp2, jp3, jp4, jp5);
+//
+//            return new TextFlow[]{
+//                    new TextFlow(en1, L, ight, n1, jp1, hikari, jp2),
+//                    new TextFlow(en2, n2, jp3, tairitsu, jp4),
+//                    new TextFlow(en3, C, onflict, n3, jp5)};
+//        }
+//
+//        private TextFlow[] getLucentTextFlows() {
+//            Text en1 = new Text("DIVINE GRACE");
+//            Text n1 = new Text("\n");
+//            Text jp1 = new Text("『光』も『対立』もない");
+//
+//            Text en2 = new Text("FALLS UPON YOU IN A DEAD WORLD");
+//            Text n2 = new Text("\n");
+//            Text jp2 = new Text("死んだ世界の中心でいま");
+//
+//            Text en3 = new Text("WITHOUT LIGHT OR CONFLICT");
+//            Text n3 = new Text("\n");
+//            Text jp3 = new Text("『神の祝福』があなたに降り注ぐ…");
+//
+//            setFont(EN_FONT, en1, en2, en3);
+//            setFont(JP_FONT, jp1, jp2, jp3);
+//
+//            return new TextFlow[]{
+//                    new TextFlow(en1, n1, jp1),
+//                    new TextFlow(en2, n2, jp2),
+//                    new TextFlow(en3, n3, jp3)};
+//        }
+//
+//        private void setFont(Font font, Text... texts) {
+//            for (Text t : texts) {
+//                t.setFont(font);
+//            }
+//        }
+//
+//        private void setStroke(Paint paint, Text... texts) {
+//            for (Text t : texts) {
+//                t.setStroke(paint);
+//                t.setStrokeWidth(0);
+//            }
+//        }
+//    }
+}
