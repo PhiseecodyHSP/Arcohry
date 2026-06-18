@@ -10,11 +10,9 @@ module io.github.phiseecodyhsp.arcstory {
     requires com.fasterxml.jackson.databind;
 
     opens io.github.phiseecodyhsp.arcstory to javafx.fxml;
+    opens io.github.phiseecodyhsp.arcstory.storage to javafx.fxml;
     opens io.github.phiseecodyhsp.arcstory.storyMode to javafx.fxml, com.fasterxml.jackson.databind;
     exports io.github.phiseecodyhsp.arcstory;
     exports io.github.phiseecodyhsp.arcstory.storyMode;
     exports io.github.phiseecodyhsp.arcstory.storage;
-    opens io.github.phiseecodyhsp.arcstory.storage to com.fasterxml.jackson.databind, javafx.fxml;
-    exports io.github.phiseecodyhsp.arcstory.opening;
-    opens io.github.phiseecodyhsp.arcstory.opening to javafx.fxml;
 }
