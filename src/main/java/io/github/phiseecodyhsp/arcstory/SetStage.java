@@ -38,6 +38,8 @@ public class SetStage extends Stage {
     private final StackPane root = new StackPane();
     private final Scene scene = new Scene(root);
     private final Loading loading = new Loading();
+    private final FadeTransition onLastNode = new FadeTransition(Duration.seconds(Loading.TRANS_TIME));
+    private final FadeTransition onCurrenNode = new FadeTransition(Duration.seconds(Loading.TRANS_TIME));
 
     public SetStage(Node initialNode) {
         root.setStyle("-fx-background-color: black;");
@@ -53,6 +55,9 @@ public class SetStage extends Stage {
         });
         scene.widthProperty().addListener(_ -> updateScale());
         scene.heightProperty().addListener(_ -> updateScale());
+
+        onLastNode.setToValue(0);
+        onCurrenNode.setToValue(1);
 
         setFullScreenExitHint("");
         setTitle("");
@@ -73,24 +78,22 @@ public class SetStage extends Stage {
         lastNode = currentNode;
         currentNode = newNode;
 
-        FadeTransition ft1 = new FadeTransition(Duration.seconds(Loading.TRANS_TIME), lastNode);
-        FadeTransition ft2 = new FadeTransition(Duration.seconds(Loading.TRANS_TIME), currentNode);
-
-        ft1.setToValue(0);
-        ft2.setToValue(1);
-        ft2.setOnFinished(_ -> {
+        onLastNode.setOnFinished(null);
+        onLastNode.setNode(lastNode);
+        onCurrenNode.setOnFinished(_ -> {
             root.getChildren().remove(lastNode);
             lastNode.setOpacity(1);
             lastNode.setMouseTransparent(false);
             currentNode.setMouseTransparent(false);
         });
+        onCurrenNode.setNode(currentNode);
 
         lastNode.setMouseTransparent(true);
         currentNode.setMouseTransparent(true);
         currentNode.setOpacity(0);
         root.getChildren().add(currentNode);
-        ft1.playFromStart();
-        ft2.playFromStart();
+        onLastNode.playFromStart();
+        onCurrenNode.playFromStart();
 
         switch (currentNode) {
             case ChapterSelectionPane _, ChapterPane _ -> transitionBgm(Resources.STORY_MODE_BGM);
@@ -115,23 +118,21 @@ public class SetStage extends Stage {
         lastNode = currentNode;
         currentNode = newNode;
 
-        FadeTransition ft1 = new FadeTransition(Duration.seconds(Loading.TRANS_TIME), lastNode);
-        FadeTransition ft2 = new FadeTransition(Duration.seconds(Loading.TRANS_TIME), currentNode);
-        ft1.setToValue(0);
-        ft1.setOnFinished(_ -> {
+        onLastNode.setNode(lastNode);
+        onLastNode.setOnFinished(_ -> {
             currentNode.setOpacity(0);
             currentNode.setMouseTransparent(true);
             root.getChildren().set(0, currentNode);
             lastNode.setOpacity(1);
-            ft2.playFromStart();
+            onCurrenNode.playFromStart();
             lastNode.setMouseTransparent(false);
             checkBgm();
         });
-        ft2.setToValue(1);
-        ft2.setOnFinished(_ -> currentNode.setMouseTransparent(false));
+        onCurrenNode.setNode(currentNode);
+        onCurrenNode.setOnFinished(_ -> currentNode.setMouseTransparent(false));
 
         lastNode.setMouseTransparent(true);
-        ft1.playFromStart();
+        onLastNode.playFromStart();
         stopBgm();
     }
 
