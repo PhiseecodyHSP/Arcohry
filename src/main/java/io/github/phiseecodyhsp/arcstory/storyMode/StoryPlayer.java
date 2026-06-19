@@ -5,6 +5,7 @@ import io.github.phiseecodyhsp.arcstory.Util;
 import io.github.phiseecodyhsp.arcstory.storage.Partner;
 import io.github.phiseecodyhsp.arcstory.storage.Resources;
 import javafx.animation.*;
+import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
@@ -62,6 +63,8 @@ public class StoryPlayer extends StackPane {
     private final StackPane textPane = new StackPane(shadow, textPlayer, partnerAvatarPane);
     private final FadeTransition onRemoved = new FadeTransition(Duration.seconds(TRANS_TIME * 2), this);
     private final FadeTransition onShadowAdded = new FadeTransition(Duration.seconds(TRANS_TIME), shadow);
+
+    //TODO: 这个动画很卡
     private final Timeline onCgAdded;
 
     private ChapterPane parent;

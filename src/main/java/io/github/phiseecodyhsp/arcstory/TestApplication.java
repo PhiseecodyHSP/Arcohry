@@ -72,6 +72,5 @@ public class TestApplication extends Application {
                 Partners.Hikari);
 
         SetStage setStage = new SetStage(chapterPane);
-        button2.setBorderOnMouseClicked(_ -> setStage.switchNode(calculator));
     }
 }
