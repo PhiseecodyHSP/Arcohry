@@ -40,6 +40,7 @@ public class SetStage extends Stage {
     private final Loading loading = new Loading();
     private final FadeTransition onLastNode = new FadeTransition(Duration.seconds(Loading.TRANS_TIME));
     private final FadeTransition onCurrenNode = new FadeTransition(Duration.seconds(Loading.TRANS_TIME));
+    private final Timeline onBgmPlayer = new Timeline();
 
     public SetStage(Node initialNode) {
         root.setStyle("-fx-background-color: black;");
@@ -58,6 +59,7 @@ public class SetStage extends Stage {
 
         onLastNode.setToValue(0);
         onCurrenNode.setToValue(1);
+        onBgmPlayer.setOnFinished(_ -> bgmPlayer.stop());
 
         setFullScreenExitHint("");
         setTitle("");
@@ -199,13 +201,12 @@ public class SetStage extends Stage {
 
     private void stopBgm() {
         if (isBgmPlaying()) {
-            Timeline fading = new Timeline(
-                    new KeyFrame(Duration.ZERO,
+            onBgmPlayer.getKeyFrames().clear();
+            onBgmPlayer.getKeyFrames().addAll(new KeyFrame(Duration.ZERO,
                             new KeyValue(bgmPlayer.volumeProperty(), BGM_VOLUME)),
                     new KeyFrame(Duration.seconds(BGM_FADING_TIME),
                             new KeyValue(bgmPlayer.volumeProperty(), 0)));
-            fading.setOnFinished(_ -> bgmPlayer.stop());
-            fading.playFromStart();
+            onBgmPlayer.playFromStart();
         }
     }
 
