@@ -13,9 +13,9 @@ import java.awt.*;
 
 //TODO
 public class Opening extends StackPane {
-    private static final Font EN_FONT = Resources.getFont(Resources.GeosansLight_FONT, 0);;
-    private static final Font BIG_EN_FONT = Resources.getFont(Resources.GeosansLight_FONT, 0);;
-    private static final Font JP_FONT = Resources.getFont(Resources.GeosansLight_FONT, 0);;
+    private static final Font EN_FONT = Resources.getFont(Resources.GeosansLight_FONT, 0);
+    private static final Font BIG_EN_FONT = Resources.getFont(Resources.GeosansLight_FONT, 0);
+    private static final Font JP_FONT = Resources.getFont(Resources.GeosansLight_FONT, 0);
     private static final TextFlow[] ETERNAL;
     private static final TextFlow[] FINAL;
     private static final TextFlow[] SILENT;
