@@ -13,7 +13,7 @@ public final class Charts {
                 128, 128,
                 Difficulty.PST,
                 DifficultyLevel.LEVEL_1,
-                Resources.Tutorial_ILLUSTRTION,
+                "images/Songs_tutorial.jpg",
                 null,
                 null,
                 Paradigms.LIGHT);
