@@ -3,7 +3,7 @@ package io.github.phiseecodyhsp.arcstory.model;
 /**
  * Arcaea 谱面基本信息.
  */
-public class Chart {
+public final class Chart {
     public final String music;
     public final String musicPath;
     public final String composer;
