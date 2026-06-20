@@ -6,10 +6,10 @@ package io.github.phiseecodyhsp.arcstory.model;
  * <p>谱面的色侧会决定转场动画的样式. <b>注意: 转场素材暂时缺失. //TODO</b>
  */
 public enum Paradigms {
-    LIGHT(Resources.LIGHT),
-    CONFLICT(Resources.CONFLICT),
-    ACHROMIC(Resources.ACHROMIC),
-    LEPHON(Resources.LEPHON);
+    LIGHT("images/0-3.jpg"),
+    CONFLICT("images/0-3.jpg"),
+    ACHROMIC("images/0-3.jpg"),
+    LEPHON("images/0-3.jpg");
 
     private final String path;
 

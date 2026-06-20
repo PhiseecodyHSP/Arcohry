@@ -1,4 +1,35 @@
-[
-    {"type": "cg", "path": "images/0-3.jpg"},
-    {"type": "text", "path": "texts/test.txt"}
-]
+{
+  "id": "test_001",
+  "title": "光光真可爱",
+  "version": "1.0",
+  "background": null,
+  "bgm": null,
+  "unlock": {
+    "type": "none"
+  },
+  "hasCG": true,
+  "scenes": [
+    {
+      "id": "s1",
+      "type": "cg",
+      "image": "images/0-3.jpg",
+      "reveal": "sweep",
+      "music": null,
+      "duration": null
+    },
+    {
+      "id": "s2",
+      "type": "dialogue",
+      "speaker": null,
+      "text": "光光真可爱。|Hikari is so cute.|光ちゃんはとてもかわいいね。",
+      "avatar": null,
+      "audio": null,
+      "fontSize": null
+    },
+    {
+      "id": "s3",
+      "type": "end",
+      "returnTo": "menu"
+    }
+  ]
+}

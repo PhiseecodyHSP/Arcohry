@@ -1,0 +1,39 @@
+{
+  "images": {
+    "new_icon": "images/Icon_scenery_Beyond.png",
+    "star": "images/Icon_scenery_Beyond.png",
+    "tutorial_illustration": "images/Songs_tutorial.jpg",
+    "beyond_background": "images/Background_beyond.jpg",
+    "chapter5_scenery": "images/Background_scenery_chap5_16-9.jpg",
+    "init_illustration": "images/Songs_init.jpg",
+    "hikari_avatar": "images/Partner_0_icon.png",
+    "hikari_illustration": "images/Partner_0_new.png",
+    "doroc_avatar": "images/143px-Partner_doroc_awaken_icon.png",
+    "tairitsu_awaken_avatar": "images/Partner_1_awaken_icon.png",
+    "suc_bg0": "images/未标题-1.png",
+    "suc_bg1": "images/未标题-1.png",
+    "normal_loading_l": "images/TransAnimaL_resized.png",
+    "normal_loading_r": "images/TransAnimaR_resized.png",
+    "loading_shadow": "images/TransAnimaL_resized.png",
+    "light": "images/0-3.jpg",
+    "conflict": "images/0-3.jpg",
+    "achromic": "images/0-3.jpg",
+    "lephon": "images/0-3.jpg"
+  },
+  "audio": {
+    "start": "audios/START.mp3",
+    "loading_start": "audios/LoadingStart.mp3",
+    "loading_end": "audios/LoadingEnd.mp3",
+    "cg": "audios/cg.mp3",
+    "story_bgm": "audios/故事模式BGM.wav",
+    "project_convert_start": "audios/谱面项目转换开始.mp3",
+    "project_convert_complete": "audios/谱面项目转换完成.mp3"
+  },
+  "fonts": {
+    "geosans_light": "fonts/GeosansLight.ttf"
+  },
+  "stories": {
+    "empty": "stories/empty.json",
+    "test": "stories/test.json"
+  }
+}
