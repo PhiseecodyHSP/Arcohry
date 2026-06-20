@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.arcstory.storage;
+package io.github.phiseecodyhsp.arcstory.model;
 
 public final class Partners {
     private Partners() {}

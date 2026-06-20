@@ -1,11 +1,12 @@
-package io.github.phiseecodyhsp.arcstory.storage;
+package io.github.phiseecodyhsp.arcstory.model;
 
 import javafx.scene.media.AudioClip;
 import javafx.scene.text.Font;
 
 import java.io.InputStream;
 
-//TODO: 播放音频、lock、star、NEW、和分侧素材
+// TODO: 把这些东西全部分离, 并且统一命名规范 (包括资源文件夹内的)
+// (之前的) TODO: 播放音频、lock、star、NEW、和分侧素材
 public final class Resources {
     private Resources() {}
 

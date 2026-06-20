@@ -1,0 +1,60 @@
+package io.github.phiseecodyhsp.arcstory.util;
+
+public class MathUtil {
+
+    /**
+     * √2. 可以用来求对角线.
+     */
+    public static final double SQRT_2 = Math.sqrt(2.0D);
+
+    /**
+     * 将基数词改为序数词.
+     *
+     * @param num 数字
+     * @return 加了序数后缀的数字
+     */
+    public static String intToOrdinal(int num) {
+        int abs = Math.abs(num);
+
+        // 请记住十位数为 1 的时候加 -th 而不是其它后缀.
+        if ((abs / 10) % 10 != 1) {
+            switch (abs % 10) {
+                case 1 -> {
+                    return num + "st";
+                }
+                case 2 -> {
+                    return num + "nd";
+                }
+                case 3 -> {
+                    return num + "rd";
+                }
+            }
+        }
+
+        return num + "th";
+    }
+
+    /**
+     * 给一个双精度浮点数平方.
+     *
+     * <p><b>使用说明:</b> 如果能不额外引入局部变量, 那就<b>不要</b>调用这个方法, 保持简洁.
+     *
+     * @param value 要平方的数
+     * @return 平方结果
+     */
+    public static double square(double value) {
+        return value * value;
+    }
+
+    /**
+     * 给一个双精度浮点数立方.
+     *
+     * <p><b>使用说明:</b> 如果能不额外引入局部变量, 那就<b>不要</b>调用这个方法, 保持简洁.
+     *
+     * @param value 要立方的数
+     * @return 立方结果
+     */
+    public static double cube(double value) {
+        return value * value * value;
+    }
+}
