@@ -7,7 +7,7 @@ public final class Partners {
     public static final Partner DORO_C;
 
     static {
-        Hikari = new Partner("Hikari", Resources.Hikari_AVATAR, Resources.Hikari_ILLUSTRATION);
-        DORO_C = new Partner("DORO*C", Resources.DOROC_AVATAR, "");
+        Hikari = new Partner("Hikari", "images/Partner_0_icon.png", "images/Partner_0_new.png");
+        DORO_C = new Partner("DORO*C", "images/143px-Partner_doroc_awaken_icon.png", "");
     }
 }
