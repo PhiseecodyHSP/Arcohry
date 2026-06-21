@@ -129,14 +129,14 @@ public final class ResourceLoader {
 
     public static Font loadFont(String relativePath, double size) {
         String cacheKey = relativePath + "@" + size;
-        return fontCache.computeIfAbsent(cacheKey, k -> {
+        return fontCache.computeIfAbsent(cacheKey, _ -> {
             InputStream is = loadStream(relativePath);
             return Font.loadFont(is, size);
         });
     }
 
     public static Image loadImage(String relativePath) {
-        return imageCache.computeIfAbsent(relativePath, k -> {
+        return imageCache.computeIfAbsent(relativePath, _ -> {
             String url = loadUrl(relativePath);
             if (url == null) {
                 throw new IllegalArgumentException("Image not found: " + relativePath);
