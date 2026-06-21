@@ -1,37 +1,39 @@
 package io.github.phiseecodyhsp.arcstory.model;
 
+import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
+
 /**
  * Arcaea 谱面基本信息.
  */
 public final class Chart {
     public final String music;
-    public final String musicPath;
+    public final ResourceLocation musicLocation;
     public final String composer;
     public final String bpm;
     public final Difficulty difficulty;
     public final DifficultyLevel level;
-    public final String illustrationPath;
+    public final ResourceLocation illustrationLocation;
     public final String illustrator;
     public final String noteDesigner;
     public final Paradigms paradigms;
 
     public Chart(String music,
-                 String musicPath,
+                 ResourceLocation musicLocation,
                  String composer,
                  double minBPM,
                  double maxBPM,
                  Difficulty difficulty,
                  DifficultyLevel level,
-                 String illustrationPath,
+                 ResourceLocation illustrationLocation,
                  String illustrator,
                  String noteDesigner,
                  Paradigms paradigms) {
         this.music = music;
-        this.musicPath = musicPath;
+        this.musicLocation = musicLocation;
         this.composer = composer;
         this.difficulty = difficulty;
         this.level = level;
-        this.illustrationPath = illustrationPath;
+        this.illustrationLocation = illustrationLocation;
         this.illustrator = illustrator;
         this.noteDesigner = noteDesigner;
         this.paradigms = paradigms;
