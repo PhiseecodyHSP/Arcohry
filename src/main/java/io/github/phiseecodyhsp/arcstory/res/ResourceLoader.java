@@ -52,6 +52,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *  }</pre>
  *
  *  <p>这些资源对象被创建后, 会<b>被缓存</b>进一个 {@link Map} 对象中, 后续重复读取时会<b>复用该对象</b>.
+ *  不同的是, 音频对象 {@link AudioClip} <b>不会</b>被缓存, 因为其是一个有逻辑的对象.
  *
  *  <p>使用 {@link #clearCaches()} 来<b>清空缓存</b>, 通常<b>不会</b>随意调用.
  *
@@ -72,7 +73,6 @@ public final class ResourceLoader {
 
     private static final Map<String, Image> imageCache = new ConcurrentHashMap<>();
     private static final Map<String, Font> fontCache = new ConcurrentHashMap<>();
-    private static final Map<String, AudioClip> audioCache = new ConcurrentHashMap<>();
 
     private ResourceLoader() {}
 
@@ -146,13 +146,11 @@ public final class ResourceLoader {
     }
 
     public static AudioClip loadAudio(String relativePath) {
-        return audioCache.computeIfAbsent(relativePath, k -> {
-            String url = loadUrl(relativePath);
-            if (url == null) {
-                throw new IllegalArgumentException("Audio not found: " + relativePath);
-            }
-            return new AudioClip(url);
-        });
+        String url = loadUrl(relativePath);
+        if (url == null) {
+            throw new IllegalArgumentException("Audio not found: " + relativePath);
+        }
+        return new AudioClip(url);
     }
 
     public static void playSound(String relativePath) {
@@ -162,6 +160,5 @@ public final class ResourceLoader {
     public static void clearCaches() {
         imageCache.clear();
         fontCache.clear();
-        audioCache.clear();
     }
 }
