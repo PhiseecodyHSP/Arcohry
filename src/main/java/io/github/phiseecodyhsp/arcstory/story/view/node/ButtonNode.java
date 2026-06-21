@@ -1,6 +1,7 @@
 package io.github.phiseecodyhsp.arcstory.story.view.node;
 
 import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
+import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.story.view.Effects;
 import io.github.phiseecodyhsp.arcstory.story.viewModel.ButtonNodeViewModel;
 import io.github.phiseecodyhsp.arcstory.util.Alerts;
@@ -8,7 +9,6 @@ import io.github.phiseecodyhsp.arcstory.util.MathUtil;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -94,18 +94,15 @@ public class ButtonNode extends StoryNode<ButtonNodeViewModel> {
         ImageView view = new ImageView();
         view.imageProperty().bind(Bindings.createObjectBinding(
                 () -> {
-                    String path = viewModel.illustrationPathProperty().get();
-                    if (path == null || path.isEmpty()) {
-                        return null;
-                    }
+                    ResourceLocation location = this.viewModel.illustrationLocationProperty().get();
                     try {
-                        return new Image(path, true);
+                        return ResourceLoader.loadImage(location);
                     } catch (Exception e) {
                         Alerts.alertException(e);
                         return null;
                     }
                 },
-                viewModel.illustrationPathProperty()));
+                this.viewModel.illustrationLocationProperty()));
         view.setFitWidth(IMAGE_SIZE);
         view.setPreserveRatio(true);
         view.setMouseTransparent(true);

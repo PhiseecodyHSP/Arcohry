@@ -27,7 +27,7 @@ public class AvatarNode extends StoryNode<AvatarNodeViewModel> {
         super(model);
 
         Avatar avatar = new Avatar(null, SIDE_LENGTH, AVATAR_BORDER, Effects.SHADOW);
-        avatar.avatarPathProperty().bind(model.partnerProperty().map(Partner::avatarPath));
+        avatar.avatarLocationProperty().bind(model.partnerProperty().map(Partner::avatarLocation));
         getChildren().addAll(avatar);
     }
 }

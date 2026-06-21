@@ -1,12 +1,15 @@
 package io.github.phiseecodyhsp.arcstory.story.view;
 
+import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
+import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.util.Alerts;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
@@ -33,37 +36,34 @@ public class Avatar extends StackPane {
      */
     private static final double NODE_BORDER_ARC_SIZE = 5.0D;
 
-    private final StringProperty avatarPath;
+    private final ObjectProperty<ResourceLocation> avatarLocation;
 
     /**
      * 构造一个 Arcaea 头像栏.
      *
-     * @param avatarPath 头像的图片路径
+     * @param avatarLocation 头像的图片路径
      * @param sideLength 正方形边长
      * @param borderPaint 边框填料
      * @param dropShadow 阴影, 留空则不应用阴影
      */
-    public Avatar(@Nullable String avatarPath,
+    public Avatar(@Nullable ResourceLocation avatarLocation,
                   double sideLength,
                   @NotNull Paint borderPaint,
                   @Nullable DropShadow dropShadow) {
-        this.avatarPath = new SimpleStringProperty(avatarPath);
+        this.avatarLocation = new SimpleObjectProperty<>(avatarLocation);
 
         ImageView avatarView = new ImageView();
         avatarView.imageProperty().bind(Bindings.createObjectBinding(
                 () -> {
-                    String path = this.avatarPath.get();
-                    if (path == null || path.isEmpty()) {
-                        return null;
-                    }
+                    ResourceLocation location = this.avatarLocation.get();
                     try {
-                        return new Image(path, true);
+                        return ResourceLoader.loadImage(location);
                     } catch (Exception e) {
                         Alerts.alertException(e);
                         return null;
                     }
                 },
-                this.avatarPath));
+                this.avatarLocation));
         avatarView.setFitWidth(MathUtil.SQRT_2 * (sideLength - 2.0D * AVATAR_BORDER_WIDTH));
         avatarView.setPreserveRatio(true);
 
@@ -77,11 +77,11 @@ public class Avatar extends StackPane {
         getChildren().addAll(border, avatarView);
     }
 
-    public String getAvatarPath() {
-        return this.avatarPath.get();
+    public ResourceLocation getAvatarLocation() {
+        return this.avatarLocation.get();
     }
 
-    public StringProperty avatarPathProperty() {
-        return this.avatarPath;
+    public ObjectProperty<ResourceLocation> avatarLocationProperty() {
+        return this.avatarLocation;
     }
 }

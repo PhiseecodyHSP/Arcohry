@@ -2,6 +2,7 @@ package io.github.phiseecodyhsp.arcstory.story.viewModel;
 
 import io.github.phiseecodyhsp.arcstory.model.Chart;
 import io.github.phiseecodyhsp.arcstory.model.Partner;
+import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import javafx.beans.property.*;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -15,8 +16,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public class ButtonNodeViewModel extends StoryNodeViewModel {
     private final StringProperty title;
-    private final StringProperty illustrationPath;
-    private final StringProperty storyPath;
+    private final ObjectProperty<ResourceLocation> illustrationLocation;
+    private final ObjectProperty<ResourceLocation> storyLocation;
     private final ObjectProperty<Chart> chart;
     private final ObjectProperty<Partner> partner;
     private final ObjectProperty<EventHandler<? super MouseEvent>> onMouseClicked;
@@ -25,13 +26,13 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
     private final BooleanProperty locked;
 
     public ButtonNodeViewModel(@NotNull String title,
-                               @NotNull String illustrationPath,
-                               @NotNull String storyPath,
+                               @NotNull ResourceLocation illustrationLocation,
+                               @NotNull ResourceLocation storyLocation,
                                @Nullable Chart chart,
                                @Nullable Partner partner) {
         this.title = new SimpleStringProperty(title);
-        this.illustrationPath = new SimpleStringProperty(illustrationPath);
-        this.storyPath = new SimpleStringProperty(storyPath);
+        this.illustrationLocation = new SimpleObjectProperty<>(illustrationLocation);
+        this.storyLocation = new SimpleObjectProperty<>(storyLocation);
         this.chart = new SimpleObjectProperty<>(chart);
         this.partner = new SimpleObjectProperty<>(partner);
         this.onMouseClicked = new SimpleObjectProperty<>();
@@ -54,20 +55,20 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
         return this.title;
     }
 
-    public String getIllustrationPath() {
-        return this.illustrationPath.get();
+    public ResourceLocation getIllustrationLocation() {
+        return this.illustrationLocation.get();
     }
 
-    public StringProperty illustrationPathProperty() {
-        return this.illustrationPath;
+    public ObjectProperty<ResourceLocation> illustrationLocationProperty() {
+        return this.illustrationLocation;
     }
 
-    public String getStoryPath() {
-        return this.storyPath.get();
+    public ResourceLocation getStoryLocation() {
+        return this.storyLocation.get();
     }
 
-    public StringProperty storyPathProperty() {
-        return this.storyPath;
+    public ObjectProperty<ResourceLocation> storyLocationProperty() {
+        return this.storyLocation;
     }
 
     public Chart getChart() {
