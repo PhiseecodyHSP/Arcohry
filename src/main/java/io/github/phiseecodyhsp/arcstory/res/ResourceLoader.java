@@ -17,7 +17,7 @@ public final class ResourceLoader {
     private static final String CONFIG_PATH = "resource-config.json";
 
     private static final ObjectMapper mapper = new ObjectMapper();
-    private static JsonNode config;
+    private static volatile JsonNode config;
 
     private static final Map<String, Image> imageCache = new ConcurrentHashMap<>();
     private static final Map<String, Font> fontCache = new ConcurrentHashMap<>();
