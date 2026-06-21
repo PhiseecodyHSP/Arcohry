@@ -36,7 +36,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *  }</pre>
  *
  *  <p>读取时, {@code images} 和 {@code audios} 为<b>分类</b>, 其中的<b>键值对</b>会被记录.
- *  我们推荐使用 <b>lower_snake_case</b> 来命名分类和键.
+ *  我们应该使用 <b>lower_snake_case</b> 来命名分类和键.
  *  键值对的值是一个 {@code resources/io/github/phiseecodyhsp/arcstory/} 下的文件路径.
  *
  *  <p>使用 {@link #resolvePath(String, String)} 可以根据<b>分类和键名</b>来获取映射的资源路径.
@@ -44,11 +44,11 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  *  <h2>资源读取与缓存</h2>
  *
- *  <p>{@link ResourceLoader} 提供了一些方法读取并创建<b>资源对象</b>, 如 {@link #loadImage(String)}.
- *  一般搭配 {@link #resolvePath(String, String)} 来使用这些方法:
+ *  <p>{@link ResourceLoader} 提供了一些方法读取并创建<b>资源对象</b>, 如 {@link #loadImage(ResourceLocation)}.
+ *  一般传入 {@link ResourceLocation} 来使用这些方法:
  *
  *  <pre>{@code
- *  Image image = ResourceLoader.loadImage(ResourceLoader.resolvePath("images", "hikari"));
+ *  Image image = ResourceLoader.loadImage(new ResourceLocation("images", "hikari"));
  *  }</pre>
  *
  *  <p>这些资源对象被创建后, 会<b>被缓存</b>进一个 {@link Map} 对象中, 后续重复读取时会<b>复用该对象</b>.
@@ -110,6 +110,10 @@ public final class ResourceLoader {
         return null;
     }
 
+    public static String resolvePath(ResourceLocation location) {
+        return resolvePath(location.category(), location.key());
+    }
+
     public static URL getResourceUrl(String relativePath) {
         return ResourceLoader.class.getResource(BASE + relativePath);
     }
@@ -135,6 +139,14 @@ public final class ResourceLoader {
         });
     }
 
+    public static Font loadFont(ResourceLocation location, double size) {
+        String resolvedPath = resolvePath(location);
+        if (resolvedPath == null) {
+            return null;
+        }
+        return loadFont(resolvedPath, size);
+    }
+
     public static Image loadImage(String relativePath) {
         return imageCache.computeIfAbsent(relativePath, _ -> {
             String url = loadUrl(relativePath);
@@ -145,12 +157,28 @@ public final class ResourceLoader {
         });
     }
 
+    public static Image loadImage(ResourceLocation location) {
+        String resolvedPath = resolvePath(location);
+        if (resolvedPath == null) {
+            return null;
+        }
+        return loadImage(resolvedPath);
+    }
+
     public static AudioClip loadAudio(String relativePath) {
         String url = loadUrl(relativePath);
         if (url == null) {
             throw new IllegalArgumentException("Audio not found: " + relativePath);
         }
         return new AudioClip(url);
+    }
+
+    public static AudioClip loadAudio(ResourceLocation location) {
+        String resolvedPath = resolvePath(location);
+        if (resolvedPath == null) {
+            return null;
+        }
+        return loadAudio(resolvedPath);
     }
 
     public static void playSound(String relativePath) {
