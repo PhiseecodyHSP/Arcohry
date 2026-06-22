@@ -10,7 +10,7 @@ import java.io.StringWriter;
 public class Alerts {
 
     /**
-     * 创建一个异常提示窗口, 会将传入的异常消息与堆栈展示出来, 并阻塞主线程运行.
+     * 创建一个异常提示窗口, 会将传入的异常消息与堆栈展示出来. 不会阻塞线程运行.
      *
      * @param exception 要提示的异常
      */
@@ -42,6 +42,6 @@ public class Alerts {
         alert.getDialogPane().setExpandableContent(textArea);
         alert.getDialogPane().setExpanded(false);
 
-        alert.showAndWait();
+        alert.show();
     }
 }
