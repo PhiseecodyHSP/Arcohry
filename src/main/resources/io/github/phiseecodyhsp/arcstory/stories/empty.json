@@ -1,16 +1,1 @@
-{
-  "id": "empty",
-  "title": "Empty",
-  "version": "1.0",
-  "unlock": {
-    "type": "none"
-  },
-  "hasCG": false,
-  "scenes": [
-    {
-      "id": "e1",
-      "type": "end",
-      "returnTo": "menu"
-    }
-  ]
-}
+[]

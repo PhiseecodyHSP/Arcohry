@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.arcstory.model;
+package io.github.phiseecodyhsp.arcstory.storage;
 
 public final class Charts {
     private Charts() {}
@@ -11,11 +11,11 @@ public final class Charts {
                 "",
                 "ak+q",
                 128, 128,
-                Difficulty.PST,
-                DifficultyLevel.LEVEL_1,
-                "images/Songs_tutorial.jpg",
+                Chart.Difficulty.PST,
+                1,
+                Resources.Tutorial_ILLUSTRTION,
                 null,
                 null,
-                Paradigms.LIGHT);
+                Chart.Paradigms.LIGHT);
     }
 }

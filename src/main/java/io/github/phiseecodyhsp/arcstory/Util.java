@@ -1,0 +1,86 @@
+package io.github.phiseecodyhsp.arcstory;
+
+import javafx.animation.Interpolator;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
+
+public final class Util {
+    private Util() {}
+
+    public static final double SQRT_2;
+    public static final double PRIMARY_SCREEN_WIDTH;
+    public static final double PRIMARY_SCREEN_HEIGHT;
+
+    public static final Interpolator EASE_IN;
+    public static final Interpolator EASE_OUT;
+
+    static {
+        SQRT_2 = Math.sqrt(2);
+        PRIMARY_SCREEN_WIDTH = Screen.getPrimary().getBounds().getWidth();
+        PRIMARY_SCREEN_HEIGHT = Screen.getPrimary().getBounds().getHeight();
+
+        EASE_IN = new Interpolator() {
+            @Override
+            protected double curve(double v) {
+                return 1 - (1 - v) * (1 - v) * (1 - v);
+            }
+        };
+        EASE_OUT = new Interpolator() {
+            @Override
+            protected double curve(double v) {
+                return v * v * v;
+            }
+        };
+    }
+
+    private static SetStage getSetStage(Scene scene) {
+        if (scene.getWindow() instanceof SetStage stage) {
+            return stage;
+        }
+        throw new IllegalStateException();
+    }
+
+    public static SetStage getSetStage(Node node) {
+        if (node.getScene() != null) {
+            return getSetStage(node.getScene());
+        }
+        throw new IllegalStateException();
+    }
+
+    private static String intToOrdinal(int num) {
+        int abs = Math.abs(num);
+        if (abs % 10 == 1) {
+            return num + "st";
+        }
+        if (abs % 10 == 2) {
+            return num + "nd";
+        }
+        if (abs % 10 == 3) {
+            return num + "rd";
+        }
+        return num + "th";
+    }
+
+    public static void setPaneImage(Pane pane, int index, String path) {
+        if (pane.getChildren().get(index) instanceof ImageView view) {
+            view.setImage(new Image(path));
+        } else {
+            throw new IllegalStateException(
+                    "Pane '" + pane + "''s " + intToOrdinal(index) +
+                            " node isn't " + ImageView.class.getSimpleName());
+        }
+    }
+
+    public static void setPaneLastImage(Pane pane, String path) {
+        if (pane.getChildren().getLast() instanceof ImageView view) {
+            view.setImage(new Image(path));
+        } else {
+            throw new IllegalStateException(
+                    "Pane '" + pane + "''s last node isn't " + ImageView.class.getSimpleName());
+        }
+    }
+}
