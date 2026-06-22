@@ -72,8 +72,8 @@ public final class ResourceLoader {
     private static final ObjectMapper mapper = new ObjectMapper();
     private static volatile JsonNode config;
 
-    private static final Map<String, Image> imageCache = new ConcurrentHashMap<>();
-    private static final Map<String, Font> fontCache = new ConcurrentHashMap<>();
+    private static final Map<String, Image> IMAGE_CACHES = new ConcurrentHashMap<>();
+    private static final Map<String, Font> FONT_CACHES = new ConcurrentHashMap<>();
 
     private ResourceLoader() {}
 
@@ -135,7 +135,7 @@ public final class ResourceLoader {
 
     public static Font loadFont(String relativePath, double size) {
         String cacheKey = relativePath + "@" + size;
-        return fontCache.computeIfAbsent(cacheKey, _ -> {
+        return FONT_CACHES.computeIfAbsent(cacheKey, _ -> {
             InputStream is = loadStream(relativePath);
             return Font.loadFont(is, size);
         });
@@ -150,7 +150,7 @@ public final class ResourceLoader {
     }
 
     public static Image loadImage(String relativePath) {
-        return imageCache.computeIfAbsent(relativePath, _ -> {
+        return IMAGE_CACHES.computeIfAbsent(relativePath, _ -> {
             String url = loadUrl(relativePath);
             if (url == null) {
                 throw new IllegalArgumentException("Image not found: " + relativePath);
@@ -188,7 +188,7 @@ public final class ResourceLoader {
     }
 
     public static void clearCaches() {
-        imageCache.clear();
-        fontCache.clear();
+        IMAGE_CACHES.clear();
+        FONT_CACHES.clear();
     }
 }
