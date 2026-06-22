@@ -5,10 +5,10 @@ import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 public final class Charts {
     private Charts() {}
 
-    public static final Chart Tutorial_PST;
+    public static final Chart TUTORIAL_PST;
 
     static {
-        Tutorial_PST = new Chart(
+        TUTORIAL_PST = new Chart(
                 "Tutorial",
                 new ResourceLocation("audios", "null"), // TODO
                 "ak+q",
