@@ -3,7 +3,7 @@
   <h1>📘 ArcStory</h1>
   <p>一个仿 Arcaea 的故事播放器</p>
 
-  <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="版本">
+  <img src="https://img.shields.io/badge/version-0.1.0-blue" alt="版本">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="许可证">
   <img src="https://img.shields.io/badge/build-passing-brightgreen" alt="构建状态">
 </div>
@@ -22,6 +22,7 @@
 ## ✨特性
 - 漂亮的仿 Arcaea 界面
 - JSON 数据驱动的故事
+- 我编不下去了
 
 ## 🤝 贡献
 在提交 PR 之前, 请务必阅读我们的 [代码规范](CODE_STYLE.md).
