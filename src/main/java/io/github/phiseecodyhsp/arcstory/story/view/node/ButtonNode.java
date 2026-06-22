@@ -112,8 +112,6 @@ public class ButtonNode extends StoryNode<ButtonNodeViewModel> {
         border.setOnMouseEntered(_ -> view.setEffect(HOVERED));
         border.setOnMouseExited(_ -> view.setEffect(null));
 
-        setOpacity(DISABLED_OPACITY);
-        setMaxSize(0, 0);
         setRotate(45);
         getChildren().addAll(border, view, lockBg, lock);
 
