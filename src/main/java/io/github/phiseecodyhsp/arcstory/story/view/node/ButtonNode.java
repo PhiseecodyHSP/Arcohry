@@ -60,7 +60,7 @@ public class ButtonNode extends StoryNode<ButtonNodeViewModel> {
     /**
      * 文本字体.
      */
-    private static final Font FONT = ResourceLoader.loadFont(ResourceLoader.resolvePath("fonts", "geosans_light"), 36.0D);
+    private static final Font FONT = ResourceLoader.loadFont(ResourceLocation.font("geosans_light"), 36.0D);
 
     public ButtonNode(ButtonNodeViewModel viewModel) {
         super(viewModel);
