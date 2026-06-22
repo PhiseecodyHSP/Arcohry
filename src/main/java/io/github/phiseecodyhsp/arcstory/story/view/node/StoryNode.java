@@ -10,15 +10,9 @@ import javafx.scene.layout.StackPane;
  */
 public abstract class StoryNode<T extends StoryNodeViewModel> extends StackPane {
 
-    /**
-     * 故事节点禁用时的不透明度.
-     */
-    public static final double DISABLED_OPACITY = 0.75;
-
     protected final T viewModel;
 
     protected StoryNode(T viewModel) {
         this.viewModel = viewModel;
-        this.opacityProperty().bind(this.viewModel.enabledProperty().map(v -> v ? 1.0 : DISABLED_OPACITY));
     }
 }

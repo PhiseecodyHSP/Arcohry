@@ -4,10 +4,12 @@ import io.github.phiseecodyhsp.arcstory.story.StoryNodeRegistry;
 import io.github.phiseecodyhsp.arcstory.story.view.node.StoryNode;
 import io.github.phiseecodyhsp.arcstory.story.viewModel.StoryBranchViewModel;
 import io.github.phiseecodyhsp.arcstory.story.viewModel.StoryNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.util.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -26,6 +28,11 @@ import javafx.scene.shape.Rectangle;
 public class StoryBranch extends StackPane {
 
     /**
+     * 故事节点禁用时的不透明度.
+     */
+    public static final double DISABLED_OPACITY = 0.75D;
+
+    /**
      * 故事分支的线索宽度.
      */
     private static final double BRANCH_LINE_WIDTH = 2.0D;
@@ -33,20 +40,28 @@ public class StoryBranch extends StackPane {
     /**
      * 故事节点的间距.
      */
-    private static final double NODE_SPACING = 250.0D;
+    public static final double NODE_SPACING = 250.0D;
 
     private final StoryBranchViewModel viewModel;
 
     private final ObservableMap<StoryNodeViewModel, StoryNode<?>> storyNodes = FXCollections.observableHashMap();
 
-    private final ObservableList<Node> lines = FXCollections.observableArrayList();
+    private final ObservableList<Rectangle> lines = FXCollections.observableArrayList();
+
+    private final StackPane opaque = new StackPane();
+    private final StackPane translucent = new StackPane();
 
     public StoryBranch(StoryBranchViewModel viewModel) {
         this.viewModel = viewModel;
 
+        this.translucent.setOpacity(DISABLED_OPACITY);
+        this.getChildren().addAll(this.translucent, this.opaque);
+
         // 监听 ViewModel, 自动生成新的节点 View
         this.viewModel.getStoryNodes().addListener(this::onStoryNodesChanged);
         this.viewModel.getStoryNodes().forEach(this::addStoryNode);
+        this.updateLines();
+        this.updateGrouping();
     }
 
     private void onStoryNodesChanged(ListChangeListener.Change<? extends StoryNodeViewModel> change) {
@@ -63,32 +78,60 @@ public class StoryBranch extends StackPane {
             }
         }
 
+        this.updateLines();
+        this.updateGrouping();
+        requestLayout();
+    }
+
+    private void addStoryNode(StoryNodeViewModel viewModel) {
+        StoryNode<?> storyNode = StoryNodeRegistry.create(viewModel);
+        if (storyNode == null) {
+            Alerts.alertException(new IllegalArgumentException("Story Node '" + viewModel.getClass().getName() + "' is not registered"));
+            return;
+        }
+        this.storyNodes.put(viewModel, storyNode);
+    }
+
+    private void removeStoryNode(StoryNodeViewModel viewModel) {
+        this.storyNodes.remove(viewModel);
+    }
+
+    private void updateLines() {
         int count = this.viewModel.getStoryNodes().size();
 
         // 线索数量过少时补充, 过多时移除
         while (this.lines.size() < count - 1) {
             Rectangle line = new Rectangle(NODE_SPACING, BRANCH_LINE_WIDTH, Color.WHITE);
             this.lines.add(line);
-            this.getChildren().add(line);
         }
 
         while (this.lines.size() > count - 1) {
             Node node = this.lines.removeLast();
             this.getChildren().remove(node);
         }
-        requestLayout();
     }
 
-    private void addStoryNode(StoryNodeViewModel viewModel) {
-        StoryNode<?> storyNode = StoryNodeRegistry.create(viewModel);
-        this.storyNodes.put(viewModel, storyNode);
-        this.getChildren().add(storyNode);
-    }
+    private void updateGrouping() {
+        this.opaque.getChildren().clear();
+        this.translucent.getChildren().clear();
 
-    private void removeStoryNode(StoryNodeViewModel viewModel) {
-        StoryNode<?> storyNode = this.storyNodes.remove(viewModel);
-        if (storyNode != null) {
-            this.getChildren().remove(storyNode);
+        ObservableList<StoryNodeViewModel> list = this.viewModel.getStoryNodes();
+        if (list.isEmpty()) {
+            return;
+        }
+        int count = list.size();
+        StoryNodeViewModel first = list.getFirst();
+        boolean translucent = !first.isEnabled();
+        (translucent ? this.translucent : this.opaque).getChildren().add(this.storyNodes.get(first));
+
+        for (int i = 1; i < count; i++) {
+            StoryNodeViewModel viewModel = list.get(i);
+            if (!translucent && !viewModel.isEnabled()) {
+                translucent = true;
+            }
+            StackPane stackPane = translucent ? this.translucent : this.opaque;
+            stackPane.getChildren().add(this.storyNodes.get(viewModel));
+            stackPane.getChildren().addFirst(this.lines.get(i - 1));
         }
     }
 
@@ -106,11 +149,8 @@ public class StoryBranch extends StackPane {
 
         // 按顺序从左到右摆放线索, 并设置暗线透明度
         for (int i = 0; i < this.lines.size(); i++) {
-            Node node = this.lines.get(i);
-            if (!list.get(1 + i).isEnabled()) {
-                node.setOpacity(StoryNode.DISABLED_OPACITY);
-            }
-            node.setTranslateX(NODE_SPACING * i);
+            Rectangle line = this.lines.get(i);
+            line.setTranslateX(0.5D * line.getWidth() + NODE_SPACING * i);
         }
 
         super.layoutChildren();
