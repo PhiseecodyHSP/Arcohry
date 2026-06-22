@@ -1,5 +1,7 @@
 package io.github.phiseecodyhsp.arcstory.res;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.regex.Pattern;
 
 /**
@@ -14,7 +16,7 @@ import java.util.regex.Pattern;
  *
  * @author RikkaKawaii0612
  */
-public record ResourceLocation(String category, String key) {
+public record ResourceLocation(@JsonProperty String category, @JsonProperty String key) {
 
     private static final Pattern LOWER_SNAKE_CASE = Pattern.compile("^[a-z0-9]+(_[a-z0-9]+)*$");
 
