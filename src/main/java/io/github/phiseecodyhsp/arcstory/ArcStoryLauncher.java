@@ -2,8 +2,16 @@ package io.github.phiseecodyhsp.arcstory;
 
 import io.github.phiseecodyhsp.arcstory.core.state.GameState;
 import io.github.phiseecodyhsp.arcstory.core.state.SaveManager;
+import io.github.phiseecodyhsp.arcstory.model.Partners;
 import io.github.phiseecodyhsp.arcstory.res.AudioManager;
+import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
+import io.github.phiseecodyhsp.arcstory.storyMode.screen.StoryScreen;
+import io.github.phiseecodyhsp.arcstory.storyMode.screen.viewModel.StoryScreenViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.AvatarNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.ButtonNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.StoryBranchViewModel;
 import io.github.phiseecodyhsp.arcstory.ui.base.AppWindow;
+import io.github.phiseecodyhsp.arcstory.ui.base.ScreenManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -24,6 +32,7 @@ public class ArcStoryLauncher extends Application {
 
         this.audioManager = new AudioManager();
         this.appWindow = new AppWindow(stage);
+        this.registerScreens(this.appWindow.getScreenManager());
 
         this.audioManager.playBgm("story_bgm");
     }
@@ -51,6 +60,21 @@ public class ArcStoryLauncher extends Application {
             } catch (IOException ignored) {
             }
         }
+    }
+
+    private void registerScreens(ScreenManager screenManager) {
+        StoryScreenViewModel storyScreenViewModel = new StoryScreenViewModel(ResourceLocation.image("chapter5_scenery"));
+        StoryBranchViewModel branch1 = new StoryBranchViewModel();
+        branch1.getStoryNodes().addAll(new AvatarNodeViewModel(Partners.Hikari),
+                new ButtonNodeViewModel("Test", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null));
+        StoryBranchViewModel branch2 = new StoryBranchViewModel();
+        branch2.getStoryNodes().addAll(new ButtonNodeViewModel("A1", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null),
+                new ButtonNodeViewModel("A2", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null),
+                new ButtonNodeViewModel("A3", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null));
+        storyScreenViewModel.getStoryBranches().addAll(branch1, branch2);
+        StoryScreen storyScreen = new StoryScreen(storyScreenViewModel);
+        screenManager.register(storyScreen);
+        screenManager.setInitialScreen(storyScreen);
     }
 
     public static ArcStoryLauncher getInstance() {

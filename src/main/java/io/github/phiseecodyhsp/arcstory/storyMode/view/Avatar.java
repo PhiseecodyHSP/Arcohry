@@ -1,15 +1,10 @@
-package io.github.phiseecodyhsp.arcstory.story.view;
+package io.github.phiseecodyhsp.arcstory.storyMode.view;
 
-import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.ui.util.PropertyUtil;
-import io.github.phiseecodyhsp.arcstory.util.Alerts;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -21,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Arcaea 头像栏. 这是一个旋转了 45 度的正方形头像展示栏. 头像素材要自己调成菱形.
  *
- * @see io.github.phiseecodyhsp.arcstory.story.view.node.AvatarNode
+ * @see io.github.phiseecodyhsp.arcstory.storyMode.view.node.AvatarNode
  *
  * @author RikkaKawaii0612
  */

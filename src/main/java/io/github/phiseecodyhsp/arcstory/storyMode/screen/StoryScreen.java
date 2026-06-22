@@ -1,7 +1,7 @@
-package io.github.phiseecodyhsp.arcstory.story.screen;
+package io.github.phiseecodyhsp.arcstory.storyMode.screen;
 
-import io.github.phiseecodyhsp.arcstory.story.screen.view.StoryScreenView;
-import io.github.phiseecodyhsp.arcstory.story.screen.viewModel.StoryScreenViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.screen.view.StoryScreenView;
+import io.github.phiseecodyhsp.arcstory.storyMode.screen.viewModel.StoryScreenViewModel;
 import io.github.phiseecodyhsp.arcstory.ui.base.Screen;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;

@@ -1,11 +1,11 @@
-package io.github.phiseecodyhsp.arcstory.story;
+package io.github.phiseecodyhsp.arcstory.storyMode;
 
-import io.github.phiseecodyhsp.arcstory.story.view.node.AvatarNode;
-import io.github.phiseecodyhsp.arcstory.story.view.node.ButtonNode;
-import io.github.phiseecodyhsp.arcstory.story.view.node.StoryNode;
-import io.github.phiseecodyhsp.arcstory.story.viewModel.AvatarNodeViewModel;
-import io.github.phiseecodyhsp.arcstory.story.viewModel.ButtonNodeViewModel;
-import io.github.phiseecodyhsp.arcstory.story.viewModel.StoryNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.view.node.AvatarNode;
+import io.github.phiseecodyhsp.arcstory.storyMode.view.node.ButtonNode;
+import io.github.phiseecodyhsp.arcstory.storyMode.view.node.StoryNode;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.AvatarNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.ButtonNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.StoryNodeViewModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.Map;
  * 管理故事节点类型的注册表.
  *
  * <p>在这里使用 {@link #registerStoryNode(Class, StoryNodeFactory)} 来注册故事节点的类型.
- * 这些注册项会被 {@link io.github.phiseecodyhsp.arcstory.story.view.StoryBranch} 用于创建故事节点 View.
+ * 这些注册项会被 {@link io.github.phiseecodyhsp.arcstory.storyMode.view.StoryBranch} 用于创建故事节点 View.
  *
  * @author RikkaKawaii0612
  */

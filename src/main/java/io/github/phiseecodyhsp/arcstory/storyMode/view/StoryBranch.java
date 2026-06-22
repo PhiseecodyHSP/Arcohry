@@ -1,15 +1,14 @@
-package io.github.phiseecodyhsp.arcstory.story.view;
+package io.github.phiseecodyhsp.arcstory.storyMode.view;
 
-import io.github.phiseecodyhsp.arcstory.story.StoryNodeRegistry;
-import io.github.phiseecodyhsp.arcstory.story.view.node.StoryNode;
-import io.github.phiseecodyhsp.arcstory.story.viewModel.StoryBranchViewModel;
-import io.github.phiseecodyhsp.arcstory.story.viewModel.StoryNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.StoryNodeRegistry;
+import io.github.phiseecodyhsp.arcstory.storyMode.view.node.StoryNode;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.StoryBranchViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.StoryNodeViewModel;
 import io.github.phiseecodyhsp.arcstory.util.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;

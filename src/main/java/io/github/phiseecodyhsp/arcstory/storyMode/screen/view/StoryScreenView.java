@@ -1,20 +1,19 @@
-package io.github.phiseecodyhsp.arcstory.story.screen.view;
+package io.github.phiseecodyhsp.arcstory.storyMode.screen.view;
 
-import io.github.phiseecodyhsp.arcstory.story.screen.viewModel.StoryScreenViewModel;
-import io.github.phiseecodyhsp.arcstory.story.view.StoryBranch;
-import io.github.phiseecodyhsp.arcstory.story.viewModel.StoryBranchViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.screen.viewModel.StoryScreenViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.view.StoryBranch;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.StoryBranchViewModel;
 import io.github.phiseecodyhsp.arcstory.ui.util.PropertyUtil;
 import io.github.phiseecodyhsp.arcstory.util.ScreenMetrics;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 /**
- * @see io.github.phiseecodyhsp.arcstory.story.screen.StoryScreen
+ * @see io.github.phiseecodyhsp.arcstory.storyMode.screen.StoryScreen
  *
  * @author RikkaKawaii0612
  */

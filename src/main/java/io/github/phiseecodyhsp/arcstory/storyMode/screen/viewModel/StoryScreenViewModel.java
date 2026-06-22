@@ -1,14 +1,14 @@
-package io.github.phiseecodyhsp.arcstory.story.screen.viewModel;
+package io.github.phiseecodyhsp.arcstory.storyMode.screen.viewModel;
 
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
-import io.github.phiseecodyhsp.arcstory.story.viewModel.StoryBranchViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.StoryBranchViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- * @see io.github.phiseecodyhsp.arcstory.story.screen.StoryScreen
+ * @see io.github.phiseecodyhsp.arcstory.storyMode.screen.StoryScreen
  *
  * @author RikkaKawaii0612
  */
