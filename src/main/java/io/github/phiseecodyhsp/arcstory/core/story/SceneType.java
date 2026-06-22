@@ -1,5 +1,6 @@
 package io.github.phiseecodyhsp.arcstory.core.story;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum SceneType {
@@ -19,5 +20,15 @@ public enum SceneType {
     @JsonValue
     public String getValue() {
         return value;
+    }
+
+    @JsonCreator
+    public static SceneType fromValue(String value) {
+        for (SceneType type : values()) {
+            if (type.value.equals(value)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Unknown SceneType: " + value);
     }
 }
