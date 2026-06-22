@@ -80,17 +80,17 @@
 
 ```
 ┌──────────────────────────────────────────────────┐
-│                   Presentation                    │
-│  (JavaFX UI: Screen, Component, Animation)       │
+│                   Presentation                   │
+│    (JavaFX UI: Screen, Component, Animation)     │
 ├──────────────────────────────────────────────────┤
 │                     Domain                       │
-│  (StoryEngine, GameState, ConditionEvaluator)    │
+│   (StoryEngine, GameState, ConditionEvaluator)   │
 ├──────────────────────────────────────────────────┤
 │                      Data                        │
-│  (Story, Chart, Partner, Resources - models)     │
+│   (Story, Chart, Partner, Resources - models)    │
 ├──────────────────────────────────────────────────┤
 │                 Infrastructure                   │
-│  (AudioManager, ResourceLoader, SaveManager)     │
+│   (AudioManager, ResourceLoader, SaveManager)    │
 └──────────────────────────────────────────────────┘
 ```
 
@@ -316,18 +316,19 @@ public final class ResourceLoader {
 
 **目标：搭建可运行的空框架，所有测试可跑。**
 
-| 任务 | 描述 |
-|------|------|
-| 1.1 包结构创建 | 按 3.2 创建所有包目录 |
-| 1.2 迁移现有类 | 将 `model/` 和 `util/` 下的类移入对应的新包，调整 import |
-| 1.3 `ResourceLoader` | 重构资源加载，替换静态 `Resources.java`。写单元测试验证路径正确 |
-| 1.4 `Story` 模型 | 定义 `Story`、`Scene`、`SceneType`、`UnlockCondition` 的 POJO + Jackson 注解 |
-| 1.5 `StoryLoader` | 实现 JSON → Story 反序列化 + 校验。写单元测试 |
-| 1.6 `GameState` & `SaveManager` | 实现 JSON 持久化的游戏状态（已解锁故事集、已读故事集、已通关谱面集）。写单元测试 |
-| 1.7 `AppWindow` | 实现主窗口创建、16:9 自适应缩放、BGM 循环播放。写集成测试 |
-| 1.8 `ScreenManager` + `Screen` 接口 | 实现屏幕注册和切换（先用简单的 `setCenter` 切换，过渡动画后续） |
-| 1.9 `ArcStoryLauncher` | 组装所有依赖，启动到空白画面 |
-| **验证点** | `mvn clean javafx:run` 能启动一个空白窗口，BGM 播放 |
+| 任务                                | 描述                                                            |
+|-----------------------------------|---------------------------------------------------------------|
+| 1.1 包结构创建                         | 按 3.2 创建所有包目录                                                 |
+| 1.2 迁移现有类                         | 将 `model/` 和 `util/` 下的类移入对应的新包，调整 import                     |
+| 1.3 `ResourceLoader`              | 重构资源加载，替换静态 `Resources.java`。写单元测试验证路径正确                      |
+| 1.4 `Story` 模型                    | 定义 `Story`、`Scene`、`SceneType`、`UnlockCondition` 的 POJO + Jackson 注解 |
+| 1.5 `StoryLoader`                 | 实现 JSON → Story 反序列化 + 校验。写单元测试                               |
+| 1.6 `GameState` & `SaveManager`   | 实现 JSON 持久化的游戏状态（已解锁故事集、已读故事集、已通关谱面集）。写单元测试                   |
+| 1.7 `AppWindow`                   | 实现主窗口创建、16:9 自适应缩放。写集成测试                                      |
+| 1.8 `BgmService`                  | 实现 BGM 管理服务                                                   |
+| 1.9 `ScreenManager` + `Screen` 接口 | 实现屏幕注册和切换（先用简单的 `setCenter` 切换，过渡动画后续）                        |
+| 1.10 `ArcStoryLauncher`           | 组装所有依赖，启动到空白画面                                                |
+| **验证点**                           | `mvn clean javafx:run` 能启动一个空白窗口，BGM 播放                       |
 
 ### Phase 2 — 故事选择 UI（预计 2-3 天）
 
