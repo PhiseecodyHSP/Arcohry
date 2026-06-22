@@ -47,14 +47,19 @@ public class StoryBranch extends StackPane {
 
     private final ObservableList<Rectangle> lines = FXCollections.observableArrayList();
 
-    private final StackPane opaque = new StackPane();
-    private final StackPane translucent = new StackPane();
+    private final ObservableList<Node> opaque;
+
+    private final ObservableList<Node> translucent;
 
     public StoryBranch(StoryBranchViewModel viewModel) {
         this.viewModel = viewModel;
 
-        this.translucent.setOpacity(DISABLED_OPACITY);
-        this.getChildren().addAll(this.translucent, this.opaque);
+        StackPane opaque = new StackPane();
+        StackPane translucent = new StackPane();
+        translucent.setOpacity(DISABLED_OPACITY);
+        this.opaque = opaque.getChildren();
+        this.translucent = translucent.getChildren();
+        this.getChildren().addAll(translucent, opaque);
 
         // 监听 ViewModel, 自动生成新的节点 View
         this.viewModel.getStoryNodes().addListener(this::onStoryNodesChanged);
@@ -111,8 +116,8 @@ public class StoryBranch extends StackPane {
     }
 
     private void updateGrouping() {
-        this.opaque.getChildren().clear();
-        this.translucent.getChildren().clear();
+        this.opaque.clear();
+        this.translucent.clear();
 
         ObservableList<StoryNodeViewModel> list = this.viewModel.getStoryNodes();
         if (list.isEmpty()) {
@@ -121,16 +126,16 @@ public class StoryBranch extends StackPane {
         int count = list.size();
         StoryNodeViewModel first = list.getFirst();
         boolean translucent = !first.isEnabled();
-        (translucent ? this.translucent : this.opaque).getChildren().add(this.storyNodes.get(first));
+        (translucent ? this.translucent : this.opaque).add(this.storyNodes.get(first));
 
         for (int i = 1; i < count; i++) {
             StoryNodeViewModel viewModel = list.get(i);
             if (!translucent && !viewModel.isEnabled()) {
                 translucent = true;
             }
-            StackPane stackPane = translucent ? this.translucent : this.opaque;
-            stackPane.getChildren().add(this.storyNodes.get(viewModel));
-            stackPane.getChildren().addFirst(this.lines.get(i - 1));
+            ObservableList<Node> group = translucent ? this.translucent : this.opaque;
+            group.add(this.storyNodes.get(viewModel));
+            group.addFirst(this.lines.get(i - 1));
         }
     }
 
