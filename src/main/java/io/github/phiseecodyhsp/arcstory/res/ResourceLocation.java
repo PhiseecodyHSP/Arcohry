@@ -26,4 +26,20 @@ public record ResourceLocation(String category, String key) {
             throw new IllegalArgumentException("Key must match lower_snake_case");
         }
     }
+
+    public static ResourceLocation image(String key) {
+        return new ResourceLocation("images", key);
+    }
+
+    public static ResourceLocation audio(String key) {
+        return new ResourceLocation("audios", key);
+    }
+
+    public static ResourceLocation font(String key) {
+        return new ResourceLocation("fonts", key);
+    }
+
+    public static ResourceLocation story(String key) {
+        return new ResourceLocation("stories", key);
+    }
 }
