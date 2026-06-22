@@ -13,6 +13,9 @@ public class PropertyUtil {
         return Bindings.createObjectBinding(
                 () -> {
                     ResourceLocation location = value.getValue();
+                    if (location == null) {
+                        return null;
+                    }
                     try {
                         return ResourceLoader.loadImage(location);
                     } catch (Exception e) {
