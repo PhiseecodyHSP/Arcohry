@@ -22,32 +22,32 @@ public class ArcStoryLauncher extends Application {
         instance = this;
         loadGameState();
 
-        audioManager = new AudioManager();
-        appWindow = new AppWindow(stage);
+        this.audioManager = new AudioManager();
+        this.appWindow = new AppWindow(stage);
 
-        audioManager.playBgm("story_bgm");
+        this.audioManager.playBgm("story_bgm");
     }
 
     @Override
     public void stop() {
-        if (audioManager != null) {
-            audioManager.stopBgm();
+        if (this.audioManager != null) {
+            this.audioManager.stopBgm();
         }
         saveGameState();
     }
 
     private void loadGameState() {
         try {
-            gameState = SaveManager.load();
+            this.gameState = SaveManager.load();
         } catch (IOException e) {
-            gameState = new GameState();
+            this.gameState = new GameState();
         }
     }
 
     private void saveGameState() {
-        if (gameState != null) {
+        if (this.gameState != null) {
             try {
-                SaveManager.save(gameState);
+                SaveManager.save(this.gameState);
             } catch (IOException ignored) {
             }
         }
@@ -58,14 +58,14 @@ public class ArcStoryLauncher extends Application {
     }
 
     public AppWindow getAppWindow() {
-        return appWindow;
+        return this.appWindow;
     }
 
     public AudioManager getAudioManager() {
-        return audioManager;
+        return this.audioManager;
     }
 
     public GameState getGameState() {
-        return gameState;
+        return this.gameState;
     }
 }

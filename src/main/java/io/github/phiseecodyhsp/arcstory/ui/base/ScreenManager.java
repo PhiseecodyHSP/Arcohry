@@ -22,29 +22,29 @@ public class ScreenManager {
     }
 
     public void register(Screen screen) {
-        screens.put(screen.getId(), screen);
+        this.screens.put(screen.getId(), screen);
     }
 
     public void navigateTo(String id, Transition transition) {
-        Screen target = screens.get(id);
+        Screen target = this.screens.get(id);
         if (target == null) {
             throw new IllegalArgumentException("Screen not registered: " + id);
         }
-        if (currentScreen != null) {
-            currentScreen.onPause();
-            navigationStack.push(currentScreen);
+        if (this.currentScreen != null) {
+            this.currentScreen.onPause();
+            this.navigationStack.push(currentScreen);
         }
         switchScreen(target, transition);
     }
 
     public void goBack(Transition transition) {
-        if (navigationStack.isEmpty()) return;
+        if (this.navigationStack.isEmpty()) return;
 
-        if (currentScreen != null) {
-            currentScreen.onExit();
+        if (this.currentScreen != null) {
+            this.currentScreen.onExit();
         }
 
-        Screen previous = navigationStack.pop();
+        Screen previous = this.navigationStack.pop();
         switchScreen(previous, transition);
     }
 
@@ -52,55 +52,55 @@ public class ScreenManager {
         Parent targetRoot = target.getRoot();
         target.onEnter();
 
-        if (transition == Transition.FADE && currentScreen != null) {
-            Parent oldRoot = currentScreen.getRoot();
+        if (transition == Transition.FADE && this.currentScreen != null) {
+            Parent oldRoot = this.currentScreen.getRoot();
             targetRoot.setOpacity(0);
             JavaFxUtil.runOnFxThread(() -> {
-                root.getChildren().add(targetRoot);
+                this.root.getChildren().add(targetRoot);
                 FadeTransition fadeOut = new FadeTransition(Duration.millis(250), oldRoot);
                 fadeOut.setFromValue(1.0);
                 fadeOut.setToValue(0.0);
                 FadeTransition fadeIn = new FadeTransition(Duration.millis(250), targetRoot);
                 fadeIn.setFromValue(0.0);
                 fadeIn.setToValue(1.0);
-                fadeOut.setOnFinished(e -> root.getChildren().remove(oldRoot));
+                fadeOut.setOnFinished(_ -> this.root.getChildren().remove(oldRoot));
                 fadeOut.play();
                 fadeIn.play();
             });
         } else {
             JavaFxUtil.runOnFxThread(() -> {
-                root.getChildren().clear();
-                root.getChildren().add(targetRoot);
+                this.root.getChildren().clear();
+                this.root.getChildren().add(targetRoot);
             });
         }
 
-        currentScreen = target;
+        this.currentScreen = target;
     }
 
     public void setInitialScreen(Screen screen) {
-        currentScreen = screen;
-        root.getChildren().clear();
-        root.getChildren().add(screen.getRoot());
+        this.currentScreen = screen;
+        this.root.getChildren().clear();
+        this.root.getChildren().add(screen.getRoot());
         screen.onEnter();
     }
 
     public Screen getCurrentScreen() {
-        return currentScreen;
+        return this.currentScreen;
     }
 
     public Parent getRoot() {
-        return root;
+        return this.root;
     }
 
     public void gotoRoot(Transition transition) {
-        if (navigationStack.isEmpty()) return;
+        if (this.navigationStack.isEmpty()) return;
 
-        if (currentScreen != null) {
-            currentScreen.onExit();
+        if (this.currentScreen != null) {
+            this.currentScreen.onExit();
         }
-        navigationStack.clear();
+        this.navigationStack.clear();
 
-        Screen first = screens.values().iterator().next();
+        Screen first = this.screens.values().iterator().next();
         switchScreen(first, transition);
     }
 }

@@ -20,23 +20,23 @@ public class AppWindow {
         this.stage = stage;
         this.root = new StackPane();
         this.scaleTransform = new Scale();
-        this.root.getTransforms().add(scaleTransform);
-        this.screenManager = new ScreenManager(root);
+        this.root.getTransforms().add(this.scaleTransform);
+        this.screenManager = new ScreenManager(this.root);
 
         double width = ScreenMetrics.getPrimaryScreenWidth() * 0.5;
         double height = width / ASPECT_RATIO;
 
-        Scene scene = new Scene(root, width, height);
+        Scene scene = new Scene(this.root, width, height);
         stage.setScene(scene);
         stage.setTitle("ArcStory");
         stage.show();
 
-        scene.widthProperty().addListener((obs, oldVal, newVal) -> updateScale());
-        scene.heightProperty().addListener((obs, oldVal, newVal) -> updateScale());
+        scene.widthProperty().addListener((_, _, _) -> updateScale());
+        scene.heightProperty().addListener((_, _, _) -> updateScale());
 
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.F11) {
-                stage.setFullScreen(!stage.isFullScreen());
+                this.stage.setFullScreen(!this.stage.isFullScreen());
                 updateScale();
             }
         });
@@ -45,35 +45,35 @@ public class AppWindow {
     }
 
     private void updateScale() {
-        double sceneW = stage.getScene().getWidth();
-        double sceneH = stage.getScene().getHeight();
+        double sceneW = this.stage.getScene().getWidth();
+        double sceneH = this.stage.getScene().getHeight();
 
-        double scaleX = sceneW / root.prefWidth(-1);
-        double scaleY = sceneH / root.prefHeight(-1);
+        double scaleX = sceneW / this.root.prefWidth(-1);
+        double scaleY = sceneH / this.root.prefHeight(-1);
         double scale = Math.min(scaleX, scaleY);
 
-        if (root.prefWidth(-1) <= 0) {
-            scale = Math.min(sceneW / 1280, sceneH / 720);
+        if (this.root.prefWidth(-1.0D) <= 0) {
+            scale = Math.min(sceneW / 1280.0D, sceneH / 720.0D);
         }
 
-        scaleTransform.setX(scale);
-        scaleTransform.setY(scale);
-        scaleTransform.setPivotX(0);
-        scaleTransform.setPivotY(0);
+        this.scaleTransform.setX(scale);
+        this.scaleTransform.setY(scale);
+        this.scaleTransform.setPivotX(0.0D);
+        this.scaleTransform.setPivotY(0.0D);
 
-        root.setTranslateX((sceneW - root.prefWidth(-1) * scale) / 2);
-        root.setTranslateY((sceneH - root.prefHeight(-1) * scale) / 2);
+        this.root.setTranslateX((sceneW - this.root.prefWidth(-1.0D) * scale) / 2.0D);
+        this.root.setTranslateY((sceneH - this.root.prefHeight(-1.0D) * scale) / 2.0D);
     }
 
     public Stage getStage() {
-        return stage;
+        return this.stage;
     }
 
     public ScreenManager getScreenManager() {
-        return screenManager;
+        return this.screenManager;
     }
 
     public StackPane getRoot() {
-        return root;
+        return this.root;
     }
 }
