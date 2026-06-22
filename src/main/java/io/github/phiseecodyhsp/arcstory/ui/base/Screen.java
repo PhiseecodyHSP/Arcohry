@@ -14,7 +14,7 @@ public interface Screen {
      *
      * @return 场景 ID
      */
-    String getId();
+    String getScreenId();
 
     /**
      * 获取场景的渲染节点. 通常返回一个 {@link javafx.scene.layout.Pane} 的子类.
