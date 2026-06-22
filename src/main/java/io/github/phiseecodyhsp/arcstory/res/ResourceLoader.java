@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.text.Font;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
@@ -74,6 +75,7 @@ public final class ResourceLoader {
 
     private static final Map<String, Image> IMAGE_CACHES = new ConcurrentHashMap<>();
     private static final Map<String, Font> FONT_CACHES = new ConcurrentHashMap<>();
+    private static final Map<String, String> TEXT_CACHES = new ConcurrentHashMap<>();
 
     private ResourceLoader() {}
 
@@ -165,6 +167,24 @@ public final class ResourceLoader {
             return null;
         }
         return loadImage(resolvedPath);
+    }
+
+    public static String loadText(String relativePath) {
+        return TEXT_CACHES.computeIfAbsent(relativePath, _ -> {
+            try (InputStream is = loadStream(relativePath)) {
+                return new String(is.readAllBytes());
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Text not found: " + relativePath);
+            }
+        });
+    }
+
+    public static String loadText(ResourceLocation location) {
+        String resolvedPath = resolvePath(location);
+        if (resolvedPath == null) {
+            return null;
+        }
+        return loadText(resolvedPath);
     }
 
     public static AudioClip loadAudio(String relativePath) {

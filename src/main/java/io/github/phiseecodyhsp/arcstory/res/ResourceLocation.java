@@ -44,4 +44,8 @@ public record ResourceLocation(@JsonProperty String category, @JsonProperty Stri
     public static ResourceLocation story(String key) {
         return new ResourceLocation("stories", key);
     }
+
+    public static ResourceLocation text(String key) {
+        return new ResourceLocation("texts", key);
+    }
 }
