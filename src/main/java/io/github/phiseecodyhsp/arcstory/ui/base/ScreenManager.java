@@ -22,7 +22,7 @@ public class ScreenManager {
     }
 
     public void register(Screen screen) {
-        this.screens.put(screen.getId(), screen);
+        this.screens.put(screen.getScreenId(), screen);
     }
 
     public void navigateTo(String id, Transition transition) {
@@ -49,11 +49,11 @@ public class ScreenManager {
     }
 
     private void switchScreen(Screen target, Transition transition) {
-        Parent targetRoot = target.getRoot();
+        Parent targetRoot = target.getView();
         target.onEnter();
 
         if (transition == Transition.FADE && this.currentScreen != null) {
-            Parent oldRoot = this.currentScreen.getRoot();
+            Parent oldRoot = this.currentScreen.getView();
             targetRoot.setOpacity(0);
             JavaFxUtil.runOnFxThread(() -> {
                 this.root.getChildren().add(targetRoot);
@@ -80,7 +80,7 @@ public class ScreenManager {
     public void setInitialScreen(Screen screen) {
         this.currentScreen = screen;
         this.root.getChildren().clear();
-        this.root.getChildren().add(screen.getRoot());
+        this.root.getChildren().add(screen.getView());
         screen.onEnter();
     }
 
