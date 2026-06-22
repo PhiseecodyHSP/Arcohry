@@ -4,6 +4,7 @@ import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.story.view.Effects;
 import io.github.phiseecodyhsp.arcstory.story.viewModel.ButtonNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.ui.util.PropertyUtil;
 import io.github.phiseecodyhsp.arcstory.util.Alerts;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
 import javafx.beans.binding.Bindings;
@@ -92,17 +93,7 @@ public class ButtonNode extends StoryNode<ButtonNodeViewModel> {
         newIcon.setMouseTransparent(true);
 
         ImageView view = new ImageView();
-        view.imageProperty().bind(Bindings.createObjectBinding(
-                () -> {
-                    ResourceLocation location = this.viewModel.illustrationLocationProperty().get();
-                    try {
-                        return ResourceLoader.loadImage(location);
-                    } catch (Exception e) {
-                        Alerts.alertException(e);
-                        return null;
-                    }
-                },
-                this.viewModel.illustrationLocationProperty()));
+        view.imageProperty().bind(PropertyUtil.createImage(this.viewModel.illustrationLocationProperty()));
         view.setFitWidth(IMAGE_SIZE);
         view.setPreserveRatio(true);
         view.setMouseTransparent(true);

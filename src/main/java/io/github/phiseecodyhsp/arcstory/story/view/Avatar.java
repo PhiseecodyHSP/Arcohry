@@ -2,6 +2,7 @@ package io.github.phiseecodyhsp.arcstory.story.view;
 
 import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
+import io.github.phiseecodyhsp.arcstory.ui.util.PropertyUtil;
 import io.github.phiseecodyhsp.arcstory.util.Alerts;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
 import javafx.beans.binding.Bindings;
@@ -53,17 +54,7 @@ public class Avatar extends StackPane {
         this.avatarLocation = new SimpleObjectProperty<>(avatarLocation);
 
         ImageView avatarView = new ImageView();
-        avatarView.imageProperty().bind(Bindings.createObjectBinding(
-                () -> {
-                    ResourceLocation location = this.avatarLocation.get();
-                    try {
-                        return ResourceLoader.loadImage(location);
-                    } catch (Exception e) {
-                        Alerts.alertException(e);
-                        return null;
-                    }
-                },
-                this.avatarLocation));
+        avatarView.imageProperty().bind(PropertyUtil.createImage(this.avatarLocation));
         avatarView.setFitWidth(MathUtil.SQRT_2 * (sideLength - 2.0D * AVATAR_BORDER_WIDTH));
         avatarView.setPreserveRatio(true);
 
