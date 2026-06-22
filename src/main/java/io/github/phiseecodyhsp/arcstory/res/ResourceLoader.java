@@ -2,6 +2,7 @@ package io.github.phiseecodyhsp.arcstory.res;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.phiseecodyhsp.arcstory.util.Alerts;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
 import javafx.scene.text.Font;
@@ -87,6 +88,7 @@ public final class ResourceLoader {
                             config = mapper.createObjectNode();
                         }
                     } catch (Exception e) {
+                        Alerts.alertException(e);
                         config = mapper.createObjectNode();
                     }
                 }
