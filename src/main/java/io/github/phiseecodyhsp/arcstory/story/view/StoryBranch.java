@@ -46,23 +46,19 @@ public class StoryBranch extends StackPane {
 
         // 监听 ViewModel, 自动生成新的节点 View
         this.viewModel.getStoryNodes().addListener(this::onStoryNodesChanged);
+        this.viewModel.getStoryNodes().forEach(this::addStoryNode);
     }
 
     private void onStoryNodesChanged(ListChangeListener.Change<? extends StoryNodeViewModel> change) {
         while (change.next()) {
             if (change.wasAdded()) {
                 for (StoryNodeViewModel viewModel : change.getAddedSubList()) {
-                    StoryNode<?> storyNode = StoryNodeRegistry.create(viewModel);
-                    this.storyNodes.put(viewModel, storyNode);
-                    this.getChildren().add(change.getFrom(), storyNode);
+                    this.addStoryNode(viewModel);
                 }
             }
             if (change.wasRemoved()) {
                 for (StoryNodeViewModel viewModel : change.getRemoved()) {
-                    StoryNode<?> storyNode = this.storyNodes.remove(viewModel);
-                    if (storyNode != null) {
-                        this.getChildren().remove(storyNode);
-                    }
+                    this.removeStoryNode(viewModel);
                 }
             }
         }
@@ -81,6 +77,19 @@ public class StoryBranch extends StackPane {
             this.getChildren().remove(node);
         }
         requestLayout();
+    }
+
+    private void addStoryNode(StoryNodeViewModel viewModel) {
+        StoryNode<?> storyNode = StoryNodeRegistry.create(viewModel);
+        this.storyNodes.put(viewModel, storyNode);
+        this.getChildren().add(storyNode);
+    }
+
+    private void removeStoryNode(StoryNodeViewModel viewModel) {
+        StoryNode<?> storyNode = this.storyNodes.remove(viewModel);
+        if (storyNode != null) {
+            this.getChildren().remove(storyNode);
+        }
     }
 
     @Override
