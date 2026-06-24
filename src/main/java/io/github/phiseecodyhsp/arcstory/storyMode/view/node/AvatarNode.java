@@ -1,9 +1,9 @@
-package io.github.phiseecodyhsp.arcstory.story.view.node;
+package io.github.phiseecodyhsp.arcstory.storyMode.view.node;
 
 import io.github.phiseecodyhsp.arcstory.model.Partner;
-import io.github.phiseecodyhsp.arcstory.story.view.Avatar;
-import io.github.phiseecodyhsp.arcstory.story.view.Effects;
-import io.github.phiseecodyhsp.arcstory.story.viewModel.AvatarNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.view.Avatar;
+import io.github.phiseecodyhsp.arcstory.storyMode.view.Effects;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.AvatarNodeViewModel;
 import javafx.scene.paint.Color;
 
 /**

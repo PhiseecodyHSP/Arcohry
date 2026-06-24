@@ -1,5 +1,7 @@
 package io.github.phiseecodyhsp.arcstory.model;
 
+import static io.github.phiseecodyhsp.arcstory.res.ResourceLocation.image;
+
 public final class Partners {
     private Partners() {}
 
@@ -7,7 +9,7 @@ public final class Partners {
     public static final Partner DORO_C;
 
     static {
-        Hikari = new Partner("Hikari", "images/Partner_0_icon.png", "images/Partner_0_new.png");
-        DORO_C = new Partner("DORO*C", "images/143px-Partner_doroc_awaken_icon.png", "");
+        Hikari = new Partner("Hikari", image("hikari_avatar"), image("hikari_illustration"));
+        DORO_C = new Partner("DORO*C", image("doroc_avatar"), image("hikari_illustration")); // TODO: 占位符
     }
 }

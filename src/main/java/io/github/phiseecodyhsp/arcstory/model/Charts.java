@@ -10,12 +10,12 @@ public final class Charts {
     static {
         TUTORIAL_PST = new Chart(
                 "Tutorial",
-                new ResourceLocation("audios", "null"), // TODO
+                ResourceLocation.audio("story_bgm"), // TODO: 占位符
                 "ak+q",
                 128, 128,
                 Difficulty.PST,
                 DifficultyLevel.LEVEL_1,
-                new ResourceLocation("images", "tutorial_illustration"),
+                ResourceLocation.image("tutorial_illustration"),
                 null,
                 null,
                 Paradigms.LIGHT);

@@ -2,8 +2,16 @@ package io.github.phiseecodyhsp.arcstory;
 
 import io.github.phiseecodyhsp.arcstory.core.state.GameState;
 import io.github.phiseecodyhsp.arcstory.core.state.SaveManager;
+import io.github.phiseecodyhsp.arcstory.model.Partners;
 import io.github.phiseecodyhsp.arcstory.res.AudioManager;
+import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
+import io.github.phiseecodyhsp.arcstory.storyMode.screen.StoryScreen;
+import io.github.phiseecodyhsp.arcstory.storyMode.screen.viewModel.StoryScreenViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.AvatarNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.ButtonNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.StoryBranchViewModel;
 import io.github.phiseecodyhsp.arcstory.ui.base.AppWindow;
+import io.github.phiseecodyhsp.arcstory.ui.base.ScreenManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -22,35 +30,51 @@ public class ArcStoryLauncher extends Application {
         instance = this;
         loadGameState();
 
-        audioManager = new AudioManager();
-        appWindow = new AppWindow(stage);
+        this.audioManager = new AudioManager();
+        this.appWindow = new AppWindow(stage);
+        this.registerScreens(this.appWindow.getScreenManager());
 
-        audioManager.playBgm("story_bgm");
+        this.audioManager.playBgm("story_bgm");
     }
 
     @Override
     public void stop() {
-        if (audioManager != null) {
-            audioManager.stopBgm();
+        if (this.audioManager != null) {
+            this.audioManager.stopBgm();
         }
         saveGameState();
     }
 
     private void loadGameState() {
         try {
-            gameState = SaveManager.load();
+            this.gameState = SaveManager.load();
         } catch (IOException e) {
-            gameState = new GameState();
+            this.gameState = new GameState();
         }
     }
 
     private void saveGameState() {
-        if (gameState != null) {
+        if (this.gameState != null) {
             try {
-                SaveManager.save(gameState);
+                SaveManager.save(this.gameState);
             } catch (IOException ignored) {
             }
         }
+    }
+
+    private void registerScreens(ScreenManager screenManager) {
+        StoryScreenViewModel storyScreenViewModel = new StoryScreenViewModel(ResourceLocation.image("chapter5_scenery"));
+        StoryBranchViewModel branch1 = new StoryBranchViewModel();
+        branch1.getStoryNodes().addAll(new AvatarNodeViewModel(Partners.Hikari),
+                new ButtonNodeViewModel("Test", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null));
+        StoryBranchViewModel branch2 = new StoryBranchViewModel();
+        branch2.getStoryNodes().addAll(new ButtonNodeViewModel("A1", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null),
+                new ButtonNodeViewModel("A2", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null),
+                new ButtonNodeViewModel("A3", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null));
+        storyScreenViewModel.getStoryBranches().addAll(branch1, branch2);
+        StoryScreen storyScreen = new StoryScreen(storyScreenViewModel);
+        screenManager.register(storyScreen);
+        screenManager.setInitialScreen(storyScreen);
     }
 
     public static ArcStoryLauncher getInstance() {
@@ -58,14 +82,14 @@ public class ArcStoryLauncher extends Application {
     }
 
     public AppWindow getAppWindow() {
-        return appWindow;
+        return this.appWindow;
     }
 
     public AudioManager getAudioManager() {
-        return audioManager;
+        return this.audioManager;
     }
 
     public GameState getGameState() {
-        return gameState;
+        return this.gameState;
     }
 }

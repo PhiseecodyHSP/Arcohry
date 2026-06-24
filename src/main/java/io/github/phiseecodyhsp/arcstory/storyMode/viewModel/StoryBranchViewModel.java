@@ -1,10 +1,10 @@
-package io.github.phiseecodyhsp.arcstory.story.viewModel;
+package io.github.phiseecodyhsp.arcstory.storyMode.viewModel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- * @see io.github.phiseecodyhsp.arcstory.story.view.StoryBranch
+ * @see io.github.phiseecodyhsp.arcstory.storyMode.view.StoryBranch
  *
  * @author RikkaKawaii0612
  */

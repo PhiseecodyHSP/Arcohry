@@ -1,10 +1,10 @@
-package io.github.phiseecodyhsp.arcstory.story.viewModel;
+package io.github.phiseecodyhsp.arcstory.storyMode.viewModel;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 /**
- * @see io.github.phiseecodyhsp.arcstory.story.view.node.StoryNode
+ * @see io.github.phiseecodyhsp.arcstory.storyMode.view.node.StoryNode
  *
  * @author RikkaKawaii0612
  */

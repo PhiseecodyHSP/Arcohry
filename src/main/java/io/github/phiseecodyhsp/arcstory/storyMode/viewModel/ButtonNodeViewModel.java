@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.arcstory.story.viewModel;
+package io.github.phiseecodyhsp.arcstory.storyMode.viewModel;
 
 import io.github.phiseecodyhsp.arcstory.model.Chart;
 import io.github.phiseecodyhsp.arcstory.model.Partner;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * @see io.github.phiseecodyhsp.arcstory.story.view.node.ButtonNode
+ * @see io.github.phiseecodyhsp.arcstory.storyMode.view.node.ButtonNode
  *
  * @author RikkaKawaii0612
  */

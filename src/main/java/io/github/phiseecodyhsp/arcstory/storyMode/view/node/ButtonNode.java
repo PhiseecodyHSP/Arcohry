@@ -1,12 +1,11 @@
-package io.github.phiseecodyhsp.arcstory.story.view.node;
+package io.github.phiseecodyhsp.arcstory.storyMode.view.node;
 
 import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
-import io.github.phiseecodyhsp.arcstory.story.view.Effects;
-import io.github.phiseecodyhsp.arcstory.story.viewModel.ButtonNodeViewModel;
-import io.github.phiseecodyhsp.arcstory.util.Alerts;
+import io.github.phiseecodyhsp.arcstory.storyMode.view.Effects;
+import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.ButtonNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.ui.util.PropertyUtil;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
-import javafx.beans.binding.Bindings;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
@@ -60,7 +59,7 @@ public class ButtonNode extends StoryNode<ButtonNodeViewModel> {
     /**
      * 文本字体.
      */
-    private static final Font FONT = ResourceLoader.loadFont(ResourceLoader.resolvePath("fonts", "geosans_light"), 36.0D);
+    private static final Font FONT = ResourceLoader.loadFont(ResourceLocation.font("geosans_light"), 36.0D);
 
     public ButtonNode(ButtonNodeViewModel viewModel) {
         super(viewModel);
@@ -92,17 +91,7 @@ public class ButtonNode extends StoryNode<ButtonNodeViewModel> {
         newIcon.setMouseTransparent(true);
 
         ImageView view = new ImageView();
-        view.imageProperty().bind(Bindings.createObjectBinding(
-                () -> {
-                    ResourceLocation location = this.viewModel.illustrationLocationProperty().get();
-                    try {
-                        return ResourceLoader.loadImage(location);
-                    } catch (Exception e) {
-                        Alerts.alertException(e);
-                        return null;
-                    }
-                },
-                this.viewModel.illustrationLocationProperty()));
+        view.imageProperty().bind(PropertyUtil.createImage(this.viewModel.illustrationLocationProperty()));
         view.setFitWidth(IMAGE_SIZE);
         view.setPreserveRatio(true);
         view.setMouseTransparent(true);
@@ -121,8 +110,6 @@ public class ButtonNode extends StoryNode<ButtonNodeViewModel> {
         border.setOnMouseEntered(_ -> view.setEffect(HOVERED));
         border.setOnMouseExited(_ -> view.setEffect(null));
 
-        setOpacity(DISABLED_OPACITY);
-        setMaxSize(0, 0);
         setRotate(45);
         getChildren().addAll(border, view, lockBg, lock);
 

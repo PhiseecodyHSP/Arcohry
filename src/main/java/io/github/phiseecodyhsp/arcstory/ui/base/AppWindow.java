@@ -1,17 +1,16 @@
 package io.github.phiseecodyhsp.arcstory.ui.base;
 
 import io.github.phiseecodyhsp.arcstory.util.ScreenMetrics;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
-import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 public class AppWindow {
 
     private final Stage stage;
     private final StackPane root;
-    private final Scale scaleTransform;
     private final ScreenManager screenManager;
 
     private static final double ASPECT_RATIO = 16.0 / 9.0;
@@ -19,24 +18,22 @@ public class AppWindow {
     public AppWindow(Stage stage) {
         this.stage = stage;
         this.root = new StackPane();
-        this.scaleTransform = new Scale();
-        this.root.getTransforms().add(scaleTransform);
-        this.screenManager = new ScreenManager(root);
+        this.screenManager = new ScreenManager(this.root);
 
-        double width = ScreenMetrics.getPrimaryScreenWidth() * 0.5;
+        double width = 0.5D * ScreenMetrics.getPrimaryScreenWidth();
         double height = width / ASPECT_RATIO;
 
-        Scene scene = new Scene(root, width, height);
+        Scene scene = new Scene(this.root, width, height);
         stage.setScene(scene);
         stage.setTitle("ArcStory");
         stage.show();
 
-        scene.widthProperty().addListener((obs, oldVal, newVal) -> updateScale());
-        scene.heightProperty().addListener((obs, oldVal, newVal) -> updateScale());
+        scene.widthProperty().addListener((_, _, _) -> updateScale());
+        scene.heightProperty().addListener((_, _, _) -> updateScale());
 
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.F11) {
-                stage.setFullScreen(!stage.isFullScreen());
+                this.stage.setFullScreen(!this.stage.isFullScreen());
                 updateScale();
             }
         });
@@ -45,35 +42,22 @@ public class AppWindow {
     }
 
     private void updateScale() {
-        double sceneW = stage.getScene().getWidth();
-        double sceneH = stage.getScene().getHeight();
-
-        double scaleX = sceneW / root.prefWidth(-1);
-        double scaleY = sceneH / root.prefHeight(-1);
-        double scale = Math.min(scaleX, scaleY);
-
-        if (root.prefWidth(-1) <= 0) {
-            scale = Math.min(sceneW / 1280, sceneH / 720);
-        }
-
-        scaleTransform.setX(scale);
-        scaleTransform.setY(scale);
-        scaleTransform.setPivotX(0);
-        scaleTransform.setPivotY(0);
-
-        root.setTranslateX((sceneW - root.prefWidth(-1) * scale) / 2);
-        root.setTranslateY((sceneH - root.prefHeight(-1) * scale) / 2);
+        Rectangle2D screenBounds = ScreenMetrics.getPrimaryScreenBounds();
+        double scale = Math.max(this.stage.getScene().getWidth() / screenBounds.getWidth(),
+                this.stage.getScene().getHeight() / screenBounds.getHeight());
+        this.root.setScaleX(scale);
+        this.root.setScaleY(scale);
     }
 
     public Stage getStage() {
-        return stage;
+        return this.stage;
     }
 
     public ScreenManager getScreenManager() {
-        return screenManager;
+        return this.screenManager;
     }
 
     public StackPane getRoot() {
-        return root;
+        return this.root;
     }
 }

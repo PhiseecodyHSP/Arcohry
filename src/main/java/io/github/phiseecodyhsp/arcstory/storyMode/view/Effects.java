@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.arcstory.story.view;
+package io.github.phiseecodyhsp.arcstory.storyMode.view;
 
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
