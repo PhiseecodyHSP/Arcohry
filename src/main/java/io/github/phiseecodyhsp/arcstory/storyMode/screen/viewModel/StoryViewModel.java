@@ -26,7 +26,7 @@ public class StoryViewModel {
 
     private final ObjectProperty<ResourceLocation> currentText;
 
-    private int currentIndex;
+    private int currentIndex = -1;
 
     public StoryViewModel(Story story, ResourceLocation partnerAvatar) {
         this.story = new SimpleObjectProperty<>(story);
