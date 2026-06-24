@@ -16,4 +16,5 @@ module io.github.phiseecodyhsp.arcstory {
     opens io.github.phiseecodyhsp.arcstory.core.story to com.fasterxml.jackson.databind;
     opens io.github.phiseecodyhsp.arcstory.core.state to com.fasterxml.jackson.databind;
     opens io.github.phiseecodyhsp.arcstory.core.condition to com.fasterxml.jackson.databind;
+    opens io.github.phiseecodyhsp.arcstory.storyMode.model to com.fasterxml.jackson.databind;
 }
