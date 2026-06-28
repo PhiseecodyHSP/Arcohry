@@ -20,7 +20,6 @@ class StoryViewModelTest {
     private static final ResourceLocation CG2_LOC = ResourceLocation.image("cg_2");
 
     private StoryViewModel viewModel;
-    private Story story;
 
     private Story makeStory(List<Paragraph> paragraphs) {
         Story s = new Story();
@@ -31,7 +30,6 @@ class StoryViewModelTest {
 
     @BeforeEach
     void setUp() {
-        story = null;
         viewModel = null;
     }
 
