@@ -23,7 +23,6 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
     private final ObjectProperty<Partner> partner;
     private final ObjectProperty<EventHandler<? super MouseEvent>> onMouseClicked;
     private final BooleanProperty neo;
-    private final BooleanProperty enabled;
     private final BooleanProperty locked;
 
     public ButtonNodeViewModel(@NotNull String title,
@@ -38,8 +37,7 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
         this.partner = new SimpleObjectProperty<>(partner);
         this.onMouseClicked = new SimpleObjectProperty<>();
         this.neo = new SimpleBooleanProperty(false);
-        this.enabled = new SimpleBooleanProperty(false);
-        this.locked = new SimpleBooleanProperty(false);
+        this.locked = new SimpleBooleanProperty(true);
 
         this.locked.addListener((_, _, v) -> {
             if (!v) {
@@ -98,15 +96,6 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
 
     public BooleanProperty newProperty() {
         return this.neo;
-    }
-
-    public boolean isEnabled() {
-        return this.enabled.get();
-    }
-
-    @Override
-    public BooleanProperty enabledProperty() {
-        return this.enabled;
     }
 
     public boolean isLocked() {
