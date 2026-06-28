@@ -210,5 +210,6 @@ public final class ResourceLoader {
     public static void clearCaches() {
         IMAGE_CACHES.clear();
         FONT_CACHES.clear();
+        TEXT_CACHES.clear();
     }
 }

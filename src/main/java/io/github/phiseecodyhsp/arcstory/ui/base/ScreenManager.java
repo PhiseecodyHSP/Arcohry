@@ -32,7 +32,7 @@ public class ScreenManager {
         }
         if (this.currentScreen != null) {
             this.currentScreen.onPause();
-            this.navigationStack.push(currentScreen);
+            this.navigationStack.push(this.currentScreen);
         }
         switchScreen(target, transition);
     }
