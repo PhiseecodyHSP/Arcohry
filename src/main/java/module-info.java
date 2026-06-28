@@ -6,15 +6,16 @@ module io.github.phiseecodyhsp.arcstory {
     requires com.fasterxml.jackson.databind;
 
     exports io.github.phiseecodyhsp.arcstory;
-    exports io.github.phiseecodyhsp.arcstory.core.story;
-    exports io.github.phiseecodyhsp.arcstory.core.state;
-    exports io.github.phiseecodyhsp.arcstory.core.condition;
+    exports io.github.phiseecodyhsp.arcstory.deprecated.story;
+    exports io.github.phiseecodyhsp.arcstory.deprecated.state;
+    exports io.github.phiseecodyhsp.arcstory.deprecated.condition;
     exports io.github.phiseecodyhsp.arcstory.model;
     exports io.github.phiseecodyhsp.arcstory.res;
     exports io.github.phiseecodyhsp.arcstory.util;
 
-    opens io.github.phiseecodyhsp.arcstory.core.story to com.fasterxml.jackson.databind;
-    opens io.github.phiseecodyhsp.arcstory.core.state to com.fasterxml.jackson.databind;
-    opens io.github.phiseecodyhsp.arcstory.core.condition to com.fasterxml.jackson.databind;
-    opens io.github.phiseecodyhsp.arcstory.storyMode.model to com.fasterxml.jackson.databind;
+    opens io.github.phiseecodyhsp.arcstory.deprecated.story to com.fasterxml.jackson.databind;
+    opens io.github.phiseecodyhsp.arcstory.deprecated.state to com.fasterxml.jackson.databind;
+    opens io.github.phiseecodyhsp.arcstory.deprecated.condition to com.fasterxml.jackson.databind;
+    opens io.github.phiseecodyhsp.arcstory.model.story to com.fasterxml.jackson.databind;
+    exports io.github.phiseecodyhsp.arcstory.ui.util;
 }

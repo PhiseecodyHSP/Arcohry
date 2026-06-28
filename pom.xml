@@ -67,12 +67,17 @@
                 <version>3.5.4</version>
                 <configuration>
                     <argLine>
-                        --add-opens io.github.phiseecodyhsp.arcstory/io.github.phiseecodyhsp.arcstory.core.story=ALL-UNNAMED
-                        --add-opens io.github.phiseecodyhsp.arcstory/io.github.phiseecodyhsp.arcstory.core.state=ALL-UNNAMED
-                        --add-opens io.github.phiseecodyhsp.arcstory/io.github.phiseecodyhsp.arcstory.core.condition=ALL-UNNAMED
+                        --add-opens
+                        io.github.phiseecodyhsp.arcstory/io.github.phiseecodyhsp.arcstory.deprecated.story=ALL-UNNAMED
+                        --add-opens
+                        io.github.phiseecodyhsp.arcstory/io.github.phiseecodyhsp.arcstory.deprecated.state=ALL-UNNAMED
+                        --add-opens
+                        io.github.phiseecodyhsp.arcstory/io.github.phiseecodyhsp.arcstory.deprecated.condition=ALL-UNNAMED
                         --add-opens io.github.phiseecodyhsp.arcstory/io.github.phiseecodyhsp.arcstory.res=ALL-UNNAMED
-                        --add-opens io.github.phiseecodyhsp.arcstory/io.github.phiseecodyhsp.arcstory.storyMode.model=ALL-UNNAMED
-                        --add-opens io.github.phiseecodyhsp.arcstory/io.github.phiseecodyhsp.arcstory.storyMode.screen.viewModel=ALL-UNNAMED
+                        --add-opens
+                        io.github.phiseecodyhsp.arcstory/io.github.phiseecodyhsp.arcstory.storyMode.model=ALL-UNNAMED
+                        --add-opens
+                        io.github.phiseecodyhsp.arcstory/io.github.phiseecodyhsp.arcstory.storyMode.screen.viewModel=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>

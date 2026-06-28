@@ -111,13 +111,11 @@ io/github/phiseecodyhsp/arcstory
 │   ├── ResourceLoader.java            (工具类，统一资源加载)
 │   └── ResourceLocation.java          (资源路径的表示)
 ├── service/                           (领域层，逻辑接口服务)
-│   ├── BGMService.java                (BGM 管理)
-│   ├── GameState.java                 (全局状态：已解锁、已读、设置)
-│   └── SaveService.java               (JSON 持久化)
+│   ├── BgmService.java                (BGM 管理)
+│   └── GameStateService.java          (游戏状态查询 & 保存)
 ├── serviceimpl/                       (基础设施实现层)
 │   ├── BGMServiceImpl.java
-│   ├── GameStateImpl.java
-│   └── SaveServiceImpl.java
+│   ├── GameStateServiceImpl.java
 ├── model/                             (Model 层)
 │   ├── Chart.java
 │   ├── Charts.java
@@ -129,8 +127,7 @@ io/github/phiseecodyhsp/arcstory
 │   └── story/                         (故事相关的数据模型)
 │       ├── Paragragh.java
 │       ├── ParagraghType.java
-│       ├── Story.java
-│       └── StoryLoader.java           (工具类，反序列化 JSON 故事)
+│       └── Story.java
 ├── viewmodel/                         (ViewModel 层)
 │   ├── AvatarNodeViewModel.java
 │   ├── ButtonNodeViewModel.java
