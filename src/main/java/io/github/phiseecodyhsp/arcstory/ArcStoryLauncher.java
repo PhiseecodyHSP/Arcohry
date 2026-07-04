@@ -6,7 +6,7 @@ import io.github.phiseecodyhsp.arcstory.model.Partners;
 import io.github.phiseecodyhsp.arcstory.res.AudioManager;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.ui.screen.StoryScreen;
-import io.github.phiseecodyhsp.arcstory.ui.screen.viewModel.StoryScreenViewModel;
+import io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel.StoryScreenViewModel;
 import io.github.phiseecodyhsp.arcstory.viewmodel.AvatarNodeViewModel;
 import io.github.phiseecodyhsp.arcstory.viewmodel.ButtonNodeViewModel;
 import io.github.phiseecodyhsp.arcstory.viewmodel.StoryBranchViewModel;

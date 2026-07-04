@@ -4,7 +4,6 @@ import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.model.story.Paragraph;
 import io.github.phiseecodyhsp.arcstory.model.story.ParagraphType;
 import io.github.phiseecodyhsp.arcstory.model.story.Story;
-import io.github.phiseecodyhsp.arcstory.ui.screen.viewModel.StoryViewModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

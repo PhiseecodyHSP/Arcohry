@@ -80,7 +80,7 @@ public class ButtonNode extends StoryNode<ButtonNodeViewModel> {
                 IMAGE_SIZE / 2.0D, -IMAGE_SIZE / 2.0D,
                 IMAGE_SIZE / 4.0D, -IMAGE_SIZE / 2.0D);
         lockBg.setFill(Color.BLACK);
-        lockBg.setOpacity(0.5);
+        lockBg.setOpacity(0.5D);
         lockBg.setMouseTransparent(true);
 
         ImageView newIcon = new ImageView(ResourceLoader.loadImage(ResourceLoader.resolvePath("images", "new_icon")));
@@ -110,8 +110,8 @@ public class ButtonNode extends StoryNode<ButtonNodeViewModel> {
         border.setOnMouseEntered(_ -> view.setEffect(HOVERED));
         border.setOnMouseExited(_ -> view.setEffect(null));
 
-        setRotate(45);
-        getChildren().addAll(border, view, lockBg, lock);
+        this.setRotate(45.0D);
+        this.getChildren().addAll(border, view, lockBg, lock);
 
         // TODO: 有 CG 时的图标
     }

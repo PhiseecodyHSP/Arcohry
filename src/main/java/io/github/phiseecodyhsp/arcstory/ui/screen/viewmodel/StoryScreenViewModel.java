@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.arcstory.ui.screen.viewModel;
+package io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel;
 
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.ui.screen.StoryScreen;

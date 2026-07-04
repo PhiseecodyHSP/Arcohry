@@ -1,6 +1,6 @@
 package io.github.phiseecodyhsp.arcstory.ui.screen.view;
 
-import io.github.phiseecodyhsp.arcstory.ui.screen.viewModel.StoryViewModel;
+import io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel.StoryViewModel;
 import io.github.phiseecodyhsp.arcstory.ui.util.Interpolators;
 import io.github.phiseecodyhsp.arcstory.ui.util.ScreenMetrics;
 import javafx.animation.KeyFrame;

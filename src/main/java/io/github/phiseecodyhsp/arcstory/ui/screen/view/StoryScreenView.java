@@ -1,7 +1,7 @@
 package io.github.phiseecodyhsp.arcstory.ui.screen.view;
 
 import io.github.phiseecodyhsp.arcstory.ui.screen.StoryScreen;
-import io.github.phiseecodyhsp.arcstory.ui.screen.viewModel.StoryScreenViewModel;
+import io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel.StoryScreenViewModel;
 import io.github.phiseecodyhsp.arcstory.view.StoryBranch;
 import io.github.phiseecodyhsp.arcstory.viewmodel.StoryBranchViewModel;
 import io.github.phiseecodyhsp.arcstory.util.PropertyUtil;
