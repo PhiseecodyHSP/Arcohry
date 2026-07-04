@@ -10,13 +10,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class ButtonNodeViewModelTest {
 
     private static final ResourceLocation AVATAR = ResourceLocation.image("test_avatar");
-    private static final ResourceLocation STORY = ResourceLocation.story("test_story");
 
     private ButtonNodeViewModel viewModel;
 
     @BeforeEach
     void setUp() {
-        this.viewModel = new ButtonNodeViewModel("Test Title", AVATAR, STORY, null, null);
+        this.viewModel = new ButtonNodeViewModel("Test Title", AVATAR, null, null);
     }
 
     @Test

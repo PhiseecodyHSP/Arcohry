@@ -2,9 +2,11 @@ package io.github.phiseecodyhsp.arcstory.view;
 
 import io.github.phiseecodyhsp.arcstory.view.node.AvatarNode;
 import io.github.phiseecodyhsp.arcstory.view.node.ButtonNode;
+import io.github.phiseecodyhsp.arcstory.view.node.StoryEndpointNode;
 import io.github.phiseecodyhsp.arcstory.view.node.StoryNode;
 import io.github.phiseecodyhsp.arcstory.viewmodel.node.AvatarNodeViewModel;
 import io.github.phiseecodyhsp.arcstory.viewmodel.node.ButtonNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.node.StoryEndpointNodeViewModel;
 import io.github.phiseecodyhsp.arcstory.viewmodel.node.StoryNodeViewModel;
 
 import java.util.HashMap;
@@ -56,5 +58,6 @@ public class StoryNodeRegistry {
     static {
         registerStoryNode(AvatarNodeViewModel.class, AvatarNode::new);
         registerStoryNode(ButtonNodeViewModel.class, ButtonNode::new);
+        registerStoryNode(StoryEndpointNodeViewModel.class, StoryEndpointNode::new);
     }
 }

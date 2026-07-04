@@ -19,7 +19,7 @@ import javafx.scene.text.Font;
  *
  * @author RikkaKawaii0612
  */
-public class ButtonNode extends StoryNode<ButtonNodeViewModel> {
+public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
 
     /**
      * 按钮边长.
@@ -61,7 +61,7 @@ public class ButtonNode extends StoryNode<ButtonNodeViewModel> {
      */
     private static final Font FONT = ResourceLoader.loadFont(ResourceLocation.font("geosans_light"), 36.0D);
 
-    public ButtonNode(ButtonNodeViewModel viewModel) {
+    public ButtonNode(T viewModel) {
         super(viewModel);
 
         Label label = new Label();
@@ -109,10 +109,9 @@ public class ButtonNode extends StoryNode<ButtonNodeViewModel> {
         border.setEffect(Effects.SHADOW);
         border.setOnMouseEntered(_ -> view.setEffect(HOVERED));
         border.setOnMouseExited(_ -> view.setEffect(null));
+        border.onMouseClickedProperty().bind(viewModel.onMouseClickedProperty());
 
         this.setRotate(45.0D);
         this.getChildren().addAll(border, view, lockBg, lock);
-
-        // TODO: 有 CG 时的图标
     }
 }
