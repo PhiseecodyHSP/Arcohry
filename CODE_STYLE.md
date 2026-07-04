@@ -10,9 +10,16 @@
 
 ### 基本
 - 遵循 **Java 标准**的大小写命名规范
+- 类名 **UpperCamelCase**
+- 普通字段 **lowerCamelCase**
+- 静态常量 **UPPER_SNAKE_CASE**
+- 包名**全小写**
+- **UpperCamelCase** 中缩写**仅大写第一个字母**: `BgmService`
+- **lowerCamelCase** 中缩写**仅大写不开头的第一个字母**: `bgmOfAvg`
 
-### 字段与函数
+### 字段与方法
 - 布尔值变量**不要**以 `is`, `has`, `can` 开头: `loading`, `extra`
+- 获取布尔值的方法变量**要**以 `is`, `has`, `can` 开头: `isLoading`, `hasCg`
 
 ### 局部变量
 - 临时局部变量**可以**使用单字符或简短类名来命名:

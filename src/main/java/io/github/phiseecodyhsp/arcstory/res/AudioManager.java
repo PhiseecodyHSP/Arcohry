@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
 
+@Deprecated
 public class AudioManager {
 
     private AudioClip bgm;

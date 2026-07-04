@@ -1,15 +1,15 @@
 package io.github.phiseecodyhsp.arcstory;
 
-import io.github.phiseecodyhsp.arcstory.core.state.GameState;
-import io.github.phiseecodyhsp.arcstory.core.state.SaveManager;
+import io.github.phiseecodyhsp.arcstory.deprecated.state.GameState;
+import io.github.phiseecodyhsp.arcstory.deprecated.state.SaveManager;
 import io.github.phiseecodyhsp.arcstory.model.Partners;
 import io.github.phiseecodyhsp.arcstory.res.AudioManager;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
-import io.github.phiseecodyhsp.arcstory.storyMode.screen.StoryScreen;
-import io.github.phiseecodyhsp.arcstory.storyMode.screen.viewModel.StoryScreenViewModel;
-import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.AvatarNodeViewModel;
-import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.ButtonNodeViewModel;
-import io.github.phiseecodyhsp.arcstory.storyMode.viewModel.StoryBranchViewModel;
+import io.github.phiseecodyhsp.arcstory.ui.screen.StoryScreen;
+import io.github.phiseecodyhsp.arcstory.ui.screen.viewModel.StoryScreenViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.AvatarNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.ButtonNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.StoryBranchViewModel;
 import io.github.phiseecodyhsp.arcstory.ui.base.AppWindow;
 import io.github.phiseecodyhsp.arcstory.ui.base.ScreenManager;
 import javafx.application.Application;

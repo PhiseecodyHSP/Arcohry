@@ -101,67 +101,73 @@
 
 ### 3.2 新包结构
 
+**以下为大致结构，应当在此基础上增添新类：**
+
 ```
-io.github.phiseecodyhsp.arcstory
+io/github/phiseecodyhsp/arcstory
 ├── ArcStoryLauncher.java              (Application 入口，组装依赖)
-├── core/                               (领域逻辑，无 JavaFX 依赖)
-│   ├── story/
-│   │   ├── Story.java                  (故事模型：元数据 + Scene 列表)
-│   │   ├── StoryLoader.java           (从 JSON 反序列化)
-│   │   ├── StoryEngine.java           (故事播放状态机)
-│   │   ├── Scene.java                 (单个场景：CG/对话/选择)
-│   │   └── StoryProgress.java         (故事进度状态)
-│   ├── condition/
-│   │   ├── UnlockCondition.java       (解锁条件接口)
-│   │   ├── ChartCondition.java        (谱面解锁)
-│   │   └── PartnerCondition.java      (搭档解锁)
-│   └── state/
-│       ├── GameState.java             (全局状态：已解锁、已读、设置)
-│       └── SaveManager.java           (JSON 持久化)
-├── ui/                                 (JavaFX UI)
-│   ├── base/
-│   │   ├── Screen.java                (屏幕接口)
-│   │   ├── ScreenManager.java         (屏幕切换管理)
-│   │   ├── AppWindow.java             (主窗口 Stage 管理 + BGM + 缩放)
-│   │   └── Transition.java            (通用过渡动画)
-│   ├── screen/
-│   │   ├── MenuScreen.java            (标题/主菜单)
-│   │   ├── ChapterSelectScreen.java   (章节选择，左右滑动)
-│   │   ├── StorySelectScreen.java     (故事菱形按钮网格)
-│   │   ├── VisualNovelScreen.java     (视觉小说播放器)
-│   │   ├── LoadingScreen.java         (转场动画)
-│   │   └── SettingsScreen.java        (设置界面)
-│   ├── component/
-│   │   ├── DiamondButton.java         (菱形按钮组件)
-│   │   ├── TypewriterText.java        (打字机效果)
-│   │   ├── CgReveal.java              (扫线揭露动画)
-│   │   ├── PartnerAvatar.java         (搭档头像组件)
-│   │   ├── UnlockPopup.java           (解锁条件弹窗)
-│   │   └── IndicatorBadge.java        (NEW/Star 标记)
-│   └── util/
-│       └── JavaFxUtil.java            (JavaFX 线程工具方法)
-├── model/                              (数据模型，从现有代码迁移)
+├── res/
+│   ├── Audios.java                    (工具类，播放音频音效)
+│   ├── ResourceLoader.java            (工具类，统一资源加载)
+│   └── ResourceLocation.java          (资源路径的表示)
+├── service/                           (领域层，逻辑接口服务)
+│   ├── BgmService.java                (BGM 管理)
+│   └── GameStateService.java          (游戏状态查询 & 保存)
+├── serviceimpl/                       (基础设施实现层)
+│   ├── BGMServiceImpl.java
+│   ├── GameStateServiceImpl.java
+├── model/                             (Model 层)
 │   ├── Chart.java
 │   ├── Charts.java
-│   ├── Partner.java
-│   ├── Partners.java
 │   ├── Difficulty.java
 │   ├── DifficultyLevel.java
-│   └── Paradigms.java
-├── res/
-│   └── ResourceLoader.java            (统一资源加载，替换 Resources.java)
-├── util/                               (工具类，从现有代码迁移)
-│   ├── ScreenMetrics.java
-│   ├── MathUtil.java
-│   ├── Interpolators.java
-│   └── Alerts.java
-├── opening/
-│   ├── Opening.java                   (开场动画)
-│   └── OpeningType.java               (开场类型)
-├── calculator/
-│   └── PotentialCalculator.java       (PTT 计算器)
-└── avg/
-    └── AVGStory.java                  (冒险故事模式)
+│   ├── Paradigms.java
+│   ├── Partner.java
+│   ├── Partners.java
+│   └── story/                         (故事相关的数据模型)
+│       ├── Paragragh.java
+│       ├── ParagraghType.java
+│       └── Story.java
+├── viewmodel/                         (ViewModel 层)
+│   ├── AvatarNodeViewModel.java
+│   ├── ButtonNodeViewModel.java
+│   ├── StoryBranchViewModel.java
+│   └── StoryNodeViewModel.java
+├── ui/                                (JavaFX UI 层)
+│   ├── base/
+│   │   ├── AppWindow.java             (主窗口 Stage 管理)
+│   │   ├── Screen.java                (场景接口)
+│   │   ├── ScreenManager.java         (场景切换管理)
+│   │   └── Transition.java            (过渡动画类型枚举)
+│   ├── screen/
+│   │   ├── StoryScreen.java           (故事界面)
+│   │   ├── ChapterSelectScreen.java   (章节选择)
+│   │   ├── viewmodel/                 (场景 ViewModel 层)
+│   │   │   ├── StoryScreenViewModel.java
+│   │   │   ├── StoryViewModel.java
+│   │   │   └── ChapterSelectScreenViewModel.java
+│   │   └── view/                      (场景 View 层)
+│   │       ├── StoryScreenView.java
+│   │       ├── StoryView.java         (故事播放 View)
+│   │       └── ChapterSelectScreenView.java
+│   ├── view/                          (View 层)
+│   │   ├── Avatar.java                (搭档头像框)
+│   │   ├── Effects.java               (效果常量池)
+│   │   ├── IndicatorBadge.java        (NEW/Star 标记)
+│   │   ├── StoryBranch.java           (故事分支)
+│   │   ├── StoryNodeRegistry.java     (故事节点类型注册)
+│   │   ├── UnlockPopup.java           (工具类，解锁条件弹窗)
+│   │   └── node/                      (故事节点)
+│   │       ├── ButtonNode.java
+│   │       ├── AvatarNode.java
+│   │       └── StoryNode.java         (抽象类)
+│   └── util/                          (工具类)
+│       ├── ScreenMetrics.java
+│       ├── Interpolators.java
+│       └── JavaFxUtil.java            (JavaFX 线程工具方法)
+└── util/                              (工具类)
+    ├── MathUtil.java
+    └── Alerts.java                    (异常记录报告)
 ```
 
 ### 3.3 故事 JSON 数据结构（重构后）
