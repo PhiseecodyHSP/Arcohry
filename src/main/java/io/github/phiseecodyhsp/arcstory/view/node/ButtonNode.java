@@ -102,6 +102,7 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
         lock.setFitWidth(DIAGONAL_LENGTH / 3.0D);
         lock.setPreserveRatio(true);
         lock.setMouseTransparent(true);
+        lock.visibleProperty().bind(viewModel.lockedProperty());
 
         Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH, Color.WHITE);
         border.setArcWidth(ARC_SIZE);
