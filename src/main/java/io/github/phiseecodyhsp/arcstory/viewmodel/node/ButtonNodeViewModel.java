@@ -41,7 +41,7 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
         this.partner = new SimpleObjectProperty<>(partner);
         this.onMouseClicked = new SimpleObjectProperty<>();
         this.neo = new SimpleBooleanProperty(false);
-        this.locked = new SimpleBooleanProperty(true);
+        this.locked = new SimpleBooleanProperty(false);
 
         this.locked.addListener((_, _, v) -> {
             if (!v) {
