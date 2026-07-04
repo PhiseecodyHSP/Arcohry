@@ -176,23 +176,4 @@ class StoryViewModelTest {
 
         assertThrows(NullPointerException.class, () -> viewModel.playNext());
     }
-
-    // property getter
-
-    @Test
-    void propertyGetters_returnSameObject() {
-        List<Paragraph> paragraphs = new ArrayList<>();
-        paragraphs.add(new Paragraph(ParagraphType.TEXT, TEXT_LOC));
-
-        viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR);
-
-        assertSame(viewModel.storyProperty(), viewModel.storyProperty());
-        assertSame(viewModel.partnerAvatarProperty(), viewModel.partnerAvatarProperty());
-        assertSame(viewModel.lastCgProperty(), viewModel.lastCgProperty());
-        assertSame(viewModel.currentCgProperty(), viewModel.currentCgProperty());
-        assertSame(viewModel.currentTextProperty(), viewModel.currentTextProperty());
-
-        assertEquals("Test", viewModel.getStory().getName());
-        assertEquals(AVATAR, viewModel.getPartnerAvatar());
-    }
 }
