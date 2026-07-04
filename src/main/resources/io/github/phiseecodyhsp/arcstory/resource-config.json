@@ -30,7 +30,8 @@
         "project_convert_complete": "audios/谱面项目转换完成.mp3"
     },
     "fonts": {
-        "geosans_light": "fonts/GeosansLight.ttf"
+        "geosans_light": "fonts/GeosansLight.ttf",
+        "noto_sans_regular": "fonts/NotoSansCJKsc-Regular.ttf"
     },
     "stories": {
         "empty": "stories/empty.json",
