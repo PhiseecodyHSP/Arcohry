@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.arcstory.viewmodel;
+package io.github.phiseecodyhsp.arcstory.viewmodel.node;
 
 import io.github.phiseecodyhsp.arcstory.model.Partner;
 import io.github.phiseecodyhsp.arcstory.view.node.AvatarNode;

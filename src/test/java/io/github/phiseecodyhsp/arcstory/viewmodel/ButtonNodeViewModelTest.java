@@ -1,6 +1,7 @@
 package io.github.phiseecodyhsp.arcstory.viewmodel;
 
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
+import io.github.phiseecodyhsp.arcstory.viewmodel.node.ButtonNodeViewModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

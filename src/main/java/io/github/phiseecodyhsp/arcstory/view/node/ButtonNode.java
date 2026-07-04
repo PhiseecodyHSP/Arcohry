@@ -3,7 +3,7 @@ package io.github.phiseecodyhsp.arcstory.view.node;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.view.Effects;
-import io.github.phiseecodyhsp.arcstory.viewmodel.ButtonNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.node.ButtonNodeViewModel;
 import io.github.phiseecodyhsp.arcstory.util.PropertyUtil;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
 import javafx.scene.control.Label;

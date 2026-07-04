@@ -2,7 +2,7 @@ package io.github.phiseecodyhsp.arcstory.view;
 
 import io.github.phiseecodyhsp.arcstory.view.node.StoryNode;
 import io.github.phiseecodyhsp.arcstory.viewmodel.StoryBranchViewModel;
-import io.github.phiseecodyhsp.arcstory.viewmodel.StoryNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.node.StoryNodeViewModel;
 import io.github.phiseecodyhsp.arcstory.util.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;

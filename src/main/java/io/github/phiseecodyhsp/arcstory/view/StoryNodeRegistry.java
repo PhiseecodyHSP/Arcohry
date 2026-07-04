@@ -3,9 +3,9 @@ package io.github.phiseecodyhsp.arcstory.view;
 import io.github.phiseecodyhsp.arcstory.view.node.AvatarNode;
 import io.github.phiseecodyhsp.arcstory.view.node.ButtonNode;
 import io.github.phiseecodyhsp.arcstory.view.node.StoryNode;
-import io.github.phiseecodyhsp.arcstory.viewmodel.AvatarNodeViewModel;
-import io.github.phiseecodyhsp.arcstory.viewmodel.ButtonNodeViewModel;
-import io.github.phiseecodyhsp.arcstory.viewmodel.StoryNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.node.AvatarNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.node.ButtonNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.node.StoryNodeViewModel;
 
 import java.util.HashMap;
 import java.util.Map;

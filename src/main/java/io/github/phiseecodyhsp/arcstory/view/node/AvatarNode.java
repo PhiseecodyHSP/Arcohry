@@ -3,7 +3,7 @@ package io.github.phiseecodyhsp.arcstory.view.node;
 import io.github.phiseecodyhsp.arcstory.model.Partner;
 import io.github.phiseecodyhsp.arcstory.view.Avatar;
 import io.github.phiseecodyhsp.arcstory.view.Effects;
-import io.github.phiseecodyhsp.arcstory.viewmodel.AvatarNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.node.AvatarNodeViewModel;
 import javafx.scene.paint.Color;
 
 /**
