@@ -54,7 +54,7 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
     /**
      * 光标悬浮在按钮上时, 按钮变深的效果.
      */
-    private static final ColorAdjust HOVERED = new ColorAdjust(-0.25D, 0.0D, 0.0D, 0.0D);
+    private static final ColorAdjust HOVERED = new ColorAdjust(0.0D, 0.0D, -0.25D, 0.0D);
 
     /**
      * 文本字体.
@@ -71,17 +71,18 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
         label.setRotate(-45.0D);
         label.setEffect(Effects.SHADOW);
         label.setMouseTransparent(true);
+        label.visibleProperty().bind(viewModel.lockedProperty().not());
 
-        Polygon lockBg = new Polygon(
+        Polygon banner = new Polygon(
                 -IMAGE_SIZE / 2.0D, IMAGE_SIZE / 4.0D,
                 -IMAGE_SIZE / 2.0D, IMAGE_SIZE / 2.0D,
                 -IMAGE_SIZE / 4.0D, IMAGE_SIZE / 2.0D,
                 IMAGE_SIZE / 2.0D, -IMAGE_SIZE / 4.0D,
                 IMAGE_SIZE / 2.0D, -IMAGE_SIZE / 2.0D,
                 IMAGE_SIZE / 4.0D, -IMAGE_SIZE / 2.0D);
-        lockBg.setFill(Color.BLACK);
-        lockBg.setOpacity(0.5D);
-        lockBg.setMouseTransparent(true);
+        banner.setFill(Color.BLACK);
+        banner.setOpacity(0.5D);
+        banner.setMouseTransparent(true);
 
         ImageView newIcon = new ImageView(ResourceLoader.loadImage(ResourceLoader.resolvePath("images", "new_icon")));
         newIcon.setPreserveRatio(true);
@@ -89,6 +90,7 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
         newIcon.setFitWidth(NEW_ICON_SIZE);
         newIcon.setTranslateY(-0.5833333333333333D * SIDE_LENGTH); /* 7 / 12 */
         newIcon.setMouseTransparent(true);
+        newIcon.visibleProperty().bind(viewModel.newProperty());
 
         ImageView view = new ImageView();
         view.imageProperty().bind(PropertyUtil.createImage(this.viewModel.illustrationLocationProperty()));
@@ -110,9 +112,13 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
         border.setEffect(Effects.SHADOW);
         border.setOnMouseEntered(_ -> view.setEffect(HOVERED));
         border.setOnMouseExited(_ -> view.setEffect(null));
-        border.onMouseClickedProperty().bind(viewModel.onMouseClickedProperty());
+        border.onMouseClickedProperty().bind(viewModel.onMouseClickedProperty().map(
+                eventHandler -> e -> {
+                    this.viewModel.newProperty().setValue(false);
+                    eventHandler.handle(e);
+                }));
 
         this.setRotate(45.0D);
-        this.getChildren().addAll(border, view, lockBg, lock);
+        this.getChildren().addAll(border, view, banner, label, newIcon, lock);
     }
 }

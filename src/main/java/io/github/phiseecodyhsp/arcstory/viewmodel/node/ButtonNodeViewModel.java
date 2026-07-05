@@ -40,7 +40,7 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
         this.chart = new SimpleObjectProperty<>(chart);
         this.partner = new SimpleObjectProperty<>(partner);
         this.onMouseClicked = new SimpleObjectProperty<>();
-        this.neo = new SimpleBooleanProperty(false);
+        this.neo = new SimpleBooleanProperty(true);
         this.locked = new SimpleBooleanProperty(false);
 
         this.locked.addListener((_, _, v) -> {
