@@ -1,5 +1,6 @@
 package io.github.phiseecodyhsp.arcstory.res;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.regex.Pattern;
@@ -27,6 +28,17 @@ public record ResourceLocation(@JsonProperty String category, @JsonProperty Stri
         if (!LOWER_SNAKE_CASE.matcher(key).matches()) {
             throw new IllegalArgumentException("Key must match lower_snake_case");
         }
+    }
+
+    @JsonCreator
+    public ResourceLocation(String location) {
+        int index = location.indexOf("/");
+        if (index == -1) {
+            throw new IllegalArgumentException("Resource Location must contains '/' for separating category and key");
+        }
+        String category = location.substring(0, index);
+        String key = location.substring(1 + index);
+        this(category, key);
     }
 
     public static ResourceLocation image(String key) {
