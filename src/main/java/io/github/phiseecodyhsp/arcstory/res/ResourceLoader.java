@@ -176,7 +176,7 @@ public final class ResourceLoader {
             try (InputStream is = loadStream(relativePath)) {
                 return new String(is.readAllBytes());
             } catch (IOException e) {
-                throw new IllegalArgumentException("Text not found: " + relativePath);
+                throw new IllegalArgumentException("Text not found: " + relativePath, e);
             }
         });
     }
@@ -194,7 +194,7 @@ public final class ResourceLoader {
             try (InputStream is = loadStream(relativePath)) {
                 return MAPPER.readValue(is, Story.class);
             } catch (IOException e) {
-                throw new IllegalArgumentException("Story not found: " + relativePath);
+                throw new IllegalArgumentException("Story not found: " + relativePath, e);
             } catch (Exception e) {
                 throw new IllegalArgumentException("Story loaded failed: " + relativePath, e);
             }
