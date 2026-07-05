@@ -109,7 +109,7 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
         Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH, Color.WHITE);
         border.setArcWidth(ARC_SIZE);
         border.setArcHeight(ARC_SIZE);
-        border.setEffect(Effects.SHADOW);
+        border.setEffect(Effects.ROTATED_SHADOW);
         border.setOnMouseEntered(_ -> view.setEffect(HOVERED));
         border.setOnMouseExited(_ -> view.setEffect(null));
         border.onMouseClickedProperty().bind(viewModel.onMouseClickedProperty().map(
