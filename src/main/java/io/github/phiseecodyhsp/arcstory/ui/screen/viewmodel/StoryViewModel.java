@@ -5,7 +5,9 @@ import io.github.phiseecodyhsp.arcstory.model.story.Paragraph;
 import io.github.phiseecodyhsp.arcstory.model.story.ParagraphType;
 import io.github.phiseecodyhsp.arcstory.model.story.Story;
 import io.github.phiseecodyhsp.arcstory.ui.screen.view.StoryView;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 import java.util.List;
@@ -21,38 +23,36 @@ public class StoryViewModel {
 
     private final ObjectProperty<ResourceLocation> partnerAvatar;
 
-    private final ObjectProperty<ResourceLocation> lastCg;
+    private final Runnable onFinishedCallback;
 
-    private final ObjectProperty<ResourceLocation> currentCg;
+    private final ObjectProperty<ResourceLocation> bottomCg;
+
+    private final ObjectProperty<ResourceLocation> topCg;
 
     private final ObjectProperty<ResourceLocation> currentText;
 
+    private final ObjectProperty<Status> currentStatus;
+
+    private final BooleanProperty shadowHidden;
+
     private int currentIndex = -1;
 
-    public StoryViewModel(Story story, ResourceLocation partnerAvatar) {
+    public StoryViewModel(Story story, ResourceLocation partnerAvatar, Runnable onFinishedCallback) {
         this.story = new SimpleObjectProperty<>(story);
         this.partnerAvatar = new SimpleObjectProperty<>(partnerAvatar);
-        this.lastCg = new SimpleObjectProperty<>();
-        this.currentCg = new SimpleObjectProperty<>();
+        this.onFinishedCallback = onFinishedCallback;
+        this.bottomCg = new SimpleObjectProperty<>();
+        this.topCg = new SimpleObjectProperty<>();
         this.currentText = new SimpleObjectProperty<>();
-    }
+        this.currentStatus = new SimpleObjectProperty<>(Status.WAITING);
+        this.shadowHidden = new SimpleBooleanProperty(true);
 
-    public Status playNext() {
-        List<Paragraph> list = this.story.get().getParagraphs();
-        if (this.currentIndex >= list.size() - 1) {
-            return Status.FINISHED;
-        }
-
-        this.currentIndex++;
-        Paragraph paragraph = list.get(this.currentIndex);
-        if (paragraph.type() == ParagraphType.TEXT) {
-            this.currentText.setValue(paragraph.location());
-            return Status.TEXT;
-        } else {
-            this.lastCg.setValue(this.currentCg.getValue());
-            this.currentCg.setValue(paragraph.location());
-            return Status.CG;
-        }
+//        this.currentStatus.addListener((_, oldVar, newVar) -> {
+//            // CG 动画播放完毕后自动步进故事
+//            if (oldVar == Status.CG && newVar == Status.WAITING) {
+//                this.playNext();
+//            }
+//        });
     }
 
     public ResourceLocation getPartnerAvatar() {
@@ -71,20 +71,20 @@ public class StoryViewModel {
         return this.story;
     }
 
-    public ResourceLocation getLastCg() {
-        return this.lastCg.get();
+    public ResourceLocation getBottomCg() {
+        return this.bottomCg.get();
     }
 
-    public ObjectProperty<ResourceLocation> lastCgProperty() {
-        return this.lastCg;
+    public ObjectProperty<ResourceLocation> bottomCgProperty() {
+        return this.bottomCg;
     }
 
-    public ResourceLocation getCurrentCg() {
-        return this.currentCg.get();
+    public ResourceLocation getTopCg() {
+        return this.topCg.get();
     }
 
-    public ObjectProperty<ResourceLocation> currentCgProperty() {
-        return this.currentCg;
+    public ObjectProperty<ResourceLocation> topCgProperty() {
+        return this.topCg;
     }
 
     public ResourceLocation getCurrentText() {
@@ -95,7 +95,71 @@ public class StoryViewModel {
         return this.currentText;
     }
 
+    public void proceed() {
+        switch (this.getCurrentStatus()) {
+            case TEXT -> this.markWaiting();
+            case WAITING -> this.playNext();
+        }
+    }
+
+    private void playNext() {
+        List<Paragraph> list = this.story.get().getParagraphs();
+        if (this.currentIndex >= list.size() - 1) {
+            this.currentStatus.setValue(Status.FINISHED);
+            return;
+        }
+
+        this.currentIndex++;
+        if (this.topCg.getValue() != null) {
+            this.bottomCg.setValue(this.topCg.getValue());
+        }
+        this.topCg.setValue(null);
+
+        Paragraph paragraph = list.get(this.currentIndex);
+        if (paragraph.type() == ParagraphType.TEXT) {
+            this.currentText.setValue(paragraph.location());
+            this.currentStatus.setValue(Status.TEXT);
+            this.shadowHidden.setValue(false);
+        } else {
+            this.topCg.setValue(paragraph.location());
+            this.currentStatus.setValue(Status.CG);
+            this.shadowHidden.setValue(true);
+        }
+    }
+
+    /**
+     * 修改当前状态为 {@link Status#WAITING}. 用于动画播放完毕, 等待下一步输入.
+     */
+    public void markWaiting() {
+        this.currentStatus.setValue(Status.WAITING);
+    }
+
+    /**
+     * 请求移除 View 层的故事播放. 在结束动画后被调用, 见 {@link StoryView#onStatusChanged(Status)}.
+     */
+    public void requestRemoving() {
+        if (this.onFinishedCallback != null) {
+            this.onFinishedCallback.run();
+        }
+    }
+
+    public Status getCurrentStatus() {
+        return this.currentStatus.get();
+    }
+
+    public ObjectProperty<Status> currentStatusProperty() {
+        return this.currentStatus;
+    }
+
+    public boolean isShadowHidden() {
+        return this.shadowHidden.get();
+    }
+
+    public BooleanProperty shadowHiddenProperty() {
+        return this.shadowHidden;
+    }
+
     public enum Status {
-        TEXT, CG, FINISHED
+        TEXT, CG, WAITING, FINISHED
     }
 }

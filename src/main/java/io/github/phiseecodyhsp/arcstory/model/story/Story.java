@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public final class Story {
     private String name;
 
     @JsonProperty
-    private List<Paragraph> paragraphs;
+    private List<Paragraph> paragraphs = new ArrayList<>();
 
     public Story() {
     }

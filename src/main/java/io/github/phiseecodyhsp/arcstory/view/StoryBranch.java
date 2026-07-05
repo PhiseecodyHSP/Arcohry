@@ -52,6 +52,7 @@ public class StoryBranch extends StackPane {
 
     public StoryBranch(StoryBranchViewModel viewModel) {
         this.viewModel = viewModel;
+        this.setMaxSize(0.0D, 0.0D);
 
         StackPane opaque = new StackPane();
         StackPane translucent = new StackPane();

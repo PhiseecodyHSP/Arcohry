@@ -18,7 +18,9 @@
         "light": "images/0-3.jpg",
         "conflict": "images/0-3.jpg",
         "achromic": "images/0-3.jpg",
-        "lephon": "images/0-3.jpg"
+        "lephon": "images/0-3.jpg",
+        "cg_0_3": "images/0-3.jpg",
+        "cg_1_1": "images/1-1.jpg"
     },
     "audio": {
         "start": "audios/START.mp3",
@@ -36,5 +38,10 @@
     "stories": {
         "empty": "stories/empty.json",
         "test": "stories/test.json"
+    },
+    "texts": {
+        "test": "texts/test.txt",
+        "test_2": "texts/test2.txt",
+        "test_3": "texts/test3.txt"
     }
 }
