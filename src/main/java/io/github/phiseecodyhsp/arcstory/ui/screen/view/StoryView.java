@@ -201,6 +201,9 @@ public class StoryView extends StackPane {
                 }
             }
             case CG -> {
+                if (this.viewModel.isShadowHidden()) {
+                    this.shadow.setOpacity(0.0D);
+                }
                 this.typewriter.play("");
                 this.onCgAdded.playFromStart();
             }
