@@ -65,15 +65,7 @@ public class StoryView extends StackPane {
 
     private final Rectangle shadow;
 
-    private final ColorAdjust glow = new ColorAdjust();
-
-    private final Polygon sweepLine;
-
-    private final Polygon clipper;
-
     private final Timeline onCgAdded;
-
-    private final FadeTransition onShadowAdded;
 
     private final Typewriter typewriter;
 
@@ -92,7 +84,7 @@ public class StoryView extends StackPane {
         this.shadow = new Rectangle(width, height, Color.BLACK);
         this.shadow.setOpacity(0.0D);
 
-        this.sweepLine = new Polygon(
+        Polygon sweepLine = new Polygon(
                 -SWEEP_LINE_WIDTH, 0.0D,
                 -SWEEP_LINE_WIDTH - SWEEP_LINE_ROTATION * height, height,
                 -SWEEP_LINE_ROTATION * height, height,
@@ -102,11 +94,12 @@ public class StoryView extends StackPane {
         DropShadow shadow2 = new DropShadow(0, Color.WHITE);
         sweepLineGlow.setInput(shadow1);
         shadow1.setInput(shadow2);
-        this.sweepLine.setTranslateX(-width);
-        this.sweepLine.setFill(Color.WHITE);
-        this.sweepLine.setEffect(sweepLineGlow);
+        sweepLine.setTranslateX(-width);
+        sweepLine.setFill(Color.WHITE);
+        sweepLine.setEffect(sweepLineGlow);
 
-        this.clipper = new Polygon(
+        ColorAdjust glow = new ColorAdjust();
+        Polygon clipper = new Polygon(
                 -SWEEP_LINE_WIDTH, 0.0D,
                 -SWEEP_LINE_WIDTH - SWEEP_LINE_ROTATION * height, height,
                 width, height,
@@ -116,15 +109,15 @@ public class StoryView extends StackPane {
         bottomCg.imageProperty().bind(PropertyUtil.createImage(this.viewModel.bottomCgProperty()));
         bottomCg.setPreserveRatio(true);
         bottomCg.setFitWidth(width);
-        bottomCg.setEffect(this.glow);
+        bottomCg.setEffect(glow);
 
         ImageView topCg = new ImageView();
         topCg.imageProperty().bind(PropertyUtil.createImage(this.viewModel.topCgProperty()));
         topCg.setPreserveRatio(true);
         topCg.setFitWidth(width);
-        topCg.setClip(this.clipper);
-        topCg.setEffect(this.glow);
-        this.clipper.translateYProperty().bind(topCg.imageProperty().map(
+        topCg.setClip(clipper);
+        topCg.setEffect(glow);
+        clipper.translateYProperty().bind(topCg.imageProperty().map(
                 image -> 0.5D * (width * image.getHeight() / image.getWidth() - height)));
 
         this.typewriter = new Typewriter();
@@ -137,36 +130,32 @@ public class StoryView extends StackPane {
         this.onCgAdded = new Timeline(
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(
-                                this.clipper.translateXProperty(),
+                                clipper.translateXProperty(),
                                 -width - SWEEP_LINE_WIDTH - SWEEP_LINE_ROTATION * height),
                         new KeyValue(
-                                this.sweepLine.translateXProperty(),
+                                sweepLine.translateXProperty(),
                                 -0.5D * (width + SWEEP_LINE_WIDTH + SWEEP_LINE_ROTATION * height)),
-                        new KeyValue(this.sweepLine.opacityProperty(), 0.5D),
+                        new KeyValue(sweepLine.opacityProperty(), 0.5D),
                         new KeyValue(sweepLineGlow.radiusProperty(), 127.0D),
                         new KeyValue(shadow1.radiusProperty(), 127.0D),
                         new KeyValue(shadow2.radiusProperty(), 127.0D),
-                        new KeyValue(this.glow.brightnessProperty(), 0.0D)),
+                        new KeyValue(glow.brightnessProperty(), 0.0D)),
                 new KeyFrame(Duration.seconds(time / 32.0D),
-                        new KeyValue(this.glow.brightnessProperty(), GLOW_BRIGHTNESS)),
+                        new KeyValue(glow.brightnessProperty(), GLOW_BRIGHTNESS)),
                 new KeyFrame(Duration.seconds(time),
-                        new KeyValue(this.clipper.translateXProperty(), 0.0D, Interpolators.CUBE_IN),
+                        new KeyValue(clipper.translateXProperty(), 0.0D, Interpolators.CUBE_IN),
                         new KeyValue(
-                                this.sweepLine.translateXProperty(),
+                                sweepLine.translateXProperty(),
                                 0.5D * (width + SWEEP_LINE_WIDTH + SWEEP_LINE_ROTATION * height),
                                 Interpolators.CUBE_IN),
-                        new KeyValue(this.sweepLine.opacityProperty(), 1.0D),
+                        new KeyValue(sweepLine.opacityProperty(), 1.0D),
                         new KeyValue(sweepLineGlow.radiusProperty(), 0.0D),
                         new KeyValue(shadow1.radiusProperty(), 0.0D),
                         new KeyValue(shadow2.radiusProperty(), 0.0D),
-                        new KeyValue(this.glow.brightnessProperty(), 0.0D)));
+                        new KeyValue(glow.brightnessProperty(), 0.0D)));
         this.onCgAdded.setOnFinished(_ -> this.viewModel.markWaiting());
 
-        this.onShadowAdded = new FadeTransition(Duration.seconds(TRANS_TIME), this.shadow);
-        this.onShadowAdded.setToValue(SHADOW_DARKNESS);
-        this.onShadowAdded.setOnFinished(_ -> this.viewModel.proceed());
-
-        this.getChildren().addAll(bottomCg, this.shadow, topCg, this.sweepLine, textPlayer);
+        this.getChildren().addAll(bottomCg, this.shadow, topCg, sweepLine, textPlayer);
     }
 
     public void start() {
