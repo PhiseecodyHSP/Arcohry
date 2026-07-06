@@ -175,14 +175,6 @@ public class StoryView extends StackPane {
             return;
         }
 
-//        if (list.getFirst().type() == ParagraphType.CG) {
-//            this.viewModel.proceed();
-//        } else {
-//            FadeTransition onShadowAdded = new FadeTransition(Duration.seconds(TRANS_TIME), this.shadow);
-//            onShadowAdded.setToValue(SHADOW_DARKNESS);
-//            onShadowAdded.setOnFinished(_ -> this.viewModel.proceed());
-//            onShadowAdded.playFromStart();
-//        }
         this.viewModel.proceed();
     }
 
