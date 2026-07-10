@@ -17,8 +17,10 @@ import java.util.List;
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public final class Story {
 
+    static final String DEFAULT_NAME = "Unnamed";
+
     @JsonProperty
-    private String name;
+    private String name = DEFAULT_NAME;
 
     @JsonProperty
     private List<Paragraph> paragraphs = new ArrayList<>();
