@@ -1,5 +1,7 @@
 package io.github.phiseecodyhsp.arcstory.res;
 
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.phiseecodyhsp.arcstory.model.story.Story;
@@ -193,6 +195,10 @@ public final class ResourceLoader {
         return STORY_CACHES.computeIfAbsent(relativePath, _ -> {
             try (InputStream is = loadStream(relativePath)) {
                 return MAPPER.readValue(is, Story.class);
+            } catch (StreamReadException e) {
+                throw new IllegalArgumentException("Found invalid story json content: " + relativePath, e);
+            } catch (DatabindException e) {
+                throw new IllegalArgumentException("Found invalid story json structure: " + relativePath, e);
             } catch (IOException e) {
                 throw new IllegalArgumentException("Story not found: " + relativePath, e);
             } catch (Exception e) {
