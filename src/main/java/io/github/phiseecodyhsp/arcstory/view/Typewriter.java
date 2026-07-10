@@ -79,7 +79,9 @@ public class Typewriter {
     }
 
     public void stop() {
-        this.timeline.stop();
+        if (this.timeline != null) {
+            this.timeline.stop();
+        }
         this.currentIndex.setValue(this.fullText.length().getValue());
         this.handleOnFinished();
     }
