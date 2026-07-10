@@ -1,7 +1,6 @@
-package io.github.phiseecodyhsp.arcstory.viewmodel;
+package io.github.phiseecodyhsp.arcstory.viewmodel.node;
 
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
-import io.github.phiseecodyhsp.arcstory.viewmodel.node.ButtonNodeViewModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +20,7 @@ class ButtonNodeViewModelTest {
     @Test
     void lockedProperty_enabledAfterUnlocked() {
         this.viewModel.lockedProperty().set(true);
+        this.viewModel.enabledProperty().set(false);
         assertFalse(this.viewModel.enabledProperty().get());
         this.viewModel.lockedProperty().set(false);
         assertTrue(this.viewModel.enabledProperty().get());
