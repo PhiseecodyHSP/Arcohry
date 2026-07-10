@@ -6,6 +6,7 @@ import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.util.Duration;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 文本打字机, 随时间逐个键入给定文本字符.
@@ -47,11 +48,13 @@ public class Typewriter {
     private final StringProperty fullText = new SimpleStringProperty();
 
     public Typewriter() {
-        this.currentText.bind(this.fullText.map(s ->
-                s.substring(Math.clamp(this.currentIndex.getValue(), 0, s.length()))));
+        this.currentText.bind(this.currentIndex.map(i -> {
+            String str = this.fullText.getValueSafe();
+            return str.substring(Math.clamp((int) i, 0, str.length()));
+        }));
     }
 
-    public void play(String text) {
+    public void play(@NotNull String text) {
         if (this.timeline != null) {
             this.timeline.stop();
         }
