@@ -1,5 +1,6 @@
 package io.github.phiseecodyhsp.arcstory.model;
 
+import io.github.phiseecodyhsp.arcstory.model.difficulty.Difficulty;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
 
@@ -12,7 +13,8 @@ public final class Chart {
     public final String composer;
     public final String bpm;
     public final Difficulty difficulty;
-    public final DifficultyLevel level;
+    public final double rating;
+    public final String level;
     public final ResourceLocation illustrationLocation;
     public final String illustrator;
     public final String noteDesigner;
@@ -24,7 +26,7 @@ public final class Chart {
                  double leftBPM,
                  double rightBPM,
                  Difficulty difficulty,
-                 DifficultyLevel level,
+                 double rating,
                  ResourceLocation illustrationLocation,
                  String illustrator,
                  String noteDesigner,
@@ -33,7 +35,8 @@ public final class Chart {
         this.musicLocation = musicLocation;
         this.composer = composer;
         this.difficulty = difficulty;
-        this.level = level;
+        this.rating = rating;
+        this.level = MathUtil.ratingToLevel(this.rating);
         this.illustrationLocation = illustrationLocation;
         this.illustrator = illustrator;
         this.noteDesigner = noteDesigner;

@@ -1,5 +1,6 @@
 package io.github.phiseecodyhsp.arcstory.model;
 
+import io.github.phiseecodyhsp.arcstory.model.difficulty.Difficulty;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 
 public final class Charts {
@@ -14,7 +15,7 @@ public final class Charts {
                 "ak+q",
                 128, 128,
                 Difficulty.PST,
-                DifficultyLevel.LEVEL_1,
+                1,
                 ResourceLocation.image("tutorial_illustration"),
                 null,
                 null,
