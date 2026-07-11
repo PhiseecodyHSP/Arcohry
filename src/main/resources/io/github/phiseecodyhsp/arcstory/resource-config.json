@@ -46,5 +46,11 @@
     },
     "charts": {
         "tutorial_pst": "charts/tutorial_pst.json"
+    },
+    "partners": {
+        "hikari": "partners/hikari.json"
+    },
+    "storyunlockconditions": {
+        "test": "storyunlockconditions/test.json"
     }
 }
