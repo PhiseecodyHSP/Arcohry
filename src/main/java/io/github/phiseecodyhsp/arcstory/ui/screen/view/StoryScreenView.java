@@ -1,11 +1,13 @@
 package io.github.phiseecodyhsp.arcstory.ui.screen.view;
 
 import io.github.phiseecodyhsp.arcstory.ui.screen.StoryScreen;
-import io.github.phiseecodyhsp.arcstory.ui.screen.viewModel.StoryScreenViewModel;
+import io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel.StoryScreenViewModel;
 import io.github.phiseecodyhsp.arcstory.view.StoryBranch;
 import io.github.phiseecodyhsp.arcstory.viewmodel.StoryBranchViewModel;
 import io.github.phiseecodyhsp.arcstory.util.PropertyUtil;
 import io.github.phiseecodyhsp.arcstory.ui.util.ScreenMetrics;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -29,6 +31,8 @@ public class StoryScreenView extends StackPane {
 
     private final ObservableMap<StoryBranchViewModel, StoryBranch> storyBranches = FXCollections.observableHashMap();
 
+    private final ObjectProperty<StoryView> storyView = new SimpleObjectProperty<>();
+
     public StoryScreenView(StoryScreenViewModel viewModel) {
         this.viewModel = viewModel;
 
@@ -42,6 +46,21 @@ public class StoryScreenView extends StackPane {
         // 监听 ViewModel, 自动增删子 View
         this.viewModel.getStoryBranches().addListener(this::onStoryBranchesChanged);
         this.viewModel.getStoryBranches().forEach(this::addStoryBranch);
+
+        this.storyView.addListener((_, oldVar, newVar) -> {
+            if (oldVar != null) {
+                this.getChildren().remove(oldVar);
+            }
+            if (newVar != null) {
+                this.getChildren().add(newVar);
+                newVar.start();
+            }
+        });
+
+        this.viewModel.storyViewProperty().addListener((_, _, v) -> {
+            StoryView storyView = v == null ? null : new StoryView(v);
+            this.storyView.setValue(storyView);
+        });
     }
 
     private void onStoryBranchesChanged(ListChangeListener.Change<? extends StoryBranchViewModel> change) {

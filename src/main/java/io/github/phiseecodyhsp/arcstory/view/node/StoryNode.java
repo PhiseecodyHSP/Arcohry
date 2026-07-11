@@ -1,6 +1,6 @@
 package io.github.phiseecodyhsp.arcstory.view.node;
 
-import io.github.phiseecodyhsp.arcstory.viewmodel.StoryNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.node.StoryNodeViewModel;
 import javafx.scene.layout.StackPane;
 
 /**

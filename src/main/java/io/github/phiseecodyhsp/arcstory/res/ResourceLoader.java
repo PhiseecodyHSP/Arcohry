@@ -1,7 +1,10 @@
 package io.github.phiseecodyhsp.arcstory.res;
 
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.phiseecodyhsp.arcstory.model.story.Story;
 import io.github.phiseecodyhsp.arcstory.util.Alerts;
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
@@ -70,12 +73,13 @@ public final class ResourceLoader {
     private static final String BASE = "/io/github/phiseecodyhsp/arcstory/";
     private static final String CONFIG_PATH = "resource-config.json";
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper MAPPER = new ObjectMapper();
     private static volatile JsonNode config;
 
     private static final Map<String, Image> IMAGE_CACHES = new ConcurrentHashMap<>();
     private static final Map<String, Font> FONT_CACHES = new ConcurrentHashMap<>();
     private static final Map<String, String> TEXT_CACHES = new ConcurrentHashMap<>();
+    private static final Map<String, Story> STORY_CACHES = new ConcurrentHashMap<>();
 
     private ResourceLoader() {}
 
@@ -85,13 +89,13 @@ public final class ResourceLoader {
                 if (config == null) {
                     try (InputStream is = ResourceLoader.class.getResourceAsStream(BASE + CONFIG_PATH)) {
                         if (is != null) {
-                            config = mapper.readTree(is);
+                            config = MAPPER.readTree(is);
                         } else {
-                            config = mapper.createObjectNode();
+                            config = MAPPER.createObjectNode();
                         }
                     } catch (Exception e) {
                         Alerts.alertException(e);
-                        config = mapper.createObjectNode();
+                        config = MAPPER.createObjectNode();
                     }
                 }
             }
@@ -174,7 +178,7 @@ public final class ResourceLoader {
             try (InputStream is = loadStream(relativePath)) {
                 return new String(is.readAllBytes());
             } catch (IOException e) {
-                throw new IllegalArgumentException("Text not found: " + relativePath);
+                throw new IllegalArgumentException("Text not found: " + relativePath, e);
             }
         });
     }
@@ -185,6 +189,30 @@ public final class ResourceLoader {
             return null;
         }
         return loadText(resolvedPath);
+    }
+
+    public static Story loadStory(String relativePath) {
+        return STORY_CACHES.computeIfAbsent(relativePath, _ -> {
+            try (InputStream is = loadStream(relativePath)) {
+                return MAPPER.readValue(is, Story.class);
+            } catch (StreamReadException e) {
+                throw new IllegalArgumentException("Found invalid story json content: " + relativePath, e);
+            } catch (DatabindException e) {
+                throw new IllegalArgumentException("Found invalid story json structure: " + relativePath, e);
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Story not found: " + relativePath, e);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Story loaded failed: " + relativePath, e);
+            }
+        });
+    }
+
+    public static Story loadStory(ResourceLocation location) {
+        String resolvedPath = resolvePath(location);
+        if (resolvedPath == null) {
+            return null;
+        }
+        return loadStory(resolvedPath);
     }
 
     public static AudioClip loadAudio(String relativePath) {
@@ -211,5 +239,6 @@ public final class ResourceLoader {
         IMAGE_CACHES.clear();
         FONT_CACHES.clear();
         TEXT_CACHES.clear();
+        STORY_CACHES.clear();
     }
 }

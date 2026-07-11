@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,11 +17,13 @@ import java.util.List;
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public final class Story {
 
-    @JsonProperty
-    private String name;
+    static final String DEFAULT_NAME = "Unnamed";
 
     @JsonProperty
-    private List<Paragraph> paragraphs;
+    private String name = DEFAULT_NAME;
+
+    @JsonProperty
+    private List<Paragraph> paragraphs = new ArrayList<>();
 
     public Story() {
     }
