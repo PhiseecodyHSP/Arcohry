@@ -3,8 +3,6 @@ package io.github.phiseecodyhsp.arcstory.view;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 

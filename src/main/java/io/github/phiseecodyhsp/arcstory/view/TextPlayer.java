@@ -19,7 +19,7 @@ import javafx.scene.text.TextFlow;
  */
 public class TextPlayer extends TextFlow {
 
-    private static final double FONT_SIZE = 30.0D;
+    private static final double FONT_SIZE = StoryNodeUiConstants.TEXT_PLAYER_FONT_SIZE;
 
     private static final double LINE_SPACING = FONT_SIZE / 2.0D;
 

@@ -3,6 +3,7 @@ package io.github.phiseecodyhsp.arcstory.view.node;
 import io.github.phiseecodyhsp.arcstory.model.Partner;
 import io.github.phiseecodyhsp.arcstory.view.Avatar;
 import io.github.phiseecodyhsp.arcstory.view.Effects;
+import io.github.phiseecodyhsp.arcstory.view.StoryNodeUiConstants;
 import io.github.phiseecodyhsp.arcstory.viewmodel.node.AvatarNodeViewModel;
 import javafx.scene.paint.Color;
 
@@ -16,7 +17,7 @@ public class AvatarNode extends StoryNode<AvatarNodeViewModel> {
     /**
      * 头像边长.
      */
-    private static final double SIDE_LENGTH = 100.0D;
+    private static final double SIDE_LENGTH = StoryNodeUiConstants.SIDE_LENGTH;
 
     /**
      * 头像边框颜色.

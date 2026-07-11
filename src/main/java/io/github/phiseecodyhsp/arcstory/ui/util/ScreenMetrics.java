@@ -1,40 +1,36 @@
 package io.github.phiseecodyhsp.arcstory.ui.util;
 
-import javafx.geometry.Rectangle2D;
-import javafx.stage.Screen;
+import io.github.phiseecodyhsp.arcstory.ui.base.AppWindow;
 
-public class ScreenMetrics {
+/**
+ * 存储屏幕宽高常量的类.
+ *
+ * @author HSP
+ */
+public final class ScreenMetrics {
 
-    /**
-     * 获取主屏的宽高信息.
-     *
-     * <p>若同时获取宽高, 建议使用该方法, <b>因为这可以避免潜在的同步问题</b> (如分辨率更改).
-     *
-     * @return 搭载主屏宽高的 {@link Rectangle2D} 对象
-     */
-    public static Rectangle2D getPrimaryScreenBounds() {
-        return Screen.getPrimary().getVisualBounds();
-    }
+    private ScreenMetrics() {}
 
     /**
-     * 获取主屏的宽度.
-     *
-     * <p>若同时获取宽高, 建议使用 {@link #getPrimaryScreenBounds()}, 理由已经给出.
-     *
-     * @return 主屏宽度
+     * 基准宽高比.
      */
-    public static double getPrimaryScreenWidth() {
-        return Screen.getPrimary().getVisualBounds().getWidth();
-    }
+    private static final double ASPECT_RATIO;
 
     /**
-     * 获取主屏的高度.
-     *
-     * <p>若同时获取宽高, 建议使用 {@link #getPrimaryScreenBounds()}, 理由已经给出.
-     *
-     * @return 主屏高度
+     * 基准屏幕宽度, 根据这个常量来设定 {@link AppWindow} 中的 updateScale() 方法和需要铺满整个窗口的 Node 的大小等.
      */
-    public static double getPrimaryScreenHeight() {
-        return Screen.getPrimary().getVisualBounds().getHeight();
+    public static final double SCREEN_WIDTH;
+
+    /**
+     * 基准屏幕高度, 作用见上.
+     */
+    public static final double SCREEN_HEIGHT;
+
+    static {
+        ASPECT_RATIO = 16.0 / 9.0;
+
+        SCREEN_WIDTH = 1920.0D;
+
+        SCREEN_HEIGHT = SCREEN_WIDTH / ASPECT_RATIO;
     }
 }

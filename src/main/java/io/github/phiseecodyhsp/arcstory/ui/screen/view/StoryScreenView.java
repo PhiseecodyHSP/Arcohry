@@ -3,6 +3,7 @@ package io.github.phiseecodyhsp.arcstory.ui.screen.view;
 import io.github.phiseecodyhsp.arcstory.ui.screen.StoryScreen;
 import io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel.StoryScreenViewModel;
 import io.github.phiseecodyhsp.arcstory.view.StoryBranch;
+import io.github.phiseecodyhsp.arcstory.view.StoryNodeUiConstants;
 import io.github.phiseecodyhsp.arcstory.viewmodel.StoryBranchViewModel;
 import io.github.phiseecodyhsp.arcstory.util.PropertyUtil;
 import io.github.phiseecodyhsp.arcstory.ui.util.ScreenMetrics;
@@ -25,7 +26,7 @@ public class StoryScreenView extends StackPane {
     /**
      * 两个相邻故事分支的间距.
      */
-    private static final double BRANCH_SPACING = 300.0D;
+    private static final double BRANCH_SPACING = StoryNodeUiConstants.DIAGONAL_LENGTH * 2.0D;
 
     private final StoryScreenViewModel viewModel;
 
@@ -39,7 +40,7 @@ public class StoryScreenView extends StackPane {
         ImageView background = new ImageView();
         background.imageProperty().bind(PropertyUtil.createImage(this.viewModel.backgroundProperty()));
         background.setPreserveRatio(true);
-        background.setFitWidth(ScreenMetrics.getPrimaryScreenWidth());
+        background.setFitWidth(ScreenMetrics.SCREEN_WIDTH);
 
         this.getChildren().add(background);
 
