@@ -34,6 +34,10 @@ public class MathUtil {
         return num + "th";
     }
 
+    public static String doubleToString(double num) {
+        return num % 1 == 0 ? String.valueOf((int)num) : String.valueOf(num);
+    }
+
     /**
      * 给一个双精度浮点数平方.
      *
