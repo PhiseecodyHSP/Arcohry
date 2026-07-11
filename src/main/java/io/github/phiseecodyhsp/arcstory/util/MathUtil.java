@@ -36,6 +36,14 @@ public class MathUtil {
         return num + "th";
     }
 
+    /**
+     * 将一个双精度浮点数转换为字符串, 且当这个数是整数时, 返回的字符串中不含 ".0".
+     *
+     * <p>用于 {@link Chart} 的构造函数.
+     *
+     * @param num 要转换的双精度浮点数
+     * @return 转换结果
+     */
     public static String doubleToString(double num) {
         return num % 1 == 0 ? String.valueOf((int)num) : String.valueOf(num);
     }
