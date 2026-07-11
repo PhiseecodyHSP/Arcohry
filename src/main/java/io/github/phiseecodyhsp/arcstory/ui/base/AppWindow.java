@@ -13,17 +13,18 @@ public class AppWindow {
     private final StackPane root;
     private final ScreenManager screenManager;
 
-    private static final double ASPECT_RATIO = 16.0 / 9.0;
+    private static final double DEFAULT_SCALE = 0.5D;
+
+    public static final double WIDTH = ScreenMetrics.SCREEN_WIDTH * DEFAULT_SCALE;
+
+    public static final double HEIGHT = ScreenMetrics.SCREEN_HEIGHT * DEFAULT_SCALE;
 
     public AppWindow(Stage stage) {
         this.stage = stage;
         this.root = new StackPane();
         this.screenManager = new ScreenManager(this.root);
 
-        double width = 0.5D * ScreenMetrics.getPrimaryScreenWidth();
-        double height = width / ASPECT_RATIO;
-
-        Scene scene = new Scene(this.root, width, height);
+        Scene scene = new Scene(this.root, WIDTH, HEIGHT);
         stage.setScene(scene);
         stage.setTitle("ArcStory");
         stage.show();
@@ -42,9 +43,9 @@ public class AppWindow {
     }
 
     private void updateScale() {
-        Rectangle2D screenBounds = ScreenMetrics.getPrimaryScreenBounds();
-        double scale = Math.max(this.stage.getScene().getWidth() / screenBounds.getWidth(),
-                this.stage.getScene().getHeight() / screenBounds.getHeight());
+        // Rectangle2D screenBounds = ScreenMetrics.getPrimaryScreenBounds();
+        double scale = Math.max(this.stage.getScene().getWidth() / ScreenMetrics.SCREEN_WIDTH,
+                this.stage.getScene().getHeight() / ScreenMetrics.SCREEN_HEIGHT);
         this.root.setScaleX(scale);
         this.root.setScaleY(scale);
     }

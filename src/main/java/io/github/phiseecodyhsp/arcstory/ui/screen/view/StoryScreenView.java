@@ -39,7 +39,7 @@ public class StoryScreenView extends StackPane {
         ImageView background = new ImageView();
         background.imageProperty().bind(PropertyUtil.createImage(this.viewModel.backgroundProperty()));
         background.setPreserveRatio(true);
-        background.setFitWidth(ScreenMetrics.getPrimaryScreenWidth());
+        background.setFitWidth(ScreenMetrics.SCREEN_WIDTH);
 
         this.getChildren().add(background);
 
