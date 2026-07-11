@@ -2,7 +2,6 @@ package io.github.phiseecodyhsp.arcstory;
 
 import io.github.phiseecodyhsp.arcstory.deprecated.state.GameState;
 import io.github.phiseecodyhsp.arcstory.deprecated.state.SaveManager;
-import io.github.phiseecodyhsp.arcstory.model.Partners;
 import io.github.phiseecodyhsp.arcstory.res.AudioManager;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
@@ -74,13 +73,13 @@ public class ArcStoryLauncher extends Application {
         Runnable onFinishedCallback = () -> storyScreenViewModel.setStoryView(null);
         Consumer<ResourceLocation> onStoryShownCallback = loc ->
                 storyScreenViewModel.setStoryView(
-                        new StoryViewModel(ResourceLoader.loadStory(loc), Partners.Hikari.avatarLocation(), onFinishedCallback)
+                        new StoryViewModel(ResourceLoader.loadStory(loc), ResourceLocation.image("hikari_avatar"), onFinishedCallback)
                 );
 
         StoryBranchViewModel branch1 = new StoryBranchViewModel();
         ButtonNodeViewModel buttonNode = new ButtonNodeViewModel("Button", ResourceLocation.image("tutorial_illustration"), null, null);
         buttonNode.setOnMouseClicked(_ -> System.out.println("Clicked"));
-        branch1.getStoryNodes().addAll(new AvatarNodeViewModel(Partners.Hikari),
+        branch1.getStoryNodes().addAll(new AvatarNodeViewModel(ResourceLoader.loadPartner(ResourceLocation.partner("hikari"))),
                 new StoryEndpointNodeViewModel("Test", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null, onStoryShownCallback),
                 buttonNode);
 
