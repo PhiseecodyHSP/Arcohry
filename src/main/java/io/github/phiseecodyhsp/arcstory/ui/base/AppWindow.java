@@ -1,7 +1,6 @@
 package io.github.phiseecodyhsp.arcstory.ui.base;
 
 import io.github.phiseecodyhsp.arcstory.ui.util.ScreenMetrics;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
