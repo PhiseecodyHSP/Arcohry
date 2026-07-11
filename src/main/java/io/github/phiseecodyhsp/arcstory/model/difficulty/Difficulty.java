@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.arcstory.model;
+package io.github.phiseecodyhsp.arcstory.model.difficulty;
 
 /**
  * Arcaea 谱面难度, 分为 Past, Present, Future, Eternal 和 Beyond.
@@ -7,8 +7,8 @@ public enum Difficulty {
     PST("Past"),
     PRS("Present"),
     FTR("Future"),
-    ETR("Eternal"),
-    BYD("Beyond");
+    BYD("Beyond"),
+    ETR("Eternal");
 
     private final String name;
 

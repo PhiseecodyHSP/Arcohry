@@ -20,4 +20,5 @@ module io.github.phiseecodyhsp.arcstory {
     opens io.github.phiseecodyhsp.arcstory.deprecated.state to com.fasterxml.jackson.databind;
     opens io.github.phiseecodyhsp.arcstory.deprecated.condition to com.fasterxml.jackson.databind;
     opens io.github.phiseecodyhsp.arcstory.model.story to com.fasterxml.jackson.databind;
+    exports io.github.phiseecodyhsp.arcstory.model.difficulty;
 }
