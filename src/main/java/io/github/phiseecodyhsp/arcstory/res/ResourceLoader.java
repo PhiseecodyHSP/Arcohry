@@ -3,6 +3,8 @@ package io.github.phiseecodyhsp.arcstory.res;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.*;
 import io.github.phiseecodyhsp.arcstory.model.Chart;
+import io.github.phiseecodyhsp.arcstory.model.Partner;
+import io.github.phiseecodyhsp.arcstory.model.StoryUnlockCondition;
 import io.github.phiseecodyhsp.arcstory.model.story.Story;
 import io.github.phiseecodyhsp.arcstory.util.Alerts;
 import javafx.scene.image.Image;
@@ -80,6 +82,8 @@ public final class ResourceLoader {
     private static final Map<String, String> TEXT_CACHES = new ConcurrentHashMap<>();
     private static final Map<String, Story> STORY_CACHES = new ConcurrentHashMap<>();
     private static final Map<String, Chart> CHART_CACHES = new ConcurrentHashMap<>();
+    private static final Map<String, Partner> PARTNER_CACHES = new ConcurrentHashMap<>();
+    private static final Map<String, StoryUnlockCondition> STORY_UNLOCK_CONDITION_CACHES = new ConcurrentHashMap<>();
 
     private ResourceLoader() {}
 
@@ -255,6 +259,54 @@ public final class ResourceLoader {
         return loadChart(resolvedPath);
     }
 
+    public static Partner loadPartner(ResourceLocation location) {
+        String resolvedPath = resolvePath(location);
+        if (resolvedPath == null) {
+            return null;
+        }
+        return loadPartner(resolvedPath);
+    }
+
+    public static Partner loadPartner(String relativePath) {
+        return PARTNER_CACHES.computeIfAbsent(relativePath, _ -> {
+            try (InputStream is = loadStream(relativePath)) {
+                return MAPPER.readValue(is, Partner.class);
+            } catch (StreamReadException e) {
+                throw new IllegalArgumentException("Found invalid partner json content: " + relativePath, e);
+            } catch (DatabindException e) {
+                throw new IllegalArgumentException("Found invalid partner json structure: " + relativePath, e);
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Partner not found: " + relativePath, e);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Partner loaded failed: " + relativePath, e);
+            }
+        });
+    }
+
+    public static StoryUnlockCondition loadStoryUnlockCondition(ResourceLocation location) {
+        String resolvedPath = resolvePath(location);
+        if (resolvedPath == null) {
+            return null;
+        }
+        return loadStoryUnlockCondition(resolvedPath);
+    }
+
+    public static StoryUnlockCondition loadStoryUnlockCondition(String relativePath) {
+        return STORY_UNLOCK_CONDITION_CACHES.computeIfAbsent(relativePath, _ -> {
+            try (InputStream is = loadStream(relativePath)) {
+                return MAPPER.readValue(is, StoryUnlockCondition.class);
+            } catch (StreamReadException e) {
+                throw new IllegalArgumentException("Found invalid story unlock condition json content: " + relativePath, e);
+            } catch (DatabindException e) {
+                throw new IllegalArgumentException("Found invalid story unlock condition json structure: " + relativePath, e);
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Story unlock condition not found: " + relativePath, e);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Story unlock condition loaded failed: " + relativePath, e);
+            }
+        });
+    }
+
     public static void playSound(String relativePath) {
         loadAudio(relativePath).play();
     }
@@ -265,5 +317,7 @@ public final class ResourceLoader {
         TEXT_CACHES.clear();
         STORY_CACHES.clear();
         CHART_CACHES.clear();
+        PARTNER_CACHES.clear();
+        STORY_UNLOCK_CONDITION_CACHES.clear();
     }
 }

@@ -64,4 +64,12 @@ public record ResourceLocation(@JsonProperty String category, @JsonProperty Stri
     public static ResourceLocation chart(String key) {
         return new ResourceLocation("charts", key);
     }
+
+    public static ResourceLocation partner(String key) {
+        return new ResourceLocation("partners", key);
+    }
+
+    public static ResourceLocation storyUnlockCondition(String key) {
+        return new ResourceLocation("storyunlockconditions", key);
+    }
 }
