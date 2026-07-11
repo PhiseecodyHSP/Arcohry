@@ -2,7 +2,7 @@ package io.github.phiseecodyhsp.arcstory.view;
 
 import io.github.phiseecodyhsp.arcstory.view.node.StoryNode;
 import io.github.phiseecodyhsp.arcstory.viewmodel.StoryBranchViewModel;
-import io.github.phiseecodyhsp.arcstory.viewmodel.StoryNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.node.StoryNodeViewModel;
 import io.github.phiseecodyhsp.arcstory.util.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -52,6 +52,7 @@ public class StoryBranch extends StackPane {
 
     public StoryBranch(StoryBranchViewModel viewModel) {
         this.viewModel = viewModel;
+        this.setMaxSize(0.0D, 0.0D);
 
         StackPane opaque = new StackPane();
         StackPane translucent = new StackPane();
