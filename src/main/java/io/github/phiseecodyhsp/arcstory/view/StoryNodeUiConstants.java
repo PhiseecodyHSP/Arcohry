@@ -13,6 +13,7 @@ public final class StoryNodeUiConstants {
     public static final double BORDER_ARC_SIZE;
 
     static {
+        SIDE_LENGTH = ScreenMetrics.SCREEN_WIDTH * 0.1D;
         DIAGONAL_LENGTH = SIDE_LENGTH * MathUtil.SQRT_2;
         BORDER_WIDTH = 2.0D;
         BORDER_ARC_SIZE = 5.0D;
