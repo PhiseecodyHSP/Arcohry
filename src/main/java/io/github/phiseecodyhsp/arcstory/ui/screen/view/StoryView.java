@@ -2,7 +2,6 @@ package io.github.phiseecodyhsp.arcstory.ui.screen.view;
 
 import io.github.phiseecodyhsp.arcstory.model.story.Paragraph;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
-import io.github.phiseecodyhsp.arcstory.ui.base.AppWindow;
 import io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel.StoryViewModel;
 import io.github.phiseecodyhsp.arcstory.util.PropertyUtil;
 import io.github.phiseecodyhsp.arcstory.view.TextPlayer;
