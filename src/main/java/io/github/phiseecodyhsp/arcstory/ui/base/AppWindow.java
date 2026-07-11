@@ -14,9 +14,7 @@ public class AppWindow {
     private final ScreenManager screenManager;
 
     private static final double DEFAULT_SCALE = 0.5D;
-
     public static final double WIDTH = ScreenMetrics.SCREEN_WIDTH * DEFAULT_SCALE;
-
     public static final double HEIGHT = ScreenMetrics.SCREEN_HEIGHT * DEFAULT_SCALE;
 
     public AppWindow(Stage stage) {

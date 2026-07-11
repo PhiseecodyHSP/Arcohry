@@ -5,6 +5,7 @@ import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
 import io.github.phiseecodyhsp.arcstory.ui.base.AppWindow;
 import io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel.StoryViewModel;
 import io.github.phiseecodyhsp.arcstory.util.PropertyUtil;
+import io.github.phiseecodyhsp.arcstory.view.StoryNodeUiConstants;
 import io.github.phiseecodyhsp.arcstory.view.TextPlayer;
 import io.github.phiseecodyhsp.arcstory.ui.util.Interpolators;
 import io.github.phiseecodyhsp.arcstory.ui.util.ScreenMetrics;
@@ -34,7 +35,7 @@ public class StoryView extends StackPane {
     /**
      * CG 播放动画扫线宽度.
      */
-    private static final double SWEEP_LINE_WIDTH = AppWindow.HEIGHT / 40.0D;
+    private static final double SWEEP_LINE_WIDTH = ScreenMetrics.SCREEN_HEIGHT / 40.0D;
 
     /**
      * CG 播放动画扫线从竖直旋转角度的正切值.
@@ -59,7 +60,7 @@ public class StoryView extends StackPane {
     /**
      * 文本 X 轴偏移.
      */
-    public static final double TEXT_TRANSLATE_X = 125.0D;
+    public static final double TEXT_TRANSLATE_X = StoryNodeUiConstants.TEXT_PLAYER_FONT_SIZE * 3.0D;
 
     private final StoryViewModel viewModel;
 
