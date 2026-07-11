@@ -3,6 +3,7 @@ package io.github.phiseecodyhsp.arcstory.view.node;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.view.Effects;
+import io.github.phiseecodyhsp.arcstory.view.StoryNodeUiConstants;
 import io.github.phiseecodyhsp.arcstory.viewmodel.node.ButtonNodeViewModel;
 import io.github.phiseecodyhsp.arcstory.util.PropertyUtil;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
@@ -24,22 +25,22 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
     /**
      * 按钮边长.
      */
-    private static final double SIDE_LENGTH = 100.0D;
+    private static final double SIDE_LENGTH = StoryNodeUiConstants.SIDE_LENGTH;
 
     /**
      * 按钮对角线长.
      */
-    private static final double DIAGONAL_LENGTH = MathUtil.SQRT_2 * SIDE_LENGTH;
+    private static final double DIAGONAL_LENGTH = StoryNodeUiConstants.DIAGONAL_LENGTH;
 
     /**
      * 按钮边框宽度.
      */
-    private static final double BORDER_WIDTH = 2.0D;
+    private static final double BORDER_WIDTH = StoryNodeUiConstants.BORDER_WIDTH;
 
     /**
      * 按钮边框圆角半径.
      */
-    private static final double ARC_SIZE = 5.0D;
+    private static final double ARC_SIZE = StoryNodeUiConstants.BORDER_ARC_SIZE;
 
     /**
      * 按钮图像大小.
@@ -59,7 +60,7 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
     /**
      * 文本字体.
      */
-    private static final Font FONT = ResourceLoader.loadFont(ResourceLocation.font("geosans_light"), 36.0D);
+    private static final Font FONT = ResourceLoader.loadFont(ResourceLocation.font("geosans_light"), DIAGONAL_LENGTH / 4.0D);
 
     public ButtonNode(T viewModel) {
         super(viewModel);

@@ -26,12 +26,12 @@ public class Avatar extends StackPane {
     /**
      * 头像的边框宽度.
      */
-    private static final double AVATAR_BORDER_WIDTH = 2.0D;
+    private static final double AVATAR_BORDER_WIDTH = StoryNodeUiConstants.BORDER_WIDTH;
 
     /**
      * 边界圆角大小.
      */
-    private static final double NODE_BORDER_ARC_SIZE = 5.0D;
+    private static final double NODE_BORDER_ARC_SIZE = StoryNodeUiConstants.BORDER_ARC_SIZE;
 
     private final ObjectProperty<ResourceLocation> avatarLocation;
 

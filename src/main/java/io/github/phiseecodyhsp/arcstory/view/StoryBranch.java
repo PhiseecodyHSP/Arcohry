@@ -33,12 +33,12 @@ public class StoryBranch extends StackPane {
     /**
      * 故事分支的线索宽度.
      */
-    private static final double BRANCH_LINE_WIDTH = 2.0D;
+    private static final double BRANCH_LINE_WIDTH = StoryNodeUiConstants.BORDER_WIDTH;
 
     /**
      * 故事节点的间距.
      */
-    public static final double NODE_SPACING = 250.0D;
+    public static final double NODE_SPACING = StoryNodeUiConstants.SIDE_LENGTH + StoryNodeUiConstants.DIAGONAL_LENGTH;
 
     private final StoryBranchViewModel viewModel;
 
