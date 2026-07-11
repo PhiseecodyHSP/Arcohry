@@ -1,6 +1,7 @@
 package io.github.phiseecodyhsp.arcstory.model;
 
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
+import io.github.phiseecodyhsp.arcstory.util.MathUtil;
 
 /**
  * Arcaea 谱面基本信息.
@@ -20,8 +21,8 @@ public final class Chart {
     public Chart(String music,
                  ResourceLocation musicLocation,
                  String composer,
-                 double minBPM,
-                 double maxBPM,
+                 double leftBPM,
+                 double rightBPM,
                  Difficulty difficulty,
                  DifficultyLevel level,
                  ResourceLocation illustrationLocation,
@@ -38,7 +39,7 @@ public final class Chart {
         this.noteDesigner = noteDesigner;
         this.paradigms = paradigms;
 
-        // BPM 最大最小值相等时视为不变, 只显示单个数字
-        this.bpm = minBPM == maxBPM ? String.valueOf(minBPM) : minBPM + "-" + maxBPM;
+        // BPM 左右值相等时视为不变, 只显示单个数字
+        this.bpm = leftBPM == rightBPM ? MathUtil.doubleToString(leftBPM) : MathUtil.doubleToString(leftBPM) + "-" + MathUtil.doubleToString(rightBPM);
     }
 }
