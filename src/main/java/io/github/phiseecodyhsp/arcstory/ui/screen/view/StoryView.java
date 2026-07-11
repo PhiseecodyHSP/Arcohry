@@ -4,7 +4,6 @@ import io.github.phiseecodyhsp.arcstory.model.story.Paragraph;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
 import io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel.StoryViewModel;
 import io.github.phiseecodyhsp.arcstory.util.PropertyUtil;
-import io.github.phiseecodyhsp.arcstory.view.StoryNodeUiConstants;
 import io.github.phiseecodyhsp.arcstory.view.TextPlayer;
 import io.github.phiseecodyhsp.arcstory.ui.util.Interpolators;
 import io.github.phiseecodyhsp.arcstory.ui.util.ScreenMetrics;
@@ -13,6 +12,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
@@ -34,7 +34,7 @@ public class StoryView extends StackPane {
     /**
      * CG 播放动画扫线宽度.
      */
-    private static final double SWEEP_LINE_WIDTH = ScreenMetrics.SCREEN_HEIGHT / 40.0D;
+    private static final double SWEEP_LINE_WIDTH = ScreenMetrics.getPrimaryScreenHeight() / 40.0D;
 
     /**
      * CG 播放动画扫线从竖直旋转角度的正切值.
@@ -59,7 +59,7 @@ public class StoryView extends StackPane {
     /**
      * 文本 X 轴偏移.
      */
-    public static final double TEXT_TRANSLATE_X = StoryNodeUiConstants.TEXT_PLAYER_FONT_SIZE * 3.0D;
+    public static final double TEXT_TRANSLATE_X = 125.0D;
 
     private final StoryViewModel viewModel;
 
@@ -77,60 +77,64 @@ public class StoryView extends StackPane {
         this.setPickOnBounds(true);
         this.setOnMouseClicked(_ -> this.viewModel.proceed());
 
-        this.shadow = new Rectangle(ScreenMetrics.SCREEN_WIDTH, ScreenMetrics.SCREEN_HEIGHT, Color.BLACK);
+        Rectangle2D screenBounds = ScreenMetrics.getPrimaryScreenBounds();
+        double width = screenBounds.getWidth();
+        double height = screenBounds.getHeight();
+
+        this.shadow = new Rectangle(width, height, Color.BLACK);
         this.shadow.setOpacity(0.0D);
 
         Polygon sweepLine = new Polygon(
                 -SWEEP_LINE_WIDTH, 0.0D,
-                -SWEEP_LINE_WIDTH - SWEEP_LINE_ROTATION * ScreenMetrics.SCREEN_HEIGHT, ScreenMetrics.SCREEN_HEIGHT,
-                -SWEEP_LINE_ROTATION * ScreenMetrics.SCREEN_HEIGHT, ScreenMetrics.SCREEN_HEIGHT,
+                -SWEEP_LINE_WIDTH - SWEEP_LINE_ROTATION * height, height,
+                -SWEEP_LINE_ROTATION * height, height,
                 0.0D, 0.0D);
         DropShadow sweepLineGlow = new DropShadow(0, Color.WHITE);
         DropShadow shadow1 = new DropShadow(0, Color.WHITE);
         DropShadow shadow2 = new DropShadow(0, Color.WHITE);
         sweepLineGlow.setInput(shadow1);
         shadow1.setInput(shadow2);
-        sweepLine.setTranslateX(-ScreenMetrics.SCREEN_WIDTH);
+        sweepLine.setTranslateX(-width);
         sweepLine.setFill(Color.WHITE);
         sweepLine.setEffect(sweepLineGlow);
 
         ColorAdjust glow = new ColorAdjust();
         Polygon clipper = new Polygon(
                 -SWEEP_LINE_WIDTH, 0.0D,
-                -SWEEP_LINE_WIDTH - SWEEP_LINE_ROTATION * ScreenMetrics.SCREEN_HEIGHT, ScreenMetrics.SCREEN_HEIGHT,
-                ScreenMetrics.SCREEN_WIDTH, ScreenMetrics.SCREEN_HEIGHT,
-                ScreenMetrics.SCREEN_WIDTH + SWEEP_LINE_ROTATION * ScreenMetrics.SCREEN_HEIGHT, 0.0D);
+                -SWEEP_LINE_WIDTH - SWEEP_LINE_ROTATION * height, height,
+                width, height,
+                width + SWEEP_LINE_ROTATION * height, 0.0D);
 
         ImageView bottomCg = new ImageView();
         bottomCg.imageProperty().bind(PropertyUtil.createImage(this.viewModel.bottomCgProperty()));
         bottomCg.setPreserveRatio(true);
-        bottomCg.setFitWidth(ScreenMetrics.SCREEN_WIDTH);
+        bottomCg.setFitWidth(width);
         bottomCg.setEffect(glow);
 
         ImageView topCg = new ImageView();
         topCg.imageProperty().bind(PropertyUtil.createImage(this.viewModel.topCgProperty()));
         topCg.setPreserveRatio(true);
-        topCg.setFitWidth(ScreenMetrics.SCREEN_WIDTH);
+        topCg.setFitWidth(width);
         topCg.setClip(clipper);
         topCg.setEffect(glow);
         clipper.translateYProperty().bind(topCg.imageProperty().map(
-                image -> 0.5D * (ScreenMetrics.SCREEN_WIDTH * image.getHeight() / image.getWidth() - ScreenMetrics.SCREEN_HEIGHT)));
+                image -> 0.5D * (width * image.getHeight() / image.getWidth() - height)));
 
         this.typewriter = new Typewriter();
         this.typewriter.setOnFinished(this.viewModel::markWaiting);
         TextPlayer textPlayer = new TextPlayer(this.typewriter);
-        textPlayer.setMaxWidth(0.5D * ScreenMetrics.SCREEN_WIDTH - TEXT_TRANSLATE_X);
-        textPlayer.setTranslateX(-0.5D * ScreenMetrics.SCREEN_WIDTH + TEXT_TRANSLATE_X + 0.5D * textPlayer.getMaxWidth());
+        textPlayer.setMaxWidth(0.5D * width - TEXT_TRANSLATE_X);
+        textPlayer.setTranslateX(-0.5D * width + TEXT_TRANSLATE_X + 0.5D * textPlayer.getMaxWidth());
 
         double time = 4.0D * TRANS_TIME;
         this.onCgAdded = new Timeline(
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(
                                 clipper.translateXProperty(),
-                                -ScreenMetrics.SCREEN_WIDTH - SWEEP_LINE_WIDTH - SWEEP_LINE_ROTATION * ScreenMetrics.SCREEN_HEIGHT),
+                                -width - SWEEP_LINE_WIDTH - SWEEP_LINE_ROTATION * height),
                         new KeyValue(
                                 sweepLine.translateXProperty(),
-                                -0.5D * (ScreenMetrics.SCREEN_WIDTH + SWEEP_LINE_WIDTH + SWEEP_LINE_ROTATION * ScreenMetrics.SCREEN_HEIGHT)),
+                                -0.5D * (width + SWEEP_LINE_WIDTH + SWEEP_LINE_ROTATION * height)),
                         new KeyValue(sweepLine.opacityProperty(), 0.5D),
                         new KeyValue(sweepLineGlow.radiusProperty(), 127.0D),
                         new KeyValue(shadow1.radiusProperty(), 127.0D),
@@ -142,7 +146,7 @@ public class StoryView extends StackPane {
                         new KeyValue(clipper.translateXProperty(), 0.0D, Interpolators.CUBE_IN),
                         new KeyValue(
                                 sweepLine.translateXProperty(),
-                                0.5D * (ScreenMetrics.SCREEN_WIDTH + SWEEP_LINE_WIDTH + SWEEP_LINE_ROTATION * ScreenMetrics.SCREEN_HEIGHT),
+                                0.5D * (width + SWEEP_LINE_WIDTH + SWEEP_LINE_ROTATION * height),
                                 Interpolators.CUBE_IN),
                         new KeyValue(sweepLine.opacityProperty(), 1.0D),
                         new KeyValue(sweepLineGlow.radiusProperty(), 0.0D),

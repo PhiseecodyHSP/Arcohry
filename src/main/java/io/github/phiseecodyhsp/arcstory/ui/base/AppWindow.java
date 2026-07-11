@@ -1,6 +1,7 @@
 package io.github.phiseecodyhsp.arcstory.ui.base;
 
 import io.github.phiseecodyhsp.arcstory.ui.util.ScreenMetrics;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
@@ -12,16 +13,17 @@ public class AppWindow {
     private final StackPane root;
     private final ScreenManager screenManager;
 
-    private static final double DEFAULT_SCALE = 0.5D;
-    private static final double WIDTH = ScreenMetrics.SCREEN_WIDTH * DEFAULT_SCALE;
-    private static final double HEIGHT = ScreenMetrics.SCREEN_HEIGHT * DEFAULT_SCALE;
+    private static final double ASPECT_RATIO = 16.0 / 9.0;
 
     public AppWindow(Stage stage) {
         this.stage = stage;
         this.root = new StackPane();
         this.screenManager = new ScreenManager(this.root);
 
-        Scene scene = new Scene(this.root, WIDTH, HEIGHT);
+        double width = 0.5D * ScreenMetrics.getPrimaryScreenWidth();
+        double height = width / ASPECT_RATIO;
+
+        Scene scene = new Scene(this.root, width, height);
         stage.setScene(scene);
         stage.setTitle("ArcStory");
         stage.show();
@@ -40,8 +42,9 @@ public class AppWindow {
     }
 
     private void updateScale() {
-        double scale = Math.max(this.stage.getScene().getWidth() / ScreenMetrics.SCREEN_WIDTH,
-                this.stage.getScene().getHeight() / ScreenMetrics.SCREEN_HEIGHT);
+        Rectangle2D screenBounds = ScreenMetrics.getPrimaryScreenBounds();
+        double scale = Math.max(this.stage.getScene().getWidth() / screenBounds.getWidth(),
+                this.stage.getScene().getHeight() / screenBounds.getHeight());
         this.root.setScaleX(scale);
         this.root.setScaleY(scale);
     }
