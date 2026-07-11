@@ -4,22 +4,18 @@ import io.github.phiseecodyhsp.arcstory.deprecated.state.GameState;
 import io.github.phiseecodyhsp.arcstory.deprecated.state.SaveManager;
 import io.github.phiseecodyhsp.arcstory.model.Partners;
 import io.github.phiseecodyhsp.arcstory.res.AudioManager;
-import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.ui.screen.StoryScreen;
-import io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel.StoryScreenViewModel;
-import io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel.StoryViewModel;
-import io.github.phiseecodyhsp.arcstory.viewmodel.node.AvatarNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.ui.screen.viewModel.StoryScreenViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.AvatarNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.ButtonNodeViewModel;
 import io.github.phiseecodyhsp.arcstory.viewmodel.StoryBranchViewModel;
 import io.github.phiseecodyhsp.arcstory.ui.base.AppWindow;
 import io.github.phiseecodyhsp.arcstory.ui.base.ScreenManager;
-import io.github.phiseecodyhsp.arcstory.viewmodel.node.ButtonNodeViewModel;
-import io.github.phiseecodyhsp.arcstory.viewmodel.node.StoryEndpointNodeViewModel;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.function.Consumer;
 
 public class ArcStoryLauncher extends Application {
 
@@ -67,28 +63,16 @@ public class ArcStoryLauncher extends Application {
     }
 
     private void registerScreens(ScreenManager screenManager) {
-        // For testing
         StoryScreenViewModel storyScreenViewModel = new StoryScreenViewModel(ResourceLocation.image("chapter5_scenery"));
-        StoryScreen storyScreen = new StoryScreen(storyScreenViewModel);
-
-        Runnable onFinishedCallback = () -> storyScreenViewModel.setStoryView(null);
-        Consumer<ResourceLocation> onStoryShownCallback = loc ->
-                storyScreenViewModel.setStoryView(
-                        new StoryViewModel(ResourceLoader.loadStory(loc), Partners.Hikari.avatarLocation(), onFinishedCallback)
-                );
-
         StoryBranchViewModel branch1 = new StoryBranchViewModel();
-        ButtonNodeViewModel buttonNode = new ButtonNodeViewModel("Button", ResourceLocation.image("tutorial_illustration"), null, null);
-        buttonNode.setOnMouseClicked(_ -> System.out.println("Clicked"));
         branch1.getStoryNodes().addAll(new AvatarNodeViewModel(Partners.Hikari),
-                new StoryEndpointNodeViewModel("Test", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null, onStoryShownCallback),
-                buttonNode);
-
+                new ButtonNodeViewModel("Test", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null));
         StoryBranchViewModel branch2 = new StoryBranchViewModel();
-        branch2.getStoryNodes().addAll(new StoryEndpointNodeViewModel("A1", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null, onStoryShownCallback),
-                new StoryEndpointNodeViewModel("A2", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null, onStoryShownCallback),
-                new StoryEndpointNodeViewModel("A3", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null, onStoryShownCallback));
+        branch2.getStoryNodes().addAll(new ButtonNodeViewModel("A1", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null),
+                new ButtonNodeViewModel("A2", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null),
+                new ButtonNodeViewModel("A3", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null));
         storyScreenViewModel.getStoryBranches().addAll(branch1, branch2);
+        StoryScreen storyScreen = new StoryScreen(storyScreenViewModel);
         screenManager.register(storyScreen);
         screenManager.setInitialScreen(storyScreen);
     }

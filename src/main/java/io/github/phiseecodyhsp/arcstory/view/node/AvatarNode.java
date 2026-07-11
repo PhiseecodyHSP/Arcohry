@@ -3,7 +3,7 @@ package io.github.phiseecodyhsp.arcstory.view.node;
 import io.github.phiseecodyhsp.arcstory.model.Partner;
 import io.github.phiseecodyhsp.arcstory.view.Avatar;
 import io.github.phiseecodyhsp.arcstory.view.Effects;
-import io.github.phiseecodyhsp.arcstory.viewmodel.node.AvatarNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.AvatarNodeViewModel;
 import javafx.scene.paint.Color;
 
 /**
@@ -26,7 +26,7 @@ public class AvatarNode extends StoryNode<AvatarNodeViewModel> {
     public AvatarNode(AvatarNodeViewModel model) {
         super(model);
 
-        Avatar avatar = new Avatar(null, SIDE_LENGTH, AVATAR_BORDER, Effects.ROTATED_SHADOW);
+        Avatar avatar = new Avatar(null, SIDE_LENGTH, AVATAR_BORDER, Effects.SHADOW);
         avatar.avatarLocationProperty().bind(model.partnerProperty().map(Partner::avatarLocation));
         getChildren().addAll(avatar);
     }

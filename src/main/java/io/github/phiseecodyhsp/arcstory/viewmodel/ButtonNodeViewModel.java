@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.arcstory.viewmodel.node;
+package io.github.phiseecodyhsp.arcstory.viewmodel;
 
 import io.github.phiseecodyhsp.arcstory.model.Chart;
 import io.github.phiseecodyhsp.arcstory.model.Partner;
@@ -16,32 +16,28 @@ import org.jetbrains.annotations.Nullable;
  * @author RikkaKawaii0612
  */
 public class ButtonNodeViewModel extends StoryNodeViewModel {
-
     private final StringProperty title;
-
     private final ObjectProperty<ResourceLocation> illustrationLocation;
-
+    private final ObjectProperty<ResourceLocation> storyLocation;
     private final ObjectProperty<Chart> chart;
-
     private final ObjectProperty<Partner> partner;
-
     private final ObjectProperty<EventHandler<? super MouseEvent>> onMouseClicked;
-
     private final BooleanProperty neo;
-
     private final BooleanProperty locked;
 
     public ButtonNodeViewModel(@NotNull String title,
                                @NotNull ResourceLocation illustrationLocation,
+                               @NotNull ResourceLocation storyLocation,
                                @Nullable Chart chart,
                                @Nullable Partner partner) {
         this.title = new SimpleStringProperty(title);
         this.illustrationLocation = new SimpleObjectProperty<>(illustrationLocation);
+        this.storyLocation = new SimpleObjectProperty<>(storyLocation);
         this.chart = new SimpleObjectProperty<>(chart);
         this.partner = new SimpleObjectProperty<>(partner);
         this.onMouseClicked = new SimpleObjectProperty<>();
-        this.neo = new SimpleBooleanProperty(true);
-        this.locked = new SimpleBooleanProperty(false);
+        this.neo = new SimpleBooleanProperty(false);
+        this.locked = new SimpleBooleanProperty(true);
 
         this.locked.addListener((_, _, v) -> {
             if (!v) {
@@ -66,6 +62,14 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
         return this.illustrationLocation;
     }
 
+    public ResourceLocation getStoryLocation() {
+        return this.storyLocation.get();
+    }
+
+    public ObjectProperty<ResourceLocation> storyLocationProperty() {
+        return this.storyLocation;
+    }
+
     public Chart getChart() {
         return this.chart.get();
     }
@@ -80,14 +84,6 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
 
     public ObjectProperty<Partner> partnerProperty() {
         return this.partner;
-    }
-
-    public EventHandler<? super MouseEvent> getOnMouseClicked() {
-        return this.onMouseClicked.get();
-    }
-
-    public void setOnMouseClicked(EventHandler<? super MouseEvent> action) {
-        this.onMouseClicked.setValue(action);
     }
 
     public ObjectProperty<EventHandler<? super MouseEvent>> onMouseClickedProperty() {

@@ -1,7 +1,6 @@
 package io.github.phiseecodyhsp.arcstory.viewmodel;
 
 import io.github.phiseecodyhsp.arcstory.view.StoryBranch;
-import io.github.phiseecodyhsp.arcstory.viewmodel.node.StoryNodeViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

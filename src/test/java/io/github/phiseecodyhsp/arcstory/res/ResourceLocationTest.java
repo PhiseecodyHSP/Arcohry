@@ -15,27 +15,12 @@ class ResourceLocationTest {
         assertDoesNotThrow(() -> new ResourceLocation("123","123"));
         assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("_start", "key"));
         assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("end_", "key"));
-        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("double__underscores", "key"));
+        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("double__underscore", "key"));
         assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("_", "key"));
         assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("category", "_start"));
         assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("category", "end_"));
-        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("category", "double__underscores"));
+        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("category", "double__underscore"));
         assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("category", "_"));
-    }
-
-    @Test
-    @DisplayName("构造函数传入单字符串时应正确拆分 category 和 key")
-    void constructor_singleString() {
-        assertDoesNotThrow(() -> {
-            ResourceLocation loc = new ResourceLocation("test_category/test_key");
-            assertEquals("test_category", loc.category());
-            assertEquals("test_key", loc.key());
-        });
-        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("abc"));
-        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("category/"));
-        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("/key"));
-        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("double//slashes"));
-        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("/"));
     }
 
     @Test

@@ -14,12 +14,10 @@ class StoryTest {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Test
-    void defaultConstructor_defaultValues() {
+    void defaultConstructor_paragraphsIsNull() {
         Story story = new Story();
-        assertEquals(Story.DEFAULT_NAME, story.getName());
-        assertNotNull(story.getParagraphs());
-        assertEquals(ArrayList.class, story.getParagraphs().getClass());
-        assertTrue(story.getParagraphs().isEmpty());
+        assertNull(story.getParagraphs());
+        assertNull(story.getName());
     }
 
     @Test

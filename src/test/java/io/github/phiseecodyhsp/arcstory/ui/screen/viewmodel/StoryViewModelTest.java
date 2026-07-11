@@ -4,6 +4,7 @@ import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.model.story.Paragraph;
 import io.github.phiseecodyhsp.arcstory.model.story.ParagraphType;
 import io.github.phiseecodyhsp.arcstory.model.story.Story;
+import io.github.phiseecodyhsp.arcstory.ui.screen.viewModel.StoryViewModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,10 +31,10 @@ class StoryViewModelTest {
 
     @BeforeEach
     void setUp() {
-        this.viewModel = null;
+        viewModel = null;
     }
 
-    // 测试正常流程
+    //  测试正常流程
 
     @Test
     void playNext_mixedParagraphs_progressesCorrectly() {
@@ -42,95 +43,22 @@ class StoryViewModelTest {
         paragraphs.add(new Paragraph(ParagraphType.CG, CG1_LOC));
         paragraphs.add(new Paragraph(ParagraphType.CG, CG2_LOC));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR);
 
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.TEXT, this.viewModel.getCurrentStatus());
-        assertEquals(TEXT_LOC, this.viewModel.getCurrentText());
-        assertNull(this.viewModel.getTopCg());
-        assertNull(this.viewModel.getBottomCg());
+        assertEquals(StoryViewModel.Status.TEXT, viewModel.playNext());
+        assertEquals(TEXT_LOC, viewModel.getCurrentText());
+        assertNull(viewModel.getCurrentCg());
+        assertNull(viewModel.getLastCg());
 
-        this.viewModel.markWaiting();
-        assertEquals(StoryViewModel.Status.WAITING, this.viewModel.getCurrentStatus());
+        assertEquals(StoryViewModel.Status.CG, viewModel.playNext());
+        assertEquals(CG1_LOC, viewModel.getCurrentCg());
+        assertNull(viewModel.getLastCg());
 
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.CG, this.viewModel.getCurrentStatus());
-        assertEquals(CG1_LOC, this.viewModel.getTopCg());
-        assertNull(this.viewModel.getBottomCg());
+        assertEquals(StoryViewModel.Status.CG, viewModel.playNext());
+        assertEquals(CG2_LOC, viewModel.getCurrentCg());
+        assertEquals(CG1_LOC, viewModel.getLastCg());
 
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.CG, this.viewModel.getCurrentStatus());
-
-        this.viewModel.markWaiting();
-        assertEquals(StoryViewModel.Status.WAITING, this.viewModel.getCurrentStatus());
-
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.CG, this.viewModel.getCurrentStatus());
-        assertEquals(CG2_LOC, this.viewModel.getTopCg());
-        assertEquals(CG1_LOC, this.viewModel.getBottomCg());
-
-        this.viewModel.markWaiting();
-        this.viewModel.proceed();
-
-        assertEquals(StoryViewModel.Status.FINISHED, this.viewModel.getCurrentStatus());
-    }
-
-    // 测试文本未播放完毕时的步进尝试
-
-    @Test
-    void playNext_mixedParagraphs_proceedTextWhenNotWaiting() {
-        List<Paragraph> paragraphs = new ArrayList<>();
-        paragraphs.add(new Paragraph(ParagraphType.TEXT, TEXT_LOC));
-        paragraphs.add(new Paragraph(ParagraphType.TEXT, TEXT_LOC));
-
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
-
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.TEXT, this.viewModel.getCurrentStatus());
-
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.WAITING, this.viewModel.getCurrentStatus());
-
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.TEXT, this.viewModel.getCurrentStatus());
-
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.WAITING, this.viewModel.getCurrentStatus());
-
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.FINISHED, this.viewModel.getCurrentStatus());
-    }
-
-    // 测试动画未播放完毕时的步进尝试
-
-    @Test
-    void playNext_mixedParagraphs_proceedCgWhenNotWaiting() {
-        List<Paragraph> paragraphs = new ArrayList<>();
-        paragraphs.add(new Paragraph(ParagraphType.CG, CG1_LOC));
-        paragraphs.add(new Paragraph(ParagraphType.CG, CG2_LOC));
-
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
-
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.CG, this.viewModel.getCurrentStatus());
-
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.CG, this.viewModel.getCurrentStatus());
-
-        this.viewModel.markWaiting();
-        assertEquals(StoryViewModel.Status.WAITING, this.viewModel.getCurrentStatus());
-
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.CG, this.viewModel.getCurrentStatus());
-
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.CG, this.viewModel.getCurrentStatus());
-
-        this.viewModel.markWaiting();
-        assertEquals(StoryViewModel.Status.WAITING, this.viewModel.getCurrentStatus());
-
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.FINISHED, this.viewModel.getCurrentStatus());
+        assertEquals(StoryViewModel.Status.FINISHED, viewModel.playNext());
     }
 
     // 测试边界情况
@@ -140,26 +68,21 @@ class StoryViewModelTest {
         List<Paragraph> paragraphs = new ArrayList<>();
         paragraphs.add(new Paragraph(ParagraphType.TEXT, TEXT_LOC));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR);
 
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.TEXT, this.viewModel.getCurrentStatus());
+        assertEquals(StoryViewModel.Status.TEXT, viewModel.playNext());
         assertEquals(TEXT_LOC, viewModel.getCurrentText());
 
-        this.viewModel.markWaiting();
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.FINISHED, this.viewModel.getCurrentStatus());
+        assertEquals(StoryViewModel.Status.FINISHED, viewModel.playNext());
     }
 
     @Test
     void playNext_emptyList_finishesImmediately() {
         List<Paragraph> paragraphs = new ArrayList<>();
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR);
 
-        this.viewModel.markWaiting();
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.FINISHED, this.viewModel.getCurrentStatus());
+        assertEquals(StoryViewModel.Status.FINISHED, viewModel.playNext());
     }
 
     @Test
@@ -171,25 +94,18 @@ class StoryViewModelTest {
         paragraphs.add(new Paragraph(ParagraphType.TEXT, text2));
         paragraphs.add(new Paragraph(ParagraphType.TEXT, text3));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR);
 
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.TEXT, this.viewModel.getCurrentStatus());
-        assertEquals(TEXT_LOC, this.viewModel.getCurrentText());
+        assertEquals(StoryViewModel.Status.TEXT, viewModel.playNext());
+        assertEquals(TEXT_LOC, viewModel.getCurrentText());
 
-        this.viewModel.markWaiting();
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.TEXT, this.viewModel.getCurrentStatus());
-        assertEquals(text2, this.viewModel.getCurrentText());
+        assertEquals(StoryViewModel.Status.TEXT, viewModel.playNext());
+        assertEquals(text2, viewModel.getCurrentText());
 
-        this.viewModel.markWaiting();
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.TEXT, this.viewModel.getCurrentStatus());
-        assertEquals(text3, this.viewModel.getCurrentText());
+        assertEquals(StoryViewModel.Status.TEXT, viewModel.playNext());
+        assertEquals(text3, viewModel.getCurrentText());
 
-        this.viewModel.markWaiting();
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.FINISHED, this.viewModel.getCurrentStatus());
+        assertEquals(StoryViewModel.Status.FINISHED, viewModel.playNext());
     }
 
     @Test
@@ -200,24 +116,19 @@ class StoryViewModelTest {
         paragraphs.add(new Paragraph(ParagraphType.CG,
                 ResourceLocation.image("cg_3")));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR);
 
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.CG, this.viewModel.getCurrentStatus());
-        assertEquals(CG1_LOC, this.viewModel.getTopCg());
-        assertNull(this.viewModel.getBottomCg());
+        assertEquals(StoryViewModel.Status.CG, viewModel.playNext());
+        assertEquals(CG1_LOC, viewModel.getCurrentCg());
+        assertNull(viewModel.getLastCg());
 
-        this.viewModel.markWaiting();
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.CG, this.viewModel.getCurrentStatus());
-        assertEquals(CG2_LOC, this.viewModel.getTopCg());
-        assertEquals(CG1_LOC, this.viewModel.getBottomCg());
+        assertEquals(StoryViewModel.Status.CG, viewModel.playNext());
+        assertEquals(CG2_LOC, viewModel.getCurrentCg());
+        assertEquals(CG1_LOC, viewModel.getLastCg());
 
-        this.viewModel.markWaiting();
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.CG, this.viewModel.getCurrentStatus());
-        assertEquals(ResourceLocation.image("cg_3"), this.viewModel.getTopCg());
-        assertEquals(CG2_LOC, this.viewModel.getBottomCg());
+        assertEquals(StoryViewModel.Status.CG, viewModel.playNext());
+        assertEquals(ResourceLocation.image("cg_3"), viewModel.getCurrentCg());
+        assertEquals(CG2_LOC, viewModel.getLastCg());
     }
 
     @Test
@@ -225,20 +136,12 @@ class StoryViewModelTest {
         List<Paragraph> paragraphs = new ArrayList<>();
         paragraphs.add(new Paragraph(ParagraphType.TEXT, TEXT_LOC));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR);
 
-        this.viewModel.proceed();
-        this.viewModel.markWaiting();
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.FINISHED, viewModel.getCurrentStatus());
-
-        this.viewModel.markWaiting();
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.FINISHED, viewModel.getCurrentStatus());
-
-        this.viewModel.markWaiting();
-        this.viewModel.proceed();
-        assertEquals(StoryViewModel.Status.FINISHED, viewModel.getCurrentStatus());
+        viewModel.playNext();
+        assertEquals(StoryViewModel.Status.FINISHED, viewModel.playNext());
+        assertEquals(StoryViewModel.Status.FINISHED, viewModel.playNext());
+        assertEquals(StoryViewModel.Status.FINISHED, viewModel.playNext());
     }
 
     // 属性初始状态
@@ -248,20 +151,20 @@ class StoryViewModelTest {
         List<Paragraph> paragraphs = new ArrayList<>();
         paragraphs.add(new Paragraph(ParagraphType.TEXT, TEXT_LOC));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR);
 
-        assertNull(this.viewModel.getTopCg());
-        assertNull(this.viewModel.getCurrentText());
-        assertNull(this.viewModel.getBottomCg());
+        assertNull(viewModel.getCurrentCg());
+        assertNull(viewModel.getCurrentText());
+        assertNull(viewModel.getLastCg());
     }
 
-    // null 边界
+    // null边界
 
     @Test
     void constructorNullStory_playNextThrowsNpe() {
-        this.viewModel = new StoryViewModel(null, AVATAR, null);
+        viewModel = new StoryViewModel(null, AVATAR);
 
-        assertThrows(NullPointerException.class, () -> this.viewModel.proceed());
+        assertThrows(NullPointerException.class, () -> viewModel.playNext());
     }
 
     @Test
@@ -270,8 +173,27 @@ class StoryViewModelTest {
         s.setName("Null Paragraphs");
         s.setParagraphs(null);
 
-        this.viewModel = new StoryViewModel(s, AVATAR, null);
+        viewModel = new StoryViewModel(s, AVATAR);
 
-        assertThrows(NullPointerException.class, () -> this.viewModel.proceed());
+        assertThrows(NullPointerException.class, () -> viewModel.playNext());
+    }
+
+    // property getter
+
+    @Test
+    void propertyGetters_returnSameObject() {
+        List<Paragraph> paragraphs = new ArrayList<>();
+        paragraphs.add(new Paragraph(ParagraphType.TEXT, TEXT_LOC));
+
+        viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR);
+
+        assertSame(viewModel.storyProperty(), viewModel.storyProperty());
+        assertSame(viewModel.partnerAvatarProperty(), viewModel.partnerAvatarProperty());
+        assertSame(viewModel.lastCgProperty(), viewModel.lastCgProperty());
+        assertSame(viewModel.currentCgProperty(), viewModel.currentCgProperty());
+        assertSame(viewModel.currentTextProperty(), viewModel.currentTextProperty());
+
+        assertEquals("Test", viewModel.getStory().getName());
+        assertEquals(AVATAR, viewModel.getPartnerAvatar());
     }
 }

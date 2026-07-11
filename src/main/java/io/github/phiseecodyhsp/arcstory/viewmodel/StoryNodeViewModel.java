@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.arcstory.viewmodel.node;
+package io.github.phiseecodyhsp.arcstory.viewmodel;
 
 import io.github.phiseecodyhsp.arcstory.view.node.StoryNode;
 import javafx.beans.property.BooleanProperty;
@@ -10,7 +10,7 @@ import javafx.beans.property.SimpleBooleanProperty;
  * @author RikkaKawaii0612
  */
 public abstract class StoryNodeViewModel {
-    protected final BooleanProperty enabled = new SimpleBooleanProperty(true);
+    protected final BooleanProperty enabled = new SimpleBooleanProperty(false);
 
     protected StoryNodeViewModel() {
     }

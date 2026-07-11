@@ -3,7 +3,7 @@ package io.github.phiseecodyhsp.arcstory.view.node;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.view.Effects;
-import io.github.phiseecodyhsp.arcstory.viewmodel.node.ButtonNodeViewModel;
+import io.github.phiseecodyhsp.arcstory.viewmodel.ButtonNodeViewModel;
 import io.github.phiseecodyhsp.arcstory.util.PropertyUtil;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
 import javafx.scene.control.Label;
@@ -19,7 +19,7 @@ import javafx.scene.text.Font;
  *
  * @author RikkaKawaii0612
  */
-public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
+public class ButtonNode extends StoryNode<ButtonNodeViewModel> {
 
     /**
      * 按钮边长.
@@ -54,14 +54,14 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
     /**
      * 光标悬浮在按钮上时, 按钮变深的效果.
      */
-    private static final ColorAdjust HOVERED = new ColorAdjust(0.0D, 0.0D, -0.25D, 0.0D);
+    private static final ColorAdjust HOVERED = new ColorAdjust(-0.25D, 0.0D, 0.0D, 0.0D);
 
     /**
      * 文本字体.
      */
     private static final Font FONT = ResourceLoader.loadFont(ResourceLocation.font("geosans_light"), 36.0D);
 
-    public ButtonNode(T viewModel) {
+    public ButtonNode(ButtonNodeViewModel viewModel) {
         super(viewModel);
 
         Label label = new Label();
@@ -71,18 +71,17 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
         label.setRotate(-45.0D);
         label.setEffect(Effects.SHADOW);
         label.setMouseTransparent(true);
-        label.visibleProperty().bind(viewModel.lockedProperty().not());
 
-        Polygon banner = new Polygon(
+        Polygon lockBg = new Polygon(
                 -IMAGE_SIZE / 2.0D, IMAGE_SIZE / 4.0D,
                 -IMAGE_SIZE / 2.0D, IMAGE_SIZE / 2.0D,
                 -IMAGE_SIZE / 4.0D, IMAGE_SIZE / 2.0D,
                 IMAGE_SIZE / 2.0D, -IMAGE_SIZE / 4.0D,
                 IMAGE_SIZE / 2.0D, -IMAGE_SIZE / 2.0D,
                 IMAGE_SIZE / 4.0D, -IMAGE_SIZE / 2.0D);
-        banner.setFill(Color.BLACK);
-        banner.setOpacity(0.5D);
-        banner.setMouseTransparent(true);
+        lockBg.setFill(Color.BLACK);
+        lockBg.setOpacity(0.5);
+        lockBg.setMouseTransparent(true);
 
         ImageView newIcon = new ImageView(ResourceLoader.loadImage(ResourceLoader.resolvePath("images", "new_icon")));
         newIcon.setPreserveRatio(true);
@@ -90,7 +89,6 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
         newIcon.setFitWidth(NEW_ICON_SIZE);
         newIcon.setTranslateY(-0.5833333333333333D * SIDE_LENGTH); /* 7 / 12 */
         newIcon.setMouseTransparent(true);
-        newIcon.visibleProperty().bind(viewModel.newProperty());
 
         ImageView view = new ImageView();
         view.imageProperty().bind(PropertyUtil.createImage(this.viewModel.illustrationLocationProperty()));
@@ -104,21 +102,17 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
         lock.setFitWidth(DIAGONAL_LENGTH / 3.0D);
         lock.setPreserveRatio(true);
         lock.setMouseTransparent(true);
-        lock.visibleProperty().bind(viewModel.lockedProperty());
 
         Rectangle border = new Rectangle(SIDE_LENGTH, SIDE_LENGTH, Color.WHITE);
         border.setArcWidth(ARC_SIZE);
         border.setArcHeight(ARC_SIZE);
-        border.setEffect(Effects.ROTATED_SHADOW);
+        border.setEffect(Effects.SHADOW);
         border.setOnMouseEntered(_ -> view.setEffect(HOVERED));
         border.setOnMouseExited(_ -> view.setEffect(null));
-        border.onMouseClickedProperty().bind(viewModel.onMouseClickedProperty().map(
-                eventHandler -> e -> {
-                    this.viewModel.newProperty().setValue(false);
-                    eventHandler.handle(e);
-                }));
 
-        this.setRotate(45.0D);
-        this.getChildren().addAll(border, view, banner, label, newIcon, lock);
+        setRotate(45);
+        getChildren().addAll(border, view, lockBg, lock);
+
+        // TODO: 有 CG 时的图标
     }
 }
