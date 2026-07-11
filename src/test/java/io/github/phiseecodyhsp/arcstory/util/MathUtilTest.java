@@ -72,6 +72,6 @@ class MathUtilTest {
     void doubleToString_whenNegativeDecimal_returnsNegativeNumberWithDecimalPoint() {
         assertEquals("-1.1", MathUtil.doubleToString(-1.1));
         assertEquals("-45.14", MathUtil.doubleToString(-45.14));
-        assertEquals("-191.981", MathUtil.doubleToString(-191.981));
+        assertEquals("-191.981", MathUtil.doubleToString(-191.9810));
     }
 }
