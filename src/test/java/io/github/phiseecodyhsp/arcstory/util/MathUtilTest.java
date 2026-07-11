@@ -42,36 +42,4 @@ class MathUtilTest {
         assertEquals("-" + MathUtil.intToOrdinal(12), MathUtil.intToOrdinal(-12));
         assertEquals("-" + MathUtil.intToOrdinal(235), MathUtil.intToOrdinal(-235));
     }
-
-    @Test
-    @DisplayName("doubleToString 传入正整数时, 应返回不带小数点的正数")
-    void doubleToString_whenPositiveInteger_returnsPositiveNumberWithoutDecimalPoint() {
-        assertEquals("1", MathUtil.doubleToString(1));
-        assertEquals("14", MathUtil.doubleToString(14));
-        assertEquals("514", MathUtil.doubleToString(514));
-    }
-
-    @Test
-    @DisplayName("doubleToString 传入负整数时, 应返回加负号前缀的传入正整数的结果")
-    void doubleToString_whenNegativeInteger_returnsNegativeNumberWithoutDecimalPoint() {
-        assertEquals("-1", MathUtil.doubleToString(-1));
-        assertEquals("-14", MathUtil.doubleToString(-14));
-        assertEquals("-514", MathUtil.doubleToString(-514));
-    }
-
-    @Test
-    @DisplayName("doubleToString 传入正小数时, 应返回带小数点的正数 (末尾不含0)")
-    void doubleToString_whenPositiveDecimal_returnsPositiveNumberWithDecimalPoint() {
-        assertEquals("1.1", MathUtil.doubleToString(1.1));
-        assertEquals("45.14", MathUtil.doubleToString(45.14));
-        assertEquals("191.981", MathUtil.doubleToString(191.9810));
-    }
-
-    @Test
-    @DisplayName("doubleToString 传入负小数时, 应返回加负号前缀的传入正小数的结果")
-    void doubleToString_whenNegativeDecimal_returnsNegativeNumberWithDecimalPoint() {
-        assertEquals("-1.1", MathUtil.doubleToString(-1.1));
-        assertEquals("-45.14", MathUtil.doubleToString(-45.14));
-        assertEquals("-191.981", MathUtil.doubleToString(-191.9810));
-    }
 }

@@ -36,6 +36,10 @@ public class MathUtil {
         return num + "th";
     }
 
+    public static String doubleToString(double num) {
+        return num % 1 == 0 ? String.valueOf((int)num) : String.valueOf(num);
+    }
+
     /**
      * 将一个双精度浮点数转换为字符串, 且当这个数是整数时, 返回的字符串中不含 ".0".
      *
