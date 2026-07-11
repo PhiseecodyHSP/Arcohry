@@ -1,4 +1,4 @@
-package io.github.phiseecodyhsp.arcstory.model.difficulty;
+package io.github.phiseecodyhsp.arcstory.model;
 
 /**
  * Arcaea 谱面难度分级, 包含 1~12 和 7+, 8+, 9+, 10+, 11+.

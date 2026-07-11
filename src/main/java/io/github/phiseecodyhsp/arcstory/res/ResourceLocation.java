@@ -60,4 +60,8 @@ public record ResourceLocation(@JsonProperty String category, @JsonProperty Stri
     public static ResourceLocation text(String key) {
         return new ResourceLocation("texts", key);
     }
+
+    public static ResourceLocation chart(String key) {
+        return new ResourceLocation("charts", key);
+    }
 }

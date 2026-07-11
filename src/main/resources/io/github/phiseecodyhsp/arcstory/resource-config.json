@@ -43,5 +43,8 @@
         "test": "texts/test.txt",
         "test_2": "texts/test2.txt",
         "test_3": "texts/test3.txt"
+    },
+    "charts": {
+        "tutorial_pst": "charts/tutorial_pst.json"
     }
 }

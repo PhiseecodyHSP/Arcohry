@@ -1,6 +1,6 @@
 package io.github.phiseecodyhsp.arcstory.model;
 
-import io.github.phiseecodyhsp.arcstory.model.difficulty.Difficulty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
 
@@ -8,41 +8,84 @@ import io.github.phiseecodyhsp.arcstory.util.MathUtil;
  * Arcaea 谱面基本信息.
  */
 public final class Chart {
-    public final String music;
-    public final ResourceLocation musicLocation;
-    public final String composer;
-    public final String bpm;
-    public final Difficulty difficulty;
-    public final double rating;
-    public final String level;
-    public final ResourceLocation illustrationLocation;
-    public final String illustrator;
-    public final String noteDesigner;
-    public final Paradigms paradigms;
 
-    public Chart(String music,
-                 ResourceLocation musicLocation,
-                 String composer,
-                 double leftBPM,
-                 double rightBPM,
-                 Difficulty difficulty,
-                 double rating,
-                 ResourceLocation illustrationLocation,
-                 String illustrator,
-                 String noteDesigner,
-                 Paradigms paradigms) {
-        this.music = music;
-        this.musicLocation = musicLocation;
-        this.composer = composer;
-        this.difficulty = difficulty;
-        this.rating = rating;
-        this.level = MathUtil.ratingToLevel(this.rating);
-        this.illustrationLocation = illustrationLocation;
-        this.illustrator = illustrator;
-        this.noteDesigner = noteDesigner;
-        this.paradigms = paradigms;
+    @JsonProperty
+    private String music;
 
+    @JsonProperty
+    private ResourceLocation musicLocation;
+
+    @JsonProperty
+    private String composer;
+
+    @JsonProperty
+    private double leftBpm;
+
+    @JsonProperty
+    private double rightBpm;
+
+    @JsonProperty
+    private Difficulty difficulty;
+
+    @JsonProperty
+    private double rating;
+
+    @JsonProperty
+    private ResourceLocation illustrationLocation;
+
+    @JsonProperty
+    private String illustrator;
+
+    @JsonProperty
+    private String noteDesigner;
+
+    @JsonProperty
+    private Paradigm paradigm;
+
+    public Chart() {}
+
+    public String getMusic() {
+        return this.music;
+    }
+
+    public ResourceLocation getMusicLocation() {
+        return this.musicLocation;
+    }
+
+    public String getComposer() {
+        return this.composer;
+    }
+
+    public String getBpm() {
         // BPM 左右值相等时视为不变, 只显示单个数字
-        this.bpm = leftBPM == rightBPM ? MathUtil.doubleToString(leftBPM) : MathUtil.doubleToString(leftBPM) + "-" + MathUtil.doubleToString(rightBPM);
+        return this.leftBpm == this.rightBpm ? MathUtil.doubleToString(this.leftBpm) : MathUtil.doubleToString(this.leftBpm) + "-" + MathUtil.doubleToString(this.rightBpm);
+    }
+
+    public Difficulty getDifficulty() {
+        return this.difficulty;
+    }
+
+    public double getRating() {
+        return this.rating;
+    }
+
+    public String getLevel() {
+        return MathUtil.ratingToLevel(this.rating);
+    }
+
+    public ResourceLocation getIllustrationLocation() {
+        return this.illustrationLocation;
+    }
+
+    public String getIllustrator() {
+        return this.illustrator;
+    }
+
+    public String getNoteDesigner() {
+        return this.noteDesigner;
+    }
+
+    public Paradigm getParadigm() {
+        return this.paradigm;
     }
 }

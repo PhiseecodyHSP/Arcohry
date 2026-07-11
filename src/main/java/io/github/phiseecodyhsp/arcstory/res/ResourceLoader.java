@@ -1,9 +1,8 @@
 package io.github.phiseecodyhsp.arcstory.res;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
+import io.github.phiseecodyhsp.arcstory.model.Chart;
 import io.github.phiseecodyhsp.arcstory.model.story.Story;
 import io.github.phiseecodyhsp.arcstory.util.Alerts;
 import javafx.scene.image.Image;
@@ -80,6 +79,7 @@ public final class ResourceLoader {
     private static final Map<String, Font> FONT_CACHES = new ConcurrentHashMap<>();
     private static final Map<String, String> TEXT_CACHES = new ConcurrentHashMap<>();
     private static final Map<String, Story> STORY_CACHES = new ConcurrentHashMap<>();
+    private static final Map<String, Chart> CHART_CACHES = new ConcurrentHashMap<>();
 
     private ResourceLoader() {}
 
@@ -231,6 +231,30 @@ public final class ResourceLoader {
         return loadAudio(resolvedPath);
     }
 
+    public static Chart loadChart(String relativePath) {
+        return CHART_CACHES.computeIfAbsent(relativePath, _ -> {
+            try (InputStream is = loadStream(relativePath)) {
+                return MAPPER.readValue(is, Chart.class);
+            } catch (StreamReadException e) {
+                throw new IllegalArgumentException("Found invalid chart json content: " + relativePath, e);
+            } catch (DatabindException e) {
+                throw new IllegalArgumentException("Found invalid chart json structure: " + relativePath, e);
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Chart not found: " + relativePath, e);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Chart loaded failed: " + relativePath, e);
+            }
+        });
+    }
+
+    public static Chart loadChart(ResourceLocation location) {
+        String resolvedPath = resolvePath(location);
+        if (resolvedPath == null) {
+            return null;
+        }
+        return loadChart(resolvedPath);
+    }
+
     public static void playSound(String relativePath) {
         loadAudio(relativePath).play();
     }
@@ -240,5 +264,6 @@ public final class ResourceLoader {
         FONT_CACHES.clear();
         TEXT_CACHES.clear();
         STORY_CACHES.clear();
+        CHART_CACHES.clear();
     }
 }

@@ -1,0 +1,13 @@
+{
+    "music": "Tutorial",
+    "musicLocation": "audios/story_bgm",
+    "composer": "ak+q",
+    "leftBpm": 128,
+    "rightBpm": 128,
+    "difficulty": "pst",
+    "rating": 1,
+    "illustrationLocation": "images/tutorial_illustration",
+    "illustrator": "Unknown",
+    "noteDesigner": "Unknown",
+    "paradigm": "light"
+}
