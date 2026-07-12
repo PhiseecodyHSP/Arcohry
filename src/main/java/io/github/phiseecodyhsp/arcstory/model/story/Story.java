@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,9 @@ public final class Story {
     private String name = DEFAULT_NAME;
 
     @JsonProperty
+    private ResourceLocation partnerAvatarLocation;
+
+    @JsonProperty
     private List<Paragraph> paragraphs = new ArrayList<>();
 
     public Story() {
@@ -34,6 +38,14 @@ public final class Story {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ResourceLocation getPartnerAvatarLocation() {
+        return this.partnerAvatarLocation;
+    }
+
+    public void setPartnerAvatarLocation(ResourceLocation location) {
+        this.partnerAvatarLocation = location;
     }
 
     public List<Paragraph> getParagraphs() {

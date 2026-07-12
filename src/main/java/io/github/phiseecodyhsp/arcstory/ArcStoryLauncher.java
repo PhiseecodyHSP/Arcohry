@@ -73,7 +73,7 @@ public class ArcStoryLauncher extends Application {
         Runnable onFinishedCallback = () -> storyScreenViewModel.setStoryView(null);
         Consumer<ResourceLocation> onStoryShownCallback = loc ->
                 storyScreenViewModel.setStoryView(
-                        new StoryViewModel(ResourceLoader.loadStory(loc), ResourceLocation.image("hikari_avatar"), onFinishedCallback)
+                        new StoryViewModel(ResourceLoader.loadStory(loc), onFinishedCallback)
                 );
 
         StoryBranchViewModel branch1 = new StoryBranchViewModel();

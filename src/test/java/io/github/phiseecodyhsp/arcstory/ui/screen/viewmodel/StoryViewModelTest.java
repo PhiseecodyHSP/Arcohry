@@ -42,7 +42,7 @@ class StoryViewModelTest {
         paragraphs.add(new Paragraph(ParagraphType.CG, CG1_LOC));
         paragraphs.add(new Paragraph(ParagraphType.CG, CG2_LOC));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        this.viewModel = new StoryViewModel(makeStory(paragraphs), null);
 
         this.viewModel.proceed();
         assertEquals(StoryViewModel.Status.TEXT, this.viewModel.getCurrentStatus());
@@ -83,7 +83,7 @@ class StoryViewModelTest {
         paragraphs.add(new Paragraph(ParagraphType.TEXT, TEXT_LOC));
         paragraphs.add(new Paragraph(ParagraphType.TEXT, TEXT_LOC));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        this.viewModel = new StoryViewModel(makeStory(paragraphs), null);
 
         this.viewModel.proceed();
         assertEquals(StoryViewModel.Status.TEXT, this.viewModel.getCurrentStatus());
@@ -109,7 +109,7 @@ class StoryViewModelTest {
         paragraphs.add(new Paragraph(ParagraphType.CG, CG1_LOC));
         paragraphs.add(new Paragraph(ParagraphType.CG, CG2_LOC));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        this.viewModel = new StoryViewModel(makeStory(paragraphs), null);
 
         this.viewModel.proceed();
         assertEquals(StoryViewModel.Status.CG, this.viewModel.getCurrentStatus());
@@ -140,7 +140,7 @@ class StoryViewModelTest {
         List<Paragraph> paragraphs = new ArrayList<>();
         paragraphs.add(new Paragraph(ParagraphType.TEXT, TEXT_LOC));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        this.viewModel = new StoryViewModel(makeStory(paragraphs), null);
 
         this.viewModel.proceed();
         assertEquals(StoryViewModel.Status.TEXT, this.viewModel.getCurrentStatus());
@@ -155,7 +155,7 @@ class StoryViewModelTest {
     void playNext_emptyList_finishesImmediately() {
         List<Paragraph> paragraphs = new ArrayList<>();
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        this.viewModel = new StoryViewModel(makeStory(paragraphs), null);
 
         this.viewModel.markWaiting();
         this.viewModel.proceed();
@@ -171,7 +171,7 @@ class StoryViewModelTest {
         paragraphs.add(new Paragraph(ParagraphType.TEXT, text2));
         paragraphs.add(new Paragraph(ParagraphType.TEXT, text3));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        this.viewModel = new StoryViewModel(makeStory(paragraphs), null);
 
         this.viewModel.proceed();
         assertEquals(StoryViewModel.Status.TEXT, this.viewModel.getCurrentStatus());
@@ -200,7 +200,7 @@ class StoryViewModelTest {
         paragraphs.add(new Paragraph(ParagraphType.CG,
                 ResourceLocation.image("cg_3")));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        this.viewModel = new StoryViewModel(makeStory(paragraphs), null);
 
         this.viewModel.proceed();
         assertEquals(StoryViewModel.Status.CG, this.viewModel.getCurrentStatus());
@@ -225,7 +225,7 @@ class StoryViewModelTest {
         List<Paragraph> paragraphs = new ArrayList<>();
         paragraphs.add(new Paragraph(ParagraphType.TEXT, TEXT_LOC));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        this.viewModel = new StoryViewModel(makeStory(paragraphs), null);
 
         this.viewModel.proceed();
         this.viewModel.markWaiting();
@@ -248,7 +248,7 @@ class StoryViewModelTest {
         List<Paragraph> paragraphs = new ArrayList<>();
         paragraphs.add(new Paragraph(ParagraphType.TEXT, TEXT_LOC));
 
-        this.viewModel = new StoryViewModel(makeStory(paragraphs), AVATAR, null);
+        this.viewModel = new StoryViewModel(makeStory(paragraphs), null);
 
         assertNull(this.viewModel.getTopCg());
         assertNull(this.viewModel.getCurrentText());
@@ -259,7 +259,7 @@ class StoryViewModelTest {
 
     @Test
     void constructorNullStory_playNextThrowsNpe() {
-        this.viewModel = new StoryViewModel(null, AVATAR, null);
+        this.viewModel = new StoryViewModel(null, null);
 
         assertThrows(NullPointerException.class, () -> this.viewModel.proceed());
     }
@@ -270,7 +270,7 @@ class StoryViewModelTest {
         s.setName("Null Paragraphs");
         s.setParagraphs(null);
 
-        this.viewModel = new StoryViewModel(s, AVATAR, null);
+        this.viewModel = new StoryViewModel(s, null);
 
         assertThrows(NullPointerException.class, () -> this.viewModel.proceed());
     }
