@@ -32,7 +32,7 @@ class StoryUnlockConditionTest {
                 """
                     {
                         "chart_location": "charts/tutorial_pst",
-                        "partner_location": "null"
+                        "partner_location": null
                     }
                 """;
         StoryUnlockCondition condition = MAPPER.readValue(json, StoryUnlockCondition.class);

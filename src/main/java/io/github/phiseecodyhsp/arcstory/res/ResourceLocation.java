@@ -21,7 +21,6 @@ import java.util.regex.Pattern;
  */
 public record ResourceLocation(@JsonProperty String category, @JsonProperty String key) {
 
-    private static final String NULL = "null";
     private static final Pattern LOWER_SNAKE_CASE = Pattern.compile("^[a-z0-9]+(_[a-z0-9]+)*$");
 
     public ResourceLocation {
@@ -34,18 +33,14 @@ public record ResourceLocation(@JsonProperty String category, @JsonProperty Stri
     }
 
     @JsonCreator
-    public static ResourceLocation fromString(String location) {
-        if (Objects.equals(location, NULL)) {
-            return null;
-        }
-
+    public ResourceLocation(String location) {
         int index = location.indexOf("/");
         if (index == -1) {
             throw new IllegalArgumentException("Resource Location must contains '/' for separating category and key");
         }
         String category = location.substring(0, index);
         String key = location.substring(1 + index);
-        return new ResourceLocation(category, key);
+        this(category, key);
     }
 
     public String getLocation() {
