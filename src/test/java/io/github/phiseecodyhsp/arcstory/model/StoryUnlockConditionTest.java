@@ -15,8 +15,8 @@ class StoryUnlockConditionTest {
         String json =
                 """
                     {
-                        "chartLocation": "charts/tutorial_pst",
-                        "partnerLocation": "partners/hikari"
+                        "chart_location": "charts/tutorial_pst",
+                        "partner_location": "partners/hikari"
                     }
                 """;
         StoryUnlockCondition condition = MAPPER.readValue(json, StoryUnlockCondition.class);
@@ -31,8 +31,8 @@ class StoryUnlockConditionTest {
         String json =
                 """
                     {
-                        "chartLocation": "charts/tutorial_pst",
-                        "partnerLocation": "null"
+                        "chart_location": "charts/tutorial_pst",
+                        "partner_location": "null"
                     }
                 """;
         StoryUnlockCondition condition = MAPPER.readValue(json, StoryUnlockCondition.class);

@@ -81,6 +81,6 @@ public record ResourceLocation(@JsonProperty String category, @JsonProperty Stri
     }
 
     public static ResourceLocation storyUnlockCondition(String key) {
-        return new ResourceLocation("storyunlockconditions", key);
+        return new ResourceLocation("story_unlock_conditions", key);
     }
 }

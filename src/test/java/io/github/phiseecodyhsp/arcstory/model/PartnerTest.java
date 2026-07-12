@@ -16,8 +16,8 @@ class PartnerTest {
                 """
                     {
                         "name": "Hikari",
-                        "avatarLocation": "images/hikari_avatar",
-                        "illustrationLocation": "images/hikari_illustration"
+                        "avatar_location": "images/hikari_avatar",
+                        "illustration_location": "images/hikari_illustration"
                     }
                 """;
         Partner partner = MAPPER.readValue(json, Partner.class);

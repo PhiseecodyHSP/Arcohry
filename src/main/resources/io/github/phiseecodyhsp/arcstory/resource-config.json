@@ -50,7 +50,7 @@
     "partners": {
         "hikari": "partners/hikari.json"
     },
-    "storyunlockconditions": {
-        "test": "storyunlockconditions/test.json"
+    "story_unlock_conditions": {
+        "test": "story_unlock_conditions/test.json"
     }
 }

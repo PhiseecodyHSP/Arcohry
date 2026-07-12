@@ -1,6 +1,8 @@
 package io.github.phiseecodyhsp.arcstory.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
 
@@ -9,6 +11,7 @@ import io.github.phiseecodyhsp.arcstory.util.MathUtil;
  *
  * @author HSP
  */
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record Chart(@JsonProperty String music,
                     @JsonProperty ResourceLocation musicLocation,
                     @JsonProperty String composer,
