@@ -1,6 +1,8 @@
 package io.github.phiseecodyhsp.arcstory.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.EnumNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.EnumNaming;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 
 /**
@@ -8,6 +10,7 @@ import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
  *
  * <p>谱面的色侧会决定转场动画的样式. <b>注意: 转场素材暂时缺失. //TODO</b>
  */
+@EnumNaming(EnumNamingStrategies.SnakeCaseStrategy.class)
 public enum Paradigm {
     LIGHT(ResourceLocation.image("images/0-3")),
     CONFLICT(ResourceLocation.image("images/0-3")),

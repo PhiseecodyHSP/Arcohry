@@ -1,10 +1,13 @@
 package io.github.phiseecodyhsp.arcstory.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.EnumNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.EnumNaming;
 
 /**
  * Arcaea 谱面难度, 分为 Past, Present, Future, Eternal 和 Beyond.
  */
+@EnumNaming(EnumNamingStrategies.SnakeCaseStrategy.class)
 public enum Difficulty {
     PST("Past"),
     PRS("Present"),
