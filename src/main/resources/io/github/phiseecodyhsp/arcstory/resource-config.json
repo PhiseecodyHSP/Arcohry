@@ -22,7 +22,7 @@
         "cg_0_3": "images/0-3.jpg",
         "cg_1_1": "images/1-1.jpg"
     },
-    "audio": {
+    "audios": {
         "start": "audios/START.mp3",
         "loading_start": "audios/LoadingStart.mp3",
         "loading_end": "audios/LoadingEnd.mp3",
@@ -43,5 +43,14 @@
         "test": "texts/test.txt",
         "test_2": "texts/test2.txt",
         "test_3": "texts/test3.txt"
+    },
+    "charts": {
+        "tutorial_pst": "charts/tutorial_pst.json"
+    },
+    "partners": {
+        "hikari": "partners/hikari.json"
+    },
+    "story_unlock_conditions": {
+        "test": "story_unlock_conditions/test.json"
     }
 }

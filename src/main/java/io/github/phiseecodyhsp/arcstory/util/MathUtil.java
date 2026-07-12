@@ -49,6 +49,22 @@ public class MathUtil {
     }
 
     /**
+     * 将定数转换为难度标级.
+     *
+     * <p>用于 {@link Chart} 的构造函数.
+     *
+     * @param rating 定数
+     * @return 难度标级
+     */
+    public static String ratingToLevel(double rating) {
+        int intRating = (int) rating;
+        if (rating < 0) {
+            intRating--;
+        }
+        return rating - intRating < 0.7 ? String.valueOf(intRating) : intRating + "+";
+    }
+
+    /**
      * 给一个双精度浮点数平方.
      *
      * <p><b>使用说明:</b> 如果能不额外引入局部变量, 那就<b>不要</b>调用这个方法, 保持简洁.

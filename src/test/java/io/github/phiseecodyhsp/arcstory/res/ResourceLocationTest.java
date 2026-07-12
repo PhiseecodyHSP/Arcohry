@@ -36,6 +36,7 @@ class ResourceLocationTest {
         assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("/key"));
         assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("double//slashes"));
         assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("/"));
+        assertThrows(NullPointerException.class, () -> new ResourceLocation(null));
     }
 
     @Test

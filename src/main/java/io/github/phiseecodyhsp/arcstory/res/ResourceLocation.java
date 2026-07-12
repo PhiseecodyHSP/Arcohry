@@ -2,7 +2,10 @@ package io.github.phiseecodyhsp.arcstory.res;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -32,6 +35,8 @@ public record ResourceLocation(@JsonProperty String category, @JsonProperty Stri
 
     @JsonCreator
     public ResourceLocation(String location) {
+        Objects.requireNonNull(location);
+
         int index = location.indexOf("/");
         if (index == -1) {
             throw new IllegalArgumentException("Resource Location must contains '/' for separating category and key");
@@ -39,6 +44,10 @@ public record ResourceLocation(@JsonProperty String category, @JsonProperty Stri
         String category = location.substring(0, index);
         String key = location.substring(1 + index);
         this(category, key);
+    }
+
+    public String getLocation() {
+        return this.category() + "/" + this.key();
     }
 
     public static ResourceLocation image(String key) {
@@ -59,5 +68,17 @@ public record ResourceLocation(@JsonProperty String category, @JsonProperty Stri
 
     public static ResourceLocation text(String key) {
         return new ResourceLocation("texts", key);
+    }
+
+    public static ResourceLocation chart(String key) {
+        return new ResourceLocation("charts", key);
+    }
+
+    public static ResourceLocation partner(String key) {
+        return new ResourceLocation("partners", key);
+    }
+
+    public static ResourceLocation storyUnlockCondition(String key) {
+        return new ResourceLocation("story_unlock_conditions", key);
     }
 }

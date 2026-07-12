@@ -1,45 +1,35 @@
 package io.github.phiseecodyhsp.arcstory.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
 
 /**
- * Arcaea 谱面基本信息.
+ * 由 JSON 数据驱动的 Arcaea 谱面基本信息
+ *
+ * @author HSP
  */
-public final class Chart {
-    public final String music;
-    public final ResourceLocation musicLocation;
-    public final String composer;
-    public final String bpm;
-    public final Difficulty difficulty;
-    public final DifficultyLevel level;
-    public final ResourceLocation illustrationLocation;
-    public final String illustrator;
-    public final String noteDesigner;
-    public final Paradigms paradigms;
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public record Chart(@JsonProperty String music,
+                    @JsonProperty ResourceLocation musicLocation,
+                    @JsonProperty String composer,
+                    @JsonProperty double leftBpm,
+                    @JsonProperty double rightBpm,
+                    @JsonProperty Difficulty difficulty,
+                    @JsonProperty double rating,
+                    @JsonProperty ResourceLocation illustrationLocation,
+                    @JsonProperty String illustrator,
+                    @JsonProperty String noteDesigner,
+                    @JsonProperty Paradigm paradigm) {
 
-    public Chart(String music,
-                 ResourceLocation musicLocation,
-                 String composer,
-                 double leftBPM,
-                 double rightBPM,
-                 Difficulty difficulty,
-                 DifficultyLevel level,
-                 ResourceLocation illustrationLocation,
-                 String illustrator,
-                 String noteDesigner,
-                 Paradigms paradigms) {
-        this.music = music;
-        this.musicLocation = musicLocation;
-        this.composer = composer;
-        this.difficulty = difficulty;
-        this.level = level;
-        this.illustrationLocation = illustrationLocation;
-        this.illustrator = illustrator;
-        this.noteDesigner = noteDesigner;
-        this.paradigms = paradigms;
-
+    public String getBpm() {
         // BPM 左右值相等时视为不变, 只显示单个数字
-        this.bpm = leftBPM == rightBPM ? MathUtil.doubleToString(leftBPM) : MathUtil.doubleToString(leftBPM) + "-" + MathUtil.doubleToString(rightBPM);
+        return this.leftBpm() == this.rightBpm() ? MathUtil.doubleToString(this.leftBpm()) : MathUtil.doubleToString(this.leftBpm()) + "-" + MathUtil.doubleToString(this.rightBpm());
+    }
+
+    public String getLevel() {
+        return MathUtil.ratingToLevel(this.rating());
     }
 }
