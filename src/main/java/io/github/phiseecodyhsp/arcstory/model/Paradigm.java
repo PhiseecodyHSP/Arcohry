@@ -14,10 +14,10 @@ import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
  */
 @EnumNaming(EnumNamingStrategies.SnakeCaseStrategy.class)
 public enum Paradigm {
-    LIGHT(ResourceLocation.image("images/0-3")),
-    CONFLICT(ResourceLocation.image("images/0-3")),
-    ACHROMIC(ResourceLocation.image("images/0-3")),
-    LEPHON(ResourceLocation.image("images/0-3"));
+    LIGHT(ResourceLocation.image("light")),
+    CONFLICT(ResourceLocation.image("conflict")),
+    ACHROMIC(ResourceLocation.image("achromic")),
+    LEPHON(ResourceLocation.image("lephon"));
 
     private final ResourceLocation imageLocation;
 
