@@ -2,7 +2,9 @@ package io.github.phiseecodyhsp.arcstory.res;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -19,6 +21,7 @@ import java.util.regex.Pattern;
  */
 public record ResourceLocation(@JsonProperty String category, @JsonProperty String key) {
 
+    private static final String NULL = "null";
     private static final Pattern LOWER_SNAKE_CASE = Pattern.compile("^[a-z0-9]+(_[a-z0-9]+)*$");
 
     public ResourceLocation {
@@ -31,14 +34,22 @@ public record ResourceLocation(@JsonProperty String category, @JsonProperty Stri
     }
 
     @JsonCreator
-    public ResourceLocation(String location) {
+    public static ResourceLocation fromString(String location) {
+        if (Objects.equals(location, NULL)) {
+            return null;
+        }
+
         int index = location.indexOf("/");
         if (index == -1) {
             throw new IllegalArgumentException("Resource Location must contains '/' for separating category and key");
         }
         String category = location.substring(0, index);
         String key = location.substring(1 + index);
-        this(category, key);
+        return new ResourceLocation(category, key);
+    }
+
+    public String getLocation() {
+        return this.category() + "/" + this.key();
     }
 
     public static ResourceLocation image(String key) {

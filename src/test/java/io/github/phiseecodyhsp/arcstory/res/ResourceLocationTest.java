@@ -24,18 +24,24 @@ class ResourceLocationTest {
     }
 
     @Test
-    @DisplayName("构造函数传入单字符串时应正确拆分 category 和 key")
-    void constructor_singleString() {
+    @DisplayName("构造函数传入非 \"null\" 单字符串时应正确拆分 category 和 key")
+    void fromString_notNullSingleString() {
         assertDoesNotThrow(() -> {
-            ResourceLocation loc = new ResourceLocation("test_category/test_key");
+            ResourceLocation loc = ResourceLocation.fromString("test_category/test_key");
             assertEquals("test_category", loc.category());
             assertEquals("test_key", loc.key());
         });
-        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("abc"));
-        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("category/"));
-        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("/key"));
-        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("double//slashes"));
-        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("/"));
+        assertThrows(IllegalArgumentException.class, () -> ResourceLocation.fromString("abc"));
+        assertThrows(IllegalArgumentException.class, () -> ResourceLocation.fromString("category/"));
+        assertThrows(IllegalArgumentException.class, () -> ResourceLocation.fromString("/key"));
+        assertThrows(IllegalArgumentException.class, () -> ResourceLocation.fromString("double//slashes"));
+        assertThrows(IllegalArgumentException.class, () -> ResourceLocation.fromString("/"));
+    }
+
+    @Test
+    @DisplayName("构造函数传入 \"null\" 单字符串时应返回 null")
+    void fromString_NullSingleString() {
+        assertNull(ResourceLocation.fromString("null"));
     }
 
     @Test
