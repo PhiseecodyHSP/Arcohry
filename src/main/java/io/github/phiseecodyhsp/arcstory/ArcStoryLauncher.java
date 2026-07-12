@@ -37,7 +37,7 @@ public class ArcStoryLauncher extends Application {
         this.appWindow = new AppWindow(stage);
         this.registerScreens(this.appWindow.getScreenManager());
 
-        this.audioManager.playBgm("story_bgm");
+        this.audioManager.playBgm(ResourceLocation.audio("story_bgm"));
     }
 
     @Override

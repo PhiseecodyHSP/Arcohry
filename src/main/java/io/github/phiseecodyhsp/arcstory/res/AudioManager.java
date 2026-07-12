@@ -9,16 +9,13 @@ import javafx.util.Duration;
 public class AudioManager {
 
     private AudioClip bgm;
-    private String currentBgmKey;
     private double volume = 0.2;
     private Timeline fadeOutTimeline;
 
-    public void playBgm(String configKey) {
+    public void playBgm(ResourceLocation loc) {
         stopBgm();
-        String path = ResourceLoader.resolvePath("audio", configKey);
-        if (path != null) {
-            currentBgmKey = configKey;
-            bgm = ResourceLoader.loadAudio(path);
+        bgm = ResourceLoader.loadAudio(loc);
+        if (bgm != null) {
             bgm.setVolume(volume);
             bgm.setCycleCount(AudioClip.INDEFINITE);
             bgm.play();
@@ -31,7 +28,6 @@ public class AudioManager {
             bgm.stop();
             bgm = null;
         }
-        currentBgmKey = null;
     }
 
     public void fadeOutBgm(double seconds) {
@@ -75,10 +71,6 @@ public class AudioManager {
 
     public double getVolume() {
         return volume;
-    }
-
-    public String getCurrentBgmKey() {
-        return currentBgmKey;
     }
 
     public boolean isPlaying() {
