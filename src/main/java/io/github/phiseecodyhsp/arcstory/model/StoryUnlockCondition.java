@@ -12,4 +12,8 @@ import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
  * @param partnerLocation 搭档路径
  */
 public record StoryUnlockCondition(@JsonProperty ResourceLocation chartLocation, @JsonProperty ResourceLocation partnerLocation) {
+
+    public boolean needsPartner() {
+        return partnerLocation != null;
+    }
 }
