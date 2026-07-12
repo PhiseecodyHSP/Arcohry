@@ -2,6 +2,7 @@ package io.github.phiseecodyhsp.arcstory.res;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -33,7 +34,7 @@ public record ResourceLocation(@JsonProperty String category, @JsonProperty Stri
     }
 
     @JsonCreator
-    public ResourceLocation(String location) {
+    public ResourceLocation(@NotNull String location) {
         int index = location.indexOf("/");
         if (index == -1) {
             throw new IllegalArgumentException("Resource Location must contains '/' for separating category and key");
