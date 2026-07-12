@@ -30,7 +30,7 @@ public enum Difficulty {
     @JsonCreator
     public static Difficulty fromString(String string) {
         for (Difficulty d : Difficulty.values()) {
-            if (d.name().equalsIgnoreCase(string)) {
+            if (d.name().equalsIgnoreCase(string) || d.name.equalsIgnoreCase(string)) {
                 return d;
             }
         }
