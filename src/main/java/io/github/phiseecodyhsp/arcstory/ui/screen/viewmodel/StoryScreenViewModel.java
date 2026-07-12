@@ -2,6 +2,7 @@ package io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel;
 
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.ui.screen.StoryScreen;
+import io.github.phiseecodyhsp.arcstory.ui.screen.view.StoryUnlockConditionView;
 import io.github.phiseecodyhsp.arcstory.viewmodel.StoryBranchViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -20,6 +21,8 @@ public class StoryScreenViewModel {
     private final ObjectProperty<ResourceLocation> background;
 
     private final ObjectProperty<StoryViewModel> storyView = new SimpleObjectProperty<>();
+
+    private final ObjectProperty<StoryUnlockConditionViewModel> conditionView = new SimpleObjectProperty<>();
 
     public StoryScreenViewModel(ResourceLocation background) {
         this.background = new SimpleObjectProperty<>(background);
@@ -47,5 +50,13 @@ public class StoryScreenViewModel {
 
     public ObjectProperty<StoryViewModel> storyViewProperty() {
         return this.storyView;
+    }
+
+    public void setConditionView(StoryUnlockConditionViewModel conditionView) {
+        this.conditionView.setValue(conditionView);
+    }
+
+    public ObjectProperty<StoryUnlockConditionViewModel> conditionViewProperty() {
+        return this.conditionView;
     }
 }

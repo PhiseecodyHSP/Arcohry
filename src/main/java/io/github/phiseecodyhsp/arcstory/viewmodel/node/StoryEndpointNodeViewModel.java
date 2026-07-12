@@ -1,7 +1,5 @@
 package io.github.phiseecodyhsp.arcstory.viewmodel.node;
 
-import io.github.phiseecodyhsp.arcstory.model.Chart;
-import io.github.phiseecodyhsp.arcstory.model.Partner;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -14,17 +12,20 @@ public class StoryEndpointNodeViewModel extends ButtonNodeViewModel {
 
     private final ObjectProperty<ResourceLocation> storyLocation;
 
+    private final ObjectProperty<ResourceLocation> conditionLocation;
+
     public StoryEndpointNodeViewModel(@NotNull String title,
                                       @NotNull ResourceLocation illustrationLocation,
+                                      @Nullable ResourceLocation conditionLocation,
                                       @NotNull ResourceLocation storyLocation,
-                                      @Nullable Chart chart,
-                                      @Nullable Partner partner,
+                                      @Nullable Consumer<ResourceLocation> onConditionShownCallback,
                                       @NotNull Consumer<ResourceLocation> onStoryShownCallback) {
-        super(title, illustrationLocation, chart, partner);
+        super(title, illustrationLocation);
 
+        this.conditionLocation = new SimpleObjectProperty<>(conditionLocation);
         this.storyLocation = new SimpleObjectProperty<>(storyLocation);
 
-        this.setOnMouseClicked(_ -> onStoryShownCallback.accept(this.storyLocation.get()));
+        this.setOnMouseClicked(_ -> onConditionShownCallback.accept(this.conditionLocation.get()));
     }
 
     public ResourceLocation getStoryLocation() {
