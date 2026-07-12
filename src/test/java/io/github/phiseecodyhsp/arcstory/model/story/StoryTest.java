@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StoryTest {
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
     void defaultConstructor_defaultValues() {
@@ -51,7 +51,7 @@ class StoryTest {
                   ]
                 }""";
 
-        Story story = mapper.readValue(json, Story.class);
+        Story story = MAPPER.readValue(json, Story.class);
 
         assertEquals("Test Story", story.getName());
         assertEquals(2, story.getParagraphs().size());
@@ -66,7 +66,7 @@ class StoryTest {
         String json = """
                 {"name": "Empty", "paragraphs": []}""";
 
-        Story story = mapper.readValue(json, Story.class);
+        Story story = MAPPER.readValue(json, Story.class);
 
         assertEquals("Empty", story.getName());
         assertNotNull(story.getParagraphs());
@@ -83,7 +83,7 @@ class StoryTest {
                   "another_one": 42
                 }""";
 
-        Story story = mapper.readValue(json, Story.class);
+        Story story = MAPPER.readValue(json, Story.class);
 
         assertEquals("With Extra", story.getName());
     }
@@ -97,8 +97,8 @@ class StoryTest {
                 new ResourceLocation("images", "test_img")));
         original.setParagraphs(paragraphs);
 
-        String json = mapper.writeValueAsString(original);
-        Story restored = mapper.readValue(json, Story.class);
+        String json = MAPPER.writeValueAsString(original);
+        Story restored = MAPPER.readValue(json, Story.class);
 
         assertEquals("Round Trip", restored.getName());
         assertEquals(1, restored.getParagraphs().size());
