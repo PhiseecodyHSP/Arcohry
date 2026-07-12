@@ -16,6 +16,7 @@ public class AvatarNodeViewModel extends StoryNodeViewModel {
 
     public AvatarNodeViewModel(@NotNull Partner partner) {
         super();
+        this.enable();
         this.partner = new SimpleObjectProperty<>(partner);
     }
 

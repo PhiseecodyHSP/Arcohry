@@ -1,6 +1,8 @@
 package io.github.phiseecodyhsp.arcstory.view;
 
 import io.github.phiseecodyhsp.arcstory.ui.screen.StoryScreen;
+import io.github.phiseecodyhsp.arcstory.ui.screen.view.StoryUnlockConditionView;
+import io.github.phiseecodyhsp.arcstory.ui.screen.view.StoryView;
 import io.github.phiseecodyhsp.arcstory.ui.util.ScreenMetrics;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
 import io.github.phiseecodyhsp.arcstory.view.node.StoryNode;
@@ -39,6 +41,11 @@ public final class StoryNodeUiConstants {
      */
     public static final double TEXT_PLAYER_FONT_SIZE;
 
+    /**
+     * {@link StoryView} 和 {@link StoryUnlockConditionView} 背景阴影的透明度.
+     */
+    public static final double SHADOW_OPACITY;
+
     static {
         SIDE_LENGTH = ScreenMetrics.SCREEN_WIDTH * 0.05D;
 
@@ -49,5 +56,7 @@ public final class StoryNodeUiConstants {
         BORDER_ARC_SIZE = 5.0D;
 
         TEXT_PLAYER_FONT_SIZE = DIAGONAL_LENGTH / 5.0D;
+
+        SHADOW_OPACITY = 0.5D;
     }
 }
