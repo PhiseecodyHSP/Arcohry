@@ -34,15 +34,7 @@ public class StoryUnlockConditionView extends StackPane {
 
     private final StoryUnlockConditionViewModel viewModel;
 
-    private final Label label;
-
-    private final ImageView bg;
-
-    private final ImageView illustration;
-
     private final Rectangle shadow = new Rectangle(ScreenMetrics.SCREEN_WIDTH, ScreenMetrics.SCREEN_HEIGHT);
-
-    private final StackPane contentPane;
 
     private final ScaleTransition onAddedST;
 
@@ -55,20 +47,23 @@ public class StoryUnlockConditionView extends StackPane {
     public StoryUnlockConditionView(StoryUnlockConditionViewModel viewModel) {
         this.viewModel = viewModel;
 
-        this.illustration = new ImageView(ResourceLoader.loadImage(this.viewModel.getChart().illustrationLocation()));
-        this.illustration.setEffect(Effects.OUTER_GLOW);
-        this.illustration.setPreserveRatio(true);
-        this.illustration.setFitWidth(ILLUSTRATION_WIDTH);
+        ImageView illustration = new ImageView(ResourceLoader.loadImage(this.viewModel.getChart().illustrationLocation()));
+        illustration.setEffect(Effects.OUTER_GLOW);
+        illustration.setPreserveRatio(true);
+        illustration.setFitWidth(ILLUSTRATION_WIDTH);
 
         this.shadow.setOpacity(0);
 
+        Label label;
+        ImageView bg;
+        StackPane contentPane;
         if (viewModel.needsPartner()) {
-            this.illustration.setTranslateY(ILLUSTRATION_WIDTH - BG_HEIGHT / 2.0D);
+            illustration.setTranslateY(ILLUSTRATION_WIDTH - BG_HEIGHT / 2.0D);
 
-            this.bg = new ImageView(ResourceLoader.loadImage(ResourceLocation.image("suc_bg1")));
+            bg = new ImageView(ResourceLoader.loadImage(ResourceLocation.image("suc_bg1")));
 
-            this.label = new Label("使用搭档“" + this.viewModel.getPartner().name() + "”通关“" + this.viewModel.getChart().music() + "”以解锁此故事。");
-            this.label.setTranslateY(BG_HEIGHT / 2.0D - ILLUSTRATION_WIDTH / 4.0D);
+            label = new Label("使用搭档“" + this.viewModel.getPartner().name() + "”通关“" + this.viewModel.getChart().music() + "”以解锁此故事。");
+            label.setTranslateY(BG_HEIGHT / 2.0D - ILLUSTRATION_WIDTH / 4.0D);
 
             Polygon arrow = new Polygon(
                     0, -ILLUSTRATION_WIDTH / 15.0D / MathUtil.SQRT_3,
@@ -85,41 +80,41 @@ public class StoryUnlockConditionView extends StackPane {
                     Effects.OUTER_GLOW);
             partnerAvatarPane.setTranslateY(BG_HEIGHT / 2 - ILLUSTRATION_WIDTH * 5 / 6);
 
-            this.contentPane = new StackPane(bg, label, partnerAvatarPane, arrow, illustration);
+            contentPane = new StackPane(bg, label, partnerAvatarPane, arrow, illustration);
         } else {
-            this.illustration.setTranslateY(BG_HEIGHT / 2 - ILLUSTRATION_WIDTH * 3 / 2);
+            illustration.setTranslateY(BG_HEIGHT / 2 - ILLUSTRATION_WIDTH * 3 / 2);
 
-            this.bg = new ImageView(ResourceLoader.loadImage(ResourceLocation.image("suc_bg0")));
+            bg = new ImageView(ResourceLoader.loadImage(ResourceLocation.image("suc_bg0")));
 
-            this.label = new Label("通关“" + this.viewModel.getChart().music() + "”以解锁此故事。");
-            this.label.setTranslateY((BG_HEIGHT - ILLUSTRATION_WIDTH) / 2);
+            label = new Label("通关“" + this.viewModel.getChart().music() + "”以解锁此故事。");
+            label.setTranslateY((BG_HEIGHT - ILLUSTRATION_WIDTH) / 2);
 
-            this.contentPane = new StackPane(bg, label, illustration);
+            contentPane = new StackPane(bg, label, illustration);
         }
 
-        this.label.setTextFill(Color.WHITE);
+        label.setTextFill(Color.WHITE);
         label.setFont(FONT);
 
-        this.bg.setPreserveRatio(true);
-        this.bg.setFitHeight(BG_HEIGHT);
+        bg.setPreserveRatio(true);
+        bg.setFitHeight(BG_HEIGHT);
 
-        this.contentPane.setMaxSize(0, 0);
-        this.contentPane.setOpacity(0);
-        this.contentPane.setScaleX(LOWEST_SCALE);
-        this.contentPane.setScaleY(LOWEST_SCALE);
+        contentPane.setMaxSize(0, 0);
+        contentPane.setOpacity(0);
+        contentPane.setScaleX(LOWEST_SCALE);
+        contentPane.setScaleY(LOWEST_SCALE);
 
-        this.onContentAddedFT = new FadeTransition(Duration.seconds(TRANS_TIME), this.contentPane);
+        this.onContentAddedFT = new FadeTransition(Duration.seconds(TRANS_TIME), contentPane);
         this.onContentAddedFT.setToValue(1);
 
-        this.onContentRemovedFT = new FadeTransition(Duration.seconds(TRANS_TIME), this.contentPane);
+        this.onContentRemovedFT = new FadeTransition(Duration.seconds(TRANS_TIME), contentPane);
         this.onContentRemovedFT.setToValue(0);
 
-        this.onRemovedST = new ScaleTransition(Duration.seconds(TRANS_TIME), this.contentPane);
+        this.onRemovedST = new ScaleTransition(Duration.seconds(TRANS_TIME), contentPane);
         this.onRemovedST.setToX(LOWEST_SCALE);
         this.onRemovedST.setToY(LOWEST_SCALE);
         this.onRemovedST.setInterpolator(Interpolators.CUBE_OUT);
 
-        this.onAddedST = new ScaleTransition(Duration.seconds(TRANS_TIME), this.contentPane);
+        this.onAddedST = new ScaleTransition(Duration.seconds(TRANS_TIME), contentPane);
         this.onAddedST.setToX(1);
         this.onAddedST.setToY(1);
         this.onAddedST.setInterpolator(Interpolators.CUBE_IN);
@@ -129,7 +124,7 @@ public class StoryUnlockConditionView extends StackPane {
                     this.onRemovedST.playFromStart();
                     this.shadow.setOnMouseClicked(null);}));
 
-        this.getChildren().addAll(this.shadow, this.contentPane);
+        this.getChildren().addAll(this.shadow, contentPane);
     }
 
     public void show() {
