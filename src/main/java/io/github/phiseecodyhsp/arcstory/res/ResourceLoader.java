@@ -123,7 +123,7 @@ public final class ResourceLoader {
     }
 
     public static String resolvePath(ResourceLocation location) {
-        return resolvePath(location.category(), location.key());
+        return location == null ? null : resolvePath(location.category(), location.key());
     }
 
     public static URL getResourceUrl(String relativePath) {
