@@ -26,9 +26,9 @@ public record Chart(@JsonProperty String music,
 
     public String getBpm() {
         // BPM 左右值相等时视为不变, 只显示单个数字
-        return this.leftBpm() == this.rightBpm() ?
-                MathUtil.doubleToString(this.leftBpm()) :
-                MathUtil.doubleToString(this.leftBpm()) + "-" + MathUtil.doubleToString(this.rightBpm());
+        return this.leftBpm == this.rightBpm ?
+                MathUtil.doubleToString(this.leftBpm) :
+                MathUtil.doubleToString(this.leftBpm) + "-" + MathUtil.doubleToString(this.rightBpm);
     }
 
     public String getLevel() {

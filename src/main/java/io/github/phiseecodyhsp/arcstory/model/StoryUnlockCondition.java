@@ -19,6 +19,6 @@ public record StoryUnlockCondition(@JsonProperty @Nullable ResourceLocation char
                                    @JsonProperty @Nullable ResourceLocation partnerLocation) {
 
     public boolean needsPartner() {
-        return partnerLocation != null;
+        return this.partnerLocation != null;
     }
 }
