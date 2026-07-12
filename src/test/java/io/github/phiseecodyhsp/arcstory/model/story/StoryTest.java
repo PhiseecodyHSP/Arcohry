@@ -45,7 +45,6 @@ class StoryTest {
         String json = """
                 {
                   "name": "Test Story",
-                  "partner_avatar_location": "test/location",
                   "paragraphs": [
                     {"type": "text", "location": {"category": "texts", "key": "test_text"}},
                     {"type": "cg", "location": {"category": "images", "key": "test_img"}}
@@ -55,7 +54,6 @@ class StoryTest {
         Story story = MAPPER.readValue(json, Story.class);
 
         assertEquals("Test Story", story.getName());
-        assertEquals("test/location", story.getPartnerAvatarLocation().getLocation());
         assertEquals(2, story.getParagraphs().size());
         assertEquals(ParagraphType.TEXT, story.getParagraphs().getFirst().type());
         assertEquals("texts", story.getParagraphs().getFirst().location().category());

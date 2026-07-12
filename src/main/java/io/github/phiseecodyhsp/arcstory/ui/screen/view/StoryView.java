@@ -49,7 +49,7 @@ public class StoryView extends StackPane {
     /**
      * 故事播放时背景阴影的暗度.
      */
-    public static final double SHADOW_DARKNESS = 0.5D;
+    public static final double SHADOW_DARKNESS = StoryNodeUiConstants.SHADOW_OPACITY;
 
     /**
      * CG 播放动画中荧光的亮度.
@@ -157,10 +157,13 @@ public class StoryView extends StackPane {
     public void start() {
         List<Paragraph> list = this.viewModel.getStory().getParagraphs();
         if (list.isEmpty()) {
-            return;
+            FadeTransition onShadowAdded = new FadeTransition(Duration.seconds(TRANS_TIME), this.shadow);
+            onShadowAdded.setFromValue(0.0D);
+            onShadowAdded.setToValue(SHADOW_DARKNESS);
+            onShadowAdded.playFromStart();
+        } else {
+            this.viewModel.proceed();
         }
-
-        this.viewModel.proceed();
     }
 
     private void onStatusChanged(StoryViewModel.Status status) {
