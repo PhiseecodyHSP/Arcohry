@@ -49,7 +49,9 @@ public class MathUtil {
     }
 
     /**
-     * 将定数转换为难度标级
+     * 将定数转换为难度标级.
+     *
+     * <p>用于 {@link Chart} 的构造函数.
      *
      * @param rating 定数
      * @return 难度标级

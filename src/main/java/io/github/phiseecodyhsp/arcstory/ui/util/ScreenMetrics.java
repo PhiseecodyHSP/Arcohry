@@ -9,7 +9,7 @@ import io.github.phiseecodyhsp.arcstory.ui.base.AppWindow;
  */
 public final class ScreenMetrics {
 
-    private ScreenMetrics() {};
+    private ScreenMetrics() {}
 
     /**
      * 基准宽高比.
