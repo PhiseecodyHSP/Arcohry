@@ -34,7 +34,9 @@ public record ResourceLocation(@JsonProperty String category, @JsonProperty Stri
     }
 
     @JsonCreator
-    public ResourceLocation(@NotNull String location) {
+    public ResourceLocation(String location) {
+        Objects.requireNonNull(location);
+
         int index = location.indexOf("/");
         if (index == -1) {
             throw new IllegalArgumentException("Resource Location must contains '/' for separating category and key");
