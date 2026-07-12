@@ -18,7 +18,7 @@ class ResourceLoaderTest {
 
     @Test
     void resolvePath_shouldReturnValidAudioPath() {
-        String path = ResourceLoader.resolvePath("audio", "story_bgm");
+        String path = ResourceLoader.resolvePath("audios", "story_bgm");
         assertNotNull(path);
         assertEquals("audios/故事模式BGM.wav", path);
     }
