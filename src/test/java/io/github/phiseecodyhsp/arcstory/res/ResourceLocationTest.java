@@ -24,8 +24,8 @@ class ResourceLocationTest {
     }
 
     @Test
-    @DisplayName("构造函数传入非 \"null\" 单字符串时应正确拆分 category 和 key")
-    void fromString_notNullSingleString() {
+    @DisplayName("构造函数传入单字符串时应正确拆分 category 和 key")
+    void constructor_singleString() {
         assertDoesNotThrow(() -> {
             ResourceLocation loc = new ResourceLocation("test_category/test_key");
             assertEquals("test_category", loc.category());
@@ -36,6 +36,7 @@ class ResourceLocationTest {
         assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("/key"));
         assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("double//slashes"));
         assertThrows(IllegalArgumentException.class, () -> new ResourceLocation("/"));
+        assertThrows(IllegalArgumentException.class, () -> new ResourceLocation(null));
     }
 
     @Test
