@@ -22,7 +22,7 @@
         "cg_0_3": "images/0-3.jpg",
         "cg_1_1": "images/1-1.jpg"
     },
-    "audio": {
+    "audios": {
         "start": "audios/START.mp3",
         "loading_start": "audios/LoadingStart.mp3",
         "loading_end": "audios/LoadingEnd.mp3",
