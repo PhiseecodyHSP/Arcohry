@@ -2,6 +2,7 @@ package io.github.phiseecodyhsp.arcstory.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,7 +12,8 @@ class StoryUnlockConditionTest {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
-    void needsPartner() throws JsonProcessingException {
+    @DisplayName("同时需求谱面和搭档的解锁条件定义与读取")
+    void defaultConstructor_tutorialAndHikari() throws JsonProcessingException {
         String json =
                 """
                     {
@@ -27,7 +29,8 @@ class StoryUnlockConditionTest {
     }
 
     @Test
-    void doesNotNeedPartner() throws JsonProcessingException {
+    @DisplayName("不需要搭档的解锁条件定义与读取")
+    void defaultConstructor_noPartner() throws JsonProcessingException {
         String json =
                 """
                     {

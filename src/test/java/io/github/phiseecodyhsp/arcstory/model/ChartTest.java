@@ -2,6 +2,7 @@ package io.github.phiseecodyhsp.arcstory.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,7 +12,8 @@ class ChartTest {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
-    void readJson() throws JsonProcessingException {
+    @DisplayName("Tutorial [PST] 谱面的正常定义与读取")
+    void defaultConstructor_tutorial() throws JsonProcessingException {
         String json =
                 """
                     {
@@ -39,6 +41,6 @@ class ChartTest {
         assertEquals("images/tutorial_illustration", chart.illustrationLocation().getLocation());
         assertEquals("Unknown", chart.illustrator());
         assertEquals("Unknown", chart.noteDesigner());
-        assertEquals("LIGHT", chart.paradigm().name());
+        assertEquals(Paradigm.LIGHT, chart.paradigm());
     }
 }
