@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.annotation.EnumNaming;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 
 /**
- * 谱面的色侧, 分为光芒侧, 纷争侧, 消色侧和 Lephon 侧 (Lucent Historia 包特有)
+ * 谱面的色侧, 分为光芒侧, 纷争侧, 消色侧 (Final Verdict 和 Silent Answer 包特有) 和 Lephon 侧 (Lucent Historia 包特有)
  *
- * <p>谱面的色侧会决定转场动画的样式. <b>注意: 转场素材暂时缺失. //TODO</b>
+ * <p><b>注意: 转场素材暂时缺失. //TODO</b>
  */
 @EnumNaming(EnumNamingStrategies.SnakeCaseStrategy.class)
 public enum Paradigm {
