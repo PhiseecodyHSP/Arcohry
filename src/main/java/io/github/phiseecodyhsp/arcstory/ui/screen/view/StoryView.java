@@ -49,7 +49,7 @@ public class StoryView extends StackPane {
     /**
      * 故事播放时背景阴影的暗度.
      */
-    public static final double SHADOW_DARKNESS = StoryNodeUiConstants.SHADOW_OPACITY;
+    public static final double SHADOW_DARKNESS = 0.5D;
 
     /**
      * CG 播放动画中荧光的亮度.
