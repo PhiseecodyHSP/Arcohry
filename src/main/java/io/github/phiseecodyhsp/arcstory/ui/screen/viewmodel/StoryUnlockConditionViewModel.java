@@ -4,7 +4,13 @@ import io.github.phiseecodyhsp.arcstory.model.Chart;
 import io.github.phiseecodyhsp.arcstory.model.Partner;
 import io.github.phiseecodyhsp.arcstory.model.StoryUnlockCondition;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
+import io.github.phiseecodyhsp.arcstory.ui.screen.view.StoryUnlockConditionView;
 
+/**
+ * @see StoryUnlockConditionView
+ *
+ * @author HSP
+ */
 public class StoryUnlockConditionViewModel {
 
     private final Chart chart;

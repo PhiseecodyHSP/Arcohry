@@ -20,16 +20,36 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+/**
+ * 用于展示故事解锁条件的类.
+ *
+ * @author HSP
+ */
 public class StoryUnlockConditionView extends StackPane {
 
+    /**
+     * 动画持续时长.
+     */
     public static final double TRANS_TIME = 0.25;
 
+    /**
+     * 缩放动画中的缩放最小值.
+     */
     private static final double LOWEST_SCALE = 0.75;
 
+    /**
+     * 曲绘图片的边长.
+     */
     private static final double ILLUSTRATION_WIDTH = StoryNodeUiConstants.SIDE_LENGTH * 2;
 
+    /**
+     * 背景板的高度.
+     */
     private static final double BG_HEIGHT = ILLUSTRATION_WIDTH * 8 / 3;
 
+    /**
+     * 显示解锁条件的文字的字体.
+     */
     private static final Font FONT = ResourceLoader.loadFont(ResourceLocation.font("noto_sans_regular"), ILLUSTRATION_WIDTH / 7.5);
 
     private final StoryUnlockConditionViewModel viewModel;
