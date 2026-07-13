@@ -15,8 +15,14 @@ import org.jetbrains.annotations.Nullable;
  * @author HSP
  */
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public record StoryUnlockCondition(@JsonProperty @Nullable ResourceLocation chartLocation,
+public record StoryUnlockCondition(@JsonProperty ResourceLocation chartLocation,
                                    @JsonProperty @Nullable ResourceLocation partnerLocation) {
+
+    public StoryUnlockCondition {
+        if (chartLocation == null) {
+            throw new IllegalArgumentException("Chart cannot be null");
+        }
+    }
 
     public boolean needsPartner() {
         return this.partnerLocation != null;
