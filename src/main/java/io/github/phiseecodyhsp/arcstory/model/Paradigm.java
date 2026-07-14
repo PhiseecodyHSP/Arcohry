@@ -9,13 +9,15 @@ import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
  * 谱面的色侧, 分为光芒侧, 纷争侧, 消色侧和 Lephon 侧 (Lucent Historia 包特有)
  *
  * <p>谱面的色侧会决定转场动画的样式. <b>注意: 转场素材暂时缺失. //TODO</b>
+ *
+ * @author RikkaKawaii0612, HSP
  */
 @EnumNaming(EnumNamingStrategies.SnakeCaseStrategy.class)
 public enum Paradigm {
-    LIGHT(ResourceLocation.image("images/0-3")),
-    CONFLICT(ResourceLocation.image("images/0-3")),
-    ACHROMIC(ResourceLocation.image("images/0-3")),
-    LEPHON(ResourceLocation.image("images/0-3"));
+    LIGHT(ResourceLocation.image("light")),
+    CONFLICT(ResourceLocation.image("conflict")),
+    ACHROMIC(ResourceLocation.image("achromic")),
+    LEPHON(ResourceLocation.image("lephon"));
 
     private final ResourceLocation imageLocation;
 

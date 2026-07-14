@@ -15,39 +15,27 @@ public final class StoryNodeUiConstants {
     private StoryNodeUiConstants() {}
 
     /**
-     * {@link StoryNode} 的边长.
+     * 标准 {@link StoryNode} 的边长, 同时也是故事分支的节点间距.
      */
-    public static final double SIDE_LENGTH;
+    public static final double SIDE_LENGTH = 0.05D * ScreenMetrics.SCREEN_WIDTH;
 
     /**
-     * {@link StoryNode} 的对角线长.
+     * 标准 {@link StoryNode} 的对角线长.
      */
-    public static final double DIAGONAL_LENGTH;
+    public static final double DIAGONAL_LENGTH = MathUtil.SQRT_2 * SIDE_LENGTH;
 
     /**
-     * {@link StoryNode} 的描边宽度.
+     * 标准 {@link StoryNode} 的描边宽度.
      */
-    public static final double BORDER_WIDTH;
+    public static final double BORDER_WIDTH = 2.0D;
 
     /**
-     * {@link StoryNode} 的边框圆角程度.
+     * 标准 {@link StoryNode} 的边框圆角程度.
      */
-    public static final double BORDER_ARC_SIZE;
+    public static final double BORDER_ARC_SIZE = 5.0D;
 
     /**
      * {@link TextPlayer} 的字体大小.
      */
-    public static final double TEXT_PLAYER_FONT_SIZE;
-
-    static {
-        SIDE_LENGTH = ScreenMetrics.SCREEN_WIDTH * 0.05D;
-
-        DIAGONAL_LENGTH = SIDE_LENGTH * MathUtil.SQRT_2;
-
-        BORDER_WIDTH = 2.0D;
-
-        BORDER_ARC_SIZE = 5.0D;
-
-        TEXT_PLAYER_FONT_SIZE = DIAGONAL_LENGTH / 5.0D;
-    }
+    public static final double TEXT_PLAYER_FONT_SIZE = DIAGONAL_LENGTH / 5.0D;
 }

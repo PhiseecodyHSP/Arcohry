@@ -11,7 +11,11 @@ import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
  * @param name 搭档名称
  * @param avatarLocation 搭档头像路径
  * @param illustrationLocation 搭档立绘路径
+ *
+ * @author RikkaKawaii0612, HSP
  */
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public record Partner(@JsonProperty String name, @JsonProperty ResourceLocation avatarLocation, @JsonProperty ResourceLocation illustrationLocation) {
+public record Partner(@JsonProperty String name,
+                      @JsonProperty ResourceLocation avatarLocation,
+                      @JsonProperty ResourceLocation illustrationLocation) {
 }

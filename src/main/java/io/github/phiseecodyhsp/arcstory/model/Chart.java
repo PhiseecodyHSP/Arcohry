@@ -7,9 +7,9 @@ import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.util.MathUtil;
 
 /**
- * 由 JSON 数据驱动的 Arcaea 谱面基本信息
+ * 由 JSON 数据驱动的 Arcaea 谱面基本信息.
  *
- * @author HSP
+ * @author RikkaKawaii0612, HSP
  */
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record Chart(@JsonProperty String music,
@@ -26,7 +26,9 @@ public record Chart(@JsonProperty String music,
 
     public String getBpm() {
         // BPM 左右值相等时视为不变, 只显示单个数字
-        return this.leftBpm() == this.rightBpm() ? MathUtil.doubleToString(this.leftBpm()) : MathUtil.doubleToString(this.leftBpm()) + "-" + MathUtil.doubleToString(this.rightBpm());
+        return this.leftBpm == this.rightBpm ?
+                MathUtil.doubleToString(this.leftBpm) :
+                MathUtil.doubleToString(this.leftBpm) + "-" + MathUtil.doubleToString(this.rightBpm);
     }
 
     public String getLevel() {

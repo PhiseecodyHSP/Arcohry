@@ -2,6 +2,8 @@ package io.github.phiseecodyhsp.arcstory.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,7 +13,8 @@ class StoryUnlockConditionTest {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
-    void needsPartner() throws JsonProcessingException {
+    @DisplayName("同时需求谱面和搭档的解锁条件定义与读取")
+    void defaultConstructor_tutorialAndHikari() throws JsonProcessingException {
         String json =
                 """
                     {
@@ -22,12 +25,14 @@ class StoryUnlockConditionTest {
         StoryUnlockCondition condition = MAPPER.readValue(json, StoryUnlockCondition.class);
 
         assertEquals("charts/tutorial_pst", condition.chartLocation().getLocation());
+        assertNotNull(condition.partnerLocation());
         assertEquals("partners/hikari", condition.partnerLocation().getLocation());
         assertTrue(condition.needsPartner());
     }
 
     @Test
-    void doesNotNeedPartner() throws JsonProcessingException {
+    @DisplayName("不需要搭档的解锁条件定义与读取")
+    void defaultConstructor_noPartner() throws JsonProcessingException {
         String json =
                 """
                     {
@@ -40,5 +45,18 @@ class StoryUnlockConditionTest {
         assertEquals("charts/tutorial_pst", condition.chartLocation().getLocation());
         assertNull(condition.partnerLocation());
         assertFalse(condition.needsPartner());
+    }
+
+    @Test
+    @DisplayName("传入谱面为空时应抛出 ValueInstantiationException")
+    void defaultConstructor_noChart_throwsVie() {
+        String json =
+                """
+                    {
+                        "chart_location": null,
+                        "partner_location": "partners/hikari"
+                    }
+                """;
+        assertThrows(ValueInstantiationException.class, () -> MAPPER.readValue(json, StoryUnlockCondition.class));
     }
 }

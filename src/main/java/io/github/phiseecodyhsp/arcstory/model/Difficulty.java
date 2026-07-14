@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.EnumNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.EnumNaming;
 
 /**
- * Arcaea 谱面难度, 分为 Past, Present, Future, Eternal 和 Beyond.
+ * Arcaea 谱面难度, 分为 Past, Present, Future, Beyond 和 Eternal.
+ *
+ * @author RikkaKawaii0612, HSP
  */
 @EnumNaming(EnumNamingStrategies.SnakeCaseStrategy.class)
 public enum Difficulty {
@@ -28,7 +30,7 @@ public enum Difficulty {
     @JsonCreator
     public static Difficulty fromString(String string) {
         for (Difficulty d : Difficulty.values()) {
-            if (d.name().equalsIgnoreCase(string)) {
+            if (d.name().equalsIgnoreCase(string) || d.name.equalsIgnoreCase(string)) {
                 return d;
             }
         }
