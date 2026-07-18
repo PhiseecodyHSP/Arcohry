@@ -93,7 +93,7 @@ public class ArcStoryLauncher extends Application {
 
 
         StoryBranchViewModel branch2 = new StoryBranchViewModel();
-        branch2.getStoryNodes().addAll(new StoryEndpointNodeViewModel("A1", ResourceLocation.image("tutorial_illustration"), ResourceLocation.storyUnlockCondition("test"), ResourceLocation.story("test"), onConditionShownCallback, onStoryShownCallback),
+        branch2.getStoryNodes().addAll(new StoryEndpointNodeViewModel("A1", ResourceLocation.image("tutorial_illustration"), null, ResourceLocation.story("test"), null, onStoryShownCallback),
                 new StoryEndpointNodeViewModel("A2", ResourceLocation.image("tutorial_illustration"), ResourceLocation.storyUnlockCondition("test"), ResourceLocation.story("empty"), onConditionShownCallback, onStoryShownCallback),
                 new StoryEndpointNodeViewModel("A3", ResourceLocation.image("tutorial_illustration"), null, ResourceLocation.story("test"), null, onStoryShownCallback));
         storyScreenViewModel.getStoryBranches().addAll(branch1, branch2);
