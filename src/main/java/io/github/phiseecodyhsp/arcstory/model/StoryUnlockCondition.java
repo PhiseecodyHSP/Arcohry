@@ -23,8 +23,4 @@ public record StoryUnlockCondition(@JsonProperty ResourceLocation chartLocation,
             throw new IllegalArgumentException("Chart cannot be null");
         }
     }
-
-    public boolean needsPartner() {
-        return this.partnerLocation != null;
-    }
 }

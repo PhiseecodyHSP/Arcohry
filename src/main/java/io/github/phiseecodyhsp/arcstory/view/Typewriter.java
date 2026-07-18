@@ -52,17 +52,18 @@ public class Typewriter {
         }));
     }
 
-    public void play(@NotNull String text) {
+    public void play(String text) {
         if (this.timeline != null) {
             this.timeline.stop();
         }
 
-        this.fullText.setValue(text.replaceAll("(?m)^$", SPACES).replaceAll("\\R", "\n"));
-        this.currentIndex.setValue(0);
-
-        if (text.isEmpty()) {
+        if (text == null || text.isEmpty()) {
+            this.handleOnFinished();
             return;
         }
+
+        this.fullText.setValue(text.replaceAll("(?m)^$", SPACES).replaceAll("\\R", "\n"));
+        this.currentIndex.setValue(0);
 
         int s = this.fullText.getValue().length();
         this.timeline = new Timeline(new KeyFrame(Duration.seconds(INTERVAL),

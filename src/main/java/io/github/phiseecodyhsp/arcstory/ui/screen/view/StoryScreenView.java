@@ -32,6 +32,8 @@ public class StoryScreenView extends StackPane {
 
     private final ObservableMap<StoryBranchViewModel, StoryBranch> storyBranches = FXCollections.observableHashMap();
 
+    private final ObjectProperty<StoryUnlockConditionView> conditionView = new SimpleObjectProperty<>();
+
     private final ObjectProperty<StoryView> storyView = new SimpleObjectProperty<>();
 
     public StoryScreenView(StoryScreenViewModel viewModel) {
@@ -48,6 +50,16 @@ public class StoryScreenView extends StackPane {
         this.viewModel.getStoryBranches().addListener(this::onStoryBranchesChanged);
         this.viewModel.getStoryBranches().forEach(this::addStoryBranch);
 
+        this.conditionView.addListener((_, oldVar, newVar) -> {
+            if (oldVar != null) {
+                this.getChildren().remove(oldVar);
+            }
+            if (newVar != null) {
+                this.getChildren().add(newVar);
+                newVar.show();
+            }
+        });
+
         this.storyView.addListener((_, oldVar, newVar) -> {
             if (oldVar != null) {
                 this.getChildren().remove(oldVar);
@@ -56,6 +68,11 @@ public class StoryScreenView extends StackPane {
                 this.getChildren().add(newVar);
                 newVar.start();
             }
+        });
+
+        this.viewModel.conditionViewProperty().addListener((_, _, v) -> {
+            StoryUnlockConditionView conditionView = v == null ? null : new StoryUnlockConditionView(v);
+            this.conditionView.setValue(conditionView);
         });
 
         this.viewModel.storyViewProperty().addListener((_, _, v) -> {
