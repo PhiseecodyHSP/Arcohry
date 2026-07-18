@@ -25,9 +25,19 @@ public class StoryEndpointNodeViewModel extends ButtonNodeViewModel {
         this.conditionLocation = new SimpleObjectProperty<>(conditionLocation);
         this.storyLocation = new SimpleObjectProperty<>(storyLocation);
 
-        this.setOnMouseClicked(_ -> onConditionShownCallback.accept(this.conditionLocation.get()));
-        this.enabledProperty().addListener((_, _, b) -> {
-            if (b) {
+        if (conditionLocation != null && onConditionShownCallback != null) {
+            this.enabledProperty().addListener((_, _, b) -> {
+                if (b) {
+                    this.setOnMouseClicked(_ -> onConditionShownCallback.accept(this.conditionLocation.get()));
+                }
+            });
+        } else {
+            this.unlock();
+        }
+
+        this.lockedProperty().addListener((_, _, b) -> {
+            System.out.println(4);
+            if (!b) {
                 this.setOnMouseClicked(_ -> onStoryShownCallback.accept(this.storyLocation.get()));
             }
         });

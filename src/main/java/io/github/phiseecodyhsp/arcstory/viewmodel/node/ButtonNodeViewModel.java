@@ -28,14 +28,8 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
         this.title = new SimpleStringProperty(title);
         this.illustrationLocation = new SimpleObjectProperty<>(illustrationLocation);
         this.onMouseClicked = new SimpleObjectProperty<>();
-        this.neo = new SimpleBooleanProperty(true);
-        this.locked = new SimpleBooleanProperty(false);
-
-        this.locked.addListener((_, _, v) -> {
-            if (!v) {
-                this.onUnlocked();
-            }
-        });
+        this.neo = new SimpleBooleanProperty(false);
+        this.locked = new SimpleBooleanProperty(true);
     }
 
     public String getTitle() {
@@ -82,7 +76,9 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
         return this.locked;
     }
 
-    private void onUnlocked() {
+    public void unlock() {
         this.enable();
+        this.locked.setValue(false);
+        this.neo.setValue(true);
     }
 }
