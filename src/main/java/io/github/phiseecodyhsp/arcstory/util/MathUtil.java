@@ -50,7 +50,7 @@ public class MathUtil {
      * @return 转换结果
      */
     public static String doubleToString(double num) {
-        return num % 1 == 0 ? String.valueOf((int)num) : String.valueOf(num);
+        return num % 1.0D == 0.0D ? String.valueOf((int) num) : String.valueOf(num);
     }
 
     /**
@@ -63,10 +63,10 @@ public class MathUtil {
      */
     public static String ratingToLevel(double rating) {
         int intRating = (int) rating;
-        if (rating < 0) {
+        if (rating < 0.0D) {
             intRating--;
         }
-        return rating - intRating < 0.7 ? String.valueOf(intRating) : intRating + "+";
+        return rating - intRating < 0.7D ? String.valueOf(intRating) : intRating + "+";
     }
 
     /**

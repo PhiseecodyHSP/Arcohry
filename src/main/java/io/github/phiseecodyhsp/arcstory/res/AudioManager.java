@@ -9,50 +9,50 @@ import javafx.util.Duration;
 public class AudioManager {
 
     private AudioClip bgm;
-    private double volume = 0.2;
+    private double volume = 0.2D;
     private Timeline fadeOutTimeline;
 
     public void playBgm(ResourceLocation loc) {
-        stopBgm();
-        bgm = ResourceLoader.loadAudio(loc);
-        if (bgm != null) {
-            bgm.setVolume(volume);
-            bgm.setCycleCount(AudioClip.INDEFINITE);
-            bgm.play();
+        this.stopBgm();
+        this.bgm = ResourceLoader.loadAudio(loc);
+        if (this.bgm != null) {
+            this.bgm.setVolume(this.volume);
+            this.bgm.setCycleCount(AudioClip.INDEFINITE);
+            this.bgm.play();
         }
     }
 
     public void stopBgm() {
-        cancelFadeOut();
-        if (bgm != null) {
-            bgm.stop();
-            bgm = null;
+        this.cancelFadeOut();
+        if (this.bgm != null) {
+            this.bgm.stop();
+            this.bgm = null;
         }
     }
 
     public void fadeOutBgm(double seconds) {
-        if (bgm == null) return;
+        if (this.bgm == null) return;
         cancelFadeOut();
 
-        double startVolume = volume;
-        double steps = Math.max(1, seconds / 0.05);
+        double startVolume = this.volume;
+        double steps = Math.max(1.0D, seconds / 0.05D);
         double decrement = startVolume / steps;
 
-        fadeOutTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(0.05), e -> {
-                    if (bgm != null) {
-                        double newVol = bgm.getVolume() - decrement;
-                        if (newVol <= 0) {
-                            stopBgm();
+        this.fadeOutTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(0.05D), _ -> {
+                    if (this.bgm != null) {
+                        double newVol = this.bgm.getVolume() - decrement;
+                        if (newVol <= 0.0D) {
+                            this.stopBgm();
                         } else {
-                            bgm.setVolume(newVol);
+                            this.bgm.setVolume(newVol);
                         }
                     }
                 })
         );
-        fadeOutTimeline.setCycleCount((int) steps);
-        fadeOutTimeline.setOnFinished(e -> stopBgm());
-        fadeOutTimeline.play();
+        this.fadeOutTimeline.setCycleCount((int) steps);
+        this.fadeOutTimeline.setOnFinished(_ -> this.stopBgm());
+        this.fadeOutTimeline.play();
     }
 
     public void playSfx(String configKey) {
@@ -63,24 +63,24 @@ public class AudioManager {
     }
 
     public void setVolume(double volume) {
-        this.volume = Math.max(0, Math.min(1, volume));
-        if (bgm != null) {
-            bgm.setVolume(this.volume);
+        this.volume = Math.max(0.0D, Math.min(1.0D, volume));
+        if (this.bgm != null) {
+            this.bgm.setVolume(this.volume);
         }
     }
 
     public double getVolume() {
-        return volume;
+        return this.volume;
     }
 
     public boolean isPlaying() {
-        return bgm != null && bgm.isPlaying();
+        return this.bgm != null && this.bgm.isPlaying();
     }
 
     private void cancelFadeOut() {
-        if (fadeOutTimeline != null) {
-            fadeOutTimeline.stop();
-            fadeOutTimeline = null;
+        if (this.fadeOutTimeline != null) {
+            this.fadeOutTimeline.stop();
+            this.fadeOutTimeline = null;
         }
     }
 }

@@ -1,6 +1,7 @@
 package io.github.phiseecodyhsp.arcstory.res;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -46,6 +47,7 @@ public record ResourceLocation(@JsonProperty String category, @JsonProperty Stri
         this(category, key);
     }
 
+    @JsonIgnore
     public String getLocation() {
         return this.category() + "/" + this.key();
     }

@@ -46,48 +46,48 @@ class MathUtilTest {
     @Test
     @DisplayName("doubleToString 传入正整数时, 应返回不带小数点的正数")
     void doubleToString_whenPositiveInteger_returnsPositiveNumberWithoutDecimalPoint() {
-        assertEquals("1", MathUtil.doubleToString(1));
-        assertEquals("14", MathUtil.doubleToString(14));
-        assertEquals("514", MathUtil.doubleToString(514));
+        assertEquals("1", MathUtil.doubleToString(1.0D));
+        assertEquals("14", MathUtil.doubleToString(14.0D));
+        assertEquals("514", MathUtil.doubleToString(514.0D));
     }
 
     @Test
     @DisplayName("doubleToString 传入负整数时, 应返回加负号前缀的传入正整数的结果")
     void doubleToString_whenNegativeInteger_returnsNegativeNumberWithoutDecimalPoint() {
-        assertEquals("-1", MathUtil.doubleToString(-1));
-        assertEquals("-14", MathUtil.doubleToString(-14));
-        assertEquals("-514", MathUtil.doubleToString(-514));
+        assertEquals("-1", MathUtil.doubleToString(-1.0D));
+        assertEquals("-14", MathUtil.doubleToString(-14.0D));
+        assertEquals("-514", MathUtil.doubleToString(-514.0D));
     }
 
     @Test
     @DisplayName("doubleToString 传入正小数时, 应返回带小数点的正数 (末尾不含 0 )")
     void doubleToString_whenPositiveDecimal_returnsPositiveNumberWithDecimalPoint() {
-        assertEquals("1.1", MathUtil.doubleToString(1.1));
-        assertEquals("45.14", MathUtil.doubleToString(45.14));
-        assertEquals("191.981", MathUtil.doubleToString(191.9810));
+        assertEquals("1.1", MathUtil.doubleToString(1.1D));
+        assertEquals("45.14", MathUtil.doubleToString(45.14D));
+        assertEquals("191.981", MathUtil.doubleToString(191.9810D));
     }
 
     @Test
     @DisplayName("doubleToString 传入负小数时, 应返回加负号前缀的传入正小数的结果")
     void doubleToString_whenNegativeDecimal_returnsNegativeNumberWithDecimalPoint() {
-        assertEquals("-1.1", MathUtil.doubleToString(-1.1));
-        assertEquals("-45.14", MathUtil.doubleToString(-45.14));
-        assertEquals("-191.981", MathUtil.doubleToString(-191.9810));
+        assertEquals("-1.1", MathUtil.doubleToString(-1.1D));
+        assertEquals("-45.14", MathUtil.doubleToString(-45.14D));
+        assertEquals("-191.981", MathUtil.doubleToString(-191.9810D));
     }
 
     @Test
     @DisplayName("ratingToLevel 传入的数小数部分小于 0.7 时, 应返回这个数的整数部分")
     void ratingToLevel_whenDecimalPartLessThanZeroPointSeven_returnsIntegerPart() {
-        assertEquals("-3", MathUtil.ratingToLevel(-2.7));
-        assertEquals("0", MathUtil.ratingToLevel(0.4));
-        assertEquals("5", MathUtil.ratingToLevel(5.2));
+        assertEquals("-3", MathUtil.ratingToLevel(-2.7D));
+        assertEquals("0", MathUtil.ratingToLevel(0.4D));
+        assertEquals("5", MathUtil.ratingToLevel(5.2D));
     }
 
     @Test
     @DisplayName("ratingToLevel 传入的数小数部分大于等于 0.7 时, 应返回这个数的整数部分并在末尾加上加号")
     void ratingToLevel_whenDecimalPartGreaterThanZeroPointSeven_returnsIntegerPartWithPlus() {
-        assertEquals("-11+", MathUtil.ratingToLevel(-10.2));
-        assertEquals("0+", MathUtil.ratingToLevel(0.8));
-        assertEquals("25+", MathUtil.ratingToLevel(25.9));
+        assertEquals("-11+", MathUtil.ratingToLevel(-10.2D));
+        assertEquals("0+", MathUtil.ratingToLevel(0.8D));
+        assertEquals("25+", MathUtil.ratingToLevel(25.9D));
     }
 }
