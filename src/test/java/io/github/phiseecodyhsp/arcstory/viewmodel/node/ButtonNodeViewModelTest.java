@@ -14,7 +14,7 @@ class ButtonNodeViewModelTest {
 
     @BeforeEach
     void setUp() {
-        this.viewModel = new ButtonNodeViewModel("Test Title", AVATAR, null, null);
+        this.viewModel = new ButtonNodeViewModel("Test Title", AVATAR);
     }
 
     @Test

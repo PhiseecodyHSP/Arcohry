@@ -156,11 +156,16 @@ public class StoryView extends StackPane {
 
     public void start() {
         List<Paragraph> list = this.viewModel.getStory().getParagraphs();
-        if (list.isEmpty()) {
-            return;
-        }
 
-        this.viewModel.proceed();
+        //段落列表为空时, 展示一次阴影以表明故事正在播放
+        if (list.isEmpty()) {
+            FadeTransition onShadowAdded = new FadeTransition(Duration.seconds(TRANS_TIME), this.shadow);
+            onShadowAdded.setFromValue(0.0D);
+            onShadowAdded.setToValue(SHADOW_DARKNESS);
+            onShadowAdded.playFromStart();
+        } else {
+            this.viewModel.proceed();
+        }
     }
 
     private void onStatusChanged(StoryViewModel.Status status) {

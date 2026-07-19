@@ -21,6 +21,8 @@ public class StoryScreenViewModel {
 
     private final ObjectProperty<StoryViewModel> storyView = new SimpleObjectProperty<>();
 
+    private final ObjectProperty<StoryUnlockConditionViewModel> conditionView = new SimpleObjectProperty<>();
+
     public StoryScreenViewModel(ResourceLocation background) {
         this.background = new SimpleObjectProperty<>(background);
     }
@@ -47,5 +49,13 @@ public class StoryScreenViewModel {
 
     public ObjectProperty<StoryViewModel> storyViewProperty() {
         return this.storyView;
+    }
+
+    public void setConditionView(StoryUnlockConditionViewModel conditionView) {
+        this.conditionView.setValue(conditionView);
+    }
+
+    public ObjectProperty<StoryUnlockConditionViewModel> conditionViewProperty() {
+        return this.conditionView;
     }
 }

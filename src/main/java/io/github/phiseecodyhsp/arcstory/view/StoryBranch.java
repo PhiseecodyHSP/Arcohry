@@ -55,7 +55,9 @@ public class StoryBranch extends StackPane {
         this.setMaxSize(0.0D, 0.0D);
 
         StackPane opaque = new StackPane();
+        opaque.setMaxSize(0.0D, 0.0D);
         StackPane translucent = new StackPane();
+        translucent.setMaxSize(0.0D, 0.0D);
         translucent.setOpacity(DISABLED_OPACITY);
         this.opaque = opaque.getChildren();
         this.translucent = translucent.getChildren();
