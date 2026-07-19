@@ -30,22 +30,22 @@ public class StoryUnlockConditionView extends StackPane {
     /**
      * 动画持续时长.
      */
-    public static final double TRANS_TIME = 0.25;
+    public static final double TRANS_TIME = 0.25D;
 
     /**
      * 缩放动画中的缩放最小值.
      */
-    private static final double LOWEST_SCALE = 0.75;
+    private static final double LOWEST_SCALE = 0.75D;
 
     /**
      * 曲绘图片的边长.
      */
-    private static final double ILLUSTRATION_WIDTH = StoryNodeUiConstants.SIDE_LENGTH * 2;
+    private static final double ILLUSTRATION_WIDTH = StoryNodeUiConstants.SIDE_LENGTH * 2.0D;
 
     /**
      * 背景板的高度.
      */
-    private static final double BG_HEIGHT = ILLUSTRATION_WIDTH * 8 / 3;
+    private static final double BG_HEIGHT = ILLUSTRATION_WIDTH * 8.0D / 3.0D;
 
     /**
      * 显示解锁条件的文字的字体.
@@ -72,7 +72,7 @@ public class StoryUnlockConditionView extends StackPane {
         illustration.setPreserveRatio(true);
         illustration.setFitWidth(ILLUSTRATION_WIDTH);
 
-        this.shadow.setOpacity(0);
+        this.shadow.setOpacity(0.0D);
 
         Label label;
         ImageView bg;
@@ -86,7 +86,7 @@ public class StoryUnlockConditionView extends StackPane {
             label.setTranslateY(BG_HEIGHT / 2.0D - ILLUSTRATION_WIDTH / 4.0D);
 
             Polygon arrow = new Polygon(
-                    0, -ILLUSTRATION_WIDTH / 15.0D / MathUtil.SQRT_3,
+                    0.0D, -ILLUSTRATION_WIDTH / 15.0D / MathUtil.SQRT_3,
                     ILLUSTRATION_WIDTH / 30.0D, ILLUSTRATION_WIDTH / 30.0D / MathUtil.SQRT_3,
                     -ILLUSTRATION_WIDTH / 30.0D, ILLUSTRATION_WIDTH / 30.0D / MathUtil.SQRT_3);
             arrow.setFill(Color.WHITE);
@@ -98,16 +98,17 @@ public class StoryUnlockConditionView extends StackPane {
                     ILLUSTRATION_WIDTH / 2.5D / MathUtil.SQRT_2,
                     Color.WHITE,
                     Effects.OUTER_GLOW);
-            partnerAvatarPane.setTranslateY(BG_HEIGHT / 2 - ILLUSTRATION_WIDTH * 5 / 6);
+            partnerAvatarPane.setTranslateY(BG_HEIGHT / 2.0D - ILLUSTRATION_WIDTH * 5.0D / 6.0D);
+            partnerAvatarPane.setMaxSize(0.0D, 0.0D);
 
             contentPane = new StackPane(bg, label, partnerAvatarPane, arrow, illustration);
         } else {
-            illustration.setTranslateY(BG_HEIGHT / 2 - ILLUSTRATION_WIDTH * 3 / 2);
+            illustration.setTranslateY(BG_HEIGHT / 2.0D - ILLUSTRATION_WIDTH * 3.0D / 2.0D);
 
             bg = new ImageView(ResourceLoader.loadImage(ResourceLocation.image("suc_bg0")));
 
             label = new Label("通关“" + this.viewModel.getChart().music() + "”以解锁此故事。");
-            label.setTranslateY((BG_HEIGHT - ILLUSTRATION_WIDTH) / 2);
+            label.setTranslateY((BG_HEIGHT - ILLUSTRATION_WIDTH) / 2.0D);
 
             contentPane = new StackPane(bg, label, illustration);
         }
@@ -118,16 +119,16 @@ public class StoryUnlockConditionView extends StackPane {
         bg.setPreserveRatio(true);
         bg.setFitHeight(BG_HEIGHT);
 
-        contentPane.setMaxSize(0, 0);
-        contentPane.setOpacity(0);
+        contentPane.setMaxSize(0.0D, 0.0D);
+        contentPane.setOpacity(0.0D);
         contentPane.setScaleX(LOWEST_SCALE);
         contentPane.setScaleY(LOWEST_SCALE);
 
         this.onContentAddedFT = new FadeTransition(Duration.seconds(TRANS_TIME), contentPane);
-        this.onContentAddedFT.setToValue(1);
+        this.onContentAddedFT.setToValue(1.0D);
 
         this.onContentRemovedFT = new FadeTransition(Duration.seconds(TRANS_TIME), contentPane);
-        this.onContentRemovedFT.setToValue(0);
+        this.onContentRemovedFT.setToValue(0.0D);
 
         this.onRemovedST = new ScaleTransition(Duration.seconds(TRANS_TIME), contentPane);
         this.onRemovedST.setToX(LOWEST_SCALE);
@@ -135,8 +136,8 @@ public class StoryUnlockConditionView extends StackPane {
         this.onRemovedST.setInterpolator(Interpolators.CUBE_OUT);
 
         this.onAddedST = new ScaleTransition(Duration.seconds(TRANS_TIME), contentPane);
-        this.onAddedST.setToX(1);
-        this.onAddedST.setToY(1);
+        this.onAddedST.setToX(1.0D);
+        this.onAddedST.setToY(1.0D);
         this.onAddedST.setInterpolator(Interpolators.CUBE_IN);
         this.onAddedST.setOnFinished(_ ->
                 this.shadow.setOnMouseClicked(_ -> {
