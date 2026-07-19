@@ -16,7 +16,7 @@ public class Effects {
     public static final DropShadow ROTATED_SHADOW = new DropShadow(15.0D, 10.0D, 3.0D, new Color(0, 0, 0, 0.5));
 
     /**
-     * 外发光
+     * 外发光.
      */
     public static final DropShadow OUTER_GLOW = new DropShadow(10.0D, Color.WHITE);
 }
