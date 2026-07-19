@@ -30,6 +30,8 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
         this.onMouseClicked = new SimpleObjectProperty<>();
         this.neo = new SimpleBooleanProperty(false);
         this.locked = new SimpleBooleanProperty(true);
+
+        this.locked.addListener((_, _, b) -> this.onLockedChanged(b));
     }
 
     public String getTitle() {
@@ -76,9 +78,14 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
         return this.locked;
     }
 
+    private void onLockedChanged(boolean locked) {
+        this.neo.setValue(!locked);
+        if (!locked) {
+            this.enabled.setValue(true);
+        }
+    }
+
     public void unlock() {
-        this.enable();
         this.locked.setValue(false);
-        this.neo.setValue(true);
     }
 }
