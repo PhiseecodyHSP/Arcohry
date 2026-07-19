@@ -21,7 +21,7 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 /**
- * 用于展示故事解锁条件的类.
+ * 展示故事解锁条件的界面.
  *
  * @author HSP
  */

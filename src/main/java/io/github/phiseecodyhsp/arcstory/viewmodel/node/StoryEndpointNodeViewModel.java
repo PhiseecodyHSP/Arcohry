@@ -32,6 +32,7 @@ public class StoryEndpointNodeViewModel extends ButtonNodeViewModel {
         this.conditionLocation = new SimpleObjectProperty<>(conditionLocation);
         this.storyLocation = new SimpleObjectProperty<>(storyLocation);
 
+        //若故事解锁条件存在, 则在被 enable 时将鼠标点击事件设为展示故事解锁条件; 否则直接 unlock
         if (conditionLocation != null && onConditionShownCallback != null) {
             this.enabledProperty().addListener((_, _, b) -> {
                 if (b) {
@@ -46,6 +47,7 @@ public class StoryEndpointNodeViewModel extends ButtonNodeViewModel {
             });
         }
 
+        //被 unlock 时将鼠标点击事件设为播放故事
         this.lockedProperty().addListener((_, _, b) -> {
             if (!b) {
                 this.setOnMouseClicked(_ -> onStoryShownCallback.accept(this.storyLocation.get()));

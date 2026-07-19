@@ -26,11 +26,14 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
 
     public ButtonNodeViewModel(@NotNull String title, @NotNull ResourceLocation illustrationLocation) {
         this.title = new SimpleStringProperty(title);
-        this.illustrationLocation = new SimpleObjectProperty<>(illustrationLocation);
-        this.onMouseClicked = new SimpleObjectProperty<>();
-        this.neo = new SimpleBooleanProperty(false);
-        this.locked = new SimpleBooleanProperty(true);
 
+        this.illustrationLocation = new SimpleObjectProperty<>(illustrationLocation);
+
+        this.onMouseClicked = new SimpleObjectProperty<>();
+
+        this.neo = new SimpleBooleanProperty(false);
+
+        this.locked = new SimpleBooleanProperty(true);
         this.locked.addListener((_, _, b) -> this.onLockedChanged(b));
     }
 
@@ -78,6 +81,7 @@ public class ButtonNodeViewModel extends StoryNodeViewModel {
         return this.locked;
     }
 
+    //被 unlock 时 enable 并添加 "NEW" 标识; lock 时除去 "NEW" 标识
     private void onLockedChanged(boolean locked) {
         this.neo.setValue(!locked);
         if (!locked) {

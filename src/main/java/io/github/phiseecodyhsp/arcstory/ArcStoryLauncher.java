@@ -87,13 +87,13 @@ public class ArcStoryLauncher extends Application {
         ButtonNodeViewModel buttonNode = new ButtonNodeViewModel("Button", ResourceLocation.image("tutorial_illustration"));
         buttonNode.setOnMouseClicked(_ -> System.out.println("Clicked"));
         branch1.getStoryNodes().addAll(new AvatarNodeViewModel(ResourceLoader.loadPartner(ResourceLocation.partner("hikari"))),
-                new StoryEndpointNodeViewModel("Test", ResourceLocation.image("tutorial_illustration"), ResourceLocation.storyUnlockCondition("test"), ResourceLocation.story("test"), onConditionShownCallback, onStoryShownCallback),
+                new StoryEndpointNodeViewModel("Test", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), onStoryShownCallback),
                 buttonNode);
 
 
 
         StoryBranchViewModel branch2 = new StoryBranchViewModel();
-        branch2.getStoryNodes().addAll(new StoryEndpointNodeViewModel("A1", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), onStoryShownCallback),
+        branch2.getStoryNodes().addAll(new StoryEndpointNodeViewModel("A1", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("empty"), onStoryShownCallback),
                 new StoryEndpointNodeViewModel("A2", ResourceLocation.image("tutorial_illustration"), ResourceLocation.storyUnlockCondition("test"), ResourceLocation.story("test"), onConditionShownCallback, onStoryShownCallback),
                 new StoryEndpointNodeViewModel("A3", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), onStoryShownCallback));
         storyScreenViewModel.getStoryBranches().addAll(branch1, branch2);
