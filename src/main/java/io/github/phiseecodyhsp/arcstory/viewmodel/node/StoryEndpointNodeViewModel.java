@@ -4,6 +4,7 @@ import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -17,40 +18,33 @@ public class StoryEndpointNodeViewModel extends ButtonNodeViewModel {
                                       @NotNull ResourceLocation illustrationLocation,
                                       @NotNull ResourceLocation storyLocation,
                                       @NotNull Consumer<ResourceLocation> onStoryShownCallback) {
-        super(title, illustrationLocation);
-
-        this.conditionLocation = new SimpleObjectProperty<>(null);
-        this.storyLocation = new SimpleObjectProperty<>(storyLocation);
-
-        this.enabledProperty().addListener((_, _, b) -> {
-            if (b) {
-                this.unlock();
-            }
-        });
-
-        this.lockedProperty().addListener((_, _, b) -> {
-            if (!b) {
-                this.setOnMouseClicked(_ -> onStoryShownCallback.accept(this.storyLocation.get()));
-            }
-        });
+        this(title, illustrationLocation, null, storyLocation, null, onStoryShownCallback);
     }
 
     public StoryEndpointNodeViewModel(@NotNull String title,
                                       @NotNull ResourceLocation illustrationLocation,
-                                      @NotNull ResourceLocation conditionLocation,
+                                      @Nullable ResourceLocation conditionLocation,
                                       @NotNull ResourceLocation storyLocation,
-                                      @NotNull Consumer<ResourceLocation> onConditionShownCallback,
+                                      @Nullable Consumer<ResourceLocation> onConditionShownCallback,
                                       @NotNull Consumer<ResourceLocation> onStoryShownCallback) {
         super(title, illustrationLocation);
 
         this.conditionLocation = new SimpleObjectProperty<>(conditionLocation);
         this.storyLocation = new SimpleObjectProperty<>(storyLocation);
 
-        this.enabledProperty().addListener((_, _, b) -> {
-            if (b) {
-                this.setOnMouseClicked(_ -> onConditionShownCallback.accept(this.conditionLocation.get()));
-            }
-        });
+        if (conditionLocation != null && onConditionShownCallback != null) {
+            this.enabledProperty().addListener((_, _, b) -> {
+                if (b) {
+                    this.setOnMouseClicked(_ -> onConditionShownCallback.accept(this.conditionLocation.get()));
+                }
+            });
+        } else {
+            this.enabledProperty().addListener((_, _, b) -> {
+                if (b) {
+                    this.unlock();
+                }
+            });
+        }
 
         this.lockedProperty().addListener((_, _, b) -> {
             if (!b) {
