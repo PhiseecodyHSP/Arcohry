@@ -7,6 +7,7 @@ import io.github.phiseecodyhsp.arcstory.res.ResourceLoader;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import io.github.phiseecodyhsp.arcstory.ui.screen.StoryScreen;
 import io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel.StoryScreenViewModel;
+import io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel.StoryUnlockConditionViewModel;
 import io.github.phiseecodyhsp.arcstory.ui.screen.viewmodel.StoryViewModel;
 import io.github.phiseecodyhsp.arcstory.viewmodel.node.AvatarNodeViewModel;
 import io.github.phiseecodyhsp.arcstory.viewmodel.StoryBranchViewModel;
@@ -70,23 +71,31 @@ public class ArcStoryLauncher extends Application {
         StoryScreenViewModel storyScreenViewModel = new StoryScreenViewModel(ResourceLocation.image("chapter5_scenery"));
         StoryScreen storyScreen = new StoryScreen(storyScreenViewModel);
 
-        Runnable onFinishedCallback = () -> storyScreenViewModel.setStoryView(null);
+        Runnable onConditionFinishedCallback = () -> storyScreenViewModel.setConditionView(null);
+        Consumer<ResourceLocation> onConditionShownCallback = loc ->
+                storyScreenViewModel.setConditionView(
+                        new StoryUnlockConditionViewModel(ResourceLoader.loadStoryUnlockCondition(loc), onConditionFinishedCallback)
+                );
+
+        Runnable onStoryFinishedCallback = () -> storyScreenViewModel.setStoryView(null);
         Consumer<ResourceLocation> onStoryShownCallback = loc ->
                 storyScreenViewModel.setStoryView(
-                        new StoryViewModel(ResourceLoader.loadStory(loc), ResourceLocation.image("hikari_avatar"), onFinishedCallback)
+                        new StoryViewModel(ResourceLoader.loadStory(loc), onStoryFinishedCallback)
                 );
 
         StoryBranchViewModel branch1 = new StoryBranchViewModel();
-        ButtonNodeViewModel buttonNode = new ButtonNodeViewModel("Button", ResourceLocation.image("tutorial_illustration"), null, null);
+        ButtonNodeViewModel buttonNode = new ButtonNodeViewModel("Button", ResourceLocation.image("tutorial_illustration"));
         buttonNode.setOnMouseClicked(_ -> System.out.println("Clicked"));
         branch1.getStoryNodes().addAll(new AvatarNodeViewModel(ResourceLoader.loadPartner(ResourceLocation.partner("hikari"))),
-                new StoryEndpointNodeViewModel("Test", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null, onStoryShownCallback),
+                new StoryEndpointNodeViewModel("Test", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), onStoryShownCallback),
                 buttonNode);
 
+
+
         StoryBranchViewModel branch2 = new StoryBranchViewModel();
-        branch2.getStoryNodes().addAll(new StoryEndpointNodeViewModel("A1", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null, onStoryShownCallback),
-                new StoryEndpointNodeViewModel("A2", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null, onStoryShownCallback),
-                new StoryEndpointNodeViewModel("A3", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), null, null, onStoryShownCallback));
+        branch2.getStoryNodes().addAll(new StoryEndpointNodeViewModel("A1", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("empty"), onStoryShownCallback),
+                new StoryEndpointNodeViewModel("A2", ResourceLocation.image("tutorial_illustration"), ResourceLocation.storyUnlockCondition("test"), ResourceLocation.story("test"), onConditionShownCallback, onStoryShownCallback),
+                new StoryEndpointNodeViewModel("A3", ResourceLocation.image("tutorial_illustration"), ResourceLocation.story("test"), onStoryShownCallback));
         storyScreenViewModel.getStoryBranches().addAll(branch1, branch2);
         screenManager.register(storyScreen);
         screenManager.setInitialScreen(storyScreen);

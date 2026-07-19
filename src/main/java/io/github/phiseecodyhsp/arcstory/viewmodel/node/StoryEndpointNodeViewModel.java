@@ -1,7 +1,5 @@
 package io.github.phiseecodyhsp.arcstory.viewmodel.node;
 
-import io.github.phiseecodyhsp.arcstory.model.Chart;
-import io.github.phiseecodyhsp.arcstory.model.Partner;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -14,17 +12,47 @@ public class StoryEndpointNodeViewModel extends ButtonNodeViewModel {
 
     private final ObjectProperty<ResourceLocation> storyLocation;
 
+    private final ObjectProperty<ResourceLocation> conditionLocation;
+
     public StoryEndpointNodeViewModel(@NotNull String title,
                                       @NotNull ResourceLocation illustrationLocation,
                                       @NotNull ResourceLocation storyLocation,
-                                      @Nullable Chart chart,
-                                      @Nullable Partner partner,
                                       @NotNull Consumer<ResourceLocation> onStoryShownCallback) {
-        super(title, illustrationLocation, chart, partner);
+        this(title, illustrationLocation, null, storyLocation, null, onStoryShownCallback);
+    }
 
+    public StoryEndpointNodeViewModel(@NotNull String title,
+                                      @NotNull ResourceLocation illustrationLocation,
+                                      @Nullable ResourceLocation conditionLocation,
+                                      @NotNull ResourceLocation storyLocation,
+                                      @Nullable Consumer<ResourceLocation> onConditionShownCallback,
+                                      @NotNull Consumer<ResourceLocation> onStoryShownCallback) {
+        super(title, illustrationLocation);
+
+        this.conditionLocation = new SimpleObjectProperty<>(conditionLocation);
         this.storyLocation = new SimpleObjectProperty<>(storyLocation);
 
-        this.setOnMouseClicked(_ -> onStoryShownCallback.accept(this.storyLocation.get()));
+        //若故事解锁条件存在, 则在被 enable 时将鼠标点击事件设为展示故事解锁条件; 否则直接 unlock
+        if (conditionLocation != null && onConditionShownCallback != null) {
+            this.enabledProperty().addListener((_, _, b) -> {
+                if (b) {
+                    this.setOnMouseClicked(_ -> onConditionShownCallback.accept(this.conditionLocation.get()));
+                }
+            });
+        } else {
+            this.enabledProperty().addListener((_, _, b) -> {
+                if (b) {
+                    this.unlock();
+                }
+            });
+        }
+
+        //被 unlock 时将鼠标点击事件设为播放故事
+        this.lockedProperty().addListener((_, _, b) -> {
+            if (!b) {
+                this.setOnMouseClicked(_ -> onStoryShownCallback.accept(this.storyLocation.get()));
+            }
+        });
     }
 
     public ResourceLocation getStoryLocation() {

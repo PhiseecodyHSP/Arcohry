@@ -10,7 +10,7 @@ import javafx.beans.property.SimpleBooleanProperty;
  * @author RikkaKawaii0612
  */
 public abstract class StoryNodeViewModel {
-    protected final BooleanProperty enabled = new SimpleBooleanProperty(true);
+    protected final BooleanProperty enabled = new SimpleBooleanProperty(false);
 
     protected StoryNodeViewModel() {
     }

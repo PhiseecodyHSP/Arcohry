@@ -52,15 +52,21 @@ public class Typewriter {
         }));
     }
 
-    public void play(@NotNull String text) {
+    public void play(String text) {
         if (this.timeline != null) {
             this.timeline.stop();
+        }
+
+        if (text == null) {
+            handleOnFinished();
+            return;
         }
 
         this.fullText.setValue(text.replaceAll("(?m)^$", SPACES).replaceAll("\\R", "\n"));
         this.currentIndex.setValue(0);
 
         if (text.isEmpty()) {
+            handleOnFinished();
             return;
         }
 

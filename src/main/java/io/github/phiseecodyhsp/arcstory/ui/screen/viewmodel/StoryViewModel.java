@@ -21,8 +21,6 @@ public class StoryViewModel {
 
     private final ObjectProperty<Story> story;
 
-    private final ObjectProperty<ResourceLocation> partnerAvatar;
-
     private final Runnable onFinishedCallback;
 
     private final ObjectProperty<ResourceLocation> bottomCg;
@@ -37,9 +35,8 @@ public class StoryViewModel {
 
     private int currentIndex = -1;
 
-    public StoryViewModel(Story story, ResourceLocation partnerAvatar, Runnable onFinishedCallback) {
+    public StoryViewModel(Story story, Runnable onFinishedCallback) {
         this.story = new SimpleObjectProperty<>(story);
-        this.partnerAvatar = new SimpleObjectProperty<>(partnerAvatar);
         this.onFinishedCallback = onFinishedCallback;
         this.bottomCg = new SimpleObjectProperty<>();
         this.topCg = new SimpleObjectProperty<>();
@@ -53,14 +50,6 @@ public class StoryViewModel {
 //                this.playNext();
 //            }
 //        });
-    }
-
-    public ResourceLocation getPartnerAvatar() {
-        return this.partnerAvatar.get();
-    }
-
-    public ObjectProperty<ResourceLocation> partnerAvatarProperty() {
-        return this.partnerAvatar;
     }
 
     public Story getStory() {

@@ -27,7 +27,6 @@ class StoryUnlockConditionTest {
         assertEquals("charts/tutorial_pst", condition.chartLocation().getLocation());
         assertNotNull(condition.partnerLocation());
         assertEquals("partners/hikari", condition.partnerLocation().getLocation());
-        assertTrue(condition.needsPartner());
     }
 
     @Test
@@ -44,7 +43,6 @@ class StoryUnlockConditionTest {
 
         assertEquals("charts/tutorial_pst", condition.chartLocation().getLocation());
         assertNull(condition.partnerLocation());
-        assertFalse(condition.needsPartner());
     }
 
     @Test

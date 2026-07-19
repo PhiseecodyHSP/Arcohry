@@ -10,6 +10,11 @@ public class MathUtil {
     public static final double SQRT_2 = Math.sqrt(2.0D);
 
     /**
+     * √3.
+     */
+    public static final double SQRT_3 = Math.sqrt(3.0D);
+
+    /**
      * 将基数词改为序数词.
      *
      * @param num 数字
