@@ -57,10 +57,16 @@ public class Typewriter {
             this.timeline.stop();
         }
 
+        if (text == null) {
+            handleOnFinished();
+            return;
+        }
+
         this.fullText.setValue(text.replaceAll("(?m)^$", SPACES).replaceAll("\\R", "\n"));
         this.currentIndex.setValue(0);
 
         if (text.isEmpty()) {
+            handleOnFinished();
             return;
         }
 
