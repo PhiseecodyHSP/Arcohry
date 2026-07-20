@@ -85,7 +85,7 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
         banner.setOpacity(0.5D);
         banner.setMouseTransparent(true);
 
-        ImageView newIcon = new ImageView(ResourceLoader.loadImage(ResourceLoader.resolvePath("images", "new_icon")));
+        ImageView newIcon = new ImageView(ResourceLoader.loadImage(ResourceLocation.image("new")));
         newIcon.setPreserveRatio(true);
         newIcon.setRotate(-45.0D);
         newIcon.setFitWidth(NEW_ICON_SIZE);
@@ -99,10 +99,9 @@ public class ButtonNode<T extends ButtonNodeViewModel> extends StoryNode<T> {
         view.setPreserveRatio(true);
         view.setMouseTransparent(true);
 
-        // TODO: 锁素材替换
-        ImageView lock = new ImageView(ResourceLoader.loadImage(ResourceLoader.resolvePath("images", "init_illustration")));
+        ImageView lock = new ImageView(ResourceLoader.loadImage(ResourceLocation.image("lock")));
         lock.setRotate(-45.0D);
-        lock.setFitWidth(DIAGONAL_LENGTH / 3.0D);
+        lock.setFitWidth(DIAGONAL_LENGTH / 4.0D);
         lock.setPreserveRatio(true);
         lock.setMouseTransparent(true);
         lock.visibleProperty().bind(viewModel.lockedProperty());

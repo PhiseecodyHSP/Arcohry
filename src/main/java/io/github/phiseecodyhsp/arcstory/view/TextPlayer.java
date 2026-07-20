@@ -23,7 +23,7 @@ public class TextPlayer extends TextFlow {
 
     private static final double LINE_SPACING = FONT_SIZE / 2.0D;
 
-    private static final Font FONT = ResourceLoader.loadFont(ResourceLocation.font("noto_sans_regular"), FONT_SIZE);
+    private static final Font FONT = ResourceLoader.loadFont(ResourceLocation.font("notosans_regular"), FONT_SIZE);
 
     private final ObservableList<Text> characters = FXCollections.observableArrayList();
 

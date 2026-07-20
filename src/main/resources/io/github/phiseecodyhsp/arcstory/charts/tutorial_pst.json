@@ -1,6 +1,6 @@
 {
     "music": "Tutorial",
-    "music_location": "audios/story_bgm",
+    "music_location": "audios/story_full_bgm",
     "composer": "ak+q",
     "left_bpm": 128,
     "right_bpm": 128,
