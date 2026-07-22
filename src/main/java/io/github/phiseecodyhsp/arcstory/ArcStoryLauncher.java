@@ -38,7 +38,7 @@ public class ArcStoryLauncher extends Application {
         this.appWindow = new AppWindow(stage);
         this.registerScreens(this.appWindow.getScreenManager());
 
-        this.audioManager.playBgm(ResourceLocation.audio("story_bgm"));
+//        this.audioManager.playBgm(ResourceLocation.audio("story_loop_bgm"));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ArcStoryLauncher extends Application {
 
     private void registerScreens(ScreenManager screenManager) {
         // For testing
-        StoryScreenViewModel storyScreenViewModel = new StoryScreenViewModel(ResourceLocation.image("chapter5_scenery"));
+        StoryScreenViewModel storyScreenViewModel = new StoryScreenViewModel(ResourceLocation.image("cg_2_1"));
         StoryScreen storyScreen = new StoryScreen(storyScreenViewModel);
 
         Runnable onConditionFinishedCallback = () -> storyScreenViewModel.setConditionView(null);
