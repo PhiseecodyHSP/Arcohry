@@ -50,7 +50,7 @@ public class StoryUnlockConditionView extends StackPane {
     /**
      * 显示解锁条件的文字的字体.
      */
-    private static final Font FONT = ResourceLoader.loadFont(ResourceLocation.font("noto_sans_regular"), ILLUSTRATION_WIDTH / 7.5);
+    private static final Font FONT = ResourceLoader.loadFont(ResourceLocation.font("notosans_regular"), ILLUSTRATION_WIDTH / 7.5);
 
     private final StoryUnlockConditionViewModel viewModel;
 
@@ -72,15 +72,16 @@ public class StoryUnlockConditionView extends StackPane {
         illustration.setPreserveRatio(true);
         illustration.setFitWidth(ILLUSTRATION_WIDTH);
 
+        ImageView bg = new ImageView(ResourceLoader.loadImage(ResourceLocation.image("suq_bg")));
+        bg.setPreserveRatio(true);
+        bg.setFitHeight(BG_HEIGHT);
+
         this.shadow.setOpacity(0.0D);
 
         Label label;
-        ImageView bg;
         StackPane contentPane;
         if (viewModel.needsPartner()) {
             illustration.setTranslateY(ILLUSTRATION_WIDTH - BG_HEIGHT / 2.0D);
-
-            bg = new ImageView(ResourceLoader.loadImage(ResourceLocation.image("suc_bg1")));
 
             label = new Label("使用搭档“" + this.viewModel.getPartner().name() + "”通关“" + this.viewModel.getChart().music() + "”以解锁此故事。");
             label.setTranslateY(BG_HEIGHT / 2.0D - ILLUSTRATION_WIDTH / 4.0D);
@@ -105,8 +106,6 @@ public class StoryUnlockConditionView extends StackPane {
         } else {
             illustration.setTranslateY(BG_HEIGHT / 2.0D - ILLUSTRATION_WIDTH * 3.0D / 2.0D);
 
-            bg = new ImageView(ResourceLoader.loadImage(ResourceLocation.image("suc_bg0")));
-
             label = new Label("通关“" + this.viewModel.getChart().music() + "”以解锁此故事。");
             label.setTranslateY((BG_HEIGHT - ILLUSTRATION_WIDTH) / 2.0D);
 
@@ -115,9 +114,6 @@ public class StoryUnlockConditionView extends StackPane {
 
         label.setTextFill(Color.WHITE);
         label.setFont(FONT);
-
-        bg.setPreserveRatio(true);
-        bg.setFitHeight(BG_HEIGHT);
 
         contentPane.setMaxSize(0.0D, 0.0D);
         contentPane.setOpacity(0.0D);
