@@ -6,9 +6,7 @@ import com.fasterxml.jackson.databind.annotation.EnumNaming;
 import io.github.phiseecodyhsp.arcstory.res.ResourceLocation;
 
 /**
- * 谱面的色侧, 分为光芒侧, 纷争侧, 消色侧和 Lephon 侧 (Lucent Historia 包特有)
- *
- * <p><b>注意: 转场素材暂时缺失. //TODO</b>
+ * 谱面的色侧, 分为光芒侧, 纷争侧, 消色侧和 Lephon 侧 (Lucent Historia 包特有).
  *
  * @author RikkaKawaii0612, HSP
  */
